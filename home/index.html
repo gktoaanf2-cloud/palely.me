@@ -1484,7 +1484,7 @@ async function saveDdays(){
   localStorage.setItem('pb_ddays',JSON.stringify(ddays));
   if(palelyDB){try{await palelyDB.from('settings').upsert({key:'ddays',value:JSON.stringify(ddays)},{onConflict:'key'});}catch(e){}}
 }
-function ddayCount(dateStr){const t=new Date(dateStr),n=new Date();t.setHours(0,0,0,0);n.setHours(0,0,0,0);const d=Math.round((t-n)/864e5);if(d>0)return{pf:'DAY',n:d};if(d===0)return{pf:'D-DAY',n:''};return{pf:'DAY',n:Math.abs(d)};}
+function ddayCount(dateStr){const p=String(dateStr).split('-').map(Number);const t=new Date(p[0],(p[1]||1)-1,p[2]||1);const n=new Date();n.setHours(0,0,0,0);const diff=Math.round((n-t)/864e5);if(diff>=0)return{pf:'DAY',n:diff+1};return{pf:'DAY',n:-diff};}
 function renderHomeDday(){
   const c=document.getElementById('home-dday');if(!c)return;
   if(!ddays.length){c.classList.remove('has-dday');c.innerHTML='';return;}
