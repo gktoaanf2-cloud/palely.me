@@ -612,6 +612,19 @@ html{scroll-behavior:smooth;}
 .sf-naiwarn.ok{background:rgba(110,200,130,.1);border-color:rgba(110,200,130,.4);color:#a8dcb2;}
 .sf-nai-btn{background:rgba(220,160,60,.25);border:1px solid rgba(220,160,60,.5);color:#ffe0a8;font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;}
 .sf-nai-btn:hover{background:rgba(220,160,60,.4);}
+/* 글 관리 (일괄 작업) */
+.mg-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 14px;padding:10px 12px;background:rgba(142,166,232,.08);border:1px solid rgba(142,166,232,.3);border-radius:8px;}
+.mg-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);color:#dfe3ef;font-size:12px;padding:6px 12px;border-radius:6px;cursor:pointer;transition:.15s;}
+.mg-btn:hover{background:rgba(255,255,255,.16);}
+.mg-btn.mg-danger{background:rgba(220,90,90,.15);border-color:rgba(220,90,90,.4);color:#f0a9a9;}
+.mg-btn.mg-danger:hover{background:rgba(220,90,90,.3);}
+.mg-btn.mg-exit{margin-left:auto;}
+.mg-count{font-size:12px;color:#9db4f0;min-width:64px;text-align:center;}
+.mg-mode [data-mid]{position:relative;cursor:pointer;}
+.mg-mode [data-mid]:after{content:'';position:absolute;top:8px;left:8px;width:20px;height:20px;border:2px solid #8ea6e8;border-radius:5px;background:rgba(10,12,20,.8);z-index:9;line-height:18px;text-align:center;font-size:13px;font-weight:700;color:#12151f;}
+.mg-mode [data-mid].mg-sel:after{content:'✓';background:#8ea6e8;}
+.mg-mode [data-mid].mg-sel{outline:2px solid #8ea6e8;outline-offset:-2px;}
+.mg-mode .card-admin-controls,.mg-mode .image-admin-controls{display:none!important;}
 /* 본문 블록 도구(정렬 + 드래그 순서이동) */
 .re-body figure.re-fig,.re-body .re-slider,.re-body .re-grid,.re-body .re-yt{position:relative;}
 .re-block-tools{position:absolute;top:5px;right:5px;z-index:8;display:flex;gap:3px;padding:3px;background:rgba(0,0,0,.6);border-radius:6px;opacity:0;transition:opacity .15s;}
@@ -1147,12 +1160,12 @@ html{scroll-behavior:smooth;}
 <main id="main-content" class="main-content">
 <section class="page-section" id="page-notices">
   <div class="section-header"><div><h2 class="section-title">Notices</h2><p class="section-subtitle">공지사항</p></div>
-  <button class="admin-add-btn" onclick="openEditor('notices')">+ NEW</button></div>
+  <button class="admin-add-btn" onclick="toggleManage('notices')">☰ 관리</button> <button class="admin-add-btn" onclick="openEditor('notices')">+ NEW</button></div>
   <div id="notices-list"></div>
 </section>
 <section class="page-section" id="page-diary">
   <div class="section-header"><div><h2 class="section-title">Diary</h2><p class="section-subtitle">일기장</p></div>
-  <button class="admin-add-btn" onclick="openEditor('diary')">+ NEW</button></div>
+  <button class="admin-add-btn" onclick="toggleManage('diary')">☰ 관리</button> <button class="admin-add-btn" onclick="openEditor('diary')">+ NEW</button></div>
   <div class="prompt-filters">
     <div class="pf-row">
       <input id="diary-search" class="pf-search" placeholder="검색 (제목·본문·태그)" oninput="applyDiaryFilters()">
@@ -1166,17 +1179,17 @@ html{scroll-behavior:smooth;}
 </section>
 <section class="page-section" id="page-assets">
   <div class="section-header"><div><h2 class="section-title">Assets</h2><p class="section-subtitle">에셋 백업</p></div>
-  <button class="admin-add-btn" onclick="openEditor('assets')">+ UPLOAD</button></div>
+  <button class="admin-add-btn" onclick="toggleManage('assets')">☰ 관리</button> <button class="admin-add-btn" onclick="openEditor('assets')">+ UPLOAD</button></div>
   <div class="image-grid" id="assets-grid"></div>
 </section>
 <section class="page-section" id="page-banners">
   <div class="section-header"><div><h2 class="section-title">Banners</h2><p class="section-subtitle">배너 아카이브</p></div>
-  <button class="admin-add-btn" onclick="openEditor('banners')">+ ADD LINK</button></div>
+  <button class="admin-add-btn" onclick="toggleManage('banners')">☰ 관리</button> <button class="admin-add-btn" onclick="openEditor('banners')">+ ADD LINK</button></div>
   <div class="banner-grid" id="banners-grid"></div>
 </section>
 <section class="page-section" id="page-logs">
   <div class="section-header"><div><h2 class="section-title">Logs</h2><p class="section-subtitle">로그 백업</p></div>
-  <button class="admin-add-btn" onclick="openEditor('logs')">+ NEW</button></div>
+  <button class="admin-add-btn" onclick="toggleManage('logs')">☰ 관리</button> <button class="admin-add-btn" onclick="openEditor('logs')">+ NEW</button></div>
   <div class="category-filter" id="logs-categories"></div>
   <div class="board-grid" id="logs-grid"></div>
 </section>
@@ -1212,6 +1225,7 @@ html{scroll-behavior:smooth;}
       <div class="prompt-filters">
         <div class="pf-row">
           <input id="prompt-search" class="pf-search" placeholder="검색 (제목·프롬프트·태그)" oninput="applyPromptFilters('nai')">
+          <button class="pf-blur" id="nai-manage-btn" onclick="toggleManage('nai')" style="display:none">☰ 글 관리</button>
           <button class="pf-blur" id="prompt-cat-manage" onclick="openCatManage('prompts')" style="display:none">⚙ 카테고리 관리</button>
         </div>
         <div id="prompt-cat-bar" class="pf-cats" onclick="onCatBarClick('nai',event)"></div>
@@ -1223,6 +1237,7 @@ html{scroll-behavior:smooth;}
       <div class="prompt-filters">
         <div class="pf-row">
           <input id="ooc-search" class="pf-search" placeholder="검색 (제목·프롬프트·태그)" oninput="applyPromptFilters('ooc')">
+          <button class="pf-blur" id="ooc-manage-btn" onclick="toggleManage('ooc')" style="display:none">☰ 글 관리</button>
           <button class="pf-blur" id="ooc-cat-manage" onclick="openCatManage('ooc')" style="display:none">⚙ 카테고리 관리</button>
         </div>
         <div id="ooc-cat-bar" class="pf-cats" onclick="onCatBarClick('ooc',event)"></div>
@@ -1234,6 +1249,7 @@ html{scroll-behavior:smooth;}
       <div class="prompt-filters">
         <div class="pf-row">
           <input id="caveduck-search" class="pf-search" placeholder="검색 (제목·설명·태그)" oninput="applyDistFilters('caveduck')">
+          <button class="pf-blur" id="caveduck-manage-btn" onclick="toggleManage('caveduck')" style="display:none">☰ 글 관리</button>
           <button class="pf-blur" id="caveduck-cat-manage" onclick="openCatManage('caveduck')" style="display:none">⚙ 카테고리 관리</button>
         </div>
         <div id="caveduck-cat-bar" class="pf-cats" onclick="onDistCatBarClick('caveduck',event)"></div>
@@ -1245,6 +1261,7 @@ html{scroll-behavior:smooth;}
       <div class="prompt-filters">
         <div class="pf-row">
           <input id="utility-search" class="pf-search" placeholder="검색 (제목·설명·태그)" oninput="applyDistFilters('utility')">
+          <button class="pf-blur" id="utility-manage-btn" onclick="toggleManage('utility')" style="display:none">☰ 글 관리</button>
           <button class="pf-blur" id="utility-cat-manage" onclick="openCatManage('utility')" style="display:none">⚙ 카테고리 관리</button>
         </div>
         <div id="utility-cat-bar" class="pf-cats" onclick="onDistCatBarClick('utility',event)"></div>
@@ -1503,7 +1520,7 @@ async function loadNotices(){
   const{data}=await palelyDB.from('notices').select('*').order('created_at',{ascending:false});
   const g=document.getElementById('notices-list');
   if(!data||!data.length){g.innerHTML=emptyHtml('notices');return;}
-  g.innerHTML=data.map(n=>`<div class="notice-item"><div class="card-admin-controls"><button class="card-ctrl-btn" onclick="openEditor('notices','${n.id}')">✎</button><button class="card-ctrl-btn delete" onclick="confirmDelete('notices','${n.id}')">✕</button></div><div class="notice-header"><div><div class="notice-title">${esc(n.title)}</div><div class="notice-date">${fmtDate(n.created_at)}</div></div></div><div class="notice-body md-content">${renderMd(n.content)}</div></div>`).join('');
+  g.innerHTML=data.map(n=>`<div class="notice-item" data-mid="${n.id}"><div class="card-admin-controls"><button class="card-ctrl-btn" onclick="openEditor('notices','${n.id}')">✎</button><button class="card-ctrl-btn delete" onclick="confirmDelete('notices','${n.id}')">✕</button></div><div class="notice-header"><div><div class="notice-title">${esc(n.title)}</div><div class="notice-date">${fmtDate(n.created_at)}</div></div></div><div class="notice-body md-content">${renderMd(n.content)}</div></div>`).join('');
 }
 
 // ── Diary (검색·정렬·카테고리·태그) ──
@@ -1522,12 +1539,12 @@ async function loadDiary(){
 function diaryCardHtml(d){
   if(d.is_private&&!isAdmin){
     const lt=d.thumb?`<div class="dc-thumb"><img src="${esc(d.thumb)}" loading="lazy" draggable="false"><span class="dc-lock-badge">🔒</span></div>`:'<div class="dc-lock">🔒</div>';
-    return `<div class="board-card diary-locked${d.thumb?' has-thumb':''}" onclick="openPrivateDiary('${d.id}')">${lt}<div class="card-date">${fmtDate(d.created_at)}</div><div class="card-title">🔒 ${esc(d.title||'비밀글')}</div><div class="card-excerpt">클릭해서 비밀번호 입력</div></div>`;
+    return `<div class="board-card diary-locked${d.thumb?' has-thumb':''}" data-mid="${d.id}" onclick="openPrivateDiary('${d.id}')">${lt}<div class="card-date">${fmtDate(d.created_at)}</div><div class="card-title">🔒 ${esc(d.title||'비밀글')}</div><div class="card-excerpt">클릭해서 비밀번호 입력</div></div>`;
   }
   const thumb=d.thumb||dpFirstImage(d);const th=thumb?`<div class="dc-thumb"><img src="${esc(thumb)}" loading="lazy" draggable="false"></div>`:'';
   const tags=Array.isArray(d.tags)&&d.tags.length?d.tags.map(t=>'<span class="card-tag">'+esc(t)+'</span>').join(''):'';
   const cat=catArr(d.category).join(', ');
-  return `<div class="board-card${thumb?' has-thumb':''}" onclick="openDetail('diary','${d.id}')"><div class="card-admin-controls"><button class="card-ctrl-btn" onclick="event.stopPropagation();openEditor('diary','${d.id}')">✎</button><button class="card-ctrl-btn delete" onclick="event.stopPropagation();confirmDelete('diary','${d.id}')">✕</button></div>${th}<div class="card-date">${fmtDate(d.created_at)}${cat?' · '+esc(cat):''}</div><div class="card-title">${d.is_private?'🔒 ':''}${esc(d.title)}</div><div class="card-excerpt">${esc(htmlToText(d.content||'').slice(0,140))}</div>${tags}</div>`;
+  return `<div class="board-card${thumb?' has-thumb':''}" data-mid="${d.id}" onclick="openDetail('diary','${d.id}')"><div class="card-admin-controls"><button class="card-ctrl-btn" onclick="event.stopPropagation();openEditor('diary','${d.id}')">✎</button><button class="card-ctrl-btn delete" onclick="event.stopPropagation();confirmDelete('diary','${d.id}')">✕</button></div>${th}<div class="card-date">${fmtDate(d.created_at)}${cat?' · '+esc(cat):''}</div><div class="card-title">${d.is_private?'🔒 ':''}${esc(d.title)}</div><div class="card-excerpt">${esc(htmlToText(d.content||'').slice(0,140))}</div>${tags}</div>`;
 }
 function renderDiaryFilters(){
   const used=[...new Set(diaryData.flatMap(d=>catArr(d.category)))];
@@ -1560,7 +1577,7 @@ async function loadAssets(){
   const{data}=await palelyDB.from('assets').select('*').order('created_at',{ascending:false});
   const g=document.getElementById('assets-grid');
   if(!data||!data.length){g.innerHTML=emptyHtml('assets');return;}
-  g.innerHTML=data.map(a=>`<div class="image-grid-item" onclick="viewImage('${esc(a.image_url)}')"><div class="image-admin-controls"><button class="card-ctrl-btn delete" onclick="event.stopPropagation();confirmDelete('assets','${a.id}')">✕</button></div><img src="${esc(a.image_url)}" alt="${esc(a.title||'')}" draggable="false"></div>`).join('');
+  g.innerHTML=data.map(a=>`<div class="image-grid-item" data-mid="${a.id}" onclick="viewImage('${esc(a.image_url)}')"><div class="image-admin-controls"><button class="card-ctrl-btn delete" onclick="event.stopPropagation();confirmDelete('assets','${a.id}')">✕</button></div><img src="${esc(a.image_url)}" alt="${esc(a.title||'')}" draggable="false"></div>`).join('');
 }
 
 // ── Banners (link + OG image) ──
@@ -1570,7 +1587,7 @@ async function loadBanners(){
   if(!data||!data.length){g.innerHTML=emptyHtml('banners');return;}
   g.innerHTML=data.map(b=>{
     const url=b.link_url||'';const domain=url?new URL(url).hostname.replace('www.',''):'';
-    return `<div class="banner-card" onclick="window.open('${esc(url)}','_blank')"><div class="image-admin-controls"><button class="card-ctrl-btn" onclick="event.stopPropagation();openEditor('banners','${b.id}')">✎</button><button class="card-ctrl-btn delete" onclick="event.stopPropagation();confirmDelete('banners','${b.id}')">✕</button></div><img src="${esc(b.image_url)}" draggable="false" onerror="this.style.display='none'"><div class="banner-card-info"><div class="banner-card-title">${esc(b.title||domain)}</div><div class="banner-card-url">${esc(domain)}</div></div></div>`;
+    return `<div class="banner-card" data-mid="${b.id}" onclick="window.open('${esc(url)}','_blank')"><div class="image-admin-controls"><button class="card-ctrl-btn" onclick="event.stopPropagation();openEditor('banners','${b.id}')">✎</button><button class="card-ctrl-btn delete" onclick="event.stopPropagation();confirmDelete('banners','${b.id}')">✕</button></div><img src="${esc(b.image_url)}" draggable="false" onerror="this.style.display='none'"><div class="banner-card-info"><div class="banner-card-title">${esc(b.title||domain)}</div><div class="banner-card-url">${esc(domain)}</div></div></div>`;
   }).join('');
 }
 
@@ -1592,7 +1609,7 @@ function renderLogs(){
   const g=document.getElementById('logs-grid');
   const filtered=logsActiveCategory==='all'?logsAllData:logsAllData.filter(l=>l.category===logsActiveCategory);
   if(!filtered.length){g.innerHTML=emptyHtml('logs');return;}
-  g.innerHTML=filtered.map(l=>`<div class="board-card" onclick="openDetail('logs','${l.id}')"><div class="card-admin-controls"><button class="card-ctrl-btn" onclick="event.stopPropagation();openEditor('logs','${l.id}')">✎</button><button class="card-ctrl-btn delete" onclick="event.stopPropagation();confirmDelete('logs','${l.id}')">✕</button></div><div class="card-date">${fmtDate(l.created_at)}${l.category?' · '+esc(l.category):''}${l.source?' · '+esc(l.source):''}</div><div class="card-title">${esc(l.title)}</div><div class="card-excerpt">${esc(l.content||'')}</div>${l.tags&&l.tags.length?l.tags.map(t=>'<span class="card-tag">'+esc(t)+'</span>').join(''):''}</div>`).join('');
+  g.innerHTML=filtered.map(l=>`<div class="board-card" data-mid="${l.id}" onclick="openDetail('logs','${l.id}')"><div class="card-admin-controls"><button class="card-ctrl-btn" onclick="event.stopPropagation();openEditor('logs','${l.id}')">✎</button><button class="card-ctrl-btn delete" onclick="event.stopPropagation();confirmDelete('logs','${l.id}')">✕</button></div><div class="card-date">${fmtDate(l.created_at)}${l.category?' · '+esc(l.category):''}${l.source?' · '+esc(l.source):''}</div><div class="card-title">${esc(l.title)}</div><div class="card-excerpt">${esc(l.content||'')}</div>${l.tags&&l.tags.length?l.tags.map(t=>'<span class="card-tag">'+esc(t)+'</span>').join(''):''}</div>`).join('');
 }
 
 // ── Prompts (NovelAI + OOC 탭 · 같은 prompts 테이블, tab 컬럼으로 구분) ──
@@ -1616,6 +1633,7 @@ function renderPromptFilters(tab){
   const tagBar=document.getElementById(cfg.pre+'-tag-bar');
   if(tagBar)tagBar.innerHTML=tags.map(t=>'<button class="pf-tagchip'+(f.tags.has(t)?' active':'')+'" data-tag="'+esc(t)+'">#'+esc(t)+'</button>').join('');
   const mb=document.getElementById(cfg.pre+'-cat-manage');if(mb)mb.style.display=isAdmin?'':'none';
+  const mg=document.getElementById(tab+'-manage-btn');if(mg)mg.style.display=isAdmin?'':'none';
 }
 function onCatBarClick(tab,e){const b=e.target.closest('[data-cat]');if(!b)return;pFilters[tab].cat=b.dataset.cat;renderPromptFilters(tab);applyPromptFilters(tab);}
 function onTagBarClick(tab,e){const b=e.target.closest('[data-tag]');if(!b)return;const t=b.dataset.tag;pFilters[tab].tags.has(t)?pFilters[tab].tags.delete(t):pFilters[tab].tags.add(t);renderPromptFilters(tab);applyPromptFilters(tab);}
@@ -1676,7 +1694,7 @@ function renderPromptCard(p){
   const defaultText=fillPromptDefault(p.prompt_text);
   const cats=catArr(p.category);
   const multi=imgs.length>1?`<span class="pc-imgcount">+${imgs.length-1}</span>`:'';
-  return `<div class="prompt-card" onclick="openPromptDetail('${p.id}')">
+  return `<div class="prompt-card" data-mid="${p.id}" onclick="openPromptDetail('${p.id}')">
     <div class="card-admin-controls" onclick="event.stopPropagation()"><button class="card-ctrl-btn" onclick="openEditor('prompts','${p.id}')">✎</button><button class="card-ctrl-btn delete" onclick="confirmDelete('prompts','${p.id}')">✕</button></div>
     ${imgs[0]?`<div class="pc-thumbwrap"><img src="${esc(imgs[0])}" class="pc-thumb${p.blur?' blurred':''}" draggable="false">${p.blur?'<span class="pc-blurtag">가림</span>':''}${multi}</div>`:''}
     ${p.title?`<div class="card-date">${esc(p.title)}${cats.length?' · '+esc(cats.join(' · ')):''}</div>`:''}
@@ -1736,6 +1754,7 @@ function renderDistFilters(tab){
   const tb=document.getElementById(tab+'-tag-bar');
   if(tb)tb.innerHTML=tags.map(t=>'<button class="pf-tagchip'+(distFilter[tab].tags.has(t)?' active':'')+'" data-tag="'+esc(t)+'">#'+esc(t)+'</button>').join('');
   const mb=document.getElementById(tab+'-cat-manage');if(mb)mb.style.display=isAdmin?'':'none';
+  const mg=document.getElementById(tab+'-manage-btn');if(mg)mg.style.display=isAdmin?'':'none';
 }
 function onDistCatBarClick(tab,e){const b=e.target.closest('[data-cat]');if(!b)return;distFilter[tab].cat=b.dataset.cat;renderDistFilters(tab);applyDistFilters(tab);}
 function onDistTagBarClick(tab,e){const b=e.target.closest('[data-tag]');if(!b)return;const t=b.dataset.tag;distFilter[tab].tags.has(t)?distFilter[tab].tags.delete(t):distFilter[tab].tags.add(t);renderDistFilters(tab);applyDistFilters(tab);}
@@ -1753,7 +1772,7 @@ function applyDistFilters(tab){
 function renderDistCard(d){
   const links=d.links||[];const cat=catArr(d.category).join(' · ');
   const tags=Array.isArray(d.tags)&&d.tags.length?'<div class="dist-tags">'+d.tags.map(t=>'<span class="card-tag">'+esc(t)+'</span>').join('')+'</div>':'';
-  return `<div class="dist-card" onclick="openDistDetail('${d.id}')"><div class="card-admin-controls" onclick="event.stopPropagation()"><button class="card-ctrl-btn" onclick="openEditor('distributions','${d.id}')">✎</button><button class="card-ctrl-btn delete" onclick="confirmDelete('distributions','${d.id}')">✕</button></div>${d.image_url?'<img src="'+esc(d.image_url)+'" style="width:100%;max-height:200px;object-fit:cover;margin-bottom:16px;border:1px solid var(--line-art);" draggable="false">':''}<div class="dist-title">${esc(d.title)}${cat?' <span class="pd-cat">· '+esc(cat)+'</span>':''}</div>${d.description?'<div class="dist-desc">'+esc(d.description)+'</div>':''}<div class="dist-links" onclick="event.stopPropagation()">${links.map(l=>`<a class="dist-link-btn" href="${esc(l.url)}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>${esc(l.label||l.url)}</a>`).join('')}</div>${tags}</div>`;
+  return `<div class="dist-card" data-mid="${d.id}" onclick="openDistDetail('${d.id}')"><div class="card-admin-controls" onclick="event.stopPropagation()"><button class="card-ctrl-btn" onclick="openEditor('distributions','${d.id}')">✎</button><button class="card-ctrl-btn delete" onclick="confirmDelete('distributions','${d.id}')">✕</button></div>${d.image_url?'<img src="'+esc(d.image_url)+'" style="width:100%;max-height:200px;object-fit:cover;margin-bottom:16px;border:1px solid var(--line-art);" draggable="false">':''}<div class="dist-title">${esc(d.title)}${cat?' <span class="pd-cat">· '+esc(cat)+'</span>':''}</div>${d.description?'<div class="dist-desc">'+esc(d.description)+'</div>':''}<div class="dist-links" onclick="event.stopPropagation()">${links.map(l=>`<a class="dist-link-btn" href="${esc(l.url)}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>${esc(l.label||l.url)}</a>`).join('')}</div>${tags}</div>`;
 }
 function openDistDetail(id){
   const d=distData.caveduck.concat(distData.utility).find(x=>x.id===id);if(!d)return;
@@ -2442,6 +2461,93 @@ async function deleteEntryDirect(type,id){
 }
 async function loadBoardByType(t){
   switch(t){case 'notices':await loadNotices();break;case 'diary':await loadDiary();break;case 'assets':await loadAssets();break;case 'banners':await loadBanners();break;case 'logs':await loadLogs();break;case 'prompts':await loadPrompts();break;case 'distributions':await loadDistributions();break;case 'guestbook':await loadGuestbook();break;case 'user':await loadUser();break;}
+}
+
+// ══ 글 관리 (일괄 삭제·수정·비공개·잠금 — 게시판별) ══
+const MG={
+  diary:{grid:'diary-grid',table:'diary',edit:'diary',reload:loadDiary,ops:['del','edit','private','public']},
+  nai:{grid:'nai-grid',table:'prompts',edit:'prompts',reload:loadPrompts,ops:['del','edit','blurOn','blurOff','warnOn','warnOff']},
+  ooc:{grid:'ooc-grid',table:'prompts',edit:'prompts',reload:loadPrompts,ops:['del','edit','blurOn','blurOff','warnOn','warnOff']},
+  caveduck:{grid:'caveduck-grid',table:'distributions',edit:'distributions',reload:loadDistributions,ops:['del','edit','warnOn','warnOff']},
+  utility:{grid:'utility-grid',table:'distributions',edit:'distributions',reload:loadDistributions,ops:['del','edit','warnOn','warnOff']},
+  assets:{grid:'assets-grid',table:'assets',edit:'assets',reload:loadAssets,ops:['del']},
+  banners:{grid:'banners-grid',table:'banners',edit:'banners',reload:loadBanners,ops:['del','edit']},
+  logs:{grid:'logs-grid',table:'logs',edit:'logs',reload:loadLogs,ops:['del','edit']},
+  notices:{grid:'notices-list',table:'notices',edit:'notices',reload:loadNotices,ops:['del','edit']}
+};
+const MG_BTN={del:'🗑 선택 삭제',edit:'✎ 선택 수정',private:'🔒 일괄 비공개(비번)',public:'🔓 일괄 공개',blurOn:'🌫 블러 켜기',blurOff:'블러 끄기',warnOn:'🔞 경고 켜기',warnOff:'경고 끄기'};
+let mgMode={},mgSel={};
+function mgGrid(key){return document.getElementById(MG[key].grid);}
+function toggleManage(key){
+  if(!isAdmin){showToast('Admin only');return;}
+  const on=!mgMode[key];mgMode[key]=on;mgSel[key]=new Set();
+  const g=mgGrid(key);if(!g)return;
+  g.classList.toggle('mg-mode',on);
+  let bar=document.getElementById('mg-bar-'+key);
+  if(on){
+    if(!bar){bar=document.createElement('div');bar.id='mg-bar-'+key;bar.className='mg-bar';g.parentElement.insertBefore(bar,g);}
+    bar.innerHTML='<button class="mg-btn" onclick="mgSelectAll(\''+key+'\',true)">전체선택</button>'
+      +'<button class="mg-btn" onclick="mgSelectAll(\''+key+'\',false)">해제</button>'
+      +'<span class="mg-count" id="mg-count-'+key+'">0개 선택</span>'
+      +MG[key].ops.map(op=>'<button class="mg-btn'+(op==='del'?' mg-danger':'')+'" onclick="mgOp(\''+key+'\',\''+op+'\')">'+MG_BTN[op]+'</button>').join('')
+      +'<button class="mg-btn mg-exit" onclick="toggleManage(\''+key+'\')">✕ 관리 종료</button>';
+    bar.style.display='flex';
+    if(!g._mgClick){g._mgClick=true;g.addEventListener('click',e=>mgGridClick(key,e),true);}
+    if(!g._mgObs){g._mgObs=new MutationObserver(()=>{if(mgMode[key])mgApplySel(key);});g._mgObs.observe(g,{childList:true});}
+    mgApplySel(key);
+    showToast('관리 모드 — 카드를 클릭해 선택하세요');
+  }else{
+    if(bar)bar.style.display='none';
+    mgApplySel(key);
+  }
+}
+function mgGridClick(key,e){
+  if(!mgMode[key])return;
+  const card=e.target.closest('[data-mid]');if(!card||!mgGrid(key).contains(card))return;
+  e.preventDefault();e.stopPropagation();
+  const id=card.getAttribute('data-mid');
+  mgSel[key].has(id)?mgSel[key].delete(id):mgSel[key].add(id);
+  mgApplySel(key);
+}
+function mgApplySel(key){
+  const g=mgGrid(key);if(!g)return;
+  const sel=mgSel[key]||new Set();
+  g.querySelectorAll('[data-mid]').forEach(c=>c.classList.toggle('mg-sel',mgMode[key]&&sel.has(c.getAttribute('data-mid'))));
+  const cnt=document.getElementById('mg-count-'+key);if(cnt)cnt.textContent=sel.size+'개 선택';
+}
+function mgSelectAll(key,on){
+  const g=mgGrid(key);if(!g)return;mgSel[key]=new Set();
+  if(on)g.querySelectorAll('[data-mid]').forEach(c=>mgSel[key].add(c.getAttribute('data-mid')));
+  mgApplySel(key);
+}
+async function mgOp(key,op){
+  const cfg=MG[key];const ids=[...(mgSel[key]||[])];
+  if(op==='edit'){if(ids.length!==1){showToast('수정은 1개만 선택하세요');return;}openEditor(cfg.edit,ids[0]);return;}
+  if(!ids.length){showToast('선택된 글이 없습니다');return;}
+  try{
+    if(op==='del'){
+      if(!confirm('선택한 '+ids.length+'개 글을 삭제할까요? (되돌릴 수 없음)'))return;
+      const{error}=await palelyDB.from(cfg.table).delete().in('id',ids);if(error)throw error;
+      showToast(ids.length+'개 삭제됨');
+    }else if(op==='private'){
+      const pw=prompt('일괄 비공개 — 이 글들에 걸 비밀번호:');if(!pw)return;
+      const hash=await hashPw(pw);
+      const{error}=await palelyDB.from(cfg.table).update({is_private:true,secret:hash}).in('id',ids);if(error)throw error;
+      showToast(ids.length+'개 비공개 설정됨');
+    }else if(op==='public'){
+      const{error}=await palelyDB.from(cfg.table).update({is_private:false,secret:null}).in('id',ids);if(error)throw error;
+      showToast(ids.length+'개 공개 전환됨');
+    }else if(op==='blurOn'||op==='blurOff'){
+      const{error}=await palelyDB.from(cfg.table).update({blur:op==='blurOn'}).in('id',ids);if(error)throw error;
+      showToast('블러 '+(op==='blurOn'?'ON':'OFF')+' ('+ids.length+'개)');
+    }else if(op==='warnOn'||op==='warnOff'){
+      const{error}=await palelyDB.from(cfg.table).update({warn:op==='warnOn'}).in('id',ids);if(error)throw error;
+      showToast('성인 경고 '+(op==='warnOn'?'ON':'OFF')+' ('+ids.length+'개)');
+    }
+    mgSel[key]=new Set();
+    await cfg.reload();
+    mgApplySel(key);
+  }catch(e){showToast('작업 실패: '+(e.message||''));}
 }
 
 // ══ UTILS ══
