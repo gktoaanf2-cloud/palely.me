@@ -1439,8 +1439,11 @@ const POST_PAGE={prompts:'prompts',diary:'diary',notices:'notices',logs:'logs',d
 const ISSUANCE_TABS={nai:'nai',ooc:'ooc',prompts:'nai',caveduck:'caveduck',utility:'utility'};
 function sharePost(){if(curDetail)copyShareLink(curDetail.type,curDetail.id);}
 function sharePopup(){if(curPopup)copyShareLink(curPopup.type,curPopup.id);}
+const SHARE_BASE='https://palely.me/home/'; // 공유 링크는 항상 라이브 주소 (로컬 미리보기에서 복사해도 안전)
 function copyShareLink(type,id){
-  const url=location.origin+location.pathname+'#post='+type+':'+id;
+  const isLocal=/^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname)||location.protocol==='file:';
+  const base=isLocal?SHARE_BASE:location.origin+location.pathname;
+  const url=base+'#post='+type+':'+id;
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url).then(()=>showToast('링크 복사됨 — 이 링크로 바로 이 글이 열려요')).catch(()=>prompt('링크 복사:',url));
   else prompt('링크 복사:',url);
 }
