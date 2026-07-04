@@ -691,7 +691,6 @@ body.is-admin .iss-rail .iss-admin{display:flex;}
 .pcv-img{width:100%;height:100%;object-fit:cover;object-position:left center;display:block;transition:object-position 2.2s cubic-bezier(.45,.05,.35,1);}
 #page-prompts .prompt-card.pcv:hover .pcv-img{object-position:right center;}
 .pcv-img.blurred{filter:blur(8px);transform:scale(1.06);}
-#page-prompts .prompt-card.pcv:has(.pcv-img.blurred){border-color:rgba(220,226,244,.45);}
 .pcv-noimg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:22px;color:rgba(200,208,232,.25);background:linear-gradient(160deg,#12141f,#0a0c13);}
 .pcv-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,6,10,.15) 0%,rgba(5,6,10,0) 18%,rgba(5,6,10,0) 40%,rgba(5,6,10,.45) 56%,rgba(5,6,10,.8) 72%,rgba(5,6,10,.97) 100%);pointer-events:none;}
 .pcv-info{position:absolute;left:0;right:0;top:42%;bottom:0;display:flex;flex-direction:column;align-items:flex-end;padding:0 26px 28px 8px;text-align:right;}
@@ -1030,6 +1029,9 @@ body.is-admin .pdx-admin{display:inline-flex!important;}
 #ask-modal .modal-box{text-align:center;}
 #ask-modal .form-input{text-align:center;}
 .pcv-lockic{display:block;color:rgba(220,226,244,.6);margin-bottom:2px;}
+/* 에디터·상세팝업: 박스 안 스크롤 제거 → 화면 통 스크롤 (시원하게) */
+#editor-modal.modal-overlay,#prompt-detail-modal.modal-overlay{align-items:flex-start;overflow-y:auto;}
+#editor-modal .modal-box,#prompt-detail-modal .modal-box{max-height:none;overflow:visible;margin:0 auto;border-top:none;border-bottom:none;}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute;pointer-events:none;" aria-hidden="true"><defs>
@@ -2556,6 +2558,7 @@ function openPromptDetail(id){
   const sp=document.querySelector('.pdx-spark');if(sp&&spark)sp.src=spark.src;
   pdRenderSlider();pdRenderVars2();pdRenderParts2();updatePromptPreview();
   document.getElementById('prompt-detail-modal').classList.add('active');
+  document.getElementById('prompt-detail-modal').scrollTop=0;
 }
 function pdRenderSlider(){
   const box=document.getElementById('pd-images');
@@ -3077,6 +3080,7 @@ async function openEditor(type,editId,distType){
   if(currentEditorType==='diary'){dpStickers=dpParseStickers(existingData?existingData.stickers:null);dpSel=-1;dpRenderAll();dpRefreshThumbs();loadDiaryTemplates();}
   const _mbox=document.querySelector('#editor-modal .modal-box');if(_mbox)_mbox.classList.toggle('editor-wide',currentEditorType==='diary');
   document.getElementById('editor-modal').classList.add('active');
+  document.getElementById('editor-modal').scrollTop=0;
 }
 
 function getFieldsForType(type,distType){
@@ -3580,7 +3584,6 @@ async function saveEntry(){
     if('is_private' in record&&!record.is_private)record.secret=null;
     if(record.is_private&&!record.secret&&!currentEditId){showToast('비밀글 비밀번호를 입력하세요');btn.disabled=false;btn.innerHTML='SAVE';return;}
     if(currentEditId){
-      record.updated_at=new Date().toISOString();
       const{error}=await palelyDB.from(currentEditorType).update(record).eq('id',currentEditId);if(error)throw error;showToast('Updated');
     }else{
       const{error}=await palelyDB.from(currentEditorType).insert(record);if(error)throw error;showToast('Created');
