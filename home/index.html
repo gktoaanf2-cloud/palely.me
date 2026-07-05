@@ -202,7 +202,7 @@ body.is-admin .gb-del{display:block}
 .form-input:focus,.form-textarea:focus{border-color:var(--frost)}
 .form-textarea{min-height:120px;resize:vertical;line-height:1.7}
 .form-input-file{display:none}
-.form-file-label{position:relative;display:inline-flex;align-items:center;gap:8px;padding:6px 2px;border:none;color:rgba(200,208,232,.5);font-size:12px;letter-spacing:-.02em;font-family:var(--font-kr);cursor:pointer;transition:color .3s;}
+.form-file-label{position:relative;display:inline-flex;align-items:center;gap:8px;padding:6px 2px;background:none;border:none;color:rgba(200,208,232,.5);font-size:12px;letter-spacing:-.02em;font-family:var(--font-kr);cursor:pointer;transition:color .3s;}
 .form-file-label:hover{color:#e8ecf6;}
 .form-file-label::after{content:'';position:absolute;left:0;right:100%;bottom:1px;height:1px;transform:scaleY(.5);background:#fff;transition:right .45s cubic-bezier(.25,.8,.3,1);}
 .form-file-label:hover::after{right:55%;}
@@ -688,7 +688,7 @@ body.is-admin .iss-rail .iss-admin{display:flex;}
 /* 커버형 카드 그리드 (NovelAI·OOC) */
 #nai-grid,#ooc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:24px 20px;max-width:1190px;margin:0 auto;}
 #nai-grid .empty-state,#ooc-grid .empty-state{grid-column:1/-1;}
-#page-prompts .prompt-card.pcv{margin:0;padding:0;background:#0b0d15;border:1px solid rgba(163,172,208,.1);border-radius:10px;overflow:hidden;aspect-ratio:5/9;position:relative;transition:border-color .45s var(--ease-out),box-shadow .45s var(--ease-out),transform .45s var(--ease-out);}
+#page-prompts .prompt-card.pcv{margin:0;padding:0;background:#0b0d15;border:1px solid rgba(163,172,208,.1);border-radius:0;overflow:hidden;aspect-ratio:5/9;position:relative;transition:border-color .45s var(--ease-out),box-shadow .45s var(--ease-out),transform .45s var(--ease-out);}
 #page-prompts .prompt-card.pcv:hover{border-color:rgba(235,240,252,.55);box-shadow:0 0 18px rgba(230,236,252,.28),0 0 46px rgba(190,205,240,.14);transform:translateY(-3px);}
 .pcv-cover{position:absolute;inset:0;}
 .pcv-img{width:100%;height:100%;object-fit:cover;object-position:left center;display:block;transition:object-position 2.2s cubic-bezier(.45,.05,.35,1);}
@@ -1034,8 +1034,8 @@ body.is-admin .pdx-admin{display:inline-flex!important;}
 #ask-modal .form-input{text-align:center;}
 .pcv-lockic{display:block;color:rgba(220,226,244,.6);margin-bottom:2px;}
 /* 에디터·상세팝업: 박스 안 스크롤 제거 → 화면 통 스크롤 (시원하게) */
-#editor-modal.modal-overlay,#prompt-detail-modal.modal-overlay{align-items:flex-start;overflow-y:auto;}
-#editor-modal .modal-box,#prompt-detail-modal .modal-box{max-height:none;overflow:visible;margin:0 auto;border-top:none;border-bottom:none;}
+#editor-modal.modal-overlay,#prompt-detail-modal.modal-overlay,#dist-detail-modal.modal-overlay{align-items:flex-start;overflow-y:auto;}
+#editor-modal .modal-box,#prompt-detail-modal .modal-box,#dist-detail-modal .modal-box{max-height:none;overflow:visible;margin:0 auto;border-top:none;border-bottom:none;}
 svg.pdx-spark{color:#fff;}
 .pdx-empty{font-family:var(--font-kr);font-size:11px;letter-spacing:-.01em;color:rgba(200,208,232,.35);padding:6px 0 2px;}
 .pdx-copybtn:hover .pdx-spark{animation:pdxSparkFlip 1.5s ease-in-out infinite;}
@@ -1107,6 +1107,59 @@ svg.pdx-spark{color:#fff;}
 /* ── 프롬프트 칸 추가 버튼: 블랙 박스 ── */
 .mp-add{display:flex;width:100%;justify-content:center;background:#000;border:1px solid rgba(255,255,255,.13);padding:11px 0;margin-top:2px;}
 .mp-add:hover{border-color:rgba(255,255,255,.35);}
+
+/* ── 배포 게시판 다운로드 (첨부 + 외부 링크) ── */
+.dl-file-row{display:flex;align-items:center;gap:9px;padding:9px 4px;border-bottom:1px solid rgba(255,255,255,.08);font-family:var(--font-kr);font-size:11.5px;color:#e2e7f4;}
+.dl-fname{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dl-fsize{flex:none;font-size:10px;color:rgba(200,208,232,.45);}
+.dl-del{background:none;border:none;cursor:pointer;color:rgba(220,226,244,.5);line-height:0;padding:3px;transition:color .25s;}
+.dl-del:hover{color:#fff;}
+.dl-btnrow{display:flex;gap:22px;margin-top:8px;}
+.dd-files{margin:4px 0 14px;text-align:left;}
+.dd-files-label{font-family:var(--font-num);font-size:10px;letter-spacing:.26em;text-indent:.02em;color:rgba(220,226,244,.5);margin-bottom:6px;}
+.dd-file-btn{display:flex;align-items:center;gap:10px;padding:10px 6px;border-bottom:1px solid rgba(255,255,255,.09);font-family:var(--font-kr);font-size:11.5px;color:#e8ecf6;text-decoration:none;transition:background .25s,color .25s;}
+.dd-file-btn:hover{background:rgba(255,255,255,.04);color:#fff;}
+.dd-file-btn span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dd-file-btn small{flex:none;font-size:9.5px;color:rgba(200,208,232,.45);letter-spacing:.02em;}
+
+/* ── 유틸/케이브덕: 시안 카드 (정방형 · 좌측 정렬 · 톤다운 오버레이) ── */
+#caveduck-grid,#utility-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;padding:0 48px;}
+#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 72px)/5);}
+#caveduck-grid .iss-pager,#utility-grid .iss-pager{width:100%;}
+#caveduck-grid .empty-state,#utility-grid .empty-state{width:100%;}
+@media(max-width:1300px){#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 54px)/4);}}
+@media(max-width:1100px){#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 36px)/3);}}
+@media(max-width:640px){#caveduck-grid,#utility-grid{gap:12px;padding:0 12px;}#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 12px)/2);}}
+.dist-card.dcv{margin:0;padding:0;background:#0b0d15;border:1px solid rgba(163,172,208,.1);border-radius:0;overflow:hidden;aspect-ratio:1/1;position:relative;container-type:inline-size;transition:border-color .45s var(--ease-out),box-shadow .45s var(--ease-out),transform .45s var(--ease-out);}
+.dist-card.dcv:hover{border-color:rgba(235,240,252,.55);box-shadow:0 0 18px rgba(230,236,252,.28),0 0 46px rgba(190,205,240,.14);transform:translateY(-3px);}
+.dcv-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.dcv-noimg{display:flex;align-items:center;justify-content:center;font-size:22px;color:rgba(200,208,232,.25);background:linear-gradient(160deg,#12141f,#0a0c13);}
+.dcv-shade{position:absolute;inset:0;background:rgba(5,6,10,.6);pointer-events:none;}
+.dcv-info{position:absolute;inset:0;padding:7.7cqw 11cqw 7.9cqw;display:flex;flex-direction:column;align-items:flex-start;text-align:left;}
+.dcv-mid{margin-top:auto;margin-bottom:auto;max-width:100%;position:relative;top:4cqw;}
+.dcv-hash{font-family:var(--font-num);font-size:5.1cqw;color:rgba(225,230,246,.75);line-height:1;margin-bottom:.8cqw;}
+.dcv-num{font-family:var(--font-num);font-size:7.9cqw;font-weight:400;color:#e8ecf6;line-height:1.1;letter-spacing:.05em;}
+.dcv-title{margin-top:1.2cqw;font-family:var(--font-kr);font-size:4.7cqw;font-weight:700;color:#fff;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dcv-tag{font-size:3.2cqw;letter-spacing:-.02em;color:rgba(200,208,232,.65);margin-top:2.2cqw;font-family:var(--font-kr);}
+.dcv-bot{width:100%;display:flex;align-items:center;justify-content:space-between;gap:2cqw;}
+.dcv-cat{font-family:var(--font-kr);font-size:3.2cqw;letter-spacing:-.02em;color:rgba(210,216,236,.65);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dcv-ics svg{width:5.9cqw;height:5.9cqw;}
+.dcv-del{position:absolute;top:7.7cqw;right:9.6cqw;background:none;border:none;cursor:pointer;color:rgba(240,244,255,.9);line-height:0;padding:.8cqw;z-index:3;transform-origin:50% 50%;transition:color .25s;}
+.dcv-del svg{width:8.7cqw;height:8.7cqw;}
+.dcv-del:hover{color:#fff;animation:issDiaSpin 2.6s linear infinite;}
+.dcv-ics{display:flex;gap:6.3cqw;align-items:center;flex:none;}
+.dcv-ics button{background:none;border:none;cursor:pointer;color:rgba(215,222,242,.78);line-height:0;padding:2px;transition:color .25s,transform .5s cubic-bezier(.3,1.2,.35,1);}
+.dcv-ics button:hover{color:#fff;}
+.dcv-ics button:active{transform:scale(.9);transition-duration:.12s;}
+.dcv-ics .pcv-like-n{font-size:9px;font-family:var(--font-num);color:rgba(220,226,244,.6);margin-left:2px;}
+/* ── 배포 본문: 인용구 · LINK · DOWNLOAD ── */
+.dd-quote{margin:10px 0;padding:9px 14px;border-left:2px solid rgba(235,240,252,.5);background:rgba(255,255,255,.045);color:#e8ecf6;}
+.ddx-links{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 26px;padding:26px 50px 0;}
+.ddx-link{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-num);font-size:10px;letter-spacing:.18em;color:rgba(230,235,248,.75);text-decoration:none;transition:color .25s;}
+.ddx-link:hover{color:#fff;}
+#dd-dl{display:flex;flex-direction:column;gap:22px;align-items:center;}
+.ddx-dlbtn{text-decoration:none;}
+.ddx-dlname{display:block;margin-top:6px;font-family:var(--font-kr);font-size:9.5px;letter-spacing:-.01em;color:rgba(200,208,232,.5);}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute;pointer-events:none;" aria-hidden="true"><defs>
@@ -1954,14 +2007,26 @@ svg.pdx-spark{color:#fff;}
   </div>
 </div>
 <div class="modal-overlay" id="dist-detail-modal" onclick="closeModal('dist-detail-modal')">
-  <div class="modal-box pd-box" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeModal('dist-detail-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
-    <button class="pd-share" onclick="sharePopup()">🔗 공유</button>
-    <div class="pd-head"><span id="dd-title" class="pd-title"></span><span id="dd-cat" class="pd-cat"></span></div>
-    <div id="dd-images" class="pd-images"></div>
-    <div id="dd-desc" class="pd-desc"></div>
-    <div id="dd-links" class="dist-links" style="margin-bottom:12px;"></div>
-    <div id="dd-tags" class="pd-tags"></div>
+  <div class="modal-box pdx" onclick="event.stopPropagation()">
+    <button class="pdx-close" title="닫기" onclick="closeModal('dist-detail-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <div class="pdx-head">
+      <div class="pdx-cat" id="dd-cat"></div>
+      <h3 class="pdx-title" id="dd-title"></h3>
+      <div class="pdx-date" id="dd-date"></div>
+      <div class="pdx-tags" id="dd-tags"></div>
+    </div>
+    <div class="pdx-icons">
+      <button title="글 공유 (링크 복사)" onclick="sharePopup()"><svg width="16" height="15"><use href="#iss-ic-share"/></svg></button>
+      <button class="pdx-admin" id="dd-editbtn" title="글 수정"><svg width="14" height="14"><use href="#iss-ic-edit"/></svg></button>
+      <button class="pcv-like" id="dd-like" title="좋아요"><svg width="15" height="13"><use href="#iss-ic-heart"/></svg><span class="pcv-like-n" id="dd-like-n"></span></button>
+    </div>
+    <div class="pdx-slider" id="dd-images"></div>
+    <div class="pdx-sec" id="dd-coment-sec">
+      <div class="pdx-label">COMENT</div>
+      <div id="dd-desc" class="pdx-desc"></div>
+    </div>
+    <div class="ddx-links" id="dd-links"></div>
+    <div class="pdx-copyrow" id="dd-dl"></div>
   </div>
 </div>
 <div class="modal-overlay" id="iss-settings-modal">
@@ -2751,6 +2816,36 @@ function pdFmtDate(d){
   return t.getFullYear()+' · '+(t.getMonth()+1)+' · '+t.getDate()+' ·  '+ap+' '+hh+' : '+mm;
 }
 let pdCur=null,pdVarVals={},pdSnaps=[],pdImgs=[],pdImgIdx=0,pdMultiTexts=null;
+// ── 배포 다운로드: 첨부 파일 + 외부 링크 ──
+function wrapQuote(id){
+  const ta=document.getElementById(id);if(!ta)return;
+  const v=ta.value,s0=ta.selectionStart,e0=ta.selectionEnd;
+  const ls=v.lastIndexOf('\n',s0-1)+1;
+  let le=v.indexOf('\n',Math.max(e0,s0));if(le<0)le=v.length;
+  const seg=v.slice(ls,le);
+  const on=seg.split('\n').every(l=>l.startsWith('> ')||!l.trim());
+  const q=seg.split('\n').map(l=>on?(l.startsWith('> ')?l.slice(2):l):'> '+l).join('\n');
+  ta.value=v.slice(0,ls)+q+v.slice(le);
+  ta.focus();ta.setSelectionRange(ls,ls+q.length);
+}
+let dlItems=[];
+function dlFmtSize(n){if(!n)return'';if(n>1048576)return(n/1048576).toFixed(1)+'MB';if(n>1024)return Math.round(n/1024)+'KB';return n+'B';}
+function dlRender(){
+  const box=document.getElementById('ef-dl-files');if(!box)return;
+  box.innerHTML=dlItems.map((it,i)=>'<div class="dl-file-row"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg><span class="dl-fname">'+esc(it.name)+'</span><span class="dl-fsize">'+dlFmtSize(it.size)+(it.kind==='pending'?' · 저장 시 업로드':'')+'</span><button type="button" class="dl-del" title="제거" onclick="dlRemove('+i+')"><svg width="9" height="9"><use href="#iss-ic-x"/></svg></button></div>').join('');
+}
+function dlAddFiles(inp){
+  [...inp.files].forEach(f=>dlItems.push({kind:'pending',name:f.name,size:f.size,_file:f}));
+  inp.value='';dlRender();
+}
+function dlRemove(i){dlItems.splice(i,1);dlRender();}
+function dlAddLink(v){
+  const c=document.getElementById('ef-dl-links');if(!c)return;
+  const d=document.createElement('div');d.className='link-entry dl-link-entry';
+  d.innerHTML='<input type="text" class="form-input" placeholder="이름 (예: PSD 원본)"><input type="url" class="form-input" placeholder="https://..."><button type="button" class="link-remove-btn" onclick="this.parentElement.remove()">✕</button>';
+  if(v){d.querySelectorAll('input')[0].value=v.name||'';d.querySelectorAll('input')[1].value=v.url||'';}
+  c.appendChild(d);
+}
 // ── OOC 멀티 프롬프트 헬퍼 ──
 function oocPrompts(p){
   const t=p&&p.prompt_text;
@@ -3044,26 +3139,101 @@ function applyDistFilters(tab){
     return true;
   });
   const g=document.getElementById(tab+'-grid');if(!g)return;
-  const list2=issSortList(list);
-  g.innerHTML=list2.length?list2.map(renderDistCard).join(''):((q||f.cat||f.tags.size)?'<div class="empty-state"><p class="empty-state-text">검색 결과가 없습니다</p></div>':emptyHtml(tab));
+  const sorted=issSortList(list);
+  const totalPages=Math.max(1,Math.ceil(sorted.length/DIST_PAGE_SIZE));
+  if(!issPage[tab])issPage[tab]=1;
+  if(issPage[tab]>totalPages)issPage[tab]=totalPages;
+  const pg=issPage[tab]||1,base=(pg-1)*DIST_PAGE_SIZE;
+  const pageItems=sorted.slice(base,base+DIST_PAGE_SIZE);
+  const pager=totalPages>1?'<div class="iss-pager" data-tb="'+tab+'">'+Array.from({length:totalPages},(_,n)=>'<button class="'+(n+1===pg?'cur':'')+'" onclick="issPagerClick(event)">'+(n+1)+'</button>').join('')+'</div>':'';
+  g.innerHTML=pageItems.length?pageItems.map((d,i)=>renderDistCard(d,base+i)).join('')+pager:((q||f.cat||f.tags.size)?'<div class="empty-state"><p class="empty-state-text">검색 결과가 없습니다</p></div>':emptyHtml(tab));
 }
-function renderDistCard(d){
-  const links=d.links||[];const cat=catArr(d.category).join(' · ');
-  const tags=Array.isArray(d.tags)&&d.tags.length?'<div class="dist-tags">'+d.tags.map(t=>'<span class="card-tag">'+esc(t)+'</span>').join('')+'</div>':'';
-  return `<div class="dist-card" data-mid="${d.id}" onclick="openDistDetail('${d.id}')"><div class="card-admin-controls" onclick="event.stopPropagation()"><button class="card-ctrl-btn" onclick="openEditor('distributions','${d.id}')">✎</button><button class="card-ctrl-btn delete" onclick="confirmDelete('distributions','${d.id}')">✕</button></div>${d.image_url?'<img src="'+esc(d.image_url)+'" style="width:100%;max-height:200px;object-fit:cover;margin-bottom:16px;border:1px solid var(--line-art);" draggable="false">':''}<div class="dist-title">${esc(d.title)}${cat?' <span class="pd-cat">· '+esc(cat)+'</span>':''}</div>${d.description?'<div class="dist-desc">'+esc(d.description)+'</div>':''}<div class="dist-links" onclick="event.stopPropagation()">${links.map(l=>`<a class="dist-link-btn" href="${esc(l.url)}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>${esc(l.label||l.url)}</a>`).join('')}</div>${tags}</div>`;
+function renderDistCard(d,idx){
+  const num=String((typeof idx==='number'?idx:0)+1).padStart(2,'0');
+  const imgs=promptImages(d);
+  const cats=catArr(d.category);
+  const tag=(Array.isArray(d.tags)&&d.tags.length)?('# '+d.tags[0]):(cats[0]?('# '+cats[0]):'');
+  return `<div class="dist-card dcv" data-mid="${d.id}" onclick="openDistDetail('${d.id}')">
+    ${imgs[0]?`<img class="dcv-img" src="${esc(imgs[0])}" loading="lazy" draggable="false">`:'<div class="dcv-img dcv-noimg">✦</div>'}
+    <div class="dcv-shade"></div>
+    <button class="dcv-del pdx-admin" title="삭제" onclick="event.stopPropagation();confirmDelete('distributions','${d.id}')"><svg width="14" height="14"><use href="#iss-ic-x"/></svg></button>
+    <div class="dcv-info">
+      <div class="dcv-mid">
+        <div class="dcv-hash">#</div>
+        <div class="dcv-num">${num}</div>
+        <div class="dcv-title">${esc(d.title||'무제')}</div>
+        ${tag?`<div class="dcv-tag">${esc(tag)}</div>`:''}
+      </div>
+      <div class="dcv-bot">
+        <span class="dcv-cat">${esc(cats.join(' / '))}</span>
+        <span class="dcv-ics" onclick="event.stopPropagation()">
+          <button title="글 공유 (링크 복사)" onclick="copyShareLink('${esc(d.type||'utility')}','${d.id}')"><svg width="15" height="14"><use href="#iss-ic-share"/></svg></button>
+          <button class="pdx-admin" title="글 수정" onclick="openEditor('distributions','${d.id}')"><svg width="13" height="13"><use href="#iss-ic-edit"/></svg></button>
+          <button class="pcv-like" title="좋아요" onclick="pcvLike('${d.id}',this)"><svg width="14" height="12"><use href="#iss-ic-heart"/></svg><span class="pcv-like-n">${pcvLikeN(d.id)||''}</span></button>
+        </span>
+      </div>
+    </div>
+  </div>`;
+}
+let ddImgs=[],ddImgIdx=0;
+function ddRenderSlider(dir){
+  const box=document.getElementById('dd-images');
+  if(!ddImgs.length){box.innerHTML='';box.style.display='none';return;}
+  box.style.display='block';
+  const u=ddImgs[ddImgIdx];
+  box.innerHTML='<div class="pdx-imgwrap"><img src="'+esc(u)+'" draggable="false" onclick="viewImage(this.src)">'
+    +(ddImgs.length>1?'<button type="button" class="pdx-nav prev" onclick="ddImgGo(-1)"><svg viewBox="0 0 10 18" width="11" height="20" fill="none" stroke="currentColor" stroke-width="1"><path d="M8.5 1L1.5 9l7 8"/></svg></button>'
+    +'<button type="button" class="pdx-nav next" onclick="ddImgGo(1)"><svg viewBox="0 0 10 18" width="11" height="20" fill="none" stroke="currentColor" stroke-width="1"><path d="M1.5 1l7 8-7 8"/></svg></button>'
+    +'<div class="pdx-dots">'+ddImgs.map((_,i)=>'<button type="button" class="pdx-dot'+(i===ddImgIdx?' cur':'')+'" onclick="ddImgTo('+i+')"></button>').join('')+'</div>':'')
+    +'</div>';
+  if(dir){
+    const im=box.querySelector('img');
+    if(im){try{im.animate([{opacity:0,transform:'translateX('+(dir*30)+'px) scale(1.012)'},{opacity:1,transform:'none'}],{duration:460,easing:'cubic-bezier(.25,.8,.3,1)'});}catch(e){}}
+  }
+}
+function ddImgGo(d){ddImgIdx=(ddImgIdx+d+ddImgs.length)%ddImgs.length;ddRenderSlider(d>0?1:-1);}
+function ddImgTo(i){const dir=i>ddImgIdx?1:(i<ddImgIdx?-1:0);ddImgIdx=i;ddRenderSlider(dir);}
+// 본문: '> ' 줄 → 인용구 블록
+function ddBodyHtml(text){
+  if(!text)return'';
+  const lines=String(text).split('\n');const out=[];let quote=[];
+  const flush=()=>{if(quote.length){out.push('<blockquote class="dd-quote">'+quote.map(esc).join('<br>')+'</blockquote>');quote=[];}};
+  lines.forEach(l=>{
+    if(l.startsWith('> '))quote.push(l.slice(2));
+    else if(l.trim()==='>')quote.push('');
+    else{flush();out.push(esc(l)+'<br>');}
+  });
+  flush();return out.join('');
 }
 function openDistDetail(id){
   const d=distData.caveduck.concat(distData.utility).find(x=>x.id===id);if(!d)return;
   if(!consentOK(d.warn)){pendingConsent=()=>openDistDetail(id);showConsent();return;}
   curPopup={type:d.type,id:d.id};
+  ddImgs=promptImages(d);ddImgIdx=0;
+  document.getElementById('dd-cat').textContent=catArr(d.category).join(' · ');
   document.getElementById('dd-title').textContent=d.title||'(제목 없음)';
-  const cats=catArr(d.category);document.getElementById('dd-cat').textContent=cats.length?('· '+cats.join(' · ')):'';
-  document.getElementById('dd-images').innerHTML=d.image_url?`<img src="${esc(d.image_url)}" class="pd-img" onclick="viewImage('${esc(d.image_url)}')" draggable="false">`:'';
-  const desc=document.getElementById('dd-desc');desc.textContent=d.description||'';desc.style.display=d.description?'block':'none';
-  const links=d.links||[];
-  document.getElementById('dd-links').innerHTML=links.map(l=>`<a class="dist-link-btn" href="${esc(l.url)}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>${esc(l.label||l.url)}</a>`).join('');
-  document.getElementById('dd-tags').innerHTML=(d.tags||[]).map(t=>`<span class="card-tag">${esc(t)}</span>`).join('');
+  document.getElementById('dd-date').textContent=pdFmtDate(d.created_at);
+  document.getElementById('dd-tags').innerHTML=(d.tags||[]).map(t=>'<span>#'+esc(t)+'</span>').join(' ');
+  const like=document.getElementById('dd-like');
+  document.getElementById('dd-like-n').textContent=pcvLikeN(d.id)||'';
+  like.onclick=()=>pcvLike(d.id,like);
+  const eb=document.getElementById('dd-editbtn');
+  eb.onclick=()=>{closeModal('dist-detail-modal');openEditor('distributions',d.id);};
+  ddRenderSlider();
+  const desc=document.getElementById('dd-desc');
+  desc.innerHTML=ddBodyHtml(d.description);
+  document.getElementById('dd-coment-sec').style.display=d.description?'block':'none';
+  const files=Array.isArray(d.files)?d.files:[];
+  const ext=files.filter(x=>x.external).concat((d.links||[]).map(l=>({name:l.label||l.url,url:l.url})));
+  document.getElementById('dd-links').innerHTML=ext.map(l=>'<a class="ddx-link" href="'+esc(l.url)+'" target="_blank" rel="noopener"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>'+esc(l.name)+'</a>').join('');
+  const ups=files.filter(x=>!x.external);
+  document.getElementById('dd-dl').innerHTML=ups.map(fi=>{
+    const href=fi.url+(fi.url.indexOf('?')>-1?'&':'?')+'download='+encodeURIComponent(fi.name||'');
+    return '<a class="pdx-copybtn ddx-dlbtn" href="'+esc(href)+'" download><svg class="pdx-spark" width="17" height="17"><use href="#iss-ic-copyspark"/></svg><span class="pdx-copylabel"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg><span class="pdx-copytext">DOWNLOAD</span><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg></span><small class="ddx-dlname">'+esc(fi.name||'')+(fi.size?' · '+dlFmtSize(fi.size):'')+'</small></a>';
+  }).join('');
+  document.getElementById('dd-dl').style.display=ups.length?'flex':'none';
   document.getElementById('dist-detail-modal').classList.add('active');
+  document.getElementById('dist-detail-modal').scrollTop=0;
 }
 
 // ── Prompt Tabs ──
@@ -3170,13 +3340,15 @@ function pcvLike(id,btn){
 }
 // ── 페이지네이션 (지시: 여러 페이지 시 숫자 늘어남) ──
 const ISS_PAGE_SIZE=10;
-let issPage={nai:1,ooc:1};
+let issPage={nai:1,ooc:1,caveduck:1,utility:1};
+const DIST_PAGE_SIZE=12;
 function issPagerClick(e){const d=e.target.closest('.iss-pager');if(!d)return;const b=e.target.closest('button');if(!b)return;issGoPage(d.getAttribute('data-tb'),parseInt(b.textContent));}
 function issGoPage(tab,n){
   if(issPage[tab]===n)return;
   issPage[tab]=n;
-  applyPromptFilters(tab);
-  const g=document.getElementById(PT[tab].grid);
+  const isP=!!PT[tab];
+  if(isP)applyPromptFilters(tab);else applyDistFilters(tab);
+  const g=document.getElementById(isP?PT[tab].grid:tab+'-grid');
   if(g){g.scrollIntoView({behavior:'auto',block:'start'});issCardsEnter(g);}
 }
 // 페이지 전환: 즉시 점프 후 카드가 순차적으로 떠오르며 안착
@@ -3443,7 +3615,7 @@ async function openEditor(type,editId,distType){
   titleEl.textContent=(editId?'Edit':'New')+' '+typeLabel(type,editorDistType);
   fieldsEl.innerHTML=fields.map(f=>{
     const val=existingData?(existingData[f.key]||''):'';
-    if(f.type==='textarea')return `<div class="form-group"><label class="form-label">${f.label} <span class="ai-mini-row"><button type="button" class="ai-mini-btn" onclick="aiSpell('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 맞춤법</button>${f.key==='content'?`<button type="button" class="ai-mini-btn" onclick="aiLogClean('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 로그 정리</button><button type="button" class="ai-mini-btn" onclick="aiLogSum('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 요약</button>`:''}</span></label><textarea class="form-textarea" id="ef-${f.key}" placeholder="${f.placeholder||''}">${esc(Array.isArray(val)?val.join(', '):val)}</textarea></div>`;
+    if(f.type==='textarea')return `<div class="form-group"><label class="form-label">${f.label} <span class="ai-mini-row"><button type="button" class="ai-mini-btn" onclick="aiSpell('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 맞춤법</button>${(currentEditorType==='distributions'&&f.key==='description')?`<button type="button" class="ai-mini-btn" onclick="wrapQuote('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 인용구</button>`:''}${f.key==='content'?`<button type="button" class="ai-mini-btn" onclick="aiLogClean('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 로그 정리</button><button type="button" class="ai-mini-btn" onclick="aiLogSum('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 요약</button>`:''}</span></label><textarea class="form-textarea" id="ef-${f.key}" placeholder="${f.placeholder||''}">${esc(Array.isArray(val)?val.join(', '):val)}</textarea></div>`;
     if(f.type==='markdown')return `<div class="form-group"><label class="form-label">${f.label} <span class="ai-mini-row"><button type="button" class="ai-mini-btn" onclick="aiSpell('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 맞춤법</button></span></label><div class="md-toolbar"><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','**','**')" title="Bold"><b>B</b></button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','*','*')" title="Italic"><i>I</i></button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','~~','~~')" title="Strikethrough"><s>S</s></button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','# ')" title="H1">H1</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','## ')" title="H2">H2</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','### ')" title="H3">H3</button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','- ')" title="List">☰</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','> ')" title="Quote">❝</button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','[','](url)')" title="Link">🔗</button><button class="md-toolbar-btn" type="button" onclick="mdInsertTable('ef-${f.key}')" title="Table">⊞</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','---\\n')" title="HR">―</button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn md-preview-toggle" type="button" onclick="toggleMdPreview('ef-${f.key}')">PREVIEW</button></div><textarea class="form-textarea" id="ef-${f.key}" placeholder="${f.placeholder||''}" style="min-height:200px;font-family:'Pretendard',monospace;font-size:12px;">${esc(val)}</textarea><div class="md-preview-area md-content" id="ef-${f.key}-preview"></div></div>`;
     if(f.type==='file')return `<div class="form-group"><label class="form-label">${f.label}</label><label class="form-file-label"><span>+ 이미지 추가</span><input type="file" class="form-input-file" id="ef-${f.key}" accept="image/*" onchange="previewFile(this)"></label>${existingData&&existingData[f.key]?'<img class="form-file-preview" id="ef-preview" src="'+esc(existingData[f.key])+'">':'<img class="form-file-preview" id="ef-preview" style="display:none;">'}</div>`;
     if(f.type==='multifile'){const cur=existingData?promptImages(existingData):[];return `<div class="form-group"><label class="form-label">${f.label}</label><div class="mf-hint">드래그로 순서 변경 · 맨 앞이 대표 썸네일 · 다른 이미지의 "대표로" 클릭 시 대표 지정</div><div class="mf-list" id="ef-${f.key}-list">${cur.map(u=>`<div class="mf-item" data-url="${esc(u)}" draggable="true" ondragstart="mfDragStart(event)" ondragover="mfDragOver(event)" ondragend="mfDragEnd(event)"><img src="${esc(u)}"><span class="mf-rep">대표</span><button type="button" class="mf-setrep" onclick="setRepImage(this)">대표로</button><button type="button" class="mf-del" onclick="this.parentElement.remove()">✕</button></div>`).join('')}</div><label class="form-file-label"><span>+ 이미지 추가 (여러 장 가능)</span><input type="file" class="form-input-file" id="ef-${f.key}" accept="image/*" multiple onchange="previewMultiFile(this)"></label></div>`;}
@@ -3455,6 +3627,13 @@ async function openEditor(type,editId,distType){
     if(f.type==='richedit')return `<div class="form-group"><label class="form-label">${f.label}</label>${reToolbarHtml()}<div class="dp-editor-scroll"><div class="dp-page" id="dp-page"><div class="re-body" id="ef-${f.key}" contenteditable="true" data-ph="${esc(f.placeholder||'')}">${val||''}</div><div class="dp-stickers" id="dp-stickers"></div></div></div><textarea class="re-source" id="re-source" spellcheck="false" style="display:none;"></textarea>${dpControlBarHtml()}</div>`;
     if(f.type==='thumbpick')return `<div class="form-group"><label class="form-label">${f.label} · 미지정 시 첫 이미지 자동</label><input type="hidden" id="ef-${f.key}" value="${esc(val)}"><div class="tp-bar"><button type="button" class="re-tb-btn" onclick="dpRefreshThumbs()">↻ 이미지 불러오기</button><span class="tp-hint">본문·스티커 이미지 중 대표 선택 · 다시 클릭 시 해제</span></div><div class="tp-grid" id="tp-grid"></div></div>`;
     if(f.type==='url-og')return `<div class="form-group"><label class="form-label">${f.label}</label><div style="display:flex;gap:8px;"><input type="url" class="form-input" id="ef-${f.key}" value="${esc(val)}" placeholder="${f.placeholder||''}"><button class="btn-secondary" style="flex-shrink:0;padding:10px 12px;" onclick="fetchOG()">FETCH</button></div><img class="form-file-preview" id="ef-og-preview" ${existingData&&existingData.image_url?'src="'+esc(existingData.image_url)+'"':'style="display:none;"'}></div>`;
+    if(f.type==='dlfiles'){
+      const all=(existingData&&Array.isArray(existingData.files))?existingData.files:[];
+      dlItems=all.filter(x=>!x.external).map(x=>({kind:'file',name:x.name,url:x.url,size:x.size||0}));
+      const ex=all.filter(x=>x.external);
+      setTimeout(()=>{dlRender();ex.forEach(l=>dlAddLink(l));},0);
+      return `<div class="form-group"><label class="form-label">${f.label}</label><div id="ef-dl-files"></div><div id="ef-dl-links"></div><div class="dl-btnrow"><label class="form-file-label"><span>+ 파일 첨부 (여러 개 가능)</span><input type="file" multiple style="display:none" onchange="dlAddFiles(this)"></label><button type="button" class="form-file-label" onclick="dlAddLink()"><span>+ 다운로드 링크 추가</span></button></div></div>`;
+    }
     if(f.type==='links'){
       const links=existingData?existingData.links||[]:[{label:'',url:''}];
       return `<div class="form-group"><label class="form-label">${f.label}</label><div id="ef-links-container">${links.map((l,i)=>`<div class="link-entry"><input type="text" class="form-input" placeholder="Label" value="${esc(l.label||'')}" data-link-label="${i}"><input type="url" class="form-input" placeholder="URL" value="${esc(l.url||'')}" data-link-url="${i}"><button class="link-remove-btn" onclick="this.parentElement.remove()">✕</button></div>`).join('')}</div><button class="link-add-btn" onclick="addLinkEntry()">+ Add Link</button></div>`;
@@ -3478,7 +3657,7 @@ function getFieldsForType(type,distType){
     case 'banners':return [{key:'link_url',label:'Link URL',type:'url-og',placeholder:'https://...'},{key:'title',label:'Title',type:'text',placeholder:'사이트 이름 (선택)'}];
     case 'logs':return [{key:'title',label:'Title',type:'text',placeholder:'제목'},{key:'category',label:'Category',type:'text',placeholder:'카테고리'},{key:'source',label:'Source',type:'text',placeholder:'출처 (선택)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'content',label:'Content',type:'textarea',placeholder:'로그 내용...'}];
     case 'prompts':return [{key:'title',label:'Title',type:'text',placeholder:'프롬프트 이름 (선택)'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'설명 (복사 안 됨 · 잡담/메모용)',type:'textarea',placeholder:'복사되지 않는 설명·메모...'},{key:'prompt_text',label:'Prompt',type:(editorPromptTab==='ooc'?'multiprompt':'prompttext'),placeholder:'프롬프트 텍스트... (텍스트 선택 후 변수 버튼 → <>로 감쌈)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'blur',label:'미리보기 이미지 가리기 (체크 시 썸네일 블러)',type:'checkbox'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
-    case 'distributions':return [{key:'title',label:'Title',type:'text',placeholder:'이름'},{key:'category',label:'Category',type:'catselect'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'image_url',label:'Image',type:'file'},{key:'description',label:'Description',type:'textarea',placeholder:'설명...'},{key:'links',label:'Links',type:'links'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'}];
+    case 'distributions':return [{key:'title',label:'Title',type:'text',placeholder:'이름'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'본문 (사담 · 설명 · 인용구)',type:'textarea',placeholder:'사담, 설명, 인용구…  (줄 선택 후 ◆ 인용구 버튼으로 인용 표시)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'files',label:'다운로드 — 첨부 파일 & 외부 링크',type:'dlfiles'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'}];
     case 'notices':return [{key:'title',label:'Title',type:'text',placeholder:'공지 제목'},{key:'content',label:'Content (Markdown)',type:'markdown',placeholder:'마크다운으로 작성...'}];
     default:return[];
   }
@@ -3942,6 +4121,25 @@ async function saveEntry(){
         const ogPrev=document.getElementById('ef-og-preview');
         if(ogPrev&&ogPrev.dataset.ogUrl)record.image_url=ogPrev.dataset.ogUrl;
         else if(!currentEditId)record.image_url=record[f.key]?'https://api.microlink.io/screenshot?url='+encodeURIComponent(record[f.key]):'';
+      }else if(f.type==='dlfiles'){
+        const out=[];
+        for(const it of dlItems){
+          if(it.kind==='file')out.push({name:it.name,url:it.url,size:it.size||0});
+          else if(it.kind==='pending'&&it._file){
+            const ext=(it.name.split('.').pop()||'bin').toLowerCase().replace(/[^a-z0-9]/g,'')||'bin';
+            const fn='distributions/dl_'+Date.now()+'_'+Math.random().toString(36).slice(2,8)+'.'+ext;
+            const{error:ue}=await palelyDB.storage.from('images').upload(fn,it._file);
+            if(ue)throw ue;
+            const{data:pu}=palelyDB.storage.from('images').getPublicUrl(fn);
+            out.push({name:it.name,url:pu.publicUrl,size:it._file.size});
+          }
+        }
+        document.querySelectorAll('#ef-dl-links .dl-link-entry').forEach(e=>{
+          const inp=e.querySelectorAll('input');
+          const label=(inp[0]&&inp[0].value.trim())||'';const url=(inp[1]&&inp[1].value.trim())||'';
+          if(url)out.push({name:label||url,url,external:true});
+        });
+        record[f.key]=out;
       }else if(f.type==='links'){
         const entries=document.querySelectorAll('#ef-links-container .link-entry');
         const links=[];entries.forEach(e=>{
