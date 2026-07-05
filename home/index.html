@@ -701,6 +701,7 @@ body.is-admin .iss-rail .iss-admin{display:flex;}
 .pcv-num{font-family:var(--font-num);font-size:28px;font-weight:var(--weight-light);color:#f2f4fb;line-height:1;letter-spacing:.04em;}
 .pcv-title{font-family:var(--font-kr);font-size:13px;font-weight:500;letter-spacing:-.02em;color:#f0f2fa;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .pcv-cat{font-size:8.5px;letter-spacing:-.05em;color:rgba(200,208,232,.5);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pcv-cat div+div{margin-top:4px;}
 .pcv-copy{position:relative;display:flex;align-items:center;gap:5px;background:none;border:none;color:rgba(232,236,248,.9);font-family:var(--font-kr);font-weight:700;font-size:10px;letter-spacing:.22em;cursor:pointer;padding:5px 0 3px;transition:.25s;}
 .pcv-cl{position:relative;width:4px;height:4px;background:none;}
 .pcv-cl:before{content:'';position:absolute;left:0;top:50%;width:3.5px;height:3.5px;transform:translateY(-50%);border-radius:50%;background:rgba(232,236,248,.9);}
@@ -1043,6 +1044,24 @@ svg.pdx-spark{color:#fff;}
 .pdx-deltoggle{font-size:10px;text-decoration:underline;text-underline-offset:3px;color:rgba(223,227,239,.85);border:1px solid transparent;padding:2px 7px;}
 .pdx-deltoggle:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.32);text-decoration:none;}
 .pdx-deltoggle.cut{text-decoration:line-through;}
+
+/* ── 게시판 공용 SEARCH 팝업 + 리치에디터 툴바 테마 ── */
+.bsp-anchor{position:relative;display:inline-flex;align-items:center;margin-right:8px;vertical-align:middle;}
+.bsp-anchor .iss-search-pop{top:36px;right:-6px;}
+.re-toolbar{background:none;border:1px solid rgba(255,255,255,.12);border-bottom:none;border-radius:0;padding:8px 10px;}
+.re-tb-btn{position:relative;background:none!important;border:none!important;border-radius:0;color:rgba(200,208,232,.6);font-size:11px;padding:4px 6px;cursor:pointer;transition:color .3s;}
+.re-tb-btn:hover{color:#e8ecf6;}
+.re-tb-btn::after{content:'';position:absolute;left:0;right:100%;bottom:0;height:1px;transform:scaleY(.5);background:#fff;transition:right .45s cubic-bezier(.25,.8,.3,1);}
+.re-tb-btn:hover::after{right:45%;}
+.re-tb-btn:active::after{right:0;}
+.re-tb-sep{width:1px;height:16px;background:rgba(255,255,255,.14);margin:0 4px;}
+
+/* ── 게시판 공통 장식 헤더 (Issuance 문법) ── */
+.bhd{position:relative;margin-bottom:28px;}
+.bhd .iss-sub{margin-bottom:12px;}
+.bhd-rail{position:absolute;top:36px;right:0;display:flex;align-items:center;gap:10px;z-index:12;}
+.bhd .bsp-anchor{margin-right:0;}
+@media(max-width:768px){.bhd-rail{position:static;justify-content:center;margin-top:8px;}}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute;pointer-events:none;" aria-hidden="true"><defs>
@@ -1571,13 +1590,21 @@ svg.pdx-spark{color:#fff;}
 <!-- Boards (from base SPA), shown as center overlay on navigate -->
 <main id="main-content" class="main-content">
 <section class="page-section" id="page-notices">
-  <div class="section-header"><div><h2 class="section-title">Notices</h2><p class="section-subtitle">공지사항</p></div>
-  <button class="admin-add-btn" onclick="toggleManage('notices')">☰ 관리</button> <button class="admin-add-btn" onclick="openEditor('notices')">+ NEW</button></div>
+  <div class="iss-head bhd">
+  <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
+  <h2 class="iss-title">NOTICES</h2>
+  <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
+  <div class="bhd-rail"><button class="iss-rail-btn iss-admin" title="설정 (카테고리·글 관리)" onclick="openIssSettings('notices')"><svg width="13" height="13"><use href="#iss-ic-set"/></svg></button><button class="iss-rail-btn iss-admin" title="새 공지 작성" onclick="openEditor('notices')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
+</div>
   <div id="notices-list"></div>
 </section>
 <section class="page-section" id="page-diary">
-  <div class="section-header"><div><h2 class="section-title">Diary</h2><p class="section-subtitle">일기장</p></div>
-  <button class="admin-add-btn" onclick="toggleManage('diary')">☰ 관리</button> <button class="admin-add-btn" onclick="openEditor('diary')">+ NEW</button></div>
+  <div class="iss-head bhd">
+  <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
+  <h2 class="iss-title">DIARY</h2>
+  <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
+  <div class="bhd-rail"><button class="iss-rail-btn iss-admin" title="설정 (카테고리·글 관리)" onclick="openIssSettings('diary')"><svg width="13" height="13"><use href="#iss-ic-set"/></svg></button><span class="bsp-anchor" id="bsp-diary"><button class="iss-rail-btn" title="검색·필터" onclick="bspToggle('diary')"><svg width="13" height="13"><use href="#iss-ic-search"/></svg></button><div class="iss-search-pop" id="bsp-pop-diary"><button class="isp-close" title="닫기" onclick="bspToggle('diary')"><svg width="12" height="12"><use href="#iss-ic-x"/></svg></button><div class="isp-title">SEARCH</div><div class="isp-inputrow"><svg class="isp-mag" width="13" height="13"><use href="#iss-ic-mag"/></svg><input id="bsp-input-diary" placeholder="검색 단어를 입력하세요." oninput="bspInput('diary',this.value)" autocomplete="off"><div class="isp-scope"><button class="isp-scope-btn" type="button" onclick="bspScopeToggle(event,'diary')"><span id="bsp-scope-label-diary">제목+내용</span><svg width="9" height="9"><use href="#iss-ic-dia2"/></svg></button><div class="isp-scope-menu"><button type="button" onclick="bspSetScope('diary','title','제목만')">제목만</button><button type="button" onclick="bspSetScope('diary','body','본문 내용')">본문 내용</button><button type="button" onclick="bspSetScope('diary','both','제목+내용')">제목+내용</button></div></div></div><div class="isp-label">Category</div><div class="isp-cats" id="bsp-cats-diary"></div><div class="isp-label">TAG</div><div class="isp-tags" id="bsp-tags-diary"></div></div></span><button class="iss-rail-btn iss-admin" title="새 일기 작성" onclick="openEditor('diary')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
+</div>
   <div class="prompt-filters">
     <div class="pf-row">
       <input id="diary-search" class="pf-search" placeholder="검색 (제목·본문·태그)" oninput="applyDiaryFilters()">
@@ -1590,18 +1617,30 @@ svg.pdx-spark{color:#fff;}
   <div class="board-grid" id="diary-grid"></div>
 </section>
 <section class="page-section" id="page-assets">
-  <div class="section-header"><div><h2 class="section-title">Assets</h2><p class="section-subtitle">에셋 백업</p></div>
-  <button class="admin-add-btn" onclick="toggleManage('assets')">☰ 관리</button> <button class="admin-add-btn" onclick="openEditor('assets')">+ UPLOAD</button></div>
+  <div class="iss-head bhd">
+  <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
+  <h2 class="iss-title">ASSETS</h2>
+  <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
+  <div class="bhd-rail"><button class="iss-rail-btn iss-admin" title="설정 (카테고리·글 관리)" onclick="openIssSettings('assets')"><svg width="13" height="13"><use href="#iss-ic-set"/></svg></button><span class="bsp-anchor" id="bsp-assets"><button class="iss-rail-btn" title="검색·필터" onclick="bspToggle('assets')"><svg width="13" height="13"><use href="#iss-ic-search"/></svg></button><div class="iss-search-pop" id="bsp-pop-assets"><button class="isp-close" title="닫기" onclick="bspToggle('assets')"><svg width="12" height="12"><use href="#iss-ic-x"/></svg></button><div class="isp-title">SEARCH</div><div class="isp-inputrow"><svg class="isp-mag" width="13" height="13"><use href="#iss-ic-mag"/></svg><input id="bsp-input-assets" placeholder="검색 단어를 입력하세요." oninput="bspInput('assets',this.value)" autocomplete="off"><div class="isp-scope"><button class="isp-scope-btn" type="button" onclick="bspScopeToggle(event,'assets')"><span id="bsp-scope-label-assets">제목+태그</span><svg width="9" height="9"><use href="#iss-ic-dia2"/></svg></button><div class="isp-scope-menu"><button type="button" onclick="bspSetScope('assets','title','제목만')">제목만</button><button type="button" onclick="bspSetScope('assets','body','태그만')">태그만</button><button type="button" onclick="bspSetScope('assets','both','제목+태그')">제목+태그</button></div></div></div><div class="isp-label">Category</div><div class="isp-cats" id="bsp-cats-assets"></div><div class="isp-label">TAG</div><div class="isp-tags" id="bsp-tags-assets"></div></div></span><button class="iss-rail-btn iss-admin" title="에셋 업로드" onclick="openEditor('assets')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
+</div>
   <div class="image-grid" id="assets-grid"></div>
 </section>
 <section class="page-section" id="page-banners">
-  <div class="section-header"><div><h2 class="section-title">Banners</h2><p class="section-subtitle">배너 아카이브</p></div>
-  <button class="admin-add-btn" onclick="toggleManage('banners')">☰ 관리</button> <button class="admin-add-btn" onclick="openEditor('banners')">+ ADD LINK</button></div>
+  <div class="iss-head bhd">
+  <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
+  <h2 class="iss-title">BANNERS</h2>
+  <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
+  <div class="bhd-rail"><button class="iss-rail-btn iss-admin" title="설정 (카테고리·글 관리)" onclick="openIssSettings('banners')"><svg width="13" height="13"><use href="#iss-ic-set"/></svg></button><button class="iss-rail-btn iss-admin" title="배너 링크 추가" onclick="openEditor('banners')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
+</div>
   <div class="banner-grid" id="banners-grid"></div>
 </section>
 <section class="page-section" id="page-logs">
-  <div class="section-header"><div><h2 class="section-title">Logs</h2><p class="section-subtitle">로그 백업</p></div>
-  <button class="admin-add-btn" onclick="toggleManage('logs')">☰ 관리</button> <button class="admin-add-btn" onclick="openEditor('logs')">+ NEW</button></div>
+  <div class="iss-head bhd">
+  <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
+  <h2 class="iss-title">LOGS</h2>
+  <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
+  <div class="bhd-rail"><button class="iss-rail-btn iss-admin" title="설정 (카테고리·글 관리)" onclick="openIssSettings('logs')"><svg width="13" height="13"><use href="#iss-ic-set"/></svg></button><span class="bsp-anchor" id="bsp-logs"><button class="iss-rail-btn" title="검색·필터" onclick="bspToggle('logs')"><svg width="13" height="13"><use href="#iss-ic-search"/></svg></button><div class="iss-search-pop" id="bsp-pop-logs"><button class="isp-close" title="닫기" onclick="bspToggle('logs')"><svg width="12" height="12"><use href="#iss-ic-x"/></svg></button><div class="isp-title">SEARCH</div><div class="isp-inputrow"><svg class="isp-mag" width="13" height="13"><use href="#iss-ic-mag"/></svg><input id="bsp-input-logs" placeholder="검색 단어를 입력하세요." oninput="bspInput('logs',this.value)" autocomplete="off"><div class="isp-scope"><button class="isp-scope-btn" type="button" onclick="bspScopeToggle(event,'logs')"><span id="bsp-scope-label-logs">제목+내용</span><svg width="9" height="9"><use href="#iss-ic-dia2"/></svg></button><div class="isp-scope-menu"><button type="button" onclick="bspSetScope('logs','title','제목만')">제목만</button><button type="button" onclick="bspSetScope('logs','body','본문 내용')">본문 내용</button><button type="button" onclick="bspSetScope('logs','both','제목+내용')">제목+내용</button></div></div></div><div class="isp-label">Category</div><div class="isp-cats" id="bsp-cats-logs"></div><div class="isp-label">TAG</div><div class="isp-tags" id="bsp-tags-logs"></div></div></span><button class="iss-rail-btn iss-admin" title="새 로그 작성" onclick="openEditor('logs')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
+</div>
   <div class="category-filter" id="logs-categories"></div>
   <div class="board-grid" id="logs-grid"></div>
 </section>
@@ -1702,7 +1741,11 @@ svg.pdx-spark{color:#fff;}
   </div>
 </section>
 <section class="page-section" id="page-guestbook">
-  <div class="section-header"><div><h2 class="section-title">Guestbook</h2><p class="section-subtitle">방명록</p></div></div>
+  <div class="iss-head bhd">
+  <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
+  <h2 class="iss-title">GUESTBOOK</h2>
+  <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
+</div>
   <div class="gb-form">
     <div class="gb-form-row">
       <input type="text" class="form-input" id="gb-nickname" placeholder="닉네임" maxlength="20">
@@ -1876,11 +1919,11 @@ svg.pdx-spark{color:#fff;}
     <h3 class="iss-set-title">SETTINGS</h3>
     <p class="iss-set-sub" id="iss-set-tabname"></p>
     <div class="iss-set-list">
-      <button class="iss-set-btn" onclick="issSettingsAction('cat')"><span class="iss-set-dia"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg></span>카테고리 관리<small>현재 탭의 카테고리 추가·삭제</small></button>
+      <button class="iss-set-btn iss-set-cat" onclick="issSettingsAction('cat')"><span class="iss-set-dia"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg></span>카테고리 관리<small>현재 탭의 카테고리 추가·삭제</small></button>
       <button class="iss-set-btn" onclick="issSettingsAction('manage')"><span class="iss-set-dia"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg></span>글 관리 모드<small>일괄 삭제 · 수정 · 블러 · 경고</small></button>
-      <button class="iss-set-btn" onclick="issSettingsAction('pw')"><span class="iss-set-dia"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg></span>게시판 비밀번호<small>Issuance 잠금 설정·해제</small></button>
-      <button class="iss-set-btn" onclick="issSettingsAction('ai')"><span class="iss-set-dia"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg></span>Gemini API 키<small>AI 태그 정리 기능 연결 (관리자 전용 저장)</small></button>
-      <button class="iss-set-btn" onclick="issSettingsAction('airule')"><span class="iss-set-dia"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg></span>AI 규칙 편집<small>맞춤법·태그정리·로그정리·요약의 지시문을 직접 작성</small></button>
+      <button class="iss-set-btn iss-set-prompts" onclick="issSettingsAction('pw')"><span class="iss-set-dia"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg></span>게시판 비밀번호<small>Issuance 잠금 설정·해제</small></button>
+      <button class="iss-set-btn iss-set-prompts" onclick="issSettingsAction('ai')"><span class="iss-set-dia"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg></span>Gemini API 키<small>AI 태그 정리 기능 연결 (관리자 전용 저장)</small></button>
+      <button class="iss-set-btn iss-set-prompts" onclick="issSettingsAction('airule')"><span class="iss-set-dia"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg></span>AI 규칙 편집<small>맞춤법·태그정리·로그정리·요약의 지시문을 직접 작성</small></button>
     </div>
   </div>
 </div>
@@ -2016,7 +2059,8 @@ function navigate(page){
   if(page==='home'){document.body.classList.remove('board-open');}
   else{document.body.classList.add('board-open');if(mc){mc.scrollTop=0;}
     const t=document.getElementById('page-'+page);if(t){t.classList.add('active');t.style.animation='none';t.offsetHeight;t.style.animation='';}
-    if(page==='prompts'){if(typeof checkPromptsLock==='function')checkPromptsLock();if(typeof issIntroPlay==='function')issIntroPlay();}}
+    if(page==='prompts'&&typeof checkPromptsLock==='function')checkPromptsLock();
+    if(typeof issIntroPlay==='function')issIntroPlay(page);}
   window.location.hash=page;previousPage=page;
 }
 window.addEventListener('hashchange',()=>{routeHash(window.location.hash.slice(1)||'home');});
@@ -2073,13 +2117,60 @@ function renderDiaryFilters(){
 }
 function onDiaryCatBarClick(e){const b=e.target.closest('[data-cat]');if(!b)return;dFilter.cat=b.dataset.cat;renderDiaryFilters();applyDiaryFilters();}
 function onDiaryTagBarClick(e){const b=e.target.closest('[data-tag]');if(!b)return;const t=b.dataset.tag;dFilter.tags.has(t)?dFilter.tags.delete(t):dFilter.tags.add(t);renderDiaryFilters();applyDiaryFilters();}
+// ── 게시판 공용 SEARCH 팝업 (diary/logs/assets · Issuance와 동일 규칙) ──
+let assetsAllData=[];
+const bspState={logs:{q:'',scope:'both',cat:'',tags:new Set()},assets:{q:'',scope:'both',cat:'',tags:new Set()}};
+function bspSt(b){if(b==='diary'){dFilter.scope=dFilter.scope||'both';return dFilter;}return bspState[b];}
+function bspData(b){return b==='diary'?(diaryData||[]):b==='logs'?(logsAllData||[]):(assetsAllData||[]);}
+function bspApply(b){
+  if(b==='diary'){if(typeof renderDiaryFilters==='function')renderDiaryFilters();applyDiaryFilters();}
+  else if(b==='logs'){buildLogCategories();renderLogs();}
+  else renderAssets();
+}
+function bspToggle(b){
+  const p=document.getElementById('bsp-pop-'+b);if(!p)return;
+  if(p.classList.contains('open')){p.classList.add('closing');setTimeout(()=>p.classList.remove('open','closing'),240);}
+  else{p.classList.add('open');bspRender(b);setTimeout(()=>{const i=document.getElementById('bsp-input-'+b);if(i)i.focus();},80);}
+}
+function bspInput(b,v){
+  if(b==='diary'){const src=document.getElementById('diary-search');if(src)src.value=v;}
+  else bspSt(b).q=v;
+  bspApply(b);
+}
+function bspScopeToggle(e,b){e.preventDefault();e.stopPropagation();const w=document.querySelector('#bsp-pop-'+b+' .isp-scope');if(w)w.classList.toggle('open');}
+function bspSetScope(b,scope,label){bspSt(b).scope=scope;const l=document.getElementById('bsp-scope-label-'+b);if(l)l.textContent=label;const w=document.querySelector('#bsp-pop-'+b+' .isp-scope');if(w)w.classList.remove('open');bspApply(b);}
+function bspHit(st,hayT,hayB){
+  const q=(st.q!==undefined?st.q:(document.getElementById('diary-search')?.value||'')).trim().toLowerCase();
+  if(!q)return true;
+  const sc=st.scope||'both';
+  if(sc==='title')return hayT.includes(q);
+  if(sc==='body')return hayB.includes(q);
+  return hayT.includes(q)||hayB.includes(q);
+}
+function bspRender(b){
+  const st=bspSt(b),list=bspData(b);
+  const cats=[...new Set(list.flatMap(x=>catArr(x.category)))];
+  const tags=[...new Set(list.flatMap(x=>Array.isArray(x.tags)?x.tags:[]))];
+  const cbox=document.getElementById('bsp-cats-'+b);
+  if(cbox){
+    cbox.innerHTML=cats.length?cats.map(c=>'<button type="button" class="isp-chip'+(st.cat===c?' on':'')+'" data-c="'+esc(c)+'">'+esc(c)+'</button>').join(''):'<span class="isp-empty">카테고리 없음</span>';
+    cbox.querySelectorAll('[data-c]').forEach(x=>x.addEventListener('click',()=>{st.cat=(st.cat===x.dataset.c)?'':x.dataset.c;bspRender(b);bspApply(b);}));
+  }
+  const tbox=document.getElementById('bsp-tags-'+b);
+  if(tbox){
+    tbox.innerHTML=tags.length?tags.map(t=>'<button type="button" class="isp-chip'+(st.tags.has(t)?' on':'')+'" data-t="'+esc(t)+'">#'+esc(t)+'</button>').join(''):'<span class="isp-empty">등록된 태그 없음</span>';
+    tbox.querySelectorAll('[data-t]').forEach(x=>x.addEventListener('click',()=>{const t=x.dataset.t;st.tags.has(t)?st.tags.delete(t):st.tags.add(t);bspRender(b);bspApply(b);}));
+  }
+  const inp=document.getElementById('bsp-input-'+b);
+  if(inp)inp.value=(b==='diary'?(document.getElementById('diary-search')?.value||''):st.q)||'';
+}
 function applyDiaryFilters(){
   const q=(document.getElementById('diary-search')?.value||'').trim().toLowerCase();
   const sort=document.getElementById('diary-sort')?.value||'new';
   let list=diaryData.filter(d=>{
     if(dFilter.cat&&!catArr(d.category).includes(dFilter.cat))return false;
     if(dFilter.tags.size){const dt=Array.isArray(d.tags)?d.tags:[];for(const t of dFilter.tags)if(!dt.includes(t))return false;}
-    if(q){const hay=((d.title||'')+' '+htmlToText(d.content||'')+' '+(Array.isArray(d.tags)?d.tags.join(' '):'')+' '+(d.category||'')).toLowerCase();if(!hay.includes(q))return false;}
+    if(q){const hayT=(d.title||'').toLowerCase();const hayB=(htmlToText(d.content||'')+' '+(Array.isArray(d.tags)?d.tags.join(' '):'')+' '+(d.category||'')).toLowerCase();const sc=dFilter.scope||'both';const hit=sc==='title'?hayT.includes(q):sc==='body'?hayB.includes(q):(hayT.includes(q)||hayB.includes(q));if(!hit)return false;}
     return true;
   });
   list=list.slice().sort((a,b)=>sort==='old'?new Date(a.created_at)-new Date(b.created_at):new Date(b.created_at)-new Date(a.created_at));
@@ -2090,9 +2181,19 @@ function applyDiaryFilters(){
 // ── Assets ──
 async function loadAssets(){
   const{data}=await palelyDB.from('assets').select('*').order('created_at',{ascending:false});
-  const g=document.getElementById('assets-grid');
-  if(!data||!data.length){g.innerHTML=emptyHtml('assets');return;}
-  g.innerHTML=data.map(a=>`<div class="image-grid-item" data-mid="${a.id}" onclick="viewImage('${esc(a.image_url)}')"><div class="image-admin-controls"><button class="card-ctrl-btn delete" onclick="event.stopPropagation();confirmDelete('assets','${a.id}')">✕</button></div><img src="${esc(a.image_url)}" alt="${esc(a.title||'')}" draggable="false"></div>`).join('');
+  assetsAllData=data||[];
+  renderAssets();
+}
+function renderAssets(){
+  const g=document.getElementById('assets-grid');if(!g)return;
+  if(!assetsAllData.length){g.innerHTML=emptyHtml('assets');return;}
+  const st=bspSt('assets');
+  const list=assetsAllData.filter(a=>{
+    if(st.tags.size){const dt=Array.isArray(a.tags)?a.tags:[];for(const t of st.tags)if(!dt.includes(t))return false;}
+    return bspHit(st,(a.title||'').toLowerCase(),(Array.isArray(a.tags)?a.tags.join(' '):'').toLowerCase());
+  });
+  if(!list.length){g.innerHTML='<div class="empty-state"><p class="empty-state-text">검색 결과가 없습니다</p></div>';return;}
+  g.innerHTML=list.map(a=>`<div class="image-grid-item" data-mid="${a.id}" onclick="viewImage('${esc(a.image_url)}')"><div class="image-admin-controls"><button class="card-ctrl-btn delete" onclick="event.stopPropagation();confirmDelete('assets','${a.id}')">✕</button></div><img src="${esc(a.image_url)}" alt="${esc(a.title||'')}" draggable="false"></div>`).join('');
 }
 
 // ── Banners (link + OG image) ──
@@ -2122,7 +2223,13 @@ function buildLogCategories(){
 function filterLogs(cat){logsActiveCategory=cat;buildLogCategories();renderLogs();}
 function renderLogs(){
   const g=document.getElementById('logs-grid');
-  const filtered=logsActiveCategory==='all'?logsAllData:logsAllData.filter(l=>l.category===logsActiveCategory);
+  const st=bspSt('logs');
+  const filtered=logsAllData.filter(l=>{
+    if(logsActiveCategory!=='all'&&l.category!==logsActiveCategory)return false;
+    if(st.cat&&!catArr(l.category).includes(st.cat))return false;
+    if(st.tags.size){const dt=Array.isArray(l.tags)?l.tags:[];for(const t of st.tags)if(!dt.includes(t))return false;}
+    return bspHit(st,(l.title||'').toLowerCase(),((l.content||'')+' '+(Array.isArray(l.tags)?l.tags.join(' '):'')+' '+(l.source||'')).toLowerCase());
+  });
   if(!filtered.length){g.innerHTML=emptyHtml('logs');return;}
   g.innerHTML=filtered.map(l=>`<div class="board-card" data-mid="${l.id}" onclick="openDetail('logs','${l.id}')"><div class="card-admin-controls"><button class="card-ctrl-btn" onclick="event.stopPropagation();openEditor('logs','${l.id}')">✎</button><button class="card-ctrl-btn delete" onclick="event.stopPropagation();confirmDelete('logs','${l.id}')">✕</button></div><div class="card-date">${fmtDate(l.created_at)}${l.category?' · '+esc(l.category):''}${l.source?' · '+esc(l.source):''}</div><div class="card-title">${esc(l.title)}</div><div class="card-excerpt">${esc(l.content||'')}</div>${l.tags&&l.tags.length?l.tags.map(t=>'<span class="card-tag">'+esc(t)+'</span>').join(''):''}</div>`).join('');
 }
@@ -2410,7 +2517,19 @@ async function aiSetKey(){
   }catch(e){showToast('저장 실패: '+(e.message||'admin_secrets 테이블 SQL을 먼저 실행하세요'));}
 }
 function aiTokens(text){
-  return stripPartMarks(text||'').split(/,(?![^{]*})/).map(t=>t.trim()).filter(Boolean);
+  // 쉼표 분리 시 {…}, […], N::…:: 블록 내부의 쉼표는 보호
+  const src=stripPartMarks(text||'');
+  const out=[];let buf='',depth=0,inW=false;
+  for(let i=0;i<src.length;i++){
+    const ch=src[i];
+    if(ch===':'&&src[i+1]===':'){inW=!inW;buf+='::';i++;continue;}
+    if(ch==='{'||ch==='[')depth++;
+    else if(ch==='}'||ch===']')depth=Math.max(0,depth-1);
+    if(ch===','&&depth===0&&!inW){out.push(buf);buf='';continue;}
+    buf+=ch;
+  }
+  out.push(buf);
+  return out.map(t=>t.trim()).filter(Boolean);
 }
 async function aiGemini(text){
   const key=await aiGetKey();
@@ -2569,7 +2688,7 @@ function openPromptDetail(id){
   document.getElementById('prompt-detail-modal').classList.add('active');
   document.getElementById('prompt-detail-modal').scrollTop=0;
 }
-function pdRenderSlider(){
+function pdRenderSlider(dir){
   const box=document.getElementById('pd-images');
   if(!pdImgs.length){box.innerHTML='';box.style.display='none';return;}
   box.style.display='block';
@@ -2579,9 +2698,16 @@ function pdRenderSlider(){
     +'<button type="button" class="pdx-nav next" onclick="pdImgGo(1)"><svg viewBox="0 0 10 18" width="11" height="20" fill="none" stroke="currentColor" stroke-width="1"><path d="M1.5 1l7 8-7 8"/></svg></button>'
     +'<div class="pdx-dots">'+pdImgs.map((_,i)=>'<button type="button" class="pdx-dot'+(i===pdImgIdx?' cur':'')+'" onclick="pdImgTo('+i+')"></button>').join('')+'</div>':'')
     +'</div>';
+  if(dir){
+    const im=box.querySelector('img');
+    if(im){try{im.animate([
+      {opacity:0,transform:'translateX('+(dir*30)+'px) scale(1.012)'},
+      {opacity:1,transform:'none'}
+    ],{duration:460,easing:'cubic-bezier(.25,.8,.3,1)'});}catch(e){}}
+  }
 }
-function pdImgGo(d){pdImgIdx=(pdImgIdx+d+pdImgs.length)%pdImgs.length;pdRenderSlider();}
-function pdImgTo(i){pdImgIdx=i;pdRenderSlider();}
+function pdImgGo(d){pdImgIdx=(pdImgIdx+d+pdImgs.length)%pdImgs.length;pdRenderSlider(d>0?1:-1);}
+function pdImgTo(i){const dir=i>pdImgIdx?1:(i<pdImgIdx?-1:0);pdImgIdx=i;pdRenderSlider(dir);}
 function pdEffectiveText(){
   const raw=document.getElementById('pd-prompt').dataset.raw||'';
   let i=0;
@@ -2810,7 +2936,7 @@ function openPromptAdd(){
   else openEditor('distributions',null,currentPromptTab);
 }
 // ── ISSUANCE 인트로: 타이틀 스크램블(soulwire Text Scramble, 1회) + 서브카피 순차 등장 ──
-let issIntroDone=false;
+const bhdIntroDone={};
 function issScramble(el,text){
   const chars='!<>-_\\/[]{}—=+*^?#________';
   const from=el.textContent;const len=Math.max(from.length,text.length);const queue=[];
@@ -2827,10 +2953,13 @@ function issScramble(el,text){
     if(done<queue.length){frame++;requestAnimationFrame(update);}
   })();
 }
-function issIntroPlay(){
-  if(issIntroDone)return;issIntroDone=true;
-  const t=document.querySelector('.iss-title');if(t)issScramble(t,'ISSUANCE');
-  const sub=document.querySelector('.iss-sub');
+function issIntroPlay(page){
+  const key=page||'prompts';
+  const root=document.getElementById('page-'+key);
+  if(!root||!root.querySelector('.iss-head'))return;
+  if(bhdIntroDone[key])return;bhdIntroDone[key]=true;
+  const t=root.querySelector('.iss-title');if(t)issScramble(t,t.textContent.trim());
+  const sub=root.querySelector('.iss-sub');
   if(sub&&!sub.dataset.split){
     sub.dataset.split='1';const txt=sub.textContent;
     sub.innerHTML=[...txt].map((ch,i)=>'<span class="sc" style="--din:'+(0.35+i*0.055)+'s;--dwv:'+(2.5+i*0.09)+'s">'+(ch===' '?'&nbsp;':ch.replace(/&/g,'&amp;').replace(/</g,'&lt;'))+'</span>').join('');
@@ -2954,19 +3083,35 @@ function issRenderSearch(){
   const inp=document.getElementById('isp-input');const src=issTabSearchInput();
   if(inp&&src)inp.value=src.value||'';
 }
-function openIssSettings(){
+let issSettingsBoard=null;
+const BHD_LABEL={notices:'Notices',diary:'Diary',assets:'Assets',banners:'Banners',logs:'Logs'};
+function openIssSettings(board){
   if(!isAdmin){showToast('Admin only');return;}
-  document.getElementById('iss-set-tabname').textContent='현재 탭 · '+(ISS_TAB_LABEL[currentPromptTab]||currentPromptTab);
+  issSettingsBoard=board||null;
+  document.getElementById('iss-set-tabname').textContent=board?('게시판 · '+(BHD_LABEL[board]||board)):('현재 탭 · '+(ISS_TAB_LABEL[currentPromptTab]||currentPromptTab));
+  document.querySelectorAll('#iss-settings-modal .iss-set-prompts').forEach(b=>b.style.display=board?'none':'');
+  const cb=document.querySelector('#iss-settings-modal .iss-set-cat');
+  if(cb)cb.style.display=(board&&board!=='diary')?'none':'';
   document.getElementById('iss-settings-modal').classList.add('active');
 }
 function issSettingsAction(act){
   closeModal('iss-settings-modal');
+  const b=issSettingsBoard;
+  if(b){
+    if(act==='cat')openCatManage(b);
+    else if(act==='manage')toggleManage(b);
+    return;
+  }
   if(act==='cat')openCatManage(ISS_CAT_KEY[currentPromptTab]||'prompts');
   else if(act==='manage')toggleManage(currentPromptTab);
   else if(act==='pw')openPromptPwSetting();
   else if(act==='ai')aiSetKey();
   else if(act==='airule')aiRuleOpen();
 }
+document.addEventListener('DOMContentLoaded',()=>{
+  const o=document.querySelector('#page-prompts .iss-spark');
+  if(o)document.querySelectorAll('.bhd-spark').forEach(im=>{im.src=o.src;});
+});
 
 // ── Guestbook ──
 async function loadGuestbook(){
