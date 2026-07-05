@@ -1065,6 +1065,48 @@ svg.pdx-spark{color:#fff;}
 .bhd-rail{position:absolute;top:36px;right:0;display:flex;align-items:center;gap:10px;z-index:12;}
 .bhd .bsp-anchor{margin-right:0;}
 @media(max-width:768px){.bhd-rail{position:static;justify-content:center;margin-top:8px;}}
+
+/* ── OOC 리스트형 글 목록 ── */
+#ooc-grid.ooc-listmode{display:block;}
+.ooc-row{display:flex;align-items:center;padding:15px 8px;border-bottom:1px solid rgba(255,255,255,.10);cursor:pointer;transition:background .25s;}
+.ooc-row:first-child{border-top:1px solid rgba(255,255,255,.10);}
+.ooc-row:hover{background:rgba(255,255,255,.03);}
+.ooc-star{flex:none;color:#fff;line-height:0;margin-right:12px;}
+.ooc-num{flex:none;font-family:var(--font-num);font-size:11px;color:#e8ecf6;width:34px;letter-spacing:.06em;}
+.ooc-cat{flex:none;width:130px;font-family:var(--font-kr);font-size:11px;color:rgba(210,216,236,.6);letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ooc-title{flex:1;text-align:center;font-family:var(--font-kr);font-size:12px;color:#eef1fa;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 14px;}
+.ooc-date{flex:none;font-family:var(--font-num);font-size:10px;color:rgba(200,208,232,.55);letter-spacing:.04em;margin-right:20px;white-space:nowrap;}
+.ooc-ics{flex:none;display:flex;align-items:center;gap:13px;}
+.ooc-ics button{background:none;border:none;cursor:pointer;color:rgba(215,222,242,.75);line-height:0;padding:2px;transition:color .25s,transform .5s cubic-bezier(.3,1.2,.35,1);}
+.ooc-ics button:hover{color:#fff;}
+.ooc-ics button:active{transform:scale(.9);transition-duration:.12s;}
+.ooc-ics .pcv-like-n{font-size:9px;color:rgba(220,226,244,.6);margin-left:2px;font-family:var(--font-num);}
+.ooc-lockic{display:inline-block;vertical-align:-1px;margin-right:7px;color:rgba(220,226,244,.65);}
+@media(max-width:640px){.ooc-cat,.ooc-date{display:none;}}
+/* ── 멀티 프롬프트: 에디터 ── */
+.mp-block{margin-bottom:16px;}
+.mp-idx{font-family:var(--font-kr);font-size:10px;font-weight:600;letter-spacing:.1em;color:rgba(220,226,244,.7);margin-right:8px;}
+.mp-block .pt-toolbar{gap:7px;margin-bottom:6px;display:flex;align-items:center;flex-wrap:wrap;}
+/* ── 멀티 프롬프트: 본문 개별 복사 ── */
+#pd-body.multi{background:none;border:none;padding:0;max-height:none;overflow:visible;}
+.pdx-mblock{background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.06);padding:16px 18px 10px;text-align:left;margin-bottom:16px;}
+.pdx-mblock:last-child{margin-bottom:0;}
+.pdx-mbody{font-family:var(--font-kr);font-size:11.5px;letter-spacing:-.02em;color:rgba(225,230,246,.85);line-height:2;word-break:break-all;max-height:180px;overflow-y:auto;}
+.pdx-mcopyrow{text-align:center;margin-top:10px;border-top:1px solid rgba(255,255,255,.07);padding-top:8px;}
+.pdx-mcopy{background:none;border:none;cursor:pointer;color:#e8ecf6;font-family:var(--font-kr);font-size:10px;font-weight:600;letter-spacing:.14em;text-indent:.14em;display:inline-flex;align-items:center;gap:8px;padding:4px 10px;transition:color .25s;}
+.pdx-mcopy:hover{color:#fff;}
+
+/* ── AI 진행 팝업 (누른 버튼 위 앵커 · 마름모 회전) ── */
+.ai-progpop{position:absolute;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:7px;background:rgba(9,9,9,.95);border:1px solid rgba(255,255,255,.16);padding:7px 12px;font-family:var(--font-kr);font-size:10px;letter-spacing:.05em;color:#eef1fa;white-space:nowrap;z-index:80;pointer-events:none;animation:aiPopIn .25s ease;}
+.ai-progpop .pdx-dia{animation:issDiaSpin 1.5s linear infinite;flex:none;}
+.ai-progpop.float{position:fixed;top:14px;right:14px;bottom:auto;left:auto;transform:none;z-index:1300;animation:none;}
+@keyframes aiPopIn{from{opacity:0;transform:translateX(-50%) translateY(4px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+/* ── OOC: EDIT2 없을 때 EDIT1 전체 폭 ── */
+#pd-edit-sec.full{grid-column:1/-1;padding-right:50px;}
+@media(max-width:1100px){#pd-edit-sec.full{padding-right:36px;}}
+/* ── 프롬프트 칸 추가 버튼: 블랙 박스 ── */
+.mp-add{display:flex;width:100%;justify-content:center;background:#000;border:1px solid rgba(255,255,255,.13);padding:11px 0;margin-top:2px;}
+.mp-add:hover{border-color:rgba(255,255,255,.35);}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute;pointer-events:none;" aria-hidden="true"><defs>
@@ -2288,7 +2330,9 @@ function applyPromptFilters(tab){
   const pg=issPage[tab]||1,base=(pg-1)*ISS_PAGE_SIZE;
   const pageItems=sorted.slice(base,base+ISS_PAGE_SIZE);
   const pager=totalPages>1?'<div class="iss-pager" data-tb="'+tab+'">'+Array.from({length:totalPages},(_,n)=>'<button class="'+(n+1===pg?'cur':'')+'" onclick="issPagerClick(event)">'+(n+1)+'</button>').join('')+'</div>':'';
-  g.innerHTML=pageItems.length?pageItems.map((p,i)=>renderPromptCard(p,base+i)).join('')+pager:((q||f.cat||f.tags.size)?'<div class="empty-state"><p class="empty-state-text">검색 결과가 없습니다</p></div>':emptyHtml('prompts'));
+  const rowFn=(tab==='ooc')?renderOocRow:renderPromptCard;
+  g.classList.toggle('ooc-listmode',tab==='ooc');
+  g.innerHTML=pageItems.length?pageItems.map((p,i)=>rowFn(p,base+i)).join('')+pager:((q||f.cat||f.tags.size)?'<div class="empty-state"><p class="empty-state-text">검색 결과가 없습니다</p></div>':emptyHtml('prompts'));
 }
 // ── 카테고리 관리 (탭별, settings 중앙저장 → 미래 관리패널에 통합 가능) ──
 let boardCategories={};
@@ -2358,7 +2402,33 @@ async function aiRuleSave(reset){
 }
 
 // ══ AI 맞춤법 검사 · 로그 정리 · 요약 (Gemini 공용) ══
+// ── AI 진행 팝업: 누른 버튼 위에 ◆ 회전 + 상태 라벨 ──
+let aiProgCount=0;
+function aiProgAnchorBtn(){try{const ev=window.event;return(ev&&ev.target&&ev.target.closest)?ev.target.closest('button'):null;}catch(e){return null;}}
+function aiProg(label,frac){
+  const t=document.getElementById('ai-prog-text');
+  if(t&&label)t.textContent=label+(typeof frac==='number'?' · '+Math.round(Math.max(0,Math.min(1,frac))*100)+'%':'');
+}
+function aiProgBegin(label,btn){
+  aiProgCount++;
+  if(aiProgCount===1&&!document.getElementById('ai-progpop')){
+    const b=btn||aiProgAnchorBtn();
+    const pop=document.createElement('span');
+    pop.className='ai-progpop';pop.id='ai-progpop';
+    pop.innerHTML='<svg class="pdx-dia" width="9" height="9"><use href="#iss-ic-dia"/></svg><span id="ai-prog-text"></span>';
+    if(b&&b.isConnected){if(getComputedStyle(b).position==='static')b.style.position='relative';b.appendChild(pop);}
+    else{pop.classList.add('float');document.body.appendChild(pop);}
+  }
+  aiProg(label);
+}
+function aiProgEnd(){
+  aiProgCount=Math.max(0,aiProgCount-1);
+  if(!aiProgCount){const p=document.getElementById('ai-progpop');if(p)p.remove();}
+}
 async function aiRequest(sys,user,jsonMode){
+  const solo=aiProgCount===0;
+  if(solo)aiProgBegin('AI 작업 중…');
+  try{
   const key=await aiGetKey();
   if(!key)throw new Error('API 키 없음 — ⚙설정 → Gemini API 키에서 등록하세요');
   const models=['gemini-3.5-flash','gemini-2.5-flash','gemini-2.0-flash'];
@@ -2377,6 +2447,7 @@ async function aiRequest(sys,user,jsonMode){
     }catch(e){lastErr=e;if(!String(e.message||'').includes(' 없음'))throw e;}
   }
   throw lastErr||new Error('사용 가능한 모델 없음');
+  }finally{if(solo)aiProgEnd();}
 }
 function aiResolveEl(idOrEl){return typeof idOrEl==='string'?document.getElementById(idOrEl):idOrEl;}
 function aiElText(el){return el.classList&&el.classList.contains('re-body')?el.innerText:el.value;}
@@ -2404,11 +2475,12 @@ async function aiSpell(idOrEl){
   const isRich=!!(el.classList&&el.classList.contains('re-body'));
   const text=aiElText(el);
   if(!text||!text.trim()){showToast('내용이 비어 있습니다');return;}
-  showToast('✍ 맞춤법 검사 중…');
+  aiProgBegin('맞춤법 검사 중…');
   const policy=await aiSys('ai_rule_spell','당신은 한국어 맞춤법·띄어쓰기 교정기입니다. 명백히 잘못된 맞춤법·띄어쓰기·오타만 찾습니다. 고유명사·의도적 문체·신조어는 오류로 판정하지 않습니다.');
   const sys=policy+'\n\n[출력 계약 — 위의 어떤 규칙보다 우선한다] 출력은 반드시 JSON 배열 하나만: [{"from":"본문에 실제로 존재하는 잘못된 연속 문자열","to":"교정안","why":"짧은 이유"}]. 최대 40개. 교정할 것이 없으면 []. 위 규칙에 다른 출력 형식(교정문, 수정 내역, 표 등)이 있어도 무시하고 이 JSON 형식만 사용한다. JSON 외 텍스트 절대 금지.';
   let list;
-  try{list=await aiRequest(sys,text.slice(0,15000),true);}catch(e){showToast('실패: '+(e.message||''));return;}
+  try{list=await aiRequest(sys,text.slice(0,15000),true);}catch(e){aiProgEnd();showToast('실패: '+(e.message||''));return;}
+  aiProgEnd();
   if(!Array.isArray(list))list=(list&&list.corrections)||[];
   list=list.filter(c=>c&&c.from&&c.to&&c.from!==c.to);
   if(!list.length){aiPanel(el,'✍ 맞춤법 검사','<div class="ai-diff-warn">✓ 교정할 부분을 찾지 못했습니다</div>');return;}
@@ -2446,6 +2518,7 @@ function aiReplaceOnce(el,isRich,from,to){
 const AI_CHUNK=12000;
 async function aiLogRun(idOrEl,mode){
   if(!isAdmin){showToast('Admin only');return;}
+  const _aiBtn=aiProgAnchorBtn();
   const el=aiResolveEl(idOrEl);if(!el)return;
   const isRich=!!(el.classList&&el.classList.contains('re-body'));
   const text=aiElText(el);
@@ -2455,18 +2528,21 @@ async function aiLogRun(idOrEl,mode){
   const sysSum=await aiSys('ai_rule_sum','아래 글(또는 채팅 로그)의 내용을 한국어로 읽기 좋게 정리·요약하세요. 사건과 대화의 흐름을 순서대로 담되 사소한 세부는 생략합니다. 결과 텍스트만 출력하세요.');
   const sys=(mode==='clean'?sysClean:sysSum)+'\n\n[출력 계약 — 최우선] 결과 본문 텍스트만 출력한다. 서두·인사·부연 설명·마크다운 표 금지.';
   const parts=[];
+  aiProgBegin((mode==='clean'?'로그 정리':'요약')+' 시작…',_aiBtn);
   try{
     for(let i=0;i<chunks.length;i++){
-      showToast((mode==='clean'?'🧹 정리':'📝 요약')+' 중… ('+(i+1)+'/'+chunks.length+')');
+      aiProg((mode==='clean'?'로그 정리 중':'요약 중')+' · '+(i+1)+'/'+chunks.length,chunks.length>1?i/chunks.length:undefined);
       parts.push(await aiRequest(sys,chunks[i],false));
+      if(chunks.length>1)aiProg((mode==='clean'?'로그 정리 중':'요약 중')+' · '+(i+1)+'/'+chunks.length+' 완료',(i+1)/chunks.length);
       if(i<chunks.length-1)await new Promise(r=>setTimeout(r,4200));
     }
-  }catch(e){showToast('실패: '+(e.message||''));return;}
+  }catch(e){aiProgEnd();showToast('실패: '+(e.message||''));return;}
   let result=parts.join('\n\n');
   if(mode==='sum'&&chunks.length>1){
-    showToast('📝 요약 통합 중…');
+    aiProg('요약 통합 중…');
     try{result=await aiRequest('아래 부분 요약들을 하나의 자연스러운 요약글로 통합하세요. 결과 텍스트만 출력.',result,false);}catch(e){}
   }
+  aiProgEnd();
   const box=aiPanel(el,(mode==='clean'?'🧹 로그 정리 결과':'📝 요약 결과')+(chunks.length>1?' · '+chunks.length+'분할 처리':''),
     '<div class="ai-diff-body">'+esc(result)+'</div>'
     +'<div class="ai-diff-btns">'
@@ -2541,6 +2617,8 @@ function aiTokens(text){
   return out.map(t=>t.trim()).filter(Boolean);
 }
 async function aiGemini(text){
+  aiProgBegin('AI 태그 정리 중…');
+  try{
   const key=await aiGetKey();
   if(!key)throw new Error('API 키 없음 — ⚙설정 → Gemini API 키에서 등록하세요');
   const policy=await aiSys('ai_rule_tags','태그를 아래 기본 순서로 분류·정렬한다: 품질(quality) → 인물/신체(character) → 표정(expression·얼굴 감정만) → 시선(gaze·looking at viewer 등 시선 처리, 표정과 별개 그룹) → 의상(clothing) → 포즈/동작(pose) → 배경/환경/조명(background) → 기타(other). 시선 그룹의 라벨에는 "표정"이라는 단어를 쓰지 않는다. 태그의 내용·표기·철자·가중치 문법은 절대 변경하지 않는다. 태그를 추가·삭제·병합하지 않는다.');
@@ -2562,6 +2640,7 @@ async function aiGemini(text){
     }catch(e){lastErr=e;if(!String(e.message||'').includes('모델 없음'))throw e;}
   }
   throw lastErr||new Error('사용 가능한 모델 없음');
+  }finally{aiProgEnd();}
 }
 async function aiOrganizePrompt(taId){
   if(!isAdmin){showToast('Admin only');return;}
@@ -2670,16 +2749,93 @@ function pdFmtDate(d){
   const hh=String((h%12)||12).padStart(2,'0');const mm=String(t.getMinutes()).padStart(2,'0');
   return t.getFullYear()+' · '+(t.getMonth()+1)+' · '+t.getDate()+' ·  '+ap+' '+hh+' : '+mm;
 }
-let pdCur=null,pdVarVals={},pdSnaps=[],pdImgs=[],pdImgIdx=0;
+let pdCur=null,pdVarVals={},pdSnaps=[],pdImgs=[],pdImgIdx=0,pdMultiTexts=null;
+// ── OOC 멀티 프롬프트 헬퍼 ──
+function oocPrompts(p){
+  const t=p&&p.prompt_text;
+  if(!t)return[''];
+  if(typeof t==='string'&&t.trim().startsWith('[')){
+    try{const a=JSON.parse(t);if(Array.isArray(a)&&a.every(x=>typeof x==='string'))return a.length?a:[''];}catch(e){}
+  }
+  return[t];
+}
+function renderOocRow(p,idx){
+  const num=String((typeof idx==='number'?idx:0)+1).padStart(2,'0');
+  const cats=catArr(p.category);
+  const locked=p.is_private&&!isAdmin&&!unlockedPrompts.has(p.id);
+  const lock=p.is_private?'<svg class="ooc-lockic" width="9" height="11"><use href="#iss-ic-lock"/></svg>':'';
+  return `<div class="ooc-row" data-mid="${p.id}" onclick="openPromptDetail('${p.id}')">
+    <span class="ooc-star"><svg width="9" height="9"><use href="#iss-ic-tabstar"/></svg></span>
+    <span class="ooc-num">${num}</span>
+    <span class="ooc-cat">${esc(cats.join(' / '))}</span>
+    <span class="ooc-title">${lock}${esc(p.title||(locked?'비밀글':'무제'))}</span>
+    <span class="ooc-date">${pdFmtDate(p.created_at)}</span>
+    <span class="ooc-ics" onclick="event.stopPropagation()">
+      <button title="글 공유 (링크 복사)" onclick="shareOoc('${p.id}')"><svg width="14" height="13"><use href="#iss-ic-share"/></svg></button>
+      <button class="pdx-admin" title="글 수정" onclick="openEditor('prompts','${p.id}')"><svg width="12" height="12"><use href="#iss-ic-edit"/></svg></button>
+      <button class="pcv-like" title="좋아요" onclick="pcvLike('${p.id}',this)"><svg width="13" height="11"><use href="#iss-ic-heart"/></svg><span class="pcv-like-n">${pcvLikeN(p.id)||''}</span></button>
+    </span>
+  </div>`;
+}
+function shareOoc(id){copyShareLink('prompts',id);}
+function mpBlockHtml(i,tx){
+  return `<div class="mp-block" data-mp="${i}">
+    <div class="pt-toolbar"><span class="mp-idx">◆ PROMPT ${String(i+1).padStart(2,'0')}</span>
+      <button type="button" class="md-toolbar-btn" onclick="wrapVar('mp-ta-${i}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 변수로 지정</button>
+      <button type="button" class="md-toolbar-btn" onclick="aiSpell('mp-ta-${i}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 맞춤법</button>
+      <button type="button" class="md-toolbar-btn" onclick="mpRemove(${i})"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 칸 삭제</button>
+    </div>
+    <textarea class="form-textarea mp-ta" id="mp-ta-${i}" placeholder="프롬프트 텍스트... (선택 후 변수로 지정 → <>)" style="min-height:110px;font-family:'Pretendard',monospace;font-size:12px;">${esc(tx)}</textarea>
+  </div>`;
+}
+function mpAdd(){
+  const list=document.getElementById('mp-list');if(!list)return;
+  list.insertAdjacentHTML('beforeend',mpBlockHtml(list.querySelectorAll('.mp-block').length,''));
+  mpReindex();
+  const tas=list.querySelectorAll('.mp-ta');tas[tas.length-1].focus();
+}
+function mpRemove(i){
+  const list=document.getElementById('mp-list');if(!list)return;
+  if(list.querySelectorAll('.mp-block').length<=1){showToast('최소 1개 칸이 필요합니다');return;}
+  const b=list.querySelector('.mp-block[data-mp="'+i+'"]');if(b)b.remove();
+  mpReindex();
+}
+function mpReindex(){
+  document.querySelectorAll('#mp-list .mp-block').forEach((b,i)=>{
+    b.dataset.mp=i;
+    b.querySelector('.mp-idx').textContent='◆ PROMPT '+String(i+1).padStart(2,'0');
+    const ta=b.querySelector('textarea');ta.id='mp-ta-'+i;
+    const btns=b.querySelectorAll('.pt-toolbar button');
+    btns[0].setAttribute('onclick',"wrapVar('mp-ta-"+i+"')");
+    btns[1].setAttribute('onclick',"aiSpell('mp-ta-"+i+"')");
+    btns[2].setAttribute('onclick','mpRemove('+i+')');
+  });
+}
+function mpCollect(){return[...document.querySelectorAll('#mp-list .mp-ta')].map(t=>t.value);}
+function copyOocPrompt(i,btn){
+  if(!pdMultiTexts)return;
+  const t=pdMultiTexts[i]||'';
+  const labels=promptVars(t);
+  const vals=labels.map(l=>pdVarVals[l]!==undefined?pdVarVals[l]:l);
+  const out=cleanPromptCommas(fillPromptWith(t,vals));
+  navigator.clipboard.writeText(out).then(()=>{
+    showToast('클립보드에 복사됨');
+    const tx=btn.querySelector('.pdx-copytext');
+    if(tx){const o=tx.textContent;tx.textContent='COPIED !';setTimeout(()=>{tx.textContent=o;},1400);}
+  }).catch(()=>showToast('복사 실패'));
+}
 function openPromptDetail(id){
   const p=promptsData.find(x=>x.id===id);if(!p)return;
   if(p.is_private&&!isAdmin&&!unlockedPrompts.has(p.id)){openPrivatePrompt(id);return;}
   if(!consentOK(p.warn)){pendingConsent=()=>openPromptDetail(id);showConsent();return;}
   curPopup={type:p.tab||'nai',id:p.id};
   pdCur=p;pdImgs=promptImages(p);pdImgIdx=0;pdSnaps=[];
-  document.getElementById('pd-prompt').dataset.raw=p.prompt_text||'';
-  pdPartState=promptParts(p.prompt_text).map(x=>({name:x.name,content:x.content,on:true,repl:''}));
-  pdVarVals={};promptVars(stripPartMarks(p.prompt_text)).forEach(l=>{if(!(l in pdVarVals))pdVarVals[l]=l;});
+  pdMultiTexts=(p.tab==='ooc')?oocPrompts(p):null;
+  document.getElementById('pd-prompt').dataset.raw=pdMultiTexts?pdMultiTexts.join('\n'):(p.prompt_text||'');
+  pdPartState=pdMultiTexts?[]:promptParts(p.prompt_text).map(x=>({name:x.name,content:x.content,on:true,repl:''}));
+  pdVarVals={};(pdMultiTexts?pdMultiTexts.flatMap(t=>promptVars(t)):promptVars(stripPartMarks(p.prompt_text))).forEach(l=>{if(!(l in pdVarVals))pdVarVals[l]=l;});
+  const _cr=document.querySelector('#prompt-detail-modal .pdx-copyrow');if(_cr)_cr.style.display=pdMultiTexts?'none':'';
+  document.getElementById('pd-edit-sec').classList.toggle('full',!!pdMultiTexts);
   const pcats=catArr(p.category);
   document.getElementById('pd-cat').textContent=pcats.join(' · ');
   document.getElementById('pd-title').textContent=p.title||'(제목 없음)';
@@ -2726,6 +2882,20 @@ function pdEffectiveText(){
 function pdSnapshot(){pdSnaps.push(JSON.stringify({v:pdVarVals,ps:pdPartState}));if(pdSnaps.length>30)pdSnaps.shift();}
 function pdRenderBody(){
   const box=document.getElementById('pd-body');if(!box)return;
+  if(pdMultiTexts){
+    box.classList.add('multi');
+    box.innerHTML=pdMultiTexts.map((t,i)=>{
+      let html=esc(t);
+      html=html.replace(/&lt;([^&]*?)&gt;/g,(mm,label)=>{
+        const val=pdVarVals[label]!==undefined?pdVarVals[label]:label;
+        const changed=val!==label;
+        return '<span class="pdx-chip'+(changed?' done':'')+'">'+esc(val)+'</span>';
+      });
+      return '<div class="pdx-mblock"><div class="pdx-mbody">'+html+'</div><div class="pdx-mcopyrow"><button type="button" class="pdx-mcopy" onclick="copyOocPrompt('+i+',this)"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg><span class="pdx-copytext">PROMPT '+String(i+1).padStart(2,'0')+' COPY</span><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg></button></div></div>';
+    }).join('');
+    return;
+  }
+  box.classList.remove('multi');
   const raw=document.getElementById('pd-prompt').dataset.raw||'';
   let i=0;
   let work=raw.replace(P_PART_RE,(m,n,c)=>{const st=pdPartState[i++];if(!st)return c;if(!st.on)return String.fromCharCode(1)+n+String.fromCharCode(2);return (st.repl||'').trim()||c;});
@@ -2742,7 +2912,7 @@ function pdRenderBody(){
 }
 function pdRenderVars2(){
   const wrap=document.getElementById('pd-vars');if(!wrap)return;
-  const labels=[...new Set(promptVars(pdEffectiveText()))];
+  const labels=[...new Set(pdMultiTexts?pdMultiTexts.flatMap(t=>promptVars(t)):promptVars(pdEffectiveText()))];
   document.getElementById('pd-edit-sec').style.display='block';
   if(!labels.length){wrap.innerHTML='<div class="pdx-empty">이 프롬프트에는 변수가 없습니다</div>';return;}
   wrap.innerHTML=labels.map((l,i)=>'<div class="pdx-row">'
@@ -2777,6 +2947,7 @@ function pdUndo(){
 }
 function pdRenderParts2(){
   const wrap=document.getElementById('pd-parts');if(!wrap)return;
+  if(pdMultiTexts){document.getElementById('pd-edit2-sec').style.display='none';wrap.innerHTML='';return;}
   document.getElementById('pd-edit2-sec').style.display='block';
   if(!pdPartState.length){wrap.innerHTML='<div class="pdx-empty">이 프롬프트에는 파트가 없습니다</div>';return;}
   wrap.innerHTML=pdPartState.map((st,i)=>{
@@ -3072,8 +3243,8 @@ function issToggleFilters(){
 function issTabSearchInput(){const pre=currentPromptTab==='nai'?'prompt':currentPromptTab;return document.getElementById(pre+'-search');}
 function issApplyCurrent(){if(currentPromptTab==='nai'||currentPromptTab==='ooc')applyPromptFilters(currentPromptTab);else applyDistFilters(currentPromptTab);}
 function issSearchInput(v){const inp=issTabSearchInput();if(inp)inp.value=v;issApplyCurrent();}
-function issScopeToggle(e){if(e){e.preventDefault();e.stopPropagation();}const w=document.querySelector('.isp-scope');if(w)w.classList.toggle('open');}
-function issSetScope(scope,label){issSearchScope=scope;const l=document.getElementById('isp-scope-label');if(l)l.textContent=label;const w=document.querySelector('.isp-scope');if(w)w.classList.remove('open');issApplyCurrent();}
+function issScopeToggle(e){if(e){e.preventDefault();e.stopPropagation();}const w=(e&&e.target&&e.target.closest('.isp-scope'))||document.querySelector('#iss-search-pop .isp-scope');if(w)w.classList.toggle('open');}
+function issSetScope(scope,label){issSearchScope=scope;const l=document.getElementById('isp-scope-label');if(l)l.textContent=label;const w=document.querySelector('#iss-search-pop .isp-scope');if(w)w.classList.remove('open');issApplyCurrent();}
 function issRenderSearch(){
   const tab=currentPromptTab;
   const isPrompt=(tab==='nai'||tab==='ooc');
@@ -3257,6 +3428,10 @@ async function openEditor(type,editId,distType){
     if(f.type==='markdown')return `<div class="form-group"><label class="form-label">${f.label} <span class="ai-mini-row"><button type="button" class="ai-mini-btn" onclick="aiSpell('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 맞춤법</button></span></label><div class="md-toolbar"><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','**','**')" title="Bold"><b>B</b></button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','*','*')" title="Italic"><i>I</i></button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','~~','~~')" title="Strikethrough"><s>S</s></button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','# ')" title="H1">H1</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','## ')" title="H2">H2</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','### ')" title="H3">H3</button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','- ')" title="List">☰</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','> ')" title="Quote">❝</button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','[','](url)')" title="Link">🔗</button><button class="md-toolbar-btn" type="button" onclick="mdInsertTable('ef-${f.key}')" title="Table">⊞</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','---\\n')" title="HR">―</button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn md-preview-toggle" type="button" onclick="toggleMdPreview('ef-${f.key}')">PREVIEW</button></div><textarea class="form-textarea" id="ef-${f.key}" placeholder="${f.placeholder||''}" style="min-height:200px;font-family:'Pretendard',monospace;font-size:12px;">${esc(val)}</textarea><div class="md-preview-area md-content" id="ef-${f.key}-preview"></div></div>`;
     if(f.type==='file')return `<div class="form-group"><label class="form-label">${f.label}</label><label class="form-file-label"><span>+ 이미지 추가</span><input type="file" class="form-input-file" id="ef-${f.key}" accept="image/*" onchange="previewFile(this)"></label>${existingData&&existingData[f.key]?'<img class="form-file-preview" id="ef-preview" src="'+esc(existingData[f.key])+'">':'<img class="form-file-preview" id="ef-preview" style="display:none;">'}</div>`;
     if(f.type==='multifile'){const cur=existingData?promptImages(existingData):[];return `<div class="form-group"><label class="form-label">${f.label}</label><div class="mf-hint">드래그로 순서 변경 · 맨 앞이 대표 썸네일 · 다른 이미지의 "대표로" 클릭 시 대표 지정</div><div class="mf-list" id="ef-${f.key}-list">${cur.map(u=>`<div class="mf-item" data-url="${esc(u)}" draggable="true" ondragstart="mfDragStart(event)" ondragover="mfDragOver(event)" ondragend="mfDragEnd(event)"><img src="${esc(u)}"><span class="mf-rep">대표</span><button type="button" class="mf-setrep" onclick="setRepImage(this)">대표로</button><button type="button" class="mf-del" onclick="this.parentElement.remove()">✕</button></div>`).join('')}</div><label class="form-file-label"><span>+ 이미지 추가 (여러 장 가능)</span><input type="file" class="form-input-file" id="ef-${f.key}" accept="image/*" multiple onchange="previewMultiFile(this)"></label></div>`;}
+    if(f.type==='multiprompt'){
+      const arr=(function(){const t=val;if(typeof t==='string'&&t.trim().startsWith('[')){try{const a=JSON.parse(t);if(Array.isArray(a)&&a.length)return a;}catch(e){}}return t?[t]:[''];})();
+      return `<div class="form-group" id="mp-wrap"><label class="form-label">${f.label} — 여러 개 가능 · 칸마다 개별 변수·개별 복사</label><div id="mp-list">${arr.map((tx,i)=>mpBlockHtml(i,tx)).join('')}</div><button type="button" class="form-file-label mp-add" onclick="mpAdd()"><span>+ 프롬프트 칸 추가</span></button></div>`;
+    }
     if(f.type==='prompttext')return `<div class="form-group"><label class="form-label">${f.label}</label><div class="pt-toolbar"><button type="button" class="md-toolbar-btn" onclick="wrapVar('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 변수로 지정</button><button type="button" class="md-toolbar-btn" onclick="wrapPart('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 파트로 지정</button><button type="button" class="md-toolbar-btn" onclick="aiOrganizePrompt('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> AI 태그 정리</button><span class="pt-hint">드래그 선택 → 변수(빈칸) 또는 파트(표정·옷 등 이름 붙여 통째 제거/교체)</span></div><textarea class="form-textarea" id="ef-${f.key}" placeholder="${f.placeholder||''}" style="min-height:150px;font-family:'Pretendard',monospace;font-size:12px;">${esc(val)}</textarea></div>`;
     if(f.type==='richedit')return `<div class="form-group"><label class="form-label">${f.label}</label>${reToolbarHtml()}<div class="dp-editor-scroll"><div class="dp-page" id="dp-page"><div class="re-body" id="ef-${f.key}" contenteditable="true" data-ph="${esc(f.placeholder||'')}">${val||''}</div><div class="dp-stickers" id="dp-stickers"></div></div></div><textarea class="re-source" id="re-source" spellcheck="false" style="display:none;"></textarea>${dpControlBarHtml()}</div>`;
     if(f.type==='thumbpick')return `<div class="form-group"><label class="form-label">${f.label} · 미지정 시 첫 이미지 자동</label><input type="hidden" id="ef-${f.key}" value="${esc(val)}"><div class="tp-bar"><button type="button" class="re-tb-btn" onclick="dpRefreshThumbs()">↻ 이미지 불러오기</button><span class="tp-hint">본문·스티커 이미지 중 대표 선택 · 다시 클릭 시 해제</span></div><div class="tp-grid" id="tp-grid"></div></div>`;
@@ -3283,7 +3458,7 @@ function getFieldsForType(type,distType){
     case 'assets':return [{key:'title',label:'Title',type:'text',placeholder:'에셋 이름 (선택)'},{key:'image_url',label:'Image',type:'file'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'}];
     case 'banners':return [{key:'link_url',label:'Link URL',type:'url-og',placeholder:'https://...'},{key:'title',label:'Title',type:'text',placeholder:'사이트 이름 (선택)'}];
     case 'logs':return [{key:'title',label:'Title',type:'text',placeholder:'제목'},{key:'category',label:'Category',type:'text',placeholder:'카테고리'},{key:'source',label:'Source',type:'text',placeholder:'출처 (선택)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'content',label:'Content',type:'textarea',placeholder:'로그 내용...'}];
-    case 'prompts':return [{key:'title',label:'Title',type:'text',placeholder:'프롬프트 이름 (선택)'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'설명 (복사 안 됨 · 잡담/메모용)',type:'textarea',placeholder:'복사되지 않는 설명·메모...'},{key:'prompt_text',label:'Prompt',type:'prompttext',placeholder:'프롬프트 텍스트... (텍스트 선택 후 변수 버튼 → <>로 감쌈)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'blur',label:'미리보기 이미지 가리기 (체크 시 썸네일 블러)',type:'checkbox'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
+    case 'prompts':return [{key:'title',label:'Title',type:'text',placeholder:'프롬프트 이름 (선택)'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'설명 (복사 안 됨 · 잡담/메모용)',type:'textarea',placeholder:'복사되지 않는 설명·메모...'},{key:'prompt_text',label:'Prompt',type:(editorPromptTab==='ooc'?'multiprompt':'prompttext'),placeholder:'프롬프트 텍스트... (텍스트 선택 후 변수 버튼 → <>로 감쌈)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'blur',label:'미리보기 이미지 가리기 (체크 시 썸네일 블러)',type:'checkbox'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
     case 'distributions':return [{key:'title',label:'Title',type:'text',placeholder:'이름'},{key:'category',label:'Category',type:'catselect'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'image_url',label:'Image',type:'file'},{key:'description',label:'Description',type:'textarea',placeholder:'설명...'},{key:'links',label:'Links',type:'links'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'}];
     case 'notices':return [{key:'title',label:'Title',type:'text',placeholder:'공지 제목'},{key:'content',label:'Content (Markdown)',type:'markdown',placeholder:'마크다운으로 작성...'}];
     default:return[];
@@ -3759,6 +3934,9 @@ async function saveEntry(){
         record[f.key]=!!document.getElementById('ef-'+f.key)?.checked;
       }else if(f.type==='richedit'){
         const el=document.getElementById('ef-'+f.key);record[f.key]=el?reSerialize(el):'';
+      }else if(f.type==='multiprompt'){
+        const arr=mpCollect().map(v=>v.trim()).filter(Boolean);
+        record[f.key]=arr.length>1?JSON.stringify(arr):(arr[0]||'');
       }else if(f.type==='password'){
         const v=document.getElementById('ef-'+f.key)?.value||'';if(v)record[f.key]=await hashPw(v);
       }else{
