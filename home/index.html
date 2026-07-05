@@ -2295,6 +2295,7 @@ async function loadPrompts(){
     if(res.error){const r2=await palelyDB.from('prompts').select('*').order('created_at',{ascending:false});data=r2.data;}else data=res.data;}
   if(!isAdmin)data=(data||[]).map(p=>(p.is_private&&!unlockedPrompts.has(p.id))?{...p,prompt_text:null,description:null,image_url:null,images:[]}:p);
   promptsData=data||[];
+  await loadLikes();
   await loadBoardCategories();
   promptTabData.nai=promptsData.filter(p=>(p.tab||'nai')==='nai');
   promptTabData.ooc=promptsData.filter(p=>p.tab==='ooc');
@@ -3146,9 +3147,27 @@ function issIntroPlay(page){
   }
 }
 // ── 하트 호감 카운트 (지시: 숫자만 카운트, 효과 없음 · localStorage) ──
-function pcvLikes(){try{return JSON.parse(localStorage.getItem('iss_likes')||'{}');}catch(e){return{};}}
-function pcvLikeN(id){return pcvLikes()[id]||0;}
-function pcvLike(id,btn){const m=pcvLikes();m[id]=(m[id]||0)+1;localStorage.setItem('iss_likes',JSON.stringify(m));const n=btn.querySelector('.pcv-like-n');if(n)n.textContent=m[id];btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop');}
+// 좋아요: 서버 공유 카운트 (likes 테이블 + like_up RPC) · 브라우저당 글마다 1회
+let likesMap={};
+async function loadLikes(){
+  try{
+    const{data,error}=await palelyDB.from('likes').select('id,n');
+    if(error)return;
+    likesMap={};(data||[]).forEach(r=>{likesMap[r.id]=r.n;});
+  }catch(e){}
+}
+function pcvLikeN(id){return likesMap[id]||0;}
+function pcvLike(id,btn){
+  const key='iss_liked_'+id;
+  if(localStorage.getItem(key)){showToast('이미 좋아요를 눌렀어요 ♥');return;}
+  localStorage.setItem(key,'1');
+  likesMap[id]=(likesMap[id]||0)+1;
+  if(btn){const n=btn.querySelector('.pcv-like-n');if(n)n.textContent=likesMap[id];btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop');}
+  palelyDB.rpc('like_up',{pid:String(id)}).then(({data,error})=>{
+    if(error){showToast('좋아요 저장 실패 — 서버 SQL 미설정일 수 있어요');return;}
+    if(typeof data==='number'){likesMap[id]=data;if(btn){const n2=btn.querySelector('.pcv-like-n');if(n2)n2.textContent=data;}}
+  }).catch(()=>{});
+}
 // ── 페이지네이션 (지시: 여러 페이지 시 숫자 늘어남) ──
 const ISS_PAGE_SIZE=10;
 let issPage={nai:1,ooc:1};
