@@ -629,17 +629,22 @@ html{scroll-behavior:smooth;}
 .sf-nai-btn{background:rgba(220,160,60,.25);border:1px solid rgba(220,160,60,.5);color:#ffe0a8;font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;}
 .sf-nai-btn:hover{background:rgba(220,160,60,.4);}
 /* 글 관리 (일괄 작업) */
-.mg-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 14px;padding:10px 12px;background:rgba(142,166,232,.08);border:1px solid rgba(142,166,232,.3);border-radius:8px;}
-.mg-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);color:#dfe3ef;font-size:12px;padding:6px 12px;border-radius:6px;cursor:pointer;transition:.15s;}
+.mg-bar{position:fixed;left:50%;bottom:calc(var(--player-height, 64px) + 18px);transform:translateX(-50%);z-index:600;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px;margin:0;padding:9px 16px;background:rgba(9,9,9,.95);border:1px solid rgba(255,255,255,.14);border-radius:0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 14px 44px rgba(0,0,0,.5);max-width:94vw;animation:mgBarIn .32s cubic-bezier(.25,.8,.3,1);}
+@keyframes mgBarIn{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.mg-btn{position:relative;background:none;border:none;border-radius:0;color:rgba(200,208,232,.6);font-family:var(--font-kr);font-size:11px;letter-spacing:.01em;padding:5px 9px;cursor:pointer;transition:color .3s;white-space:nowrap;}
+.mg-btn:hover{color:#fff;}
+.mg-btn::after{content:'';position:absolute;left:9px;right:calc(100% - 9px);bottom:1px;height:1px;transform:scaleY(.5);background:#fff;transition:right .4s cubic-bezier(.25,.8,.3,1);}
+.mg-btn:hover::after{right:calc(45% + 4px);}
+.mg-btn:active::after{right:9px;}
 .mg-btn:hover{background:rgba(255,255,255,.16);}
-.mg-btn.mg-danger{background:rgba(220,90,90,.15);border-color:rgba(220,90,90,.4);color:#f0a9a9;}
-.mg-btn.mg-danger:hover{background:rgba(220,90,90,.3);}
-.mg-btn.mg-exit{margin-left:auto;}
-.mg-count{font-size:12px;color:#9db4f0;min-width:64px;text-align:center;}
+.mg-btn.mg-danger{color:rgba(240,150,150,.7);}
+.mg-btn.mg-danger:hover{color:#ffa8a8;}.mg-btn.mg-danger::after{background:#ffa8a8;}
+.mg-btn.mg-exit{margin-left:8px;border-left:1px solid rgba(255,255,255,.12);padding-left:14px;color:rgba(225,230,246,.75);display:inline-flex;align-items:center;gap:6px;}
+.mg-count{font-family:var(--font-num);font-size:11px;letter-spacing:.16em;color:#eef1fa;padding:0 14px 0 4px;margin-right:8px;border-right:1px solid rgba(255,255,255,.12);white-space:nowrap;}
 .mg-mode [data-mid]{position:relative;cursor:pointer;}
-.mg-mode [data-mid]:after{content:'';position:absolute;top:8px;left:8px;width:20px;height:20px;border:2px solid #8ea6e8;border-radius:5px;background:rgba(10,12,20,.8);z-index:9;line-height:18px;text-align:center;font-size:13px;font-weight:700;color:#12151f;}
-.mg-mode [data-mid].mg-sel:after{content:'✓';background:#8ea6e8;}
-.mg-mode [data-mid].mg-sel{outline:2px solid #8ea6e8;outline-offset:-2px;}
+.mg-mode [data-mid]:after{content:'';position:absolute;top:12px;left:12px;width:9px;height:9px;border:1px solid rgba(235,240,252,.75);border-radius:0;background:rgba(9,10,16,.6);transform:rotate(45deg);z-index:9;transition:background .25s,box-shadow .25s;}
+.mg-mode [data-mid].mg-sel:after{background:#eef1fa!important;border-color:#eef1fa!important;box-shadow:0 0 8px rgba(215,225,250,.65);}
+.mg-mode [data-mid].mg-sel{outline:1px solid rgba(235,240,252,.8);outline-offset:-1px;}
 .mg-mode .card-admin-controls,.mg-mode .image-admin-controls{display:none!important;}
 /* 본문 블록 도구(정렬 + 드래그 순서이동) */
 .re-body figure.re-fig,.re-body .re-slider,.re-body .re-grid,.re-body .re-yt{position:relative;}
@@ -684,12 +689,14 @@ html{scroll-behavior:smooth;}
 body.is-admin .iss-rail .iss-admin{display:flex;}
 /* 검색·필터: 🔍 토글 */
 #prompts-content .prompt-filters{display:none;}
+#page-diary .prompt-filters{display:none;}
+.bhd-sort{margin-right:6px;}
 #prompts-content.show-filters .prompt-filters{display:block;animation:fadeIn .3s var(--ease-out);}
 /* 커버형 카드 그리드 (NovelAI·OOC) */
 #nai-grid,#ooc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:24px 20px;max-width:1190px;margin:0 auto;}
 #nai-grid .empty-state,#ooc-grid .empty-state{grid-column:1/-1;}
 #page-prompts .prompt-card.pcv{margin:0;padding:0;background:#0b0d15;border:1px solid rgba(163,172,208,.1);border-radius:0;overflow:hidden;aspect-ratio:5/9;position:relative;transition:border-color .45s var(--ease-out),box-shadow .45s var(--ease-out),transform .45s var(--ease-out);}
-#page-prompts .prompt-card.pcv:hover{border-color:rgba(235,240,252,.55);box-shadow:0 0 18px rgba(230,236,252,.28),0 0 46px rgba(190,205,240,.14);transform:translateY(-3px);}
+#page-prompts .prompt-card.pcv:hover{transform:translateY(-3px);}
 .pcv-cover{position:absolute;inset:0;}
 .pcv-img{width:100%;height:100%;object-fit:cover;object-position:left center;display:block;transition:object-position 2.2s cubic-bezier(.45,.05,.35,1);}
 #page-prompts .prompt-card.pcv:hover .pcv-img{object-position:right center;}
@@ -1131,19 +1138,30 @@ svg.pdx-spark{color:#fff;}
 @media(max-width:1100px){#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 36px)/3);}}
 @media(max-width:640px){#caveduck-grid,#utility-grid{gap:12px;padding:0 12px;}#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 12px)/2);}}
 .dist-card.dcv{margin:0;padding:0;background:#0b0d15;border:1px solid rgba(163,172,208,.1);border-radius:0;overflow:hidden;aspect-ratio:1/1;position:relative;container-type:inline-size;transition:border-color .45s var(--ease-out),box-shadow .45s var(--ease-out),transform .45s var(--ease-out);}
-.dist-card.dcv:hover{border-color:rgba(235,240,252,.55);box-shadow:0 0 18px rgba(230,236,252,.28),0 0 46px rgba(190,205,240,.14);transform:translateY(-3px);}
+.dist-card.dcv:hover{transform:translateY(-3px);}
 .dcv-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
 .dcv-noimg{display:flex;align-items:center;justify-content:center;font-size:22px;color:rgba(200,208,232,.25);background:linear-gradient(160deg,#12141f,#0a0c13);}
 .dcv-shade{position:absolute;inset:0;background:rgba(5,6,10,.6);pointer-events:none;}
 .dcv-info{position:absolute;inset:0;padding:7.7cqw 11cqw 7.9cqw;display:flex;flex-direction:column;align-items:flex-start;text-align:left;}
 .dcv-mid{margin-top:auto;margin-bottom:auto;max-width:100%;position:relative;top:4cqw;}
 .dcv-hash{font-family:var(--font-num);font-size:5.1cqw;color:rgba(225,230,246,.75);line-height:1;margin-bottom:.8cqw;}
+.dcv-lockic{display:block;width:3.6cqw;height:4.4cqw;color:rgba(225,230,246,.7);margin:.6cqw 0;}
 .dcv-num{font-family:var(--font-num);font-size:7.9cqw;font-weight:400;color:#e8ecf6;line-height:1.1;letter-spacing:.05em;}
 .dcv-title{margin-top:1.2cqw;font-family:var(--font-kr);font-size:4.7cqw;font-weight:700;color:#fff;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .dcv-tag{font-size:3.2cqw;letter-spacing:-.02em;color:rgba(200,208,232,.65);margin-top:2.2cqw;font-family:var(--font-kr);}
 .dcv-bot{width:100%;display:flex;align-items:center;justify-content:space-between;gap:2cqw;}
 .dcv-cat{font-family:var(--font-kr);font-size:3.2cqw;letter-spacing:-.02em;color:rgba(210,216,236,.65);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .dcv-ics svg{width:5.9cqw;height:5.9cqw;}
+/* 카드 호버: 외곽선이 그어지듯 회전하며 빛나는 링 */
+@property --cardAng{syntax:'<angle>';initial-value:0deg;inherits:false;}
+.prompt-card.pcv::before,.dist-card.dcv::before{content:'';position:absolute;inset:0;z-index:6;pointer-events:none;padding:1px;
+  background:conic-gradient(from var(--cardAng),transparent 0 66%,rgba(235,240,252,.55) 82%,#fff 91%,rgba(235,240,252,.55) 96%,transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;
+  filter:drop-shadow(0 0 5px rgba(240,244,255,.65));
+  opacity:0;transition:opacity .5s ease;}
+.prompt-card.pcv:hover::before,.dist-card.dcv:hover::before{opacity:1;animation:cardBorderDraw 3.4s linear infinite;}
+@keyframes cardBorderDraw{to{--cardAng:360deg;}}
 .dcv-del{position:absolute;top:7.7cqw;right:9.6cqw;background:none;border:none;cursor:pointer;color:rgba(240,244,255,.9);line-height:0;padding:.8cqw;z-index:3;transform-origin:50% 50%;transition:color .25s;}
 .dcv-del svg{width:8.7cqw;height:8.7cqw;}
 .dcv-del:hover{color:#fff;animation:issDiaSpin 2.6s linear infinite;}
@@ -1160,6 +1178,25 @@ svg.pdx-spark{color:#fff;}
 #dd-dl{display:flex;flex-direction:column;gap:22px;align-items:center;}
 .ddx-dlbtn{text-decoration:none;}
 .ddx-dlname{display:block;margin-top:6px;font-family:var(--font-kr);font-size:9.5px;letter-spacing:-.01em;color:rgba(200,208,232,.5);}
+
+/* ── ADMIN 페이지 ── */
+#page-admin .adm-wrap{max-width:660px;margin:20px auto 0;text-align:left;padding:0 20px;}
+.adm-guard{display:none;text-align:center;padding:60px 0;font-family:var(--font-kr);font-size:12px;color:rgba(200,208,232,.55);}
+body:not(.is-admin) #page-admin .adm-guard{display:block;}
+#page-admin .adm-body{display:none;}
+body.is-admin #page-admin .adm-body{display:block;}
+.adm-sec{margin-bottom:38px;}
+.adm-sec-title{font-family:var(--font-num);font-size:12px;letter-spacing:.26em;text-indent:.02em;color:rgba(232,236,248,.9);margin-bottom:4px;display:flex;align-items:center;gap:9px;}
+.adm-sec-title .pdx-dia{color:#fff;}
+.adm-sec-sub{font-family:var(--font-kr);font-size:10px;color:rgba(200,208,232,.4);letter-spacing:-.01em;margin-bottom:10px;}
+.adm-row{display:flex;align-items:center;gap:16px;padding:12px 4px;border-bottom:1px solid rgba(255,255,255,.08);font-family:var(--font-kr);font-size:12px;color:#e2e7f4;}
+.adm-row-name{flex:1;letter-spacing:-.01em;}
+.adm-row-name small{color:rgba(200,208,232,.4);font-size:10px;margin-left:7px;}
+.adm-act{position:relative;background:none;border:none;cursor:pointer;color:rgba(200,208,232,.55);font-family:var(--font-kr);font-size:11px;letter-spacing:.02em;padding:4px 2px;transition:color .3s;}
+.adm-act:hover{color:#fff;}
+.adm-act::after{content:'';position:absolute;left:0;right:100%;bottom:0;height:1px;transform:scaleY(.5);background:#fff;transition:right .45s cubic-bezier(.25,.8,.3,1);}
+.adm-act:hover::after{right:45%;}
+.adm-act:active::after{right:0;}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute;pointer-events:none;" aria-hidden="true"><defs>
@@ -1650,9 +1687,9 @@ svg.pdx-spark{color:#fff;}
 <div class="nav-fly" data-page="diary"><span class="nf-star"><svg viewBox="183 1453 21 33"><path d="M193.061 1454C193.061 1454 193.227 1465.95 193.727 1466.24C194.228 1466.53 200.071 1460.9 200.071 1460.9C200.071 1460.9 194.545 1466.76 194.756 1467.28C194.967 1467.8 202.999 1468.01 202.999 1468.01C202.999 1468.01 194.967 1468.2 194.756 1468.74C194.545 1469.28 200.071 1475.12 200.071 1475.12C200.071 1475.12 194.218 1469.56 193.727 1469.78C193.237 1469.99 193 1485 193 1485C193 1485 192.749 1470.15 192.272 1469.78C191.796 1469.4 185.929 1475.12 185.929 1475.12C185.929 1475.12 191.457 1469.37 191.244 1468.74C191.03 1468.12 183 1468.01 183 1468.01C183 1468.01 190.994 1467.9 191.244 1467.28C191.493 1466.65 185.929 1460.9 185.929 1460.9C185.929 1460.9 191.863 1466.46 192.272 1466.24C192.681 1466.03 193.06 1454 193.06 1454H193.061Z" fill="white"/></svg></span><span class="nf-label">일기장</span></div>
 <div class="nav-fly" data-page="assets"><span class="nf-star"><svg viewBox="183 1453 21 33"><path d="M193.061 1454C193.061 1454 193.227 1465.95 193.727 1466.24C194.228 1466.53 200.071 1460.9 200.071 1460.9C200.071 1460.9 194.545 1466.76 194.756 1467.28C194.967 1467.8 202.999 1468.01 202.999 1468.01C202.999 1468.01 194.967 1468.2 194.756 1468.74C194.545 1469.28 200.071 1475.12 200.071 1475.12C200.071 1475.12 194.218 1469.56 193.727 1469.78C193.237 1469.99 193 1485 193 1485C193 1485 192.749 1470.15 192.272 1469.78C191.796 1469.4 185.929 1475.12 185.929 1475.12C185.929 1475.12 191.457 1469.37 191.244 1468.74C191.03 1468.12 183 1468.01 183 1468.01C183 1468.01 190.994 1467.9 191.244 1467.28C191.493 1466.65 185.929 1460.9 185.929 1460.9C185.929 1460.9 191.863 1466.46 192.272 1466.24C192.681 1466.03 193.06 1454 193.06 1454H193.061Z" fill="white"/></svg></span><span class="nf-label">에셋백업</span></div>
 <div class="nav-fly" data-page="user"><span class="nf-star"><svg viewBox="183 1453 21 33"><path d="M193.061 1454C193.061 1454 193.227 1465.95 193.727 1466.24C194.228 1466.53 200.071 1460.9 200.071 1460.9C200.071 1460.9 194.545 1466.76 194.756 1467.28C194.967 1467.8 202.999 1468.01 202.999 1468.01C202.999 1468.01 194.967 1468.2 194.756 1468.74C194.545 1469.28 200.071 1475.12 200.071 1475.12C200.071 1475.12 194.218 1469.56 193.727 1469.78C193.237 1469.99 193 1485 193 1485C193 1485 192.749 1470.15 192.272 1469.78C191.796 1469.4 185.929 1475.12 185.929 1475.12C185.929 1475.12 191.457 1469.37 191.244 1468.74C191.03 1468.12 183 1468.01 183 1468.01C183 1468.01 190.994 1467.9 191.244 1467.28C191.493 1466.65 185.929 1460.9 185.929 1460.9C185.929 1460.9 191.863 1466.46 192.272 1466.24C192.681 1466.03 193.06 1454 193.06 1454H193.061Z" fill="white"/></svg></span><span class="nf-label">유저</span></div>
-<div class="nav-fly" data-page="banners"><span class="nf-star"><svg viewBox="183 1453 21 33"><path d="M193.061 1454C193.061 1454 193.227 1465.95 193.727 1466.24C194.228 1466.53 200.071 1460.9 200.071 1460.9C200.071 1460.9 194.545 1466.76 194.756 1467.28C194.967 1467.8 202.999 1468.01 202.999 1468.01C202.999 1468.01 194.967 1468.2 194.756 1468.74C194.545 1469.28 200.071 1475.12 200.071 1475.12C200.071 1475.12 194.218 1469.56 193.727 1469.78C193.237 1469.99 193 1485 193 1485C193 1485 192.749 1470.15 192.272 1469.78C191.796 1469.4 185.929 1475.12 185.929 1475.12C185.929 1475.12 191.457 1469.37 191.244 1468.74C191.03 1468.12 183 1468.01 183 1468.01C183 1468.01 190.994 1467.9 191.244 1467.28C191.493 1466.65 185.929 1460.9 185.929 1460.9C185.929 1460.9 191.863 1466.46 192.272 1466.24C192.681 1466.03 193.06 1454 193.06 1454H193.061Z" fill="white"/></svg></span><span class="nf-label">배너</span></div>
 <div class="nav-fly" data-page="logs"><span class="nf-star"><svg viewBox="183 1453 21 33"><path d="M193.061 1454C193.061 1454 193.227 1465.95 193.727 1466.24C194.228 1466.53 200.071 1460.9 200.071 1460.9C200.071 1460.9 194.545 1466.76 194.756 1467.28C194.967 1467.8 202.999 1468.01 202.999 1468.01C202.999 1468.01 194.967 1468.2 194.756 1468.74C194.545 1469.28 200.071 1475.12 200.071 1475.12C200.071 1475.12 194.218 1469.56 193.727 1469.78C193.237 1469.99 193 1485 193 1485C193 1485 192.749 1470.15 192.272 1469.78C191.796 1469.4 185.929 1475.12 185.929 1475.12C185.929 1475.12 191.457 1469.37 191.244 1468.74C191.03 1468.12 183 1468.01 183 1468.01C183 1468.01 190.994 1467.9 191.244 1467.28C191.493 1466.65 185.929 1460.9 185.929 1460.9C185.929 1460.9 191.863 1466.46 192.272 1466.24C192.681 1466.03 193.06 1454 193.06 1454H193.061Z" fill="white"/></svg></span><span class="nf-label">로그백업</span></div>
 <div class="nav-fly" data-page="prompts"><span class="nf-star"><svg viewBox="183 1453 21 33"><path d="M193.061 1454C193.061 1454 193.227 1465.95 193.727 1466.24C194.228 1466.53 200.071 1460.9 200.071 1460.9C200.071 1460.9 194.545 1466.76 194.756 1467.28C194.967 1467.8 202.999 1468.01 202.999 1468.01C202.999 1468.01 194.967 1468.2 194.756 1468.74C194.545 1469.28 200.071 1475.12 200.071 1475.12C200.071 1475.12 194.218 1469.56 193.727 1469.78C193.237 1469.99 193 1485 193 1485C193 1485 192.749 1470.15 192.272 1469.78C191.796 1469.4 185.929 1475.12 185.929 1475.12C185.929 1475.12 191.457 1469.37 191.244 1468.74C191.03 1468.12 183 1468.01 183 1468.01C183 1468.01 190.994 1467.9 191.244 1467.28C191.493 1466.65 185.929 1460.9 185.929 1460.9C185.929 1460.9 191.863 1466.46 192.272 1466.24C192.681 1466.03 193.06 1454 193.06 1454H193.061Z" fill="white"/></svg></span><span class="nf-label">프롬프트</span></div>
+<div class="nav-fly" data-page="banners"><span class="nf-star"><svg viewBox="183 1453 21 33"><path d="M193.061 1454C193.061 1454 193.227 1465.95 193.727 1466.24C194.228 1466.53 200.071 1460.9 200.071 1460.9C200.071 1460.9 194.545 1466.76 194.756 1467.28C194.967 1467.8 202.999 1468.01 202.999 1468.01C202.999 1468.01 194.967 1468.2 194.756 1468.74C194.545 1469.28 200.071 1475.12 200.071 1475.12C200.071 1475.12 194.218 1469.56 193.727 1469.78C193.237 1469.99 193 1485 193 1485C193 1485 192.749 1470.15 192.272 1469.78C191.796 1469.4 185.929 1475.12 185.929 1475.12C185.929 1475.12 191.457 1469.37 191.244 1468.74C191.03 1468.12 183 1468.01 183 1468.01C183 1468.01 190.994 1467.9 191.244 1467.28C191.493 1466.65 185.929 1460.9 185.929 1460.9C185.929 1460.9 191.863 1466.46 192.272 1466.24C192.681 1466.03 193.06 1454 193.06 1454H193.061Z" fill="white"/></svg></span><span class="nf-label">배너</span></div>
 <div class="nav-fly" data-page="guestbook"><span class="nf-star"><svg viewBox="183 1453 21 33"><path d="M193.061 1454C193.061 1454 193.227 1465.95 193.727 1466.24C194.228 1466.53 200.071 1460.9 200.071 1460.9C200.071 1460.9 194.545 1466.76 194.756 1467.28C194.967 1467.8 202.999 1468.01 202.999 1468.01C202.999 1468.01 194.967 1468.2 194.756 1468.74C194.545 1469.28 200.071 1475.12 200.071 1475.12C200.071 1475.12 194.218 1469.56 193.727 1469.78C193.237 1469.99 193 1485 193 1485C193 1485 192.749 1470.15 192.272 1469.78C191.796 1469.4 185.929 1475.12 185.929 1475.12C185.929 1475.12 191.457 1469.37 191.244 1468.74C191.03 1468.12 183 1468.01 183 1468.01C183 1468.01 190.994 1467.9 191.244 1467.28C191.493 1466.65 185.929 1460.9 185.929 1460.9C185.929 1460.9 191.863 1466.46 192.272 1466.24C192.681 1466.03 193.06 1454 193.06 1454H193.061Z" fill="white"/></svg></span><span class="nf-label">방명록</span></div>
 
 <!-- D-Day widget (home only) -->
@@ -1689,7 +1726,7 @@ svg.pdx-spark{color:#fff;}
   <img class="lf-heart" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAABVsFofAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAACBtJREFUeAHtW2tsU9cd/9+Hn3GcOCEPR7bJizSkobjAAEHShrSJCFubBdg0IF3Sl7oF7cPQpCZjUxkC7VFta6fRL3zYtAmNVQzaSf1AJ61dN0KrBRIS2iaE1I0dcI0fsR07fl3f2/9x3KoUY0Il26fIv8jxvef6Hp/zu+f/OL9zDEAJdDrdN4EysEAN4kAbKCKHPlBDjlyuYoAyUEOOTle0DSgDRWbFRoAyUEMOy9Ln/vIOOQ2oIUeSJOpiOTXkKJWKSnyjKmJRRI7KgG8cUAR6fI4kCUAZ8g45DeghhwEe8maVGjKZrLyyslILFIEms4oHg0ERKAJNeY7IcRxVuQ5FZsVrVqxYoQGKQA05oigp0Kzy5KSEJEHerG4DhmWgpWVTGVAEiqIVg4JX+VagCBkjp6amZmXycFmTSVEU9AaDqQKWB0av16vRgVdBBpExciwWyw3swC48lJb3PQxjscwY7/w54CoqKtRKpWyfy+W6DhlEJs0qYrfbX29qanwRj0lyl3ZqIIpx0fqx9U4+h0PCFSUlxT+2WKzHgTKJ425B5kuwfoP5jeS57HYfbG3ZEuvvf9ICaeoqKSnRbtiw/tXkecaJybRDJjIEf2FkrLuzs92NxzFIQRBmx8WoIfNKpbKaHKeohy8uLtZs3LhudGTkwndhqd0S3CMgI0j2xPf3SsnO32RiWNb20EMtUldXF7lu/sIlMjr43t7e+l27Hg8ly7I2c89WKCcjSNq8aat+YP+z88eOHVsDX+jkjRs3iolX8s57YWxs7KYo19PTs02p5KZPnXpdD0skZy1RzGaeI+zfv99lMtZ1TFweHT106NCRz9pw8eLFtXKFHLxeL1itc9XJdkkDAz/444pS7Zvbtz/WwDBMAJZIzhqynQQKQ0ND/64x1R21zVkGu7u/9R6akWl8fLxkMbQIQjxORlEdlmn37PnOuQX//EBLa/vg7t27iaPOuoyaiwxZfH5o6OdqVeEoz/Mbe779+CVBEB8gi3o4t4LL4xNrnnmmz7a4GNxSXbPqdF9f328gB8QQ5CpPYHB0FB386eDVicvjpaTA7ZoHp8sNjY31EAwEYMuWrZ4jR39VmmxjTiJT1shJRqnqyclp8yef2Is++OD9dQ6744H3/n/OzHEs6jlyzJElCIdjEEITa24yv22ds73T2rrVMzw8fOnMmTNe9DtjkB0kHsgt5GBqXoBD/PMnpVAoRL/fL49Go0pyXkDuUquZ2tra6hiCyAyhUKhKEAQFNl5ctaq2eqWxel1paSnvcDorrVZrjVwuL8NrhbFYFDsfhjj6FpZhEseo44BczgEvkyXKOJ4Fj9ubIAvNDkSUMrAYXwxU6vUQCYcXiWrI8zKO59iowWi8hm2T4XeQB8BiHcFIJBJSKhSMRqvlpq9csUei0YTJMgwrx2quYF0+URTZz9bnlUq1DP3em3i/gpzrdLrJs2fPXmU0Gs1qUoAXSAZaV1lZvg4bFdNotFBYWEAW+IVoVCjH9pBQGl+qj2XxmlrClqPUIEUjMSV+Kf6xSKac0Wq1cd+8t1mtUcsWF8MCnpdiY1VIIng88yDEYsByPNbCgNfnB6fTDs3N98Oc7RpcnbkKJmMN6PVVCaIIyssroKysDPw+vxcfng1H1jVtUfGc0+mY9fl8Nrvd9eHIyHkvtpvDlxdFs7BarWZVKhU7OjrqhZvNMg53NtPUIydTSJrVWofDUTw1NW12u526S6Pja//+6om2w4d/Ae3tHTAzMwNutwMO/uwgPPfsj14rLNJOCJH4DK9gLu3csXNepVNZIYv+J6cO+Yne3qlCrar8wIFBeOn3L0EguAAdHZ1w+vRJNDVF6OTJU2pYSvxyEq1ytYjGoh/7x/XrVvMLLxwO/vbF3w0HFxfQh0XAUGV8u+n+ZlksGi4pKFDtnZmx/AFyNJfKRZ7Dnzjxt0FRDHcdOfLLsYaG+wwsz004nU40qXl0hiX/6e/vN0xNWl7e9vDDDWbzmj/DkuSR9VGebXJkb7113vDfd/51tL2t87jZ/OCDGDn8K1caZ4iGHI1EoKBAk5AtXvvnmZ+UV5p+uHtXT199fe0A3OPkyNDPFPz1L698pCup6O7u6XkOljosYgSaJZFMU6gBr9/9cfLzwtNPP3n8f+fGa3bs2P5yfX3No5DUh+41JHxb777v+Z7q7V0Lt0oW1e3t7dLOnT1fliwIEvpP92M7Jkwm03q4xwhKmENbW+twXV0d0Yhv6RzOxnWPPvKItG/vnts53cQ9m76x/g0cZc1A2W6Mr4oEMZs3bzqJyWY5pOlUZ2fHHI4cR5q6Ei5g9X2rfo0Jnh6yQFAmfU4iy2xsbDgwO2t9KhAIeCCNUBVYCHhwChJLU18iYn04Nf18WWlpF2a/esiwk84kOZLRqO+cnLzyCq5CkA3YaRO51U1NdjK1gjvUSf7N2mx/wimJAXVlE2QQGSPHaDRWhUKx83gYhWVImzKOc8WF+HJ3sUs4DXkX332QQWTM89tstrtacPN4vQsLAf+Fu7nHS3TVDIKatXJcvXwXZYj8trdU8KCWgfJQfgtKKqD4RF1yR9OeQBdGZqo2alNDDs6t/Cif5slJBZQ3WaLz0gSKfowmIjNi/lczqeDx+C0YrAJAEWhyyPlfB6cDy+Z9TkosLbIxMqAINJkVLpEHPwKKQNPcChdCYwtAEajyOQxZEKcI9JBjIA4ZqAI9zZkD6kANObiqwCoUKqpm5tQkFsFgkOz1kfl8PmoiFlVWLorRfJ7zdQFV5AgChCCPrwc+BYgjBIdaEPl9AAAAAElFTkSuQmCC" alt="">
 </div>
 <!-- Admin (D-DAY manager): 2x2 dots at top-right, appears when logged in -->
-<div class="admin-fab" id="admin-fab" onclick="openDdayModal()" title="D-DAY 관리"><span></span><span></span><span></span><span></span></div>
+<div class="admin-fab" id="admin-fab" onclick="navigate('admin')" title="관리 페이지"><span></span><span></span><span></span><span></span></div>
 
 <!-- Boards (from base SPA), shown as center overlay on navigate -->
 <main id="main-content" class="main-content">
@@ -1698,7 +1735,7 @@ svg.pdx-spark{color:#fff;}
   <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
   <h2 class="iss-title">NOTICES</h2>
   <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
-  <div class="bhd-rail"><button class="iss-rail-btn iss-admin" title="설정 (카테고리·글 관리)" onclick="openIssSettings('notices')"><svg width="13" height="13"><use href="#iss-ic-set"/></svg></button><button class="iss-rail-btn iss-admin" title="새 공지 작성" onclick="openEditor('notices')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
+  <div class="bhd-rail"><button class="iss-rail-btn iss-admin" title="새 공지 작성" onclick="openEditor('notices')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
 </div>
   <div id="notices-list"></div>
 </section>
@@ -1707,7 +1744,7 @@ svg.pdx-spark{color:#fff;}
   <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
   <h2 class="iss-title">DIARY</h2>
   <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
-  <div class="bhd-rail"><button class="iss-rail-btn iss-admin" title="설정 (카테고리·글 관리)" onclick="openIssSettings('diary')"><svg width="13" height="13"><use href="#iss-ic-set"/></svg></button><span class="bsp-anchor" id="bsp-diary"><button class="iss-rail-btn" title="검색·필터" onclick="bspToggle('diary')"><svg width="13" height="13"><use href="#iss-ic-search"/></svg></button><div class="iss-search-pop" id="bsp-pop-diary"><button class="isp-close" title="닫기" onclick="bspToggle('diary')"><svg width="12" height="12"><use href="#iss-ic-x"/></svg></button><div class="isp-title">SEARCH</div><div class="isp-inputrow"><svg class="isp-mag" width="13" height="13"><use href="#iss-ic-mag"/></svg><input id="bsp-input-diary" placeholder="검색 단어를 입력하세요." oninput="bspInput('diary',this.value)" autocomplete="off"><div class="isp-scope"><button class="isp-scope-btn" type="button" onclick="bspScopeToggle(event,'diary')"><span id="bsp-scope-label-diary">제목+내용</span><svg width="9" height="9"><use href="#iss-ic-dia2"/></svg></button><div class="isp-scope-menu"><button type="button" onclick="bspSetScope('diary','title','제목만')">제목만</button><button type="button" onclick="bspSetScope('diary','body','본문 내용')">본문 내용</button><button type="button" onclick="bspSetScope('diary','both','제목+내용')">제목+내용</button></div></div></div><div class="isp-label">Category</div><div class="isp-cats" id="bsp-cats-diary"></div><div class="isp-label">TAG</div><div class="isp-tags" id="bsp-tags-diary"></div></div></span><button class="iss-rail-btn iss-admin" title="새 일기 작성" onclick="openEditor('diary')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
+  <div class="bhd-rail"><button class="iss-sort-btn bhd-sort" title="정렬 (최신순/오래된순)" onclick="diarySortFlip(this)"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg><span>NEWEST</span></button><span class="bsp-anchor" id="bsp-diary"><button class="iss-rail-btn" title="검색·필터" onclick="bspToggle('diary')"><svg width="13" height="13"><use href="#iss-ic-search"/></svg></button><div class="iss-search-pop" id="bsp-pop-diary"><button class="isp-close" title="닫기" onclick="bspToggle('diary')"><svg width="12" height="12"><use href="#iss-ic-x"/></svg></button><div class="isp-title">SEARCH</div><div class="isp-inputrow"><svg class="isp-mag" width="13" height="13"><use href="#iss-ic-mag"/></svg><input id="bsp-input-diary" placeholder="검색 단어를 입력하세요." oninput="bspInput('diary',this.value)" autocomplete="off"><div class="isp-scope"><button class="isp-scope-btn" type="button" onclick="bspScopeToggle(event,'diary')"><span id="bsp-scope-label-diary">제목+내용</span><svg width="9" height="9"><use href="#iss-ic-dia2"/></svg></button><div class="isp-scope-menu"><button type="button" onclick="bspSetScope('diary','title','제목만')">제목만</button><button type="button" onclick="bspSetScope('diary','body','본문 내용')">본문 내용</button><button type="button" onclick="bspSetScope('diary','both','제목+내용')">제목+내용</button></div></div></div><div class="isp-label">Category</div><div class="isp-cats" id="bsp-cats-diary"></div><div class="isp-label">TAG</div><div class="isp-tags" id="bsp-tags-diary"></div></div></span><button class="iss-rail-btn iss-admin" title="새 일기 작성" onclick="openEditor('diary')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
 </div>
   <div class="prompt-filters">
     <div class="pf-row">
@@ -1725,7 +1762,7 @@ svg.pdx-spark{color:#fff;}
   <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
   <h2 class="iss-title">ASSETS</h2>
   <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
-  <div class="bhd-rail"><button class="iss-rail-btn iss-admin" title="설정 (카테고리·글 관리)" onclick="openIssSettings('assets')"><svg width="13" height="13"><use href="#iss-ic-set"/></svg></button><span class="bsp-anchor" id="bsp-assets"><button class="iss-rail-btn" title="검색·필터" onclick="bspToggle('assets')"><svg width="13" height="13"><use href="#iss-ic-search"/></svg></button><div class="iss-search-pop" id="bsp-pop-assets"><button class="isp-close" title="닫기" onclick="bspToggle('assets')"><svg width="12" height="12"><use href="#iss-ic-x"/></svg></button><div class="isp-title">SEARCH</div><div class="isp-inputrow"><svg class="isp-mag" width="13" height="13"><use href="#iss-ic-mag"/></svg><input id="bsp-input-assets" placeholder="검색 단어를 입력하세요." oninput="bspInput('assets',this.value)" autocomplete="off"><div class="isp-scope"><button class="isp-scope-btn" type="button" onclick="bspScopeToggle(event,'assets')"><span id="bsp-scope-label-assets">제목+태그</span><svg width="9" height="9"><use href="#iss-ic-dia2"/></svg></button><div class="isp-scope-menu"><button type="button" onclick="bspSetScope('assets','title','제목만')">제목만</button><button type="button" onclick="bspSetScope('assets','body','태그만')">태그만</button><button type="button" onclick="bspSetScope('assets','both','제목+태그')">제목+태그</button></div></div></div><div class="isp-label">Category</div><div class="isp-cats" id="bsp-cats-assets"></div><div class="isp-label">TAG</div><div class="isp-tags" id="bsp-tags-assets"></div></div></span><button class="iss-rail-btn iss-admin" title="에셋 업로드" onclick="openEditor('assets')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
+  <div class="bhd-rail"><span class="bsp-anchor" id="bsp-assets"><button class="iss-rail-btn" title="검색·필터" onclick="bspToggle('assets')"><svg width="13" height="13"><use href="#iss-ic-search"/></svg></button><div class="iss-search-pop" id="bsp-pop-assets"><button class="isp-close" title="닫기" onclick="bspToggle('assets')"><svg width="12" height="12"><use href="#iss-ic-x"/></svg></button><div class="isp-title">SEARCH</div><div class="isp-inputrow"><svg class="isp-mag" width="13" height="13"><use href="#iss-ic-mag"/></svg><input id="bsp-input-assets" placeholder="검색 단어를 입력하세요." oninput="bspInput('assets',this.value)" autocomplete="off"><div class="isp-scope"><button class="isp-scope-btn" type="button" onclick="bspScopeToggle(event,'assets')"><span id="bsp-scope-label-assets">제목+태그</span><svg width="9" height="9"><use href="#iss-ic-dia2"/></svg></button><div class="isp-scope-menu"><button type="button" onclick="bspSetScope('assets','title','제목만')">제목만</button><button type="button" onclick="bspSetScope('assets','body','태그만')">태그만</button><button type="button" onclick="bspSetScope('assets','both','제목+태그')">제목+태그</button></div></div></div><div class="isp-label">Category</div><div class="isp-cats" id="bsp-cats-assets"></div><div class="isp-label">TAG</div><div class="isp-tags" id="bsp-tags-assets"></div></div></span><button class="iss-rail-btn iss-admin" title="에셋 업로드" onclick="openEditor('assets')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
 </div>
   <div class="image-grid" id="assets-grid"></div>
 </section>
@@ -1734,7 +1771,7 @@ svg.pdx-spark{color:#fff;}
   <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
   <h2 class="iss-title">BANNERS</h2>
   <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
-  <div class="bhd-rail"><button class="iss-rail-btn iss-admin" title="설정 (카테고리·글 관리)" onclick="openIssSettings('banners')"><svg width="13" height="13"><use href="#iss-ic-set"/></svg></button><button class="iss-rail-btn iss-admin" title="배너 링크 추가" onclick="openEditor('banners')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
+  <div class="bhd-rail"><button class="iss-rail-btn iss-admin" title="배너 링크 추가" onclick="openEditor('banners')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
 </div>
   <div class="banner-grid" id="banners-grid"></div>
 </section>
@@ -1743,7 +1780,7 @@ svg.pdx-spark{color:#fff;}
   <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
   <h2 class="iss-title">LOGS</h2>
   <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
-  <div class="bhd-rail"><button class="iss-rail-btn iss-admin" title="설정 (카테고리·글 관리)" onclick="openIssSettings('logs')"><svg width="13" height="13"><use href="#iss-ic-set"/></svg></button><span class="bsp-anchor" id="bsp-logs"><button class="iss-rail-btn" title="검색·필터" onclick="bspToggle('logs')"><svg width="13" height="13"><use href="#iss-ic-search"/></svg></button><div class="iss-search-pop" id="bsp-pop-logs"><button class="isp-close" title="닫기" onclick="bspToggle('logs')"><svg width="12" height="12"><use href="#iss-ic-x"/></svg></button><div class="isp-title">SEARCH</div><div class="isp-inputrow"><svg class="isp-mag" width="13" height="13"><use href="#iss-ic-mag"/></svg><input id="bsp-input-logs" placeholder="검색 단어를 입력하세요." oninput="bspInput('logs',this.value)" autocomplete="off"><div class="isp-scope"><button class="isp-scope-btn" type="button" onclick="bspScopeToggle(event,'logs')"><span id="bsp-scope-label-logs">제목+내용</span><svg width="9" height="9"><use href="#iss-ic-dia2"/></svg></button><div class="isp-scope-menu"><button type="button" onclick="bspSetScope('logs','title','제목만')">제목만</button><button type="button" onclick="bspSetScope('logs','body','본문 내용')">본문 내용</button><button type="button" onclick="bspSetScope('logs','both','제목+내용')">제목+내용</button></div></div></div><div class="isp-label">Category</div><div class="isp-cats" id="bsp-cats-logs"></div><div class="isp-label">TAG</div><div class="isp-tags" id="bsp-tags-logs"></div></div></span><button class="iss-rail-btn iss-admin" title="새 로그 작성" onclick="openEditor('logs')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
+  <div class="bhd-rail"><span class="bsp-anchor" id="bsp-logs"><button class="iss-rail-btn" title="검색·필터" onclick="bspToggle('logs')"><svg width="13" height="13"><use href="#iss-ic-search"/></svg></button><div class="iss-search-pop" id="bsp-pop-logs"><button class="isp-close" title="닫기" onclick="bspToggle('logs')"><svg width="12" height="12"><use href="#iss-ic-x"/></svg></button><div class="isp-title">SEARCH</div><div class="isp-inputrow"><svg class="isp-mag" width="13" height="13"><use href="#iss-ic-mag"/></svg><input id="bsp-input-logs" placeholder="검색 단어를 입력하세요." oninput="bspInput('logs',this.value)" autocomplete="off"><div class="isp-scope"><button class="isp-scope-btn" type="button" onclick="bspScopeToggle(event,'logs')"><span id="bsp-scope-label-logs">제목+내용</span><svg width="9" height="9"><use href="#iss-ic-dia2"/></svg></button><div class="isp-scope-menu"><button type="button" onclick="bspSetScope('logs','title','제목만')">제목만</button><button type="button" onclick="bspSetScope('logs','body','본문 내용')">본문 내용</button><button type="button" onclick="bspSetScope('logs','both','제목+내용')">제목+내용</button></div></div></div><div class="isp-label">Category</div><div class="isp-cats" id="bsp-cats-logs"></div><div class="isp-label">TAG</div><div class="isp-tags" id="bsp-tags-logs"></div></div></span><button class="iss-rail-btn iss-admin" title="새 로그 작성" onclick="openEditor('logs')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
 </div>
   <div class="category-filter" id="logs-categories"></div>
   <div class="board-grid" id="logs-grid"></div>
@@ -1779,7 +1816,7 @@ svg.pdx-spark{color:#fff;}
     <div class="iss-sortline"><div class="iss-sort" id="iss-sort">
       <button class="iss-sort-btn" onclick="issSortFlip(this)"><svg class="iss-sort-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg><span id="iss-sort-label" style="display:inline-block;">NEWEST</span></button>
     </div><div class="iss-rail">
-      <button class="iss-rail-btn iss-admin" title="설정 (카테고리·글 관리·비밀번호)" onclick="openIssSettings()"><svg width="13" height="13"><use href="#iss-ic-set"/></svg></button>
+      
       <button class="iss-rail-btn" title="검색·필터" onclick="issToggleFilters()"><svg width="13" height="13"><use href="#iss-ic-search"/></svg></button>
       <button class="iss-rail-btn iss-admin" title="새 글 작성" onclick="openPromptAdd()"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button>
     </div><div class="iss-search-pop" id="iss-search-pop">
@@ -1861,6 +1898,41 @@ svg.pdx-spark{color:#fff;}
   <div id="guestbook-list"></div>
 </section>
 <section class="page-section" id="page-user"><div class="section-header"><div><h2 class="section-title">User</h2><p class="section-subtitle">유저 · 임시(프롬프트 배포 활용)</p></div><button class="add-btn" onclick="openEditor('distributions','')">+ 추가</button></div><div class="dist-grid" id="user-grid"></div></section>
+<section class="page-section" id="page-admin">
+  <div class="iss-head bhd">
+    <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
+    <h2 class="iss-title">ADMIN</h2>
+    <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
+  </div>
+  <div class="adm-wrap">
+    <div class="adm-guard">관리자 로그인이 필요합니다.</div>
+    <div class="adm-body">
+      <div class="adm-sec">
+        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>게시판 관리</div>
+        <div class="adm-sec-sub">카테고리 추가·삭제 및 글 관리 모드(일괄 삭제·수정·비공개·잠금)</div>
+        <div class="adm-row"><span class="adm-row-name">Issuance · NovelAI<small>프롬프트</small></span><button class="adm-act" onclick="openCatManage('prompts')">카테고리 관리</button><button class="adm-act" onclick="adminManage('prompts','nai')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Issuance · OOC</span><button class="adm-act" onclick="openCatManage('ooc')">카테고리 관리</button><button class="adm-act" onclick="adminManage('prompts','ooc')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Issuance · CaveDuck<small>배포</small></span><button class="adm-act" onclick="openCatManage('caveduck')">카테고리 관리</button><button class="adm-act" onclick="adminManage('prompts','caveduck')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Issuance · Utility<small>배포</small></span><button class="adm-act" onclick="openCatManage('utility')">카테고리 관리</button><button class="adm-act" onclick="adminManage('prompts','utility')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Diary<small>일기장</small></span><button class="adm-act" onclick="openCatManage('diary')">카테고리 관리</button><button class="adm-act" onclick="adminManage('diary')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Notices<small>공지사항</small></span><button class="adm-act" onclick="adminManage('notices')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Assets<small>에셋 백업</small></span><button class="adm-act" onclick="adminManage('assets')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Banners<small>배너 아카이브</small></span><button class="adm-act" onclick="adminManage('banners')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Logs<small>로그 백업</small></span><button class="adm-act" onclick="adminManage('logs')">글 관리</button></div>
+      </div>
+      <div class="adm-sec">
+        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>보안</div>
+        <div class="adm-row"><span class="adm-row-name">Issuance 게시판 비밀번호<small>게시판 전체 잠금·해제</small></span><button class="adm-act" onclick="openPromptPwSetting()">설정</button></div>
+      </div>
+      <div class="adm-sec">
+        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>AI</div>
+        <div class="adm-row"><span class="adm-row-name">Gemini API 키<small>맞춤법·태그 정리·로그 정리·요약 연결</small></span><button class="adm-act" onclick="aiSetKey()">등록 / 변경</button></div>
+        <div class="adm-row"><span class="adm-row-name">AI 규칙 편집<small>기능별 지시문 직접 작성</small></span><button class="adm-act" onclick="aiRuleOpen()">열기</button></div>
+      </div>
+      <div class="adm-sec">
+        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>위젯</div>
+        <div class="adm-row"><span class="adm-row-name">D-day<small>홈 위젯 항목 추가·삭제</small></span><button class="adm-act" onclick="openDdayModal()">관리</button></div>
+      </div>
+      <div class="adm-sec">
+        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>계정</div>
+        <div class="adm-row"><span class="adm-row-name"><span id="adm-account">로그인됨</span></span><button class="adm-act" onclick="doLogout();navigate('home')">로그아웃</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="detail-view" id="detail-view">
   <button class="detail-back" onclick="closeDetail()">← BACK</button>
   <button class="detail-back" id="detail-share" onclick="sharePost()" style="margin-left:18px;">🔗 링크 공유</button>
@@ -2176,7 +2248,8 @@ function navigate(page){
   else{document.body.classList.add('board-open');if(mc){mc.scrollTop=0;}
     const t=document.getElementById('page-'+page);if(t){t.classList.add('active');t.style.animation='none';t.offsetHeight;t.style.animation='';}
     if(page==='prompts'&&typeof checkPromptsLock==='function')checkPromptsLock();
-    if(typeof issIntroPlay==='function')issIntroPlay(page);}
+    if(typeof issIntroPlay==='function')issIntroPlay(page);
+    if(page==='admin'){const a=document.getElementById('adm-account');if(a)a.textContent=(typeof currentUser!=='undefined'&&currentUser&&currentUser.email)||'로그인됨';}}
   window.location.hash=page;previousPage=page;
 }
 window.addEventListener('hashchange',()=>{routeHash(window.location.hash.slice(1)||'home');});
@@ -2279,6 +2352,13 @@ function bspRender(b){
   }
   const inp=document.getElementById('bsp-input-'+b);
   if(inp)inp.value=(b==='diary'?(document.getElementById('diary-search')?.value||''):st.q)||'';
+}
+function diarySortFlip(btn){
+  const sel=document.getElementById('diary-sort');if(!sel)return;
+  sel.value=sel.value==='new'?'old':'new';
+  const l=btn&&btn.querySelector('span');if(l)l.textContent=sel.value==='old'?'OLDEST':'NEWEST';
+  if(typeof issFlipMove==='function')issFlipMove(['diary-grid'],()=>applyDiaryFilters());
+  else applyDiaryFilters();
 }
 function applyDiaryFilters(){
   const q=(document.getElementById('diary-search')?.value||'').trim().toLowerCase();
@@ -3108,8 +3188,13 @@ function copyDetailPrompt(btn){
 
 // ── Distributions (CaveDuck / Utility) ──
 let distData={caveduck:[],utility:[]}, distFilter={caveduck:{cat:'',tags:new Set()},utility:{cat:'',tags:new Set()}};
+const unlockedDists=new Set();
 async function loadDistributions(){
-  const{data}=await palelyDB.from('distributions').select('*').order('created_at',{ascending:false});
+  let data;
+  if(isAdmin){({data}=await palelyDB.from('distributions').select('*').order('created_at',{ascending:false}));}
+  else{const res=await palelyDB.from('distributions_list').select('*').order('created_at',{ascending:false});
+    if(res.error){const r2=await palelyDB.from('distributions').select('*').order('created_at',{ascending:false});data=r2.data;}else data=res.data;}
+  if(!isAdmin)data=(data||[]).map(d=>(d.is_private&&!unlockedDists.has(d.id))?{...d,description:null,images:[],image_url:null,files:[],links:[]}:d);
   await loadBoardCategories();
   const all=data||[];
   distData.caveduck=all.filter(d=>d.type==='caveduck');
@@ -3160,6 +3245,7 @@ function renderDistCard(d,idx){
     <div class="dcv-info">
       <div class="dcv-mid">
         <div class="dcv-hash">#</div>
+        ${d.is_private?'<svg class="dcv-lockic" width="9" height="11"><use href="#iss-ic-lock"/></svg>':''}
         <div class="dcv-num">${num}</div>
         <div class="dcv-title">${esc(d.title||'무제')}</div>
         ${tag?`<div class="dcv-tag">${esc(tag)}</div>`:''}
@@ -3205,8 +3291,22 @@ function ddBodyHtml(text){
   });
   flush();return out.join('');
 }
+async function openPrivateDist(id){
+  const pw=await askModal('PRIVATE','비밀글입니다 — 비밀번호를 입력하세요','password');if(pw===null||pw==='')return;
+  let hash;try{hash=await hashPw(pw);}catch(e){return;}
+  try{
+    const{data,error}=await palelyDB.rpc('unlock_distribution',{pid:String(id),pwhash:hash});
+    if(error){showToast('열기 실패 — 비밀글 SQL 미설정일 수 있어요');return;}
+    const row=Array.isArray(data)?data[0]:data;
+    if(!row){showToast('비밀번호가 일치하지 않습니다');return;}
+    unlockedDists.add(id);
+    ['caveduck','utility'].forEach(tab=>{const a=distData[tab]||[];const j=a.findIndex(x=>x.id===id);if(j>-1){a[j]=row;applyDistFilters(tab);}});
+    openDistDetail(id);
+  }catch(e){showToast('열기 실패');}
+}
 function openDistDetail(id){
   const d=distData.caveduck.concat(distData.utility).find(x=>x.id===id);if(!d)return;
+  if(d.is_private&&!isAdmin&&!unlockedDists.has(d.id)){openPrivateDist(id);return;}
   if(!consentOK(d.warn)){pendingConsent=()=>openDistDetail(id);showConsent();return;}
   curPopup={type:d.type,id:d.id};
   ddImgs=promptImages(d);ddImgIdx=0;
@@ -3343,6 +3443,11 @@ const ISS_PAGE_SIZE=10;
 let issPage={nai:1,ooc:1,caveduck:1,utility:1};
 const DIST_PAGE_SIZE=12;
 function issPagerClick(e){const d=e.target.closest('.iss-pager');if(!d)return;const b=e.target.closest('button');if(!b)return;issGoPage(d.getAttribute('data-tb'),parseInt(b.textContent));}
+function adminManage(page,tab){
+  navigate(page);
+  if(tab&&typeof switchPromptTab==='function')switchPromptTab(tab);
+  setTimeout(()=>toggleManage(tab||page),80);
+}
 function issGoPage(tab,n){
   if(issPage[tab]===n)return;
   issPage[tab]=n;
@@ -3556,6 +3661,22 @@ function askModal(title,desc,type){
 }
 function askModalOk(){const v=document.getElementById('ask-modal-input').value;document.getElementById('ask-modal').classList.remove('active');const r=askModalResolve;askModalResolve=null;if(r)r(v);}
 function askModalCancel(){document.getElementById('ask-modal').classList.remove('active');const r=askModalResolve;askModalResolve=null;if(r)r(null);}
+// 에디터 더티 체크: 열림 시점 스냅샷과 비교
+let editorSnap='';
+function editorStateStr(){
+  const m=document.getElementById('editor-modal');if(!m)return'';
+  const parts=[];
+  m.querySelectorAll('input,textarea,select').forEach(el=>{
+    if(el.type==='checkbox'||el.type==='radio')parts.push(el.checked?'1':'0');
+    else if(el.type==='file')parts.push(String((el.files&&el.files.length)||0));
+    else parts.push(el.value||'');
+  });
+  m.querySelectorAll('[contenteditable]').forEach(el=>parts.push(el.innerHTML||''));
+  parts.push(String(m.querySelectorAll('.mf-item').length));
+  parts.push(String(m.querySelectorAll('.dl-file-row').length));
+  parts.push(String(m.querySelectorAll('.mp-block').length));
+  return parts.join('');
+}
 // ── 모달 배경클릭 공통 처리: 입력 중인 내용이 있으면 확인 후 닫기 ──
 const BG_CLOSE_IDS=['dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal'];
 function modalHasInput(ov){
@@ -3567,6 +3688,10 @@ document.addEventListener('click',e=>{
   if(!(ov.classList&&ov.classList.contains('modal-overlay'))||!ov.classList.contains('active'))return;
   if(!BG_CLOSE_IDS.includes(ov.id))return;
   if(ov.id==='adult-consent-modal'){declineConsent();return;}
+  if(ov.id==='editor-modal'){
+    if(editorStateStr()!==editorSnap&&!confirm('수정된 내용이 있습니다. 저장하지 않고 닫으시겠습니까?'))return;
+    ov.classList.remove('active');return;
+  }
   if(modalHasInput(ov)&&!confirm('입력 중인 내용이 있습니다. 정말 창을 닫으시겠습니까?'))return;
   if(ov.id==='ask-modal'){askModalCancel();return;}
   ov.classList.remove('active');
@@ -3648,6 +3773,7 @@ async function openEditor(type,editId,distType){
   const _mbox=document.querySelector('#editor-modal .modal-box');if(_mbox)_mbox.classList.toggle('editor-wide',currentEditorType==='diary');
   document.getElementById('editor-modal').classList.add('active');
   document.getElementById('editor-modal').scrollTop=0;
+  setTimeout(()=>{editorSnap=editorStateStr();},120);
 }
 
 function getFieldsForType(type,distType){
@@ -3657,7 +3783,7 @@ function getFieldsForType(type,distType){
     case 'banners':return [{key:'link_url',label:'Link URL',type:'url-og',placeholder:'https://...'},{key:'title',label:'Title',type:'text',placeholder:'사이트 이름 (선택)'}];
     case 'logs':return [{key:'title',label:'Title',type:'text',placeholder:'제목'},{key:'category',label:'Category',type:'text',placeholder:'카테고리'},{key:'source',label:'Source',type:'text',placeholder:'출처 (선택)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'content',label:'Content',type:'textarea',placeholder:'로그 내용...'}];
     case 'prompts':return [{key:'title',label:'Title',type:'text',placeholder:'프롬프트 이름 (선택)'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'설명 (복사 안 됨 · 잡담/메모용)',type:'textarea',placeholder:'복사되지 않는 설명·메모...'},{key:'prompt_text',label:'Prompt',type:(editorPromptTab==='ooc'?'multiprompt':'prompttext'),placeholder:'프롬프트 텍스트... (텍스트 선택 후 변수 버튼 → <>로 감쌈)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'blur',label:'미리보기 이미지 가리기 (체크 시 썸네일 블러)',type:'checkbox'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
-    case 'distributions':return [{key:'title',label:'Title',type:'text',placeholder:'이름'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'본문 (사담 · 설명 · 인용구)',type:'textarea',placeholder:'사담, 설명, 인용구…  (줄 선택 후 ◆ 인용구 버튼으로 인용 표시)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'files',label:'다운로드 — 첨부 파일 & 외부 링크',type:'dlfiles'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'}];
+    case 'distributions':return [{key:'title',label:'Title',type:'text',placeholder:'이름'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'본문 (사담 · 설명 · 인용구)',type:'textarea',placeholder:'사담, 설명, 인용구…  (줄 선택 후 ◆ 인용구 버튼으로 인용 표시)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'files',label:'다운로드 — 첨부 파일 & 외부 링크',type:'dlfiles'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
     case 'notices':return [{key:'title',label:'Title',type:'text',placeholder:'공지 제목'},{key:'content',label:'Content (Markdown)',type:'markdown',placeholder:'마크다운으로 작성...'}];
     default:return[];
   }
@@ -4204,7 +4330,7 @@ const MG={
   logs:{grid:'logs-grid',table:'logs',edit:'logs',reload:loadLogs,ops:['del','edit']},
   notices:{grid:'notices-list',table:'notices',edit:'notices',reload:loadNotices,ops:['del','edit']}
 };
-const MG_BTN={del:'🗑 선택 삭제',edit:'✎ 선택 수정',private:'🔒 일괄 비공개(비번)',public:'🔓 일괄 공개',blurOn:'🌫 블러 켜기',blurOff:'블러 끄기',warnOn:'🔞 경고 켜기',warnOff:'경고 끄기'};
+const MG_BTN={del:'선택 삭제',edit:'선택 수정',private:'일괄 비공개',public:'일괄 공개',blurOn:'블러 켜기',blurOff:'블러 끄기',warnOn:'경고 켜기',warnOff:'경고 끄기'};
 let mgMode={},mgSel={};
 function mgGrid(key){return document.getElementById(MG[key].grid);}
 function toggleManage(key){
@@ -4215,11 +4341,11 @@ function toggleManage(key){
   let bar=document.getElementById('mg-bar-'+key);
   if(on){
     if(!bar){bar=document.createElement('div');bar.id='mg-bar-'+key;bar.className='mg-bar';g.parentElement.insertBefore(bar,g);}
-    bar.innerHTML='<button class="mg-btn" onclick="mgSelectAll(\''+key+'\',true)">전체선택</button>'
+    bar.innerHTML='<span class="mg-count" id="mg-count-'+key+'">00 선택</span>'
+      +'<button class="mg-btn" onclick="mgSelectAll(\''+key+'\',true)">전체선택</button>'
       +'<button class="mg-btn" onclick="mgSelectAll(\''+key+'\',false)">해제</button>'
-      +'<span class="mg-count" id="mg-count-'+key+'">0개 선택</span>'
       +MG[key].ops.map(op=>'<button class="mg-btn'+(op==='del'?' mg-danger':'')+'" onclick="mgOp(\''+key+'\',\''+op+'\')">'+MG_BTN[op]+'</button>').join('')
-      +'<button class="mg-btn mg-exit" onclick="toggleManage(\''+key+'\')">✕ 관리 종료</button>';
+      +'<button class="mg-btn mg-exit" onclick="toggleManage(\''+key+'\')"><svg width="9" height="9"><use href="#iss-ic-x"/></svg>관리 종료</button>';
     bar.style.display='flex';
     if(!g._mgClick){g._mgClick=true;g.addEventListener('click',e=>mgGridClick(key,e),true);}
     if(!g._mgObs){g._mgObs=new MutationObserver(()=>{if(mgMode[key])mgApplySel(key);});g._mgObs.observe(g,{childList:true});}
@@ -4242,7 +4368,7 @@ function mgApplySel(key){
   const g=mgGrid(key);if(!g)return;
   const sel=mgSel[key]||new Set();
   g.querySelectorAll('[data-mid]').forEach(c=>c.classList.toggle('mg-sel',mgMode[key]&&sel.has(c.getAttribute('data-mid'))));
-  const cnt=document.getElementById('mg-count-'+key);if(cnt)cnt.textContent=sel.size+'개 선택';
+  const cnt=document.getElementById('mg-count-'+key);if(cnt)cnt.textContent=String(sel.size).padStart(2,'0')+' 선택';
 }
 function mgSelectAll(key,on){
   const g=mgGrid(key);if(!g)return;mgSel[key]=new Set();
@@ -4259,7 +4385,7 @@ async function mgOp(key,op){
       const{error}=await palelyDB.from(cfg.table).delete().in('id',ids);if(error)throw error;
       showToast(ids.length+'개 삭제됨');
     }else if(op==='private'){
-      const pw=prompt('일괄 비공개 — 이 글들에 걸 비밀번호:');if(!pw)return;
+      const pw=await askModal('PRIVATE','일괄 비공개 — 이 글들에 걸 비밀번호를 입력하세요','password');if(!pw)return;
       const hash=await hashPw(pw);
       const{error}=await palelyDB.from(cfg.table).update({is_private:true,secret:hash}).in('id',ids);if(error)throw error;
       showToast(ids.length+'개 비공개 설정됨');
