@@ -497,7 +497,7 @@ body.board-open .main-content{opacity:1;transform:none;pointer-events:auto}
 .re-body:empty:before,.re-body:has(>br:only-child):before{content:attr(data-ph);color:#7d84a0;pointer-events:none;}
 .re-body:focus{border-color:rgba(240,246,255,.35);}
 .re-body img,.diary-rich img{max-width:100%;height:auto;border-radius:8px;display:inline-block;vertical-align:middle;}
-.re-body img.re-sel{outline:1px solid rgba(240,244,252,.5);outline-offset:2px;}
+.re-body img.re-sel{outline:1px solid rgba(240,244,252,.28);outline-offset:3px;}
 .re-body blockquote,.diary-rich blockquote{margin:10px 0;padding:8px 14px;border-left:2px solid rgba(216,224,244,.45);background:rgba(255,255,255,.04);color:#c2c8dc;border-radius:0 6px 6px 0;}
 .re-body h2,.diary-rich h2{font-size:20px;margin:14px 0 8px;color:#f0f2fa;}
 .re-body h3,.diary-rich h3{font-size:16px;margin:12px 0 6px;color:#e8ebf5;}
@@ -518,13 +518,12 @@ body.board-open .main-content{opacity:1;transform:none;pointer-events:auto}
 /* 이미지 캡션 */
 .re-body figure.re-fig,.diary-rich figure.re-fig{display:block;max-width:100%;margin:8px 0;text-align:center;}
 .re-fig>img,.diary-rich figure.re-fig>img{display:inline-block;width:auto;max-width:100%;border-radius:8px;margin:0;}
-.re-fig.re-sel{outline:1px solid rgba(240,244,252,.5);outline-offset:2px;border-radius:8px;}
+.re-fig.re-sel{outline:1px solid rgba(240,244,252,.28);outline-offset:3px;}
 figcaption.re-cap,.diary-rich figcaption{font-size:12px;color:#aab0c8;text-align:center;padding:5px 6px 2px;line-height:1.5;outline:none;}
 figcaption.re-cap:empty:before{content:attr(data-ph);color:#6b7290;}
 /* 슬라이드·그리드 블록 — 에디터에서도 게시글과 동일 위치 표시 */
 .re-body .re-slider,.re-body .re-grid{position:relative;display:block;margin:10px 0;text-align:center;}
-.re-body figure.re-fig:hover,.re-body .re-slider:hover,.re-body .re-grid:hover,.re-body .re-yt:hover{outline:1px dashed rgba(255,255,255,.2);outline-offset:4px;border-radius:6px;}
-.re-block-badge{position:absolute;top:8px;left:8px;z-index:3;background:rgba(0,0,0,.72);color:#fff;font-size:11px;padding:3px 8px;border-radius:4px;pointer-events:none;}
+.re-block-badge{position:absolute;top:8px;left:8px;z-index:3;background:rgba(9,9,9,.88);border:1px solid rgba(255,255,255,.12);color:rgba(230,235,248,.85);font-size:11px;padding:3px 8px;border-radius:0;pointer-events:none;}
 .dm-wrap{margin:12px 0;text-align:center;}
 .diary-media{display:inline-block;text-align:left;vertical-align:top;margin:0;max-width:100%;}
 /* 슬라이드 위젯 */
@@ -549,7 +548,7 @@ figcaption.re-cap:empty:before{content:attr(data-ph);color:#6b7290;}
 .dp-shape-circle img{clip-path:circle(50% at 50% 50%);}
 .dp-shape-heart img{clip-path:url(#dp-heart);}
 .dp-shape-star img{clip-path:url(#dp-star);}
-.dp-sticker.sel{outline:1px dashed rgba(235,240,252,.7);outline-offset:2px;}
+.dp-sticker.sel{outline:1px solid rgba(235,240,252,.3);outline-offset:3px;}
 .dp-handle{position:absolute;right:-7px;bottom:-7px;width:11px;height:11px;border-radius:0;background:rgba(232,236,246,.92);border:1px solid rgba(9,9,9,.55);cursor:nwse-resize;display:none;pointer-events:auto;box-shadow:0 1px 3px rgba(0,0,0,.55);}
 .dp-sticker.sel .dp-handle{display:block;}
 .dp-sticker-bar{display:none;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px;padding:8px 10px;background:rgba(9,9,9,.55);border:1px solid rgba(255,255,255,.1);border-radius:0;font-size:12px;color:#c2c8dc;}
@@ -1282,7 +1281,7 @@ body.is-admin #page-admin .adm-body{display:block;}
 .stk-panelmock i:nth-child(5){width:82%;}
 .stk-layer{position:absolute;top:0;bottom:0;left:0;width:50%;overflow:visible;}
 .stk-i{position:absolute;cursor:grab;user-select:none;-webkit-user-drag:none;}
-.stk-i.sel{outline:1px dashed rgba(235,240,252,.8);outline-offset:2px;}
+.stk-i.sel{outline:1px solid rgba(235,240,252,.35);outline-offset:3px;}
 .stk-ctrl{display:flex;flex-direction:column;gap:9px;margin-bottom:14px;transition:opacity .25s;}
 .stk-sliders{display:flex;gap:14px;}
 .stk-sliders label{flex:1;display:flex;align-items:center;gap:8px;font-family:var(--font-kr);font-size:10px;color:rgba(210,216,236,.65);white-space:nowrap;}
