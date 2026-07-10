@@ -122,8 +122,27 @@ body.is-admin .card-admin-controls{display:flex}
 .image-grid-item img.blurred{filter:blur(14px);transform:scale(1.06);}
 .ast-lock{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:rgba(226,232,248,.75);background:linear-gradient(160deg,#141416,#0a0a0c);}
 .ast-lock small{font-family:var(--font-kr);font-size:10px;letter-spacing:.08em;color:rgba(200,208,232,.45);}
-.ast-count{position:absolute;right:7px;bottom:7px;z-index:2;font-family:var(--font-num);font-size:9px;letter-spacing:.08em;color:rgba(230,236,250,.85);background:rgba(9,9,9,.72);border:1px solid rgba(255,255,255,.14);padding:2px 6px;pointer-events:none;}
+.ast-count{position:absolute;right:9px;bottom:7px;z-index:2;font-family:var(--font-num);font-size:9px;letter-spacing:.1em;color:rgba(236,241,252,.9);text-shadow:0 1px 6px rgba(0,0,0,.85);pointer-events:none;}
 .ast-lockic{position:absolute;left:8px;top:8px;z-index:2;color:rgba(230,236,250,.8);pointer-events:none;}
+#assets-grid .card-ctrl-btn{background:none;border:none;width:auto;height:auto;padding:3px;line-height:0;color:rgba(240,243,252,.8);text-shadow:0 1px 6px rgba(0,0,0,.8);filter:drop-shadow(0 1px 3px rgba(0,0,0,.7));}
+#assets-grid .card-ctrl-btn:hover{color:#fff;border:none;}
+#assets-grid .card-ctrl-btn.delete:hover{color:var(--danger);border:none;}
+.ast-wrap{position:relative;max-width:1080px;margin:0 auto;}
+#assets-grid{display:flex;align-items:stretch;gap:0;width:100%;position:relative;overflow:hidden;}
+.ast-col{flex:1 1 0;display:flex;flex-direction:column;min-width:0;height:var(--asth,auto);}
+.ast-tabword{position:absolute;right:-0.06em;top:-0.12em;z-index:3;pointer-events:none;font-family:'Playfair Display SC','Bodoni Moda','Pretendard Variable',serif;font-size:clamp(56px,8.6vw,120px);line-height:1;letter-spacing:.02em;color:#fff;opacity:0;transform:translateY(-16px);animation:astWord 1.3s cubic-bezier(.2,.7,.2,1) .55s forwards;text-shadow:0 2px 26px rgba(0,0,0,.4);}
+@keyframes astWord{to{opacity:.94;transform:translateY(0);}}
+#assets-grid .image-grid-item{display:block;flex:1000 1 0px;min-height:0;height:auto;min-width:0;margin:0;opacity:0;transform:translateY(22px) scale(.985);filter:blur(8px);transition:opacity .9s cubic-bezier(.22,.7,.2,1),transform .9s cubic-bezier(.22,.7,.2,1),filter .9s cubic-bezier(.22,.7,.2,1),border-color .4s;}
+#assets-grid .image-grid-item:hover{z-index:2;}
+#assets-grid .image-grid-item.ast-in{opacity:1;transform:translate(0,0) scale(1);filter:blur(0px);}
+#assets-grid .image-grid-item img{display:block;width:100%;height:100%;object-fit:cover;transition:opacity .55s ease,transform 1.6s cubic-bezier(.2,.7,.2,1),filter .65s ease;}
+#assets-grid:hover .image-grid-item:not(:hover) img:not(.blurred){filter:blur(5px) brightness(.6);opacity:.85;}
+#assets-grid .image-grid-item:hover img:not(.blurred){transform:scale(1.07);opacity:1;}
+#assets-grid .image-grid-item:not(.ast-lockitem)::after{content:'';position:absolute;inset:8px;--cc:rgba(255,255,255,.85);--cs:13px;--ct:1.5px;background:linear-gradient(var(--cc),var(--cc)) 0 0/var(--cs) var(--ct) no-repeat,linear-gradient(var(--cc),var(--cc)) 0 0/var(--ct) var(--cs) no-repeat,linear-gradient(var(--cc),var(--cc)) 100% 0/var(--cs) var(--ct) no-repeat,linear-gradient(var(--cc),var(--cc)) 100% 0/var(--ct) var(--cs) no-repeat,linear-gradient(var(--cc),var(--cc)) 0 100%/var(--cs) var(--ct) no-repeat,linear-gradient(var(--cc),var(--cc)) 0 100%/var(--ct) var(--cs) no-repeat,linear-gradient(var(--cc),var(--cc)) 100% 100%/var(--cs) var(--ct) no-repeat,linear-gradient(var(--cc),var(--cc)) 100% 100%/var(--ct) var(--cs) no-repeat;opacity:0;transition:opacity .5s ease;pointer-events:none;z-index:2;}
+#assets-grid .image-grid-item:not(.ast-lockitem):hover::after{opacity:1;}
+.ast-cap{position:absolute;left:0;right:0;bottom:0;padding:30px 11px 9px;background:linear-gradient(180deg,transparent,rgba(5,6,10,.8));font-family:var(--font-kr);font-size:10.5px;letter-spacing:.08em;color:rgba(232,237,250,.92);opacity:0;transition:opacity .5s ease;pointer-events:none;z-index:2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#assets-grid .image-grid-item:hover .ast-cap{opacity:1;}
+#assets-grid .image-grid-item.ast-lockitem{aspect-ratio:auto;}
 #image-viewer-modal .pdx-nav{position:fixed;top:50%;transform:translateY(-50%);}
 #image-viewer-modal .pdx-nav.prev{left:26px;}#image-viewer-modal .pdx-nav.next{right:26px;}
 #image-viewer-modal .pdx-dots{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);}
@@ -1525,6 +1544,9 @@ body.is-admin #page-admin .adm-body{display:block;}
 .gbx-ctoggle:hover{color:rgba(224,230,246,.9);}
 .gbx-comments{grid-column:1/-1;margin-top:16px;padding-top:14px;border-top:1px dashed rgba(255,255,255,.09);}
 .gbc-note,.gbc-loading{font-size:11px;color:rgba(180,190,220,.5);padding:4px 0;}
+.gbc-cnt{font-family:var(--font-num);font-size:10px;letter-spacing:.08em;color:rgba(236,241,252,.85);margin-left:2px;}
+.gbc-openform{background:none;border:none;padding:8px 0 2px;font-family:var(--font-kr);font-size:11px;letter-spacing:.06em;color:rgba(200,208,232,.5);cursor:pointer;transition:color .25s;}
+.gbc-openform:hover{color:#fff;}
 .gbc-item{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);}
 .gbc-meta{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
 .gbc-nick{font-size:12px;font-weight:600;color:rgba(230,235,248,.9);}
@@ -2225,10 +2247,10 @@ body.is-admin #page-admin .adm-body{display:block;}
   <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
   <h2 class="iss-title">ASSETS</h2>
   <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
-  <div class="bhd-rail"><span class="bsp-anchor" id="bsp-assets"><button class="iss-rail-btn" title="검색·필터" onclick="bspToggle('assets')"><svg width="13" height="13"><use href="#iss-ic-search"/></svg></button><div class="iss-search-pop" id="bsp-pop-assets"><button class="isp-close" title="닫기" onclick="bspToggle('assets')"><svg width="12" height="12"><use href="#iss-ic-x"/></svg></button><div class="isp-title">SEARCH</div><div class="isp-inputrow"><svg class="isp-mag" width="13" height="13"><use href="#iss-ic-mag"/></svg><input id="bsp-input-assets" placeholder="검색 단어를 입력하세요." oninput="bspInput('assets',this.value)" autocomplete="off"><div class="isp-scope"><button class="isp-scope-btn" type="button" onclick="bspScopeToggle(event,'assets')"><span id="bsp-scope-label-assets">제목+태그</span><svg width="9" height="9"><use href="#iss-ic-dia2"/></svg></button><div class="isp-scope-menu"><button type="button" onclick="bspSetScope('assets','title','제목만')">제목만</button><button type="button" onclick="bspSetScope('assets','body','태그만')">태그만</button><button type="button" onclick="bspSetScope('assets','both','제목+태그')">제목+태그</button></div></div></div><div class="isp-label">Category</div><div class="isp-cats" id="bsp-cats-assets"></div><div class="isp-label">TAG</div><div class="isp-tags" id="bsp-tags-assets"></div></div></span><button class="iss-rail-btn iss-admin" title="에셋 업로드" onclick="openEditor('assets')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
+  <div class="bhd-rail"><button class="iss-sort-btn bhd-sort" title="정렬 (최신순/오래된순)" onclick="assetsSortFlip(this)"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg><span>NEWEST</span></button><span class="bsp-anchor" id="bsp-assets"><button class="iss-rail-btn" title="검색·필터" onclick="bspToggle('assets')"><svg width="13" height="13"><use href="#iss-ic-search"/></svg></button><div class="iss-search-pop" id="bsp-pop-assets"><button class="isp-close" title="닫기" onclick="bspToggle('assets')"><svg width="12" height="12"><use href="#iss-ic-x"/></svg></button><div class="isp-title">SEARCH</div><div class="isp-inputrow"><svg class="isp-mag" width="13" height="13"><use href="#iss-ic-mag"/></svg><input id="bsp-input-assets" placeholder="검색 단어를 입력하세요." oninput="bspInput('assets',this.value)" autocomplete="off"><div class="isp-scope"><button class="isp-scope-btn" type="button" onclick="bspScopeToggle(event,'assets')"><span id="bsp-scope-label-assets">제목+태그</span><svg width="9" height="9"><use href="#iss-ic-dia2"/></svg></button><div class="isp-scope-menu"><button type="button" onclick="bspSetScope('assets','title','제목만')">제목만</button><button type="button" onclick="bspSetScope('assets','body','태그만')">태그만</button><button type="button" onclick="bspSetScope('assets','both','제목+태그')">제목+태그</button></div></div></div><div class="isp-label">Category</div><div class="isp-cats" id="bsp-cats-assets"></div><div class="isp-label">TAG</div><div class="isp-tags" id="bsp-tags-assets"></div></div></span><button class="iss-rail-btn iss-admin" title="에셋 업로드" onclick="openEditor('assets')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
 </div>
   <div class="tab-bar" id="assets-tabbar"></div>
-  <div class="image-grid" id="assets-grid"></div>
+  <div class="ast-wrap" id="ast-wrap"><div class="image-grid" id="assets-grid"></div></div>
 </section>
 <section class="page-section" id="page-banners">
   <div class="iss-head bhd">
@@ -2489,6 +2511,7 @@ body.is-admin #page-admin .adm-body{display:block;}
     <div class="form-actions">
       <button class="btn-primary" id="editor-save-btn" onclick="saveEntry()">SAVE</button>
       <button class="btn-secondary" onclick="closeModal('editor-modal')">CANCEL</button>
+      <button class="btn-secondary" id="editor-nai-btn" title="이 글의 모든 이미지에서 NAI 메타데이터 감지·제거" onclick="naiPurgeAll()">NAI 일괄 제거</button>
       <button class="btn-danger" id="editor-delete-btn" onclick="deleteEntry()" style="display:none;margin-left:auto;">DELETE</button>
     </div>
   </div>
@@ -3238,7 +3261,34 @@ function applyDiaryFilters(){
 }
 
 // ── Assets ──
-const unlockedAssets=new Set();
+const unlockedAssets=new Set();let assetsSort='new';
+function assetsSortFlip(btn){assetsSort=assetsSort==='new'?'old':'new';const l=btn&&btn.querySelector('span');if(l)l.textContent=assetsSort==='old'?'OLDEST':'NEWEST';astSortSwap(renderAssets);}
+function astSortSwap(rerender){
+  const g=document.getElementById('assets-grid');
+  if(!g||!g.querySelector('.image-grid-item')){rerender();return;}
+  const old={};
+  g.querySelectorAll('.image-grid-item').forEach(el=>{old[el.dataset.mid]=el.getBoundingClientRect();});
+  window._astQuick=true;
+  rerender();
+  const arr=[...g.querySelectorAll('.image-grid-item')]
+    .map(el=>({el,n:el.getBoundingClientRect(),o:old[el.dataset.mid]}))
+    .filter(x=>x.o&&x.n.width>0);
+  arr.sort((a,b)=>(a.n.top-b.n.top)||(a.n.left-b.n.left));
+  arr.forEach((x,i)=>{
+    const dx=x.o.left-x.n.left,dy=x.o.top-x.n.top;
+    if(Math.abs(dx)<1&&Math.abs(dy)<1)return;
+    x.el.style.zIndex='3';
+    const dist=Math.hypot(dx,dy);
+    const dur=Math.round(Math.min(1400,820+dist*0.5));
+    try{
+      const an=x.el.animate([
+        {transform:'translate('+dx.toFixed(1)+'px,'+dy.toFixed(1)+'px)'},
+        {transform:'none'}
+      ],{duration:dur,easing:'cubic-bezier(.32,.72,.12,1)'});
+      an.onfinish=()=>{x.el.style.zIndex='';};
+    }catch(e){x.el.style.zIndex='';}
+  });
+}
 async function loadAssets(){
   await loadAssetsTabs();
   let data;
@@ -3261,25 +3311,124 @@ function renderAssets(){
     return bspHit(st,(a.title||'').toLowerCase(),(Array.isArray(a.tags)?a.tags.join(' '):'').toLowerCase());
   });
   if(!list.length){g.innerHTML='<div class="empty-state"><p class="empty-state-text">검색 결과가 없습니다</p></div>';return;}
-  g.innerHTML=list.map(a=>{
+  const _sorted=list.slice().sort((a,b)=>assetsSort==='old'?new Date(a.created_at)-new Date(b.created_at):new Date(b.created_at)-new Date(a.created_at));
+  const _astHtml=_sorted.map(a=>{
     const imgs=promptImages(a);
     const locked=a.is_private&&!isAdmin&&!unlockedAssets.has(a.id);
     const admin='<div class="image-admin-controls" onclick="event.stopPropagation()"><button class="card-ctrl-btn" title="수정" onclick="openEditor(\'assets\',\''+a.id+'\')"><svg width="12" height="12"><use href="#iss-ic-edit"/></svg></button><button class="card-ctrl-btn delete" title="삭제" onclick="confirmDelete(\'assets\',\''+a.id+'\')">✕</button></div>';
-    if(locked)return '<div class="image-grid-item" data-mid="'+a.id+'" onclick="openPrivateAsset(\''+a.id+'\')">'+admin+'<div class="ast-lock"><svg width="16" height="19"><use href="#iss-ic-lock"/></svg><small>'+esc(a.title||'PRIVATE')+' · 클릭해 비밀번호 입력</small></div></div>';
+    if(locked)return '<div class="image-grid-item ast-lockitem" data-mid="'+a.id+'" onclick="openPrivateAsset(\''+a.id+'\')">'+admin+'<div class="ast-lock"><svg width="16" height="19"><use href="#iss-ic-lock"/></svg><small>'+esc(a.title||'PRIVATE')+' · 클릭해 비밀번호 입력</small></div></div>';
     const thumb=imgs[0]||'';
-    return '<div class="image-grid-item" data-mid="'+a.id+'" onclick="assetOpen(\''+a.id+'\')">'+admin
+    return '<div class="image-grid-item'+(thumb?'':' ast-lockitem')+'" data-mid="'+a.id+'" onclick="assetOpen(\''+a.id+'\')">'+admin
       +(a.is_private?'<svg class="ast-lockic" width="11" height="13"><use href="#iss-ic-lock"/></svg>':'')
-      +(thumb?'<img src="'+esc(thumb)+'" alt="'+esc(a.title||'')+'" class="'+(a.blur?'blurred':'')+'" loading="lazy" draggable="false">':'<div class="ast-lock"><small>이미지 없음</small></div>')
+      +(thumb?'<img src="'+esc(thumb)+'" alt="'+esc(a.title||'')+'" class="'+(a.blur?'blurred':'')+'" loading="lazy" draggable="false" onload="astAr(this)">':'<div class="ast-lock"><small>이미지 없음</small></div>')
       +(imgs.length>1?'<span class="ast-count">'+imgs.length+'</span>':'')
+      +(a.title?'<div class="ast-cap">'+esc(a.title)+'</div>':'')
       +'</div>';
   }).join('');
+  const _tmp=document.createElement('div');_tmp.innerHTML=_astHtml;
+  const _nodes=[..._tmp.children];
+  g.innerHTML='<span class="ast-tabword" aria-hidden="true">'+esc(((assetsTabs.find(t=>t.k===(currentAssetsTab||firstKey))||assetsTabs[0]||{}).label)||'ASSETS')+'</span>';
+  astLayout(g,_nodes);
+  astReveal();
+}
+function astLayout(g,nodes){
+  const ncol=window.innerWidth<640?2:3;
+  const cols=[],sums=[];
+  for(let i=0;i<ncol;i++){const c=document.createElement('div');c.className='ast-col';g.appendChild(c);cols.push(c);sums.push(0);}
+  nodes.forEach(n=>{
+    const ar=Math.max(.35,Math.min(3,parseFloat(n.dataset.ar||'1')));
+    const h=1/ar;
+    let k=0;for(let i=1;i<ncol;i++)if(sums[i]<sums[k])k=i;
+    sums[k]+=h;n.dataset.h=h.toFixed(4);
+    n.style.flexGrow=Math.round(h*1000);n.style.flexBasis='0px';
+    cols[k].appendChild(n);
+  });
+  const H=Math.max.apply(null,sums.concat([0.5]));
+  const colW=((g.clientWidth&&g.clientWidth>120)?g.clientWidth:1080)/ncol;
+  g.style.setProperty('--asth',Math.round(H*colW)+'px');
+}
+if(!window._astRz){window._astRz=1;window.addEventListener('resize',function(){clearTimeout(window._astRelayT);window._astRelayT=setTimeout(function(){if(typeof astRelayout==='function')astRelayout();},200);});}
+function astRelayout(){
+  const g=document.getElementById('assets-grid');if(!g)return;
+  const nodes=[...g.querySelectorAll('.image-grid-item')];if(!nodes.length)return;
+  g.querySelectorAll('.ast-col').forEach(c=>c.remove());
+  astLayout(g,nodes);
+}
+function astAr(im){
+  const it=im&&im.parentElement;if(!it)return;
+  const ar=Math.max(.35,Math.min(3,(im.naturalWidth||1)/Math.max(1,im.naturalHeight||1)));
+  if(it.dataset.ar===ar.toFixed(3))return;
+  it.dataset.ar=ar.toFixed(3);
+  clearTimeout(window._astRelayT);window._astRelayT=setTimeout(astRelayout,160);
+}
+function astReveal(){
+  const g=document.getElementById('assets-grid');if(!g)return;
+  const items=[...g.querySelectorAll('.image-grid-item')];if(!items.length)return;
+  if(window._astQuick){
+    window._astQuick=false;
+    items.forEach(el=>{el.style.transition='none';el.classList.add('ast-in');});
+    void g.offsetWidth;
+    setTimeout(()=>items.forEach(el=>{el.style.transition='';}),80);
+    return;
+  }
+  setTimeout(()=>{
+    if(window._astIO)window._astIO.disconnect();
+    let seq=0;
+    window._astIO=new IntersectionObserver(es=>{
+      es.forEach(e=>{
+        if(!e.isIntersecting)return;
+        const el=e.target;
+        el.style.transitionDelay=Math.min(seq*70,560)+'ms';seq++;
+        el.classList.add('ast-in');
+        window._astIO.unobserve(el);
+        setTimeout(()=>{seq=Math.max(0,seq-1);el.style.transitionDelay='0ms';},900);
+      });
+    },{threshold:.1,rootMargin:'0px 0px -5% 0px'});
+    items.forEach(el=>window._astIO.observe(el));
+    setTimeout(()=>{
+      const any=g.querySelector('.image-grid-item.ast-in');
+      items.forEach((el,i)=>{
+        if(el.classList.contains('ast-in'))return;
+        const r=el.getBoundingClientRect();
+        const inView=r.width>0&&r.bottom>0&&r.top<window.innerHeight+40;
+        if(inView||!any){el.style.transitionDelay=Math.min((i%10)*80,640)+'ms';el.classList.add('ast-in');}
+      });
+    },1400);
+  },0);
 }
 function assetOpen(id){
   const a=assetsAllData.find(x=>x.id===id);if(!a)return;
   if(a.is_private&&!isAdmin&&!unlockedAssets.has(a.id)){openPrivateAsset(id);return;}
   if(!consentOK(a.warn)){pendingConsent=()=>assetOpen(id);showConsent();return;}
   const imgs=promptImages(a);
-  if(imgs.length)viewImages(imgs,0);
+  if(!imgs.length)return;
+  const tile=document.querySelector('#assets-grid [data-mid="'+id+'"] img');
+  if(tile&&!a.blur&&tile.complete&&tile.naturalWidth)astFlyOpen(tile,imgs);
+  else viewImages(imgs,0);
+}
+function astFlyOpen(tile,imgs){
+  const r=tile.getBoundingClientRect();
+  viewImages(imgs,0);
+  const vi=document.getElementById('image-viewer-img');
+  const nw=tile.naturalWidth,nh=tile.naturalHeight;
+  const maxW=window.innerWidth*.9,maxH=window.innerHeight*.9;
+  const sc=Math.min(maxW/nw,maxH/nh);
+  const tw=nw*sc,th=nh*sc;
+  const tl=(window.innerWidth-tw)/2,tt=(window.innerHeight-th)/2;
+  if(!r.width||!tw){return;}
+  vi.style.opacity='0';
+  const fly=document.createElement('img');fly.src=tile.getAttribute('src');fly.className='ast-fly';
+  fly.style.cssText='position:fixed;left:'+tl.toFixed(1)+'px;top:'+tt.toFixed(1)+'px;width:'+tw.toFixed(1)+'px;height:'+th.toFixed(1)+'px;object-fit:cover;z-index:3500;pointer-events:none;transform-origin:0 0;';
+  document.body.appendChild(fly);
+  const dx=r.left-tl,dy=r.top-tt,sx=r.width/tw,sy=r.height/th;
+  const done=()=>{vi.style.opacity='';fly.remove();};
+  try{
+    const an=fly.animate([
+      {transform:'translate('+dx.toFixed(1)+'px,'+dy.toFixed(1)+'px) scale('+sx.toFixed(3)+','+sy.toFixed(3)+')'},
+      {transform:'none'}
+    ],{duration:640,easing:'cubic-bezier(.25,.8,.2,1)'});
+    an.onfinish=done;setTimeout(()=>{if(fly.parentNode)done();},1100);
+  }catch(e){done();}
 }
 async function openPrivateAsset(id){
   const pw=await askModal('PRIVATE','비밀글입니다 — 비밀번호를 입력하세요','password');if(pw===null||pw==='')return;
@@ -4985,11 +5134,32 @@ function gbRender(){
     return `<div class="gbx-entry">
       <span class="gbx-num">#${num}</span>
       <div class="gbx-av gbx-av-entry${hasImg?' gbx-av-photo':''}">${av}<span class="gbx-av-glow"></span><svg class="gbx-av-draw" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" pathLength="100"/></svg><svg class="gbx-av-star"><use href="#iss-ic-gbstar"/></svg></div>
-      <div class="gbx-body"><div class="gbx-head"><span class="gbx-name">${esc(e.nickname)}</span><span class="gbx-date">${fmtDate(e.created_at)}</span></div>${gbContentHtml(e)}<button class="gbx-ctoggle" onclick="gbcToggle('${e.id}')">코멘트 ＋</button></div>
+      <div class="gbx-body"><div class="gbx-head"><span class="gbx-name">${esc(e.nickname)}</span><span class="gbx-date">${fmtDate(e.created_at)}</span></div>${gbContentHtml(e)}<button class="gbx-ctoggle" data-eid="${e.id}" onclick="gbcToggle('${e.id}')">코멘트 ＋</button></div>
       <button class="gbx-del" title="삭제" onclick="openGbDelete('${e.id}')"><svg width="16" height="16"><use href="#iss-ic-x"/></svg></button><div class="gbx-comments" id="gbc-${e.id}" hidden></div>
     </div>`;
   }).join('');
   if(pager){let pg='';for(let p=1;p<=pages;p++)pg+=`<button class="gbx-pg${p===gbPage?' on':''}" onclick="gbGoPage(${p})">${p}</button>`;pager.innerHTML=pages>1?pg:'';}
+  gbcDecorate(slice.map(e=>e.id));
+}
+async function gbcCounts(ids){
+  if(!ids.length)return{};
+  try{
+    const src=isAdmin?'guestbook_comments':'guestbook_comments_list';
+    const{data,error}=await palelyDB.from(src).select('entry_id').in('entry_id',ids);
+    if(error)throw error;
+    const m={};(data||[]).forEach(r=>{m[r.entry_id]=(m[r.entry_id]||0)+1;});
+    return m;
+  }catch(e){return{};}
+}
+async function gbcDecorate(ids){
+  const m=await gbcCounts(ids);
+  ids.forEach(id=>{
+    const n=m[id]||0;
+    const btn=document.querySelector('.gbx-ctoggle[data-eid="'+id+'"]');
+    if(btn)btn.innerHTML=n?('코멘트 <span class="gbc-cnt">'+String(n).padStart(2,'0')+'</span>'):'코멘트 ＋';
+    if(n){const box=document.getElementById('gbc-'+id);
+      if(box&&box.hidden){box.hidden=false;box.innerHTML='<div class="gbc-loading">불러오는 중…</div>';gbcLoad(id).then(rows=>gbcRender(id,rows,false));}}
+  });
 }
 function gbGoPage(p){gbPage=p;gbRender();const el=document.getElementById('page-guestbook');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
 async function gbcToggle(entryId){
@@ -5002,7 +5172,7 @@ async function gbcLoad(entryId){
   if(isAdmin){try{const{data,error}=await palelyDB.from('guestbook_comments').select('*').eq('entry_id',entryId).order('created_at',{ascending:true});if(!error)return data||[];}catch(e){}}
   try{const{data,error}=await palelyDB.from('guestbook_comments_list').select('*').eq('entry_id',entryId).order('created_at',{ascending:true});if(error)throw error;return data||[];}catch(e){return null;}
 }
-function gbcRender(entryId,rows){
+function gbcRender(entryId,rows,formOpen){
   const box=document.getElementById('gbc-'+entryId);if(!box)return;
   let list='';
   if(rows===null){list='<div class="gbc-note">코멘트 기능은 관리자 SQL 설정 후 활성화됩니다.</div>';}
@@ -5013,7 +5183,10 @@ function gbcRender(entryId,rows){
     const del=isAdmin?'<button class="gbc-del" onclick="gbcDelete(\''+c.id+'\',\''+entryId+'\')">✕</button>':'';
     return '<div class="gbc-item" data-cid="'+c.id+'"><div class="gbc-meta"><span class="gbc-nick">'+esc(c.nickname)+'</span><span class="gbc-date">'+fmtDate(c.created_at)+'</span>'+del+'</div><div class="gbc-body">'+body+'</div></div>';
   }).join('');}
-  box.innerHTML=list+'<div class="gbc-form"><input class="gbc-inp gbc-nick-in" id="gbc-nick-'+entryId+'" placeholder="닉네임" maxlength="20"><input class="gbc-inp gbc-msg-in" id="gbc-msg-'+entryId+'" placeholder="코멘트를 남겨주세요" maxlength="300"><label class="form-check gbc-secret"><input type="checkbox" id="gbc-sec-'+entryId+'"><span>비밀</span></label><input class="gbc-inp gbc-pw-in" id="gbc-pw-'+entryId+'" type="password" placeholder="비밀 시 비번" maxlength="30"><button class="gbc-submit" onclick="gbcSubmit(\''+entryId+'\')"><svg width="15" height="15"><use href="#iss-ic-pen"/></svg></button></div>';
+  const formHtml='<div class="gbc-form"><input class="gbc-inp gbc-nick-in" id="gbc-nick-'+entryId+'" placeholder="닉네임" maxlength="20"><input class="gbc-inp gbc-msg-in" id="gbc-msg-'+entryId+'" placeholder="코멘트를 남겨주세요" maxlength="300"><label class="form-check gbc-secret"><input type="checkbox" id="gbc-sec-'+entryId+'"><span>비밀</span></label><input class="gbc-inp gbc-pw-in" id="gbc-pw-'+entryId+'" type="password" placeholder="비밀 시 비번" maxlength="30"><button class="gbc-submit" onclick="gbcSubmit(\''+entryId+'\')"><svg width="15" height="15"><use href="#iss-ic-pen"/></svg></button></div>';
+  box.innerHTML=list+(formOpen===false
+    ?'<button class="gbc-openform" onclick="this.nextElementSibling.hidden=false;this.remove()">코멘트 쓰기 ＋</button><div class="gbc-formwrap" hidden>'+formHtml+'</div>'
+    :formHtml);
 }
 async function gbcSubmit(entryId){
   const nick=(document.getElementById('gbc-nick-'+entryId).value||'').trim();
@@ -5027,7 +5200,7 @@ async function gbcSubmit(entryId){
   try{const{error}=await palelyDB.from('guestbook_comments').insert(row);if(error)throw error;}
   catch(e){showToast('등록 실패 — guestbook_comments 테이블 SQL이 필요해요');return;}
   showToast('코멘트 등록됨');
-  const rows=await gbcLoad(entryId);gbcRender(entryId,rows);
+  const rows=await gbcLoad(entryId);gbcRender(entryId,rows);gbcDecorate([entryId]);
 }
 async function gbcUnlock(cid,btn){
   const pw=await askModal('비밀 코멘트 열람','작성 시 입력한 비밀번호','password');
@@ -5553,6 +5726,44 @@ function reInsertHTML(html){const b=reBody();if(!b)return;b.focus();reRestoreSel
 function attrEsc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;');}
 function figHtml(url){return '<figure class="re-fig re-al-center" data-align="center" contenteditable="false"><img class="re-img" src="'+url+'"><figcaption class="re-cap" contenteditable="true" data-ph="이미지 설명 (선택)"></figcaption></figure><p><br></p>';}
 // NAI 메타데이터 감지 → 감지 시 제거 여부 확인 (기존 detectNAI/stripImageMeta 재사용)
+async function naiPurgeAll(){
+  const modal=document.getElementById('editor-modal');
+  if(!modal.classList.contains('active')){showToast('에디터가 열려있지 않습니다');return;}
+  const btn=document.getElementById('editor-nai-btn');if(btn){btn.disabled=true;btn.textContent='검사 중…';}
+  let scanned=0,cleaned=0,failed=0;
+  try{
+    for(const inp of modal.querySelectorAll('input.form-input-file:not([multiple])')){
+      const f0=sfCleanMap[inp.id]||(inp.files&&inp.files[0]);
+      if(!f0)continue;scanned++;
+      try{const det=await detectNAI(f0);if(det.found){sfCleanMap[inp.id]=await stripImageMeta(f0);delete sfNaiFlag[inp.id];const w=document.getElementById(inp.id+'-naiwarn');if(w){w.classList.add('ok');w.innerHTML='✓ NAI 메타데이터 제거됨';}const p=document.getElementById('ef-preview');if(p&&p.src)p.src=URL.createObjectURL(sfCleanMap[inp.id]);cleaned++;}}catch(e){failed++;}
+    }
+    for(const it of modal.querySelectorAll('.mf-item[data-tmp]')){
+      const f=mfFileMap[it.dataset.tmp];if(!f)continue;scanned++;
+      try{const det=await detectNAI(f);if(det.found){const c=await stripImageMeta(f);mfFileMap[it.dataset.tmp]=c;const im=it.querySelector('img');if(im)im.src=URL.createObjectURL(c);it.classList.remove('mf-nai');const wn=it.querySelector('.mf-naiwarn');if(wn)wn.remove();cleaned++;}}catch(e){failed++;}
+    }
+    const urlJobs=[];
+    modal.querySelectorAll('.mf-item[data-url]').forEach(it=>urlJobs.push({kind:'mf',el:it,url:it.dataset.url}));
+    modal.querySelectorAll('.re-body img').forEach(im=>{const u=im.getAttribute('src')||'';if(/^https?:\/\//i.test(u))urlJobs.push({kind:'re',el:im,url:u});});
+    for(let i=0;i<urlJobs.length;i++){
+      const j=urlJobs[i];scanned++;
+      if(btn)btn.textContent='검사 중… '+(i+1)+'/'+urlJobs.length;
+      try{
+        const res=await fetch(j.url);if(!res.ok)throw 0;
+        const blob=await res.blob();
+        const file=new File([blob],'img.png',{type:blob.type||'image/png'});
+        const det=await detectNAI(file);
+        if(det.found){
+          const c=await stripImageMeta(file);
+          const nu=await uploadImage(c,(currentEditorType||'clean'));
+          if(j.kind==='mf'){j.el.dataset.url=nu;const im=j.el.querySelector('img');if(im)im.src=nu;}
+          else{j.el.src=nu;}
+          cleaned++;
+        }
+      }catch(e){failed++;}
+    }
+    showToast(scanned?('일괄 검사 완료 — 이미지 '+scanned+'개 중 '+cleaned+'개 세척'+(failed?' · '+failed+'개 확인 불가(외부 이미지 등)':'')):'검사할 이미지가 없습니다');
+  }finally{if(btn){btn.disabled=false;btn.textContent='NAI 일괄 제거';}}
+}
 async function prepImageForInsert(file){
   try{const r=await detectNAI(file);if(r.found){if(confirm('⚠ NovelAI 메타데이터가 감지되었습니다 ('+r.reasons.join(', ')+').\n제거하고 삽입할까요? (재인코딩 + 알파 평탄화)')){const cleaned=await stripImageMeta(file);showToast('NAI 메타데이터 제거됨');return cleaned;}}}catch(e){}
   return file;
@@ -5895,7 +6106,7 @@ const MG={
   ooc:{grid:'ooc-grid',table:'prompts',edit:'prompts',reload:loadPrompts,ops:['del','edit','blurOn','blurOff','warnOn','warnOff']},
   caveduck:{grid:'caveduck-grid',table:'distributions',edit:'distributions',reload:loadDistributions,ops:['del','edit','warnOn','warnOff']},
   utility:{grid:'utility-grid',table:'distributions',edit:'distributions',reload:loadDistributions,ops:['del','edit','warnOn','warnOff']},
-  assets:{grid:'assets-grid',table:'assets',edit:'assets',reload:loadAssets,ops:['del']},
+  assets:{grid:'assets-grid',table:'assets',edit:'assets',reload:loadAssets,ops:['del','edit','private','public','blurOn','blurOff','warnOn','warnOff']},
   banners:{grid:'banners-grid',table:'banners',edit:'banners',reload:loadBanners,ops:['del','edit']},
   logs:{grid:'logs-grid',table:'logs',edit:'logs',reload:loadLogs,ops:['del','edit']},
   notices:{grid:'notices-list',table:'notices',edit:'notices',reload:loadNotices,ops:['del','edit']}
