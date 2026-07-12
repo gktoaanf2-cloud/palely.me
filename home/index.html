@@ -2030,6 +2030,37 @@ body.is-admin #page-admin .adm-body{display:block;}
 #mnav-sheet{display:none;}
 @keyframes mnavSheetIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 @keyframes mnavItIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.bnc-nb{position:absolute;top:7px;left:7px;z-index:5;width:20px;height:20px;pointer-events:none;}
+.bnc-nb svg path{stroke:rgba(240,244,255,.92)!important;}
+.nb-rrow,.nb-lrow{align-items:center;gap:10px;}
+.nb-rinfo,.nb-linfo{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;}
+.nb-rinfo b,.nb-linfo b{font-family:var(--font-kr);font-size:12px;color:rgba(232,236,248,.92);}
+.nb-rinfo small,.nb-linfo small{font-size:9px;color:rgba(200,208,232,.4);word-break:break-all;}
+.nb-rinfo em{font-style:normal;font-size:10px;color:rgba(200,208,232,.6);margin-top:2px;}
+.nb-ract{display:flex;gap:6px;flex:none;}
+.nb-thumb{width:38px;height:24px;object-fit:cover;border-radius:2px;flex:none;}
+/* 모바일 본문 읽기 텍스트 확대 (읽기 가독성 — PC 밀도 원칙의 예외) */
+@media(max-width:640px){
+  .diary-rich{font-size:16.5px;line-height:1.85;}
+  .diary-rich h2,.re-body h2{font-size:21px;}
+  .diary-rich h3,.re-body h3{font-size:17px;}
+  .diary-rich figcaption,figcaption.re-cap,.re-fig figcaption{font-size:13px;}
+  .diary-rich blockquote,.re-body blockquote{font-size:15.5px;}
+  .re-body{font-size:15.5px;line-height:1.75;}
+}
+/* 다이어리·로그 상세뷰 모바일 재이식 (본문 리플로우 · 스티커 장식 오버레이) */
+@media(max-width:640px){
+  .dp-page-view{width:100%!important;}
+  .dp-page-view .dp-stickers{right:auto;bottom:auto;width:900px;transform-origin:top left;}
+  .detail-view{padding:34px 20px calc(120px + env(safe-area-inset-bottom))!important;}
+  .detail-title{font-size:23px;line-height:1.4;margin-bottom:8px;}
+  .detail-date{font-size:11px;}
+  .detail-content{font-size:16.5px;line-height:1.9;}
+  .dp-page-view .diary-rich{font-size:16.5px;line-height:1.9;}
+  .dp-page-view .diary-rich p{margin:0 0 1.1em;}
+  .dp-page-view .diary-rich img,.diary-rich .diary-slider,.diary-rich .dm-wrap{margin:10px 0;}
+  .detail-ics{top:32px;right:20px;gap:14px;}
+}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute;pointer-events:none;" aria-hidden="true"><defs>
@@ -2638,7 +2669,7 @@ body.is-admin #page-admin .adm-body{display:block;}
   <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
   <h2 class="iss-title">BANNERS</h2>
   <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
-  <div class="bhd-rail"><button class="iss-rail-btn iss-admin" title="배너 일괄 새로고침 (링크 OG 재추출)" onclick="bannersRefresh(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button><button class="iss-rail-btn iss-admin" title="배너 링크 추가" onclick="openEditor('banners')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
+  <div class="bhd-rail"><button class="iss-rail-btn" title="이웃 신청 (내 갠홈을 이웃으로)" onclick="nbApplyOpen()"><svg width="13" height="13"><use href="#iss-ic-heart"/></svg></button><button class="iss-rail-btn iss-admin" title="배너 일괄 새로고침 (링크 OG 재추출)" onclick="bannersRefresh(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button><button class="iss-rail-btn iss-admin" title="배너 링크 추가" onclick="openEditor('banners')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
 </div>
   <div class="bnmask">
     <a id="mybn-link" href="#" target="_blank" rel="noopener" class="bnmask-link"><h2 class="bnmask-text bnmask-nofill" id="bnmask-text">PALE BANNERS</h2></a>
@@ -2836,6 +2867,11 @@ body.is-admin #page-admin .adm-body{display:block;}
         <div class="adm-row"><span class="adm-row-name">가입 정책<small>신규 가입 기본 레벨 · 승인 대기 모드</small></span><button class="adm-act" onclick="admSignupOpen()">설정</button></div>
       </div>
       <div class="adm-sec">
+        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>이웃</div>
+        <div class="adm-sec-sub">받은 이웃 신청 수락·거절 · 내 이웃 목록 관리</div>
+        <div class="adm-row"><span class="adm-row-name">이웃 관리<small>받은 신청 수락·거절 · 내 이웃 목록</small></span><button class="adm-act" onclick="nbManageOpen()">관리</button></div>
+      </div>
+      <div class="adm-sec">
         <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>계정</div>
         <div class="adm-row"><span class="adm-row-name"><span id="adm-account">로그인됨</span></span><button class="adm-act" onclick="doLogout();navigate('home')">로그아웃</button></div>
       </div>
@@ -2921,6 +2957,28 @@ body.is-admin #page-admin .adm-body{display:block;}
     <div class="form-group adm-sg-opt"><label class="adm-sg-radio"><input type="radio" name="adm-signup-mode" id="adm-signup-pend" onchange="admSignupSync()"><span>승인 대기 (레벨 0 · 관리자가 회원관리에서 승격)</span></label></div>
     <div class="adm-sec-sub" style="margin:6px 2px 18px;">가입 자체의 열림/닫힘은 Supabase 대시보드에서 관리됩니다.</div>
     <div class="form-actions"><button class="btn-primary" onclick="admSignupSave()">SAVE</button><button class="btn-secondary" onclick="closeModal('adm-signup-modal')">CANCEL</button></div>
+  </div>
+</div>
+<div class="modal-overlay" id="nb-apply-modal">
+  <div class="modal-box" style="max-width:420px" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('nb-apply-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <div class="modal-title">이웃 신청</div>
+    <div class="adm-sec-sub" style="text-align:center;margin-bottom:18px;">수락되면 서로의 최신글을 구독으로 받아볼 수 있어요</div>
+    <div class="form-group"><label class="form-label">내 갠홈 주소 *</label><input type="url" class="form-input" id="nb-f-from_url" placeholder="https://…"></div>
+    <div class="form-group"><label class="form-label">이름</label><input type="text" class="form-input" id="nb-f-from_name" maxlength="40"></div>
+    <div class="form-group"><label class="form-label">RSS 주소</label><input type="url" class="form-input" id="nb-f-from_rss" placeholder="https://… (선택)"></div>
+    <div class="form-group"><label class="form-label">배너 이미지 URL</label><input type="url" class="form-input" id="nb-f-from_banner" placeholder="https://… (선택)"></div>
+    <div class="form-group"><label class="form-label">한마디</label><textarea class="form-textarea" id="nb-f-message" style="min-height:70px" maxlength="300"></textarea></div>
+    <div class="form-actions"><button class="btn-primary" onclick="nbApplySubmit()">신청</button><button class="btn-secondary" onclick="closeModal('nb-apply-modal')">취소</button></div>
+  </div>
+</div>
+<div class="modal-overlay" id="nb-manage-modal">
+  <div class="modal-box" style="max-width:480px" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('nb-manage-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <div class="modal-title">이웃 관리</div>
+    <div class="lm-tabs" style="justify-content:center;"><button type="button" class="feed-tab on" data-t="reqs" onclick="nbManageTab('reqs')">받은 신청</button><button type="button" class="feed-tab" data-t="list" onclick="nbManageTab('list')">내 이웃</button></div>
+    <div id="nb-tab-reqs"><div id="nb-reqs-list"></div></div>
+    <div id="nb-tab-list" style="display:none"><div id="nb-list-list"></div></div>
   </div>
 </div>
 <div class="modal-overlay" id="login-modal">
@@ -3393,7 +3451,7 @@ function showToast(m){const t=document.getElementById('toast');t.textContent=m;t
 document.addEventListener('contextmenu',e=>{if(e.target.tagName==='IMG'&&!isAdmin){e.preventDefault();showToast('이미지 저장이 제한됩니다');}});
 
 // ══ LOAD ALL BOARDS ══
-async function loadBoards(){if(!palelyDB)return;await Promise.all([loadNotices(),loadDiary(),loadAssets(),loadBanners(),loadLogs(),loadPrompts(),loadDistributions(),loadGuestbook(),loadUser()]);await loadDdaysFromDB();renderHomeDday();loadHomeSub();feedInit();memberInit();}
+async function loadBoards(){if(!palelyDB)return;await loadNeighbors();await Promise.all([loadNotices(),loadDiary(),loadAssets(),loadBanners(),loadLogs(),loadPrompts(),loadDistributions(),loadGuestbook(),loadUser()]);await loadDdaysFromDB();renderHomeDday();loadHomeSub();feedInit();memberInit();}
 let homeSubText='';
 async function loadHomeSub(){
   try{const{data}=await palelyDB.from('settings').select('value').eq('key','home_subtext').single();homeSubText=(data&&data.value)||'';}catch(e){homeSubText='';}
@@ -4410,8 +4468,9 @@ async function loadBanners(){
   g.innerHTML=bannersData.map(b=>{
     let url=b.link_url||'';if(url&&!/^https?:\/\//i.test(url))url='';let domain='';try{domain=url?new URL(url).hostname.replace('www.',''):'';}catch(e){}
     const hasImg=!!b.image_url;
-    return `<div class="bnc${hasImg?' has-img':''}" data-mid="${b.id}" onclick="window.open('${url?encodeURI(url).replace(/'/g,'%27'):''}','_blank')"${hasImg?' onmousemove="bncMove(event,this)" onmouseleave="bncLeave(this)"':''}>${hasImg?`<div class="bnc-bg"><img src="${esc(b.image_url)}" draggable="false" onerror="const c=this.closest('.bnc');c.classList.remove('has-img');this.parentElement.remove();"><div class="bnc-lens" aria-hidden="true"><img class="bnc-lens-img" src="${esc(b.image_url)}" draggable="false"></div></div>`:''}<div class="bnc-starwrap"><span class="bnc-halo"></span><svg class="bnc-star"><use href="#iss-ic-gbstar"/></svg></div><div class="bnc-text"><div class="bnc-head"><span class="bnc-name">${esc(b.title||domain||'배너')}</span><span class="bnc-date">${b.created_at?fmtDate(b.created_at):''}</span></div><div class="bnc-content">${esc(b.description||domain||url)}</div></div><button class="bnc-edit pdx-admin" title="수정" onclick="event.stopPropagation();openEditor('banners','${b.id}')"><svg width="12" height="12"><use href="#iss-ic-edit"/></svg></button><button class="bnc-del pdx-admin" title="삭제" onclick="event.stopPropagation();confirmDelete('banners','${b.id}')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button></div>`;
+    return `<div class="bnc${hasImg?' has-img':''}" data-mid="${b.id}" onclick="window.open('${url?encodeURI(url).replace(/'/g,'%27'):''}','_blank')"${hasImg?' onmousemove="bncMove(event,this)" onmouseleave="bncLeave(this)"':''}>${nbMatch(b.link_url)?'<span class="bnc-nb" data-nbheart></span>':''}${hasImg?`<div class="bnc-bg"><img src="${esc(b.image_url)}" draggable="false" onerror="const c=this.closest('.bnc');c.classList.remove('has-img');this.parentElement.remove();"><div class="bnc-lens" aria-hidden="true"><img class="bnc-lens-img" src="${esc(b.image_url)}" draggable="false"></div></div>`:''}<div class="bnc-starwrap"><span class="bnc-halo"></span><svg class="bnc-star"><use href="#iss-ic-gbstar"/></svg></div><div class="bnc-text"><div class="bnc-head"><span class="bnc-name">${esc(b.title||domain||'배너')}</span><span class="bnc-date">${b.created_at?fmtDate(b.created_at):''}</span></div><div class="bnc-content">${esc(b.description||domain||url)}</div></div><button class="bnc-edit pdx-admin" title="수정" onclick="event.stopPropagation();openEditor('banners','${b.id}')"><svg width="12" height="12"><use href="#iss-ic-edit"/></svg></button><button class="bnc-del pdx-admin" title="삭제" onclick="event.stopPropagation();confirmDelete('banners','${b.id}')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button></div>`;
   }).join('');
+  document.querySelectorAll('.bnc-nb[data-nbheart]:not([data-m])').forEach(function(el){el.dataset.m='1';try{window.lottie.loadAnimation({container:el,renderer:'svg',loop:true,autoplay:true,animationData:NB_HEART_LOTTIE});}catch(e){}});
 }
 function bncMove(e,card){
   const lens=card.querySelector('.bnc-lens'),img=lens&&lens.querySelector('.bnc-lens-img');
@@ -5704,6 +5763,75 @@ function heartBoot(){
   }
 }
 const BELL_LOTTIE={"v":"5.5.9","fr":29.9700012207031,"ip":0,"op":60.0000024438501,"w":25,"h":25,"nm":"Comp 2","ddd":0,"assets":[],"layers":[{"ddd":0,"ind":8,"ty":4,"nm":"Layer 9 Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[12.646,12.622,0],"ix":2},"a":{"a":0,"k":[12.15,13.81,0],"ix":1},"s":{"a":0,"k":[83.541,83.541,100],"ix":6}},"ao":0,"ef":[{"ty":5,"nm":"Elastic: Rotation - Transform","np":5,"mn":"Pseudo/MDS Elastic Controller","ix":1,"en":1,"ef":[{"ty":0,"nm":"Amplitude","mn":"Pseudo/MDS Elastic Controller-0001","ix":1,"v":{"a":0,"k":20,"ix":1}},{"ty":0,"nm":"Frequency","mn":"Pseudo/MDS Elastic Controller-0002","ix":2,"v":{"a":0,"k":40,"ix":2}},{"ty":0,"nm":"Decay","mn":"Pseudo/MDS Elastic Controller-0003","ix":3,"v":{"a":0,"k":60,"ix":3}}]}],"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[-0.29,-0.74],[0.33,0.04],[0.86,-0.25],[-0.84,0]],"o":[[-0.31,-0.09],[-0.96,-0.12],[0.29,-0.74],[0.84,0]],"v":[[1.85,0.413],[0.89,0.213],[-1.85,0.413],[0,-0.63]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.161000001197,0.176000004189,0.195999998205,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":1.5,"ix":5},"lc":2,"lj":2,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[12.18,4.38],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 2","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"gr","it":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[-1.072,-0.238],[-3.831,0.13]],"o":[[4.725,1.05],[1.968,-0.067]],"v":[[6.424,18.196],[20.263,18.62]],"c":false},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.160784313725,0.176470588235,0.196078446332,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":0,"ix":5},"lc":1,"lj":1,"ml":4,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[0,0],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Shape 1","np":3,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,0],[1.83,0],[0.6,0.6],[0,0.91]],"o":[[0,1.83],[-0.91,0],[-0.6,-0.6],[0,0]],"v":[[3.33,-1.665],[0,1.665],[-2.35,0.685],[-3.33,-1.665]],"c":false},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.161000001197,0.176000004189,0.195999998205,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":1.5,"ix":5},"lc":1,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[13.07,22.235],"ix":2,"x":"var $bm_rt;\nvar amp, freq, decay, n, n, t, t, v;\ntry {\n    amp = $bm_div(effect('Elastic Controller')(1), 200);\n    freq = $bm_div(effect('Elastic Controller')(2), 30);\n    decay = $bm_div(effect('Elastic Controller')(3), 10);\n    $bm_rt = n = 0;\n    if (numKeys > 0) {\n        $bm_rt = n = nearestKey(time).index;\n        if (key(n).time > time) {\n            n--;\n        }\n    }\n    if (n == 0) {\n        $bm_rt = t = 0;\n    } else {\n        $bm_rt = t = $bm_sub(time, key(n).time);\n    }\n    if (n > 0) {\n        v = velocityAtTime($bm_sub(key(n).time, $bm_div(thisComp.frameDuration, 10)));\n        $bm_rt = $bm_sum(value, $bm_div($bm_mul($bm_mul(v, amp), Math.sin($bm_mul($bm_mul($bm_mul(freq, t), 2), Math.PI))), Math.exp($bm_mul(decay, t))));\n    } else {\n        $bm_rt = value;\n    }\n} catch (e$$4) {\n    $bm_rt = value = value;\n}"},"a":{"a":0,"k":[0,0],"ix":1,"x":"var $bm_rt;\nvar amp, freq, decay, n, n, t, t, v;\ntry {\n    amp = $bm_div(effect('Elastic Controller')(1), 200);\n    freq = $bm_div(effect('Elastic Controller')(2), 30);\n    decay = $bm_div(effect('Elastic Controller')(3), 10);\n    $bm_rt = n = 0;\n    if (numKeys > 0) {\n        $bm_rt = n = nearestKey(time).index;\n        if (key(n).time > time) {\n            n--;\n        }\n    }\n    if (n == 0) {\n        $bm_rt = t = 0;\n    } else {\n        $bm_rt = t = $bm_sub(time, key(n).time);\n    }\n    if (n > 0) {\n        v = velocityAtTime($bm_sub(key(n).time, $bm_div(thisComp.frameDuration, 10)));\n        $bm_rt = $bm_sum(value, $bm_div($bm_mul($bm_mul(v, amp), Math.sin($bm_mul($bm_mul($bm_mul(freq, t), 2), Math.PI))), Math.exp($bm_mul(decay, t))));\n    } else {\n        $bm_rt = value;\n    }\n} catch (e$$4) {\n    $bm_rt = value = value;\n}"},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":2,"cix":2,"bm":0,"ix":2,"mn":"ADBE Vector Group","hd":false},{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[3.66,0],[0,-3.68],[0,0],[0.35,-0.58],[0,0],[-1.44,-0.48],[-4.78,1.59],[0.73,1.22],[0,0],[0,0.67],[0,0]],"o":[[-3.68,0],[0,0],[0,0.68],[0,0],[-0.78,1.31],[4.78,1.59],[1.35,-0.45],[0,0],[-0.35,-0.58],[0,0],[-0.01,-3.66]],"v":[[0.02,-9],[-6.64,-2.34],[-6.64,-0.24],[-7.27,2.04],[-8.54,4.16],[-7.34,7.41],[7.39,7.41],[8.59,4.16],[7.32,2.04],[6.69,-0.24],[6.69,-2.34]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.161000001197,0.176000004189,0.195999998205,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":1.5,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[13.07,12.75],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 2","np":2,"cix":2,"bm":0,"ix":3,"mn":"ADBE Vector Group","hd":false},{"ty":"tr","p":{"a":0,"k":[11.953,4.641],"ix":2},"a":{"a":0,"k":[13.075,3.621],"ix":1},"s":{"a":0,"k":[93.922,93.922],"ix":3},"r":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":15,"s":[0]},{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":20.863,"s":[13]},{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.333],"y":[0]},"t":26.699,"s":[-20]},{"t":32.0000013033867,"s":[0]}],"ix":6,"x":"var $bm_rt;\nvar amp, freq, decay, n, n, t, t, v;\ntry {\n    amp = $bm_div(effect('Elastic: Rotation - Transform')(1), 200);\n    freq = $bm_div(effect('Elastic: Rotation - Transform')(2), 30);\n    decay = $bm_div(effect('Elastic: Rotation - Transform')(3), 10);\n    $bm_rt = n = 0;\n    if (numKeys > 0) {\n        $bm_rt = n = nearestKey(time).index;\n        if (key(n).time > time) {\n            n--;\n        }\n    }\n    if (n == 0) {\n        $bm_rt = t = 0;\n    } else {\n        $bm_rt = t = $bm_sub(time, key(n).time);\n    }\n    if (n > 0) {\n        v = velocityAtTime($bm_sub(key(n).time, $bm_div(thisComp.frameDuration, 10)));\n        $bm_rt = $bm_sum(value, $bm_div($bm_mul($bm_mul(v, amp), Math.sin($bm_mul($bm_mul($bm_mul(freq, t), 2), Math.PI))), Math.exp($bm_mul(decay, t))));\n    } else {\n        $bm_rt = value;\n    }\n} catch (e$$4) {\n    $bm_rt = value = value;\n}"},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 4","np":4,"cix":2,"bm":0,"ix":2,"mn":"ADBE Vector Group","hd":false}],"ip":0,"op":60.0000024438501,"st":0,"bm":0}],"markers":[]};
+const NB_HEART_LOTTIE={"v":"5.5.9","fr":29.9700012207031,"ip":0,"op":59.0000024031193,"w":25,"h":25,"nm":"Comp 1","ddd":0,"assets":[],"layers":[{"ddd":0,"ind":1,"ty":4,"nm":"Layer 6 Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[12.969,12.725,0],"ix":2},"a":{"a":0,"k":[11.5,11.5,0],"ix":1},"s":{"a":0,"k":[75.873,75.873,100],"ix":6}},"ao":0,"ef":[{"ty":5,"nm":"Elastic Controller","np":5,"mn":"Pseudo/MDS Elastic Controller","ix":1,"en":1,"ef":[{"ty":0,"nm":"Amplitude","mn":"Pseudo/MDS Elastic Controller-0001","ix":1,"v":{"a":0,"k":20,"ix":1}},{"ty":0,"nm":"Frequency","mn":"Pseudo/MDS Elastic Controller-0002","ix":2,"v":{"a":0,"k":40,"ix":2}},{"ty":0,"nm":"Decay","mn":"Pseudo/MDS Elastic Controller-0003","ix":3,"v":{"a":0,"k":60,"ix":3}}]}],"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[-5.523,0],[0,5.523],[5.523,0],[0,-5.523]],"o":[[5.523,0],[0,-5.523],[-5.523,0],[0,5.523]],"v":[[0,10],[10,0],[0,-10],[-10,0]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.161000001197,0.176000004189,0.195999998205,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":1.5,"ix":5},"lc":2,"lj":2,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[11.5,11.5],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 2","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":1,"k":[{"i":{"x":0.45,"y":1},"o":{"x":0.55,"y":0},"t":15.585,"s":[{"i":[[2.9,-0.99],[0.34,0.12],[0,7],[-3.07,0],[-1.01,-1.36],[-1.81,0],[0,-3.09]],"o":[[-0.34,0.12],[-2.9,-0.99],[0,-3.09],[1.82,0],[1.01,-1.36],[3.07,0],[0,7]],"v":[[0.62,8.795],[-0.62,8.795],[-10,-3.325],[-4.44,-8.915],[0,-6.675],[4.44,-8.915],[10,-3.325]],"c":true}]},{"t":32.3675013183553,"s":[{"i":[[-2.916,-0.99],[-0.343,0.116],[0,7],[3.087,0],[1.015,-1.36],[1.82,0],[0,-3.09]],"o":[[0.342,0.12],[2.916,-0.99],[0,-3.09],[-1.83,0],[-1.015,-1.36],[-3.087,0],[0,7]],"v":[[-0.709,8.795],[0.538,8.795],[9.969,-3.325],[4.379,-8.915],[-0.086,-6.675],[-4.55,-8.915],[-10.14,-3.325]],"c":true}]}],"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.161000001197,0.176000004189,0.195999998205,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":3,"ix":5},"lc":2,"lj":2,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[11.5,12.181],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":1,"k":[{"i":{"x":[0.716,0.716],"y":[1.49,1.49]},"o":{"x":[0.384,0.384],"y":[0,0]},"t":10.789,"s":[54.611,54.611]},{"i":{"x":[0.833,0.833],"y":[0.833,0.833]},"o":{"x":[0.472,0.472],"y":[0.713,0.713]},"t":20.38,"s":[37.182,37.182]},{"t":28.771251171877,"s":[54.611,54.611]}],"ix":3},"r":{"a":1,"k":[{"i":{"x":[0.48],"y":[1]},"o":{"x":[0.52],"y":[0]},"t":13.186,"s":[0]},{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.52],"y":[0]},"t":23.976,"s":[8]},{"t":33.5662513671814,"s":[0]}],"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 3","np":2,"cix":2,"bm":0,"ix":2,"mn":"ADBE Vector Group","hd":false}],"ip":0,"op":60.0000024438501,"st":0,"bm":0}],"markers":[]};
+let neighborsData=[];
+async function loadNeighbors(){ try{const{data}=await palelyDB.from('neighbors').select('*').order('sort').order('created_at');neighborsData=data||[];}catch(e){neighborsData=[];} }
+function nbNorm(u){ if(!u)return''; return String(u).trim().toLowerCase().replace(/^https?:\/\//,'').replace(/^www\./,'').replace(/\/+$/,'').split(/[?#]/)[0].split('/').slice(0,2).join('/'); }
+function nbMatch(url){ const n=nbNorm(url); if(!n)return null; return neighborsData.find(x=>nbNorm(x.url)===n)||null; }
+function nbApplyOpen(){ ['from_url','from_name','from_rss','from_banner','message'].forEach(function(k){var el=document.getElementById('nb-f-'+k);if(el)el.value='';}); document.getElementById('nb-apply-modal').classList.add('active'); }
+async function nbApplySubmit(){
+  var g=function(id){return ((document.getElementById('nb-f-'+id)||{}).value||'').trim();};
+  var from_url=g('from_url'),from_name=g('from_name'),from_rss=g('from_rss'),from_banner=g('from_banner'),message=g('message');
+  if(!/^https?:\/\//i.test(from_url)||from_url.length<4){showToast('내 갠홈 주소를 정확히 입력해주세요 (http…)');return;}
+  try{if(localStorage.getItem('nb_applied_'+nbNorm(from_url))){showToast('이미 이 주소로 신청했어요');return;}}catch(e){}
+  try{
+    const{error}=await palelyDB.from('neighbor_requests').insert({from_url:from_url,from_name:from_name,from_rss:from_rss,from_banner:from_banner,message:message,status:'pending'});
+    if(error)throw error;
+    try{localStorage.setItem('nb_applied_'+nbNorm(from_url),'1');}catch(e){}
+    showToast('신청을 보냈어요 — 상대가 수락하면 이웃이 됩니다');
+    closeModal('nb-apply-modal');
+  }catch(e){showToast('신청 실패 — 잠시 후 다시 시도해주세요');}
+}
+function nbManageTab(t){
+  document.querySelectorAll('#nb-manage-modal .feed-tab').forEach(function(b){b.classList.toggle('on',b.dataset.t===t);});
+  document.getElementById('nb-tab-reqs').style.display=(t==='reqs')?'block':'none';
+  document.getElementById('nb-tab-list').style.display=(t==='list')?'block':'none';
+  if(t==='reqs')nbLoadReqs();else nbLoadList();
+}
+function nbManageOpen(){ document.getElementById('nb-manage-modal').classList.add('active'); nbManageTab('reqs'); }
+async function nbLoadReqs(){
+  const box=document.getElementById('nb-reqs-list');box.innerHTML='<div class="adm-empty">불러오는 중…</div>';
+  let rows=[];
+  try{const{data,error}=await palelyDB.from('neighbor_requests').select('*').eq('status','pending').order('created_at',{ascending:false});if(error)throw error;rows=data||[];}
+  catch(e){box.innerHTML='<div class="adm-empty">신청을 불러오지 못했습니다.</div>';return;}
+  if(!rows.length){box.innerHTML='<div class="adm-empty">받은 신청이 없습니다.</div>';return;}
+  box.innerHTML=rows.map(function(r){
+    const nm=esc(r.from_name||r.from_url||'익명'),url=esc(r.from_url||''),msg=esc(r.message||'');
+    return '<div class="cm-row nb-rrow"><span class="nb-rinfo"><b>'+nm+'</b>'+(url?'<small>'+url+'</small>':'')+(msg?'<em>'+msg+'</em>':'')+'</span><span class="nb-ract"><button class="adm-act" onclick="nbAccept('+r.id+')">수락</button><button class="adm-act" onclick="nbReject('+r.id+')">거절</button></span></div>';
+  }).join('');
+}
+async function nbLoadList(){
+  const box=document.getElementById('nb-list-list');box.innerHTML='<div class="adm-empty">불러오는 중…</div>';
+  await loadNeighbors();
+  if(!neighborsData.length){box.innerHTML='<div class="adm-empty">아직 이웃이 없습니다.</div>';return;}
+  box.innerHTML=neighborsData.map(function(n){
+    const nm=esc(n.name||n.url||'이웃'),url=esc(n.url||'');
+    const thumb=n.banner_url?'<img class="nb-thumb" src="'+esc(n.banner_url)+'" draggable="false" onerror="this.style.display=\'none\'">':'';
+    return '<div class="cm-row nb-lrow">'+thumb+'<span class="nb-linfo"><b>'+nm+'</b>'+(url?'<small>'+url+'</small>':'')+'</span><button class="adm-act" onclick="nbDelete('+n.id+')">삭제</button></div>';
+  }).join('');
+}
+async function nbAccept(id){
+  let r=null;
+  try{const{data}=await palelyDB.from('neighbor_requests').select('*').eq('id',id).single();r=data;}catch(e){}
+  if(!r){showToast('신청을 찾을 수 없습니다');return;}
+  try{
+    const{error}=await palelyDB.from('neighbors').insert({url:r.from_url,name:r.from_name,banner_url:r.from_banner,rss_url:r.from_rss});
+    if(error)throw error;
+    await palelyDB.from('neighbor_requests').update({status:'accepted'}).eq('id',id);
+    if(r.from_rss){feedSubs.push({label:r.from_name||r.from_url,url:feedRssUrl(r.from_rss)});await feedSaveSubs();}
+    await loadNeighbors();
+    showToast('이웃이 되었어요 ♥ 최신글을 구독에 추가했어요');
+    nbLoadReqs();
+  }catch(e){showToast('수락 실패 — 관리자 권한을 확인해주세요');}
+}
+async function nbReject(id){
+  try{const{error}=await palelyDB.from('neighbor_requests').update({status:'rejected'}).eq('id',id);if(error)throw error;showToast('신청을 거절했어요');nbLoadReqs();}
+  catch(e){showToast('처리 실패');}
+}
+async function nbDelete(id){
+  try{const{error}=await palelyDB.from('neighbors').delete().eq('id',id);if(error)throw error;await loadNeighbors();showToast('이웃을 삭제했어요');nbLoadList();}
+  catch(e){showToast('삭제 실패');}
+}
 let feedSubs=[],feedNew=[],feedAnim=null,feedMode='list',feedFilter='all',mainNewCfg=null;
 function feedSetFilter(f){feedFilter=f;document.querySelectorAll('.feed-tab').forEach(b=>b.classList.toggle('on',b.dataset.f===f));feedRenderPanel();}
 function alarmPrefs(){
@@ -6344,7 +6472,7 @@ function editorStateStr(){
   return parts.join('');
 }
 // ── 모달 배경클릭 공통 처리: 입력 중인 내용이 있으면 확인 후 닫기 ──
-const BG_CLOSE_IDS=['dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal'];
+const BG_CLOSE_IDS=['dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal','nb-apply-modal','nb-manage-modal'];
 function modalHasInput(ov){
   return [...ov.querySelectorAll('input:not([type=checkbox]):not([type=radio]),textarea')].some(el=>el.offsetParent!==null&&(el.value||'').trim()!=='')
     ||[...ov.querySelectorAll('[contenteditable]')].some(el=>el.offsetParent!==null&&el.textContent.trim()!=='');
@@ -6921,7 +7049,25 @@ function dpFirstImage(d){
   const st=dpParseStickers(d.stickers);if(st&&st[0]&&st[0].url)return st[0].url;
   return '';
 }
-function dpFitPage(){document.querySelectorAll('.dp-page-view').forEach(page=>{const wrap=page.parentElement;if(!wrap)return;const base=page.offsetWidth||900;const avail=wrap.clientWidth;if(!avail)return;const scale=avail/base;page.style.transformOrigin='top left';page.style.transform='scale('+scale+')';wrap.style.height=(page.offsetHeight*scale)+'px';});}
+function dpFitPage(){
+  const mobile=window.matchMedia('(max-width:640px)').matches;
+  document.querySelectorAll('.dp-page-view').forEach(page=>{
+    const wrap=page.parentElement;if(!wrap)return;
+    const layer=page.querySelector('.dp-stickers');
+    if(mobile){
+      // 읽기 우선: 본문은 모바일 폭으로 리플로우(축소X), 스티커 레이어만 비례 축소 장식
+      page.style.width='100%';page.style.transform='none';page.style.minHeight='';
+      wrap.style.height='';
+      if(layer){const s=(wrap.clientWidth||327)/900;layer.style.transformOrigin='top left';layer.style.transform='scale('+s+')';layer.style.width='900px';}
+    }else{
+      page.style.width='900px';
+      if(layer){layer.style.transform='';layer.style.width='';}
+      const base=page.offsetWidth||900;const avail=wrap.clientWidth;if(!avail)return;
+      const scale=avail/base;page.style.transformOrigin='top left';page.style.transform='scale('+scale+')';
+      wrap.style.height=(page.offsetHeight*scale)+'px';
+    }
+  });
+}
 addEventListener('resize',()=>{if(typeof dpFitPage==='function')dpFitPage();});
 
 async function fetchOG(){
