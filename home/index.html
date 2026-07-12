@@ -327,7 +327,7 @@ body.is-admin .login-trigger{opacity:0.6;color:var(--aurora)}
 .player-volume .lp-btn svg{fill:var(--silver);transition:fill .3s;}
 .player-volume .lp-btn:hover svg{fill:var(--snow);}
   .board-grid{grid-template-columns:1fr}.image-grid,.banner-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}.modal-box{padding:28px 20px}
-  .mobile-nav{display:flex!important;position:fixed;bottom:var(--player-height);left:0;right:0;height:52px;background:rgba(8,9,15,0.95);border-top:1px solid var(--line-art);z-index:150;align-items:center;justify-content:space-around;overflow-x:auto}
+  .mobile-nav{display:flex!important;position:fixed;bottom:var(--player-height);left:0;right:0;height:52px;background:rgba(8,9,15,0.95);border-top:1px solid var(--line-art);z-index:150;align-items:center;justify-content:space-around;overflow-x:auto;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
   .main-content{height:calc(100vh - var(--player-height) - 52px);margin-left:0}.gb-form-row{flex-direction:column}
 }.mobile-nav{display:none}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}#particle-canvas{display:none}}
@@ -1166,12 +1166,28 @@ body.is-admin .pdx-admin{display:inline-flex!important;}
 .form-check input[type=checkbox]{appearance:none;-webkit-appearance:none;width:9px;height:9px;margin:3px;border:1px solid rgba(235,240,252,.45);background:none;border-radius:0;transform:rotate(45deg);cursor:pointer;transition:.25s;flex:none;}
 .form-check:hover input[type=checkbox]{border-color:rgba(235,240,252,.85);}
 .form-check input[type=checkbox]:checked{background:#eef1fa;border-color:#eef1fa;box-shadow:0 0 7px rgba(190,200,235,.55);}
-#cat-manage-modal,#prompts-pw-modal,#ask-modal,#diary-tab-modal,#stk-modal,#logs-tab-modal,#assets-tab-modal{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+#adm-members-modal,#adm-perms-modal,#adm-signup-modal,#cat-manage-modal,#prompts-pw-modal,#ask-modal,#diary-tab-modal,#stk-modal,#logs-tab-modal,#assets-tab-modal{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
 #ask-modal{z-index:950;}
-#cat-manage-modal .modal-box,#prompts-pw-modal .modal-box,#ask-modal .modal-box,#diary-tab-modal .modal-box,#stk-modal .modal-box,#logs-tab-modal .modal-box,#assets-tab-modal .modal-box{background:rgba(9,9,9,.95);border:1px solid rgba(255,255,255,.07);border-radius:0;padding:34px 32px 26px;}
-#cat-manage-modal .modal-title,#prompts-pw-modal .modal-title,#ask-modal .modal-title,#diary-tab-modal .modal-title,#stk-modal .modal-title,#logs-tab-modal .modal-title,#assets-tab-modal .modal-title{font-family:var(--font-num);font-size:13px;font-style:normal;font-weight:400;letter-spacing:.18em;text-indent:.18em;color:#fff;text-align:center;margin-bottom:24px;}
-#cat-manage-modal .cm-row,#diary-tab-modal .cm-row,#logs-tab-modal .cm-row,#assets-tab-modal .cm-row{background:none;border-radius:0;border-bottom:1px solid rgba(255,255,255,.08);padding:10px 2px;}
+#adm-members-modal .modal-box,#adm-perms-modal .modal-box,#adm-signup-modal .modal-box,#cat-manage-modal .modal-box,#prompts-pw-modal .modal-box,#ask-modal .modal-box,#diary-tab-modal .modal-box,#stk-modal .modal-box,#logs-tab-modal .modal-box,#assets-tab-modal .modal-box{background:rgba(9,9,9,.95);border:1px solid rgba(255,255,255,.07);border-radius:0;padding:34px 32px 26px;}
+#adm-members-modal .modal-title,#adm-perms-modal .modal-title,#adm-signup-modal .modal-title,#cat-manage-modal .modal-title,#prompts-pw-modal .modal-title,#ask-modal .modal-title,#diary-tab-modal .modal-title,#stk-modal .modal-title,#logs-tab-modal .modal-title,#assets-tab-modal .modal-title{font-family:var(--font-num);font-size:13px;font-style:normal;font-weight:400;letter-spacing:.18em;text-indent:.18em;color:#fff;text-align:center;margin-bottom:24px;}
+#adm-members-modal .cm-row,#cat-manage-modal .cm-row,#diary-tab-modal .cm-row,#logs-tab-modal .cm-row,#assets-tab-modal .cm-row{background:none;border-radius:0;border-bottom:1px solid rgba(255,255,255,.08);padding:10px 2px;}
 #stk-modal .modal-box{max-width:920px;width:95%;}
+.adm-mrow{gap:10px;}
+.adm-mname{display:flex;flex-direction:column;gap:2px;color:var(--frost);}
+.adm-mname em{font-style:normal;color:#fff;opacity:.7;}
+.adm-mname small{opacity:.5;font-family:var(--font-num);font-size:10px;letter-spacing:.08em;}
+.adm-mctl{display:flex;align-items:center;gap:8px;}
+.adm-mlv{width:56px;text-align:center;padding:6px 4px;}
+.adm-empty{text-align:center;color:rgba(220,226,244,.5);font-family:var(--font-kr);font-size:12px;padding:26px 0;}
+.adm-perm-tbl{width:100%;border-collapse:collapse;font-family:var(--font-kr);}
+.adm-perm-tbl th{font-family:var(--font-num);font-size:9.5px;letter-spacing:.1em;color:rgba(220,226,244,.6);font-weight:400;padding:6px 3px;border-bottom:1px solid rgba(255,255,255,.12);}
+.adm-perm-tbl td{padding:5px 3px;border-bottom:1px solid rgba(255,255,255,.06);text-align:center;}
+.adm-perm-bn{color:#fff;font-size:11.5px;text-align:left!important;white-space:nowrap;}
+.adm-perm-na{color:rgba(220,226,244,.25);}
+.adm-perm-in{width:44px;text-align:center;padding:6px 2px;font-family:var(--font-num);}
+.adm-sg-opt{display:flex;align-items:center;gap:10px;justify-content:space-between;}
+.adm-sg-radio{display:flex;align-items:center;gap:8px;font-family:var(--font-kr);font-size:12px;color:var(--frost);cursor:pointer;line-height:1.4;}
+.adm-sg-lv[disabled]{opacity:.35;}
 .stk-textrow{display:inline-flex;align-items:center;gap:7px;}
 .stk-sel{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.16);border-radius:0;color:#e6eaf6;font-family:var(--font-kr);font-size:11px;padding:4px 7px;cursor:pointer;}
 .stk-sel:focus{outline:none;border-color:rgba(255,255,255,.5);}
@@ -1806,6 +1822,214 @@ body.is-admin #page-admin .adm-body{display:block;}
 .bng-lb em{font-style:normal;color:rgba(190,200,232,.55);font-size:11px;margin-left:5px;}
 .bng-copy{flex:none;}
 .bng-copy .pdx-dia{color:rgba(200,208,232,.6);}
+
+/* ═══════════ MOBILE SHELL REFLOW (구조 리플로우 1차 — 색·질감 불변) ═══════════ */
+.mobile-nav::-webkit-scrollbar{display:none;}
+@media(max-width:920px){
+  .main-content{left:0!important;right:0!important;padding:64px 22px 90px;}
+  .lp-player{right:16px;}
+}
+@media(max-width:768px){
+  body{min-height:100dvh;}
+  .main-content{height:100dvh!important;padding-bottom:calc(78px + env(safe-area-inset-bottom))!important;}
+  .mobile-nav{display:flex!important;bottom:0;height:calc(54px + env(safe-area-inset-bottom));padding:0 4px env(safe-area-inset-bottom);gap:0;justify-content:space-around;overflow:visible;}
+  .login-fab{bottom:calc(68px + env(safe-area-inset-bottom));right:16px;}
+  .toast-container{bottom:calc(72px + env(safe-area-inset-bottom));}
+}
+@media(max-width:640px){
+  /* 음악 플레이어: 미니 디스크(탭하면 컨트롤 펼침) */
+  .lp-player{top:auto;bottom:calc(126px + env(safe-area-inset-bottom));right:12px;width:64px;gap:6px;}
+  .lp-player::before,.lp-player::after{left:32px;top:32px;width:64px;height:64px;}
+  .lp-disc{width:64px;height:64px;cursor:pointer;}
+  .lp-player .lp-meta{display:none;}
+  .lp-player.lp-open .lp-meta{display:flex;position:absolute;right:0;bottom:calc(100% + 12px);width:176px;padding:13px 14px;background:rgba(9,9,9,.95);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 14px 40px rgba(0,0,0,.5);}
+  /* 알림 패널: 화면 폭에 맞춤 */
+  .feed-panel{width:min(392px,calc(100vw - 20px));right:10px;max-height:72dvh;}
+}
+@media(hover:none){
+  /* 기능 가시성: 볼륨·시크 손잡이 상시 */
+  .player-volume{opacity:1;}
+  .player-progress-bar::before{content:'';position:absolute;left:0;right:0;top:-13px;bottom:-13px;}
+  /* 터치 타깃 44px — 시각 크기 불변(패딩+음수마진 히트박스) */
+  .lp-btn{padding:12px;margin:-12px;}
+  .feed-bell{padding:9px;margin:-9px;box-sizing:content-box;}
+  .feed-gear{padding:12px;margin:-12px;margin-left:auto;}
+  .feed-x{padding:12px;margin:-12px;}
+  .admin-fab{padding:10px;margin:-10px;box-sizing:content-box;}
+  .modal-close{padding:6px;}
+  .modal-close::before{content:'';position:absolute;inset:-12px;}
+  .iss-rail-btn{padding:8px;margin:-8px;box-sizing:content-box;}
+}
+
+/* ═══════════ MOBILE BOARDS REFLOW (배치2) ═══════════ */
+@media(max-width:920px){
+  #page-prompts.page-section{left:0;margin:0;}
+  .lgv-grid{gap:12px;}
+}
+@media(max-width:640px){
+  .modal-box.pdx{width:100%;}
+  .dyv-stk{bottom:auto;height:auto;aspect-ratio:1/1;}
+  .lgv-grid{grid-template-columns:1fr;}
+  #image-viewer-modal .pdx-nav.prev{left:6px;}
+  #image-viewer-modal .pdx-nav.next{right:6px;}
+  #image-viewer-modal #iv-all{top:16px;right:16px;}
+  #image-viewer-modal #iv-like{right:18px;bottom:calc(18px + env(safe-area-inset-bottom));}
+  .iv-th{width:calc(50vw - 24px);height:calc(50vw - 24px);max-width:170px;max-height:170px;}
+  #iv-sheet{padding:6vh 4vw;gap:8px;}
+  .bng-box{max-width:100%;width:100%;max-height:none;padding:28px 20px calc(24px + env(safe-area-inset-bottom));}
+  .home-dday{gap:22px;flex-wrap:nowrap;max-width:96vw;justify-content:flex-start;overflow-x:auto;overflow-y:hidden;pointer-events:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:6px 10px;}
+  .home-dday::-webkit-scrollbar{display:none;}
+  .home-dday .dday-chip{flex:none;}
+  .home-dday .dday-chip:first-child{margin-left:auto;}
+  .home-dday .dday-chip:last-child{margin-right:auto;}
+  .home-dday .dc-n{font-size:21px;}
+  .home-dday .dc-sub{max-width:82px;}
+  .home-dday .dc-pair{font-size:9.5px;letter-spacing:.12em;}
+  /* 배너 카드: 140px 압축 해제 — 1열 풀폭으로 bnc 판형 복원 */
+  .banner-grid{grid-template-columns:1fr;}
+  .detail-title{font-size:24px;}
+}
+@media(hover:none){
+  /* 에셋 오버레이: 하단 그라디언트 상시 (탭=뷰어 진입 유지) */
+  #assets-grid .image-grid-item .ast-ov{opacity:1;background:linear-gradient(180deg,transparent 68%,rgba(5,6,10,.55));justify-content:flex-end;padding-bottom:8px;gap:4px;}
+  #assets-grid .image-grid-item:hover .ast-cap{opacity:0;}
+  #assets-grid:hover .image-grid-item:not(:hover) img:not(.blurred){filter:none;}
+  #assets-grid .image-grid-item::after{display:none;}
+  #assets-grid .image-grid-item:hover img{transform:none;}
+  /* 장식 호버 고착 방지 */
+  .lgv-card:hover .lgv-thumb{transform:none;}
+  .lgv-banner:hover .lgv-bimg{filter:none;}
+  .banner-card:hover{transform:none;box-shadow:none;}
+  /* 터치 타깃 44px (패딩+음수마진, 시각 불변) */
+  .ast-ic{padding:11px;margin:-8px;}
+  .ast-ov-ics{gap:9px;margin-top:2px;}
+  .pdx-nav{padding:14px;margin:-4px;}
+  .iv-sheet-x{padding:14px;margin:-8px;}
+  #image-viewer-modal #iv-like{padding:12px;margin:0 -12px -12px 0;}
+  #image-viewer-modal #iv-all{padding:12px;margin:-12px;}
+  .bnmask-copy{padding:11px;margin:-9px;}
+  .bnc-edit,.bnc-del{padding:10px;margin:-6px;}
+  .pcv-icons button,.ooc-ics button,.dcv-ics button,.pdx-icons button{padding:9px;margin:-7px;}
+  .dyv-ics button,.lgv-ics button{padding:10px;margin:-8px;}
+  .detail-ics button{padding:12px;margin:-9px;}
+  .detail-back{padding:12px;margin:-12px -12px 6px;}
+  .lgv-star{padding:12px;margin:-6px;}
+  .pdx-close,.isp-close,.dictx-close{padding:12px;margin:-8px;}
+  .pdx-dot{padding:10px;margin:-9px;background-clip:content-box;box-sizing:content-box;}
+  .iss-pager button{padding:11px 12px;margin:-7px -5px;}
+  .isp-chip{padding:8px 10px;margin:-5px -3px;}
+  #assets-grid .card-ctrl-btn{padding:8px;margin:-8px;box-sizing:content-box;}
+  .card-admin-controls .card-ctrl-btn{position:relative;}
+  .card-admin-controls .card-ctrl-btn::before{content:'';position:absolute;inset:-8px;}
+  .lgv-star:active{filter:drop-shadow(0 0 8px rgba(240,246,255,.95));}
+}
+
+/* ═══════════ MOBILE NOTICES/GUESTBOOK/EDITOR (배치3) ═══════════ */
+@media(max-width:900px){.lgv-grid{width:100%;}}
+/* 641~760px: 기존 룰(.ntc-panel left:0)이 만든 패널-텍스트 겹침 보정 */
+@media(max-width:760px){
+  .ntc-from,.ntc-rich,.ntc-lh{left:37.5%;}
+  .ntc-namebox{left:37.7%;}
+  .ntc-rich{width:56.5%;}
+}
+/* ≤640px: 공지 세로 스택 재구성 — 색·유리·테마 문법 불변, 배치만 세로 */
+@media(max-width:640px){
+  .ntc-wrap{padding:0 12px;}
+  .ntc-stage{aspect-ratio:auto;display:flex;flex-direction:column;gap:16px;padding:6px 0 4px;}
+  .ntc-bg{display:none;}
+  .ntc-panel{position:static;width:64%;max-width:250px;height:auto;aspect-ratio:281/600;margin:0 auto;}
+  .ntc-from{position:static;text-align:center;}
+  .ntc-namebox{position:static;width:fit-content;margin:0 auto;}
+  .ntc-rich{position:static;width:100%;height:auto;font-size:12.5px;}
+  .ntc-lh{position:static;width:100%;height:auto;}
+  .ntc-kw{font-size:12px;max-width:100%;}
+  .ntc-etc{position:static;max-width:100%;margin-left:auto;}
+  .ntc-glow{display:none;}
+  /* 방명록: 3열 폼의 액션(체크+제출)을 하단 행으로 */
+  .gbx-actions{grid-row:4;grid-column:1/3;justify-self:end;}
+  /* 에디터 풀스크린 */
+  #editor-modal .modal-box,#editor-modal .modal-box.editor-wide{max-width:100%;width:100%;padding:26px 18px calc(20px + env(safe-area-inset-bottom));}
+  #editor-modal .form-actions{flex-wrap:wrap;gap:8px 10px;}
+  #stk-modal .modal-box{width:100%;padding:26px 16px;}
+  #stk-modal .modal-box[style]{max-width:100%!important;}
+  .re-body{max-height:44vh;}
+  .dl-btnrow{gap:14px;}
+  .dp-sticker-bar{gap:5px;padding:7px 8px;}
+  .dp-sticker-bar input[type=range]{width:88px;}
+  .stk-sliders{gap:10px;}
+}
+@media(max-width:768px){
+  .mg-bar{bottom:calc(66px + env(safe-area-inset-bottom));}
+}
+@media(hover:none){
+  /* 이미지 정렬·순서 툴: 호버 봉인 해제(상시) */
+  figure.re-fig.re-sel .re-block-tools,.re-slider.re-sel .re-block-tools,.re-grid.re-sel .re-block-tools,.re-yt.re-sel .re-block-tools{opacity:1;}
+  /* 핸들 히트영역 44px (시각 불변) */
+  .re-rz::before,.re-rot::before,.dp-handle::before,.dp-rot::before{content:'';position:absolute;left:50%;top:50%;width:40px;height:40px;transform:translate(-50%,-50%);}
+  .re-al-btn,.re-drag-handle,.dp-bar-btn{position:relative;}
+  .re-al-btn::before,.re-drag-handle::before,.dp-bar-btn::before{content:'';position:absolute;left:50%;top:50%;width:36px;height:36px;transform:translate(-50%,-50%);}
+  .re-tb-btn,.md-toolbar-btn,.ai-mini-btn{position:relative;}
+  .re-tb-btn::before,.md-toolbar-btn::before,.ai-mini-btn::before{content:'';position:absolute;left:50%;top:50%;width:100%;min-width:40px;height:40px;transform:translate(-50%,-50%);}
+  .mg-btn{position:relative;}
+  .mg-btn::before{content:'';position:absolute;left:50%;top:50%;width:100%;min-width:38px;height:38px;transform:translate(-50%,-50%);}
+  .dl-del{padding:10px;margin:-8px;}
+  .stk-pdel{padding:9px;margin:-7px;}
+  /* 방명록·로그인 터치 타깃 */
+  .gbx-write,.gbc-submit{padding:12px;margin:-10px;}
+  .gbx-del{padding:8px;margin:-8px;}
+  .gbc-del{padding:12px;margin:-12px;}
+  .gbc-unlock{padding:8px 10px;margin:-6px -3px;}
+  .lm-tabs .feed-tab{padding:8px 0 10px;margin:-6px 0 -4px;}
+}
+/* 핸들 터치 드래그: 스크롤 개입 차단 */
+.re-rz,.re-rot{touch-action:none;}
+/* ═══ 게시판 탭바: 모바일 스티키 세그먼트 (스크롤 중에도 탭 전환) ═══ */
+@media(max-width:768px){
+  .tab-bar{position:sticky;top:0;z-index:30;gap:26px;margin:8px 0 20px;padding:10px 6px 12px;}
+  .tab-bar::before{content:'';position:absolute;top:-64px;left:-24px;right:-24px;bottom:-14px;background:linear-gradient(180deg,transparent,rgba(5,6,10,.5) 30%,rgba(5,6,10,.8) 62%);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent);pointer-events:none;z-index:-1;}
+  .tab-btn{padding:9px 6px 11px;}
+  .tab-btn:not(.active){color:rgba(200,208,232,.78);}
+  .tab-btn .iss-tab-label{font-size:11.5px;letter-spacing:-.03em;}
+  .tab-btn .iss-tab-star{width:9px;height:9px;}
+}
+/* ═══ MOBILE NAV v2 — 5슬롯 바 + 글라스 시트 ═══ */
+@media(max-width:768px){
+  /* v2.1: 박스 제거 — 투명 베일(그라디언트+블러 페이드) 위에 라벨만 부유 */
+  .mobile-nav{background:none!important;border-top:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;height:calc(64px + env(safe-area-inset-bottom));align-items:flex-end;padding-bottom:calc(5px + env(safe-area-inset-bottom));overflow:visible;}
+  .mobile-nav::before{content:'';position:absolute;left:0;right:0;bottom:0;top:-30px;background:linear-gradient(180deg,transparent,rgba(5,6,10,.45) 40%,rgba(5,6,10,.82) 78%);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);-webkit-mask-image:linear-gradient(180deg,transparent,#000 46%);mask-image:linear-gradient(180deg,transparent,#000 46%);pointer-events:none;}
+  .mobile-nav .mnav-item{position:relative;z-index:1;}
+  #mnav-sheet{border-bottom:1px solid rgba(255,255,255,.06);}
+  .mobile-nav .mnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:7px 0 8px;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+  .mobile-nav .mnav-item:active{transform:scale(.93);transition:transform .12s;}
+  .mobile-nav .mnav-item .iss-tab-star{width:9px;height:9px;opacity:.55;transition:.3s;}
+  .mobile-nav .mnav-item .iss-tab-label{font-family:var(--font-num);font-size:11px;letter-spacing:-.05em;text-indent:0;color:rgba(200,208,232,.55);transition:.3s;}
+  .mobile-nav .mnav-item:after{content:'';position:absolute;left:24%;right:24%;bottom:2px;height:1px;transform:scaleY(.25);transform-origin:bottom;background:transparent;transition:.3s;}
+  .mobile-nav .mnav-item.active .iss-tab-star,#mnav-menu.mnav-open .iss-tab-star{opacity:1;filter:drop-shadow(0 0 8px rgba(240,244,255,.9));}
+  .mobile-nav .mnav-item.active .iss-tab-label,#mnav-menu.mnav-open .iss-tab-label{color:#fff;text-shadow:0 0 10px rgba(240,244,255,.8),0 0 26px rgba(190,205,240,.45);}
+  .mobile-nav .mnav-item.active:after,#mnav-menu.mnav-open:after{transform:scaleY(1);background:rgba(235,240,252,.85);box-shadow:0 0 8px rgba(235,240,252,.6);}
+  #mnav-sheet{position:fixed;left:0;right:0;bottom:calc(58px + env(safe-area-inset-bottom));z-index:149;background:rgba(9,9,9,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,.09);display:none;grid-template-columns:repeat(3,1fr);gap:2px;padding:16px 12px 14px;}
+  #mnav-sheet.open{display:grid;animation:mnavSheetIn .45s cubic-bezier(.22,.9,.28,1.04);}
+  #mnav-sheet.open .mnav-sh-it{opacity:0;animation:mnavItIn .4s both;}
+  #mnav-sheet.open .mnav-sh-it:nth-child(1){animation-delay:.03s;}
+  #mnav-sheet.open .mnav-sh-it:nth-child(2){animation-delay:.06s;}
+  #mnav-sheet.open .mnav-sh-it:nth-child(3){animation-delay:.09s;}
+  #mnav-sheet.open .mnav-sh-it:nth-child(4){animation-delay:.12s;}
+  #mnav-sheet.open .mnav-sh-it:nth-child(5){animation-delay:.15s;}
+  #mnav-sheet.open .mnav-sh-it:nth-child(6){animation-delay:.18s;}
+  #mnav-sheet.open .mnav-sh-it:nth-child(7){animation-delay:.21s;}
+  #mnav-sheet.open .mnav-sh-it:nth-child(8){animation-delay:.24s;}
+  #mnav-sheet.open .mnav-sh-it:nth-child(9){animation-delay:.27s;}
+  .mnav-sh-it{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:13px 4px;font-family:var(--font-num);font-size:9.5px;letter-spacing:.16em;text-indent:.16em;color:rgba(215,222,242,.75);background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+  .mnav-sh-it:active{transform:scale(.95);}
+  .mnav-sh-it .iss-tab-star{width:11px;height:11px;opacity:.75;}
+  .mnav-sh-it .iss-tab-label{font-family:var(--font-num);font-size:9.5px;letter-spacing:.16em;text-indent:.16em;color:rgba(215,222,242,.75);}
+  .mnav-sh-it.active{color:#fff;}
+  .mnav-sh-it.active .iss-tab-star{filter:drop-shadow(0 0 6px rgba(240,246,255,.9));opacity:1;}
+  .mnav-sh-it.active .iss-tab-label{color:#fff;}
+}
+#mnav-sheet{display:none;}
+@keyframes mnavSheetIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes mnavItIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute;pointer-events:none;" aria-hidden="true"><defs>
@@ -2344,6 +2568,7 @@ body.is-admin #page-admin .adm-body{display:block;}
 </div>
 <!-- Admin (D-DAY manager): 2x2 dots at top-right, appears when logged in -->
 <div class="admin-fab" id="admin-fab" onclick="navigate('admin')" title="관리 페이지"><span></span><span></span><span></span><span></span></div>
+<nav class="mobile-nav" id="mobile-nav" aria-label="모바일 내비게이션"></nav>
 
 <!-- Boards (from base SPA), shown as center overlay on navigate -->
 <main id="main-content" class="main-content">
@@ -2604,6 +2829,13 @@ body.is-admin #page-admin .adm-body{display:block;}
         <div class="adm-row"><span class="adm-row-name">D-day<small>홈 위젯 항목 추가·삭제</small></span><button class="adm-act" onclick="openDdayModal()">관리</button></div>
       </div>
       <div class="adm-sec">
+        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>회원 · 권한</div>
+        <div class="adm-sec-sub">레벨 회원제 — 회원 등급 부여, 게시판별 접근 권한, 가입 정책</div>
+        <div class="adm-row"><span class="adm-row-name">회원 관리<small>가입 회원 목록 · 레벨(등급) 부여·변경</small></span><button class="adm-act" onclick="admMembersOpen()">관리</button></div>
+        <div class="adm-row"><span class="adm-row-name">게시판 권한<small>게시판별 목록·읽기·쓰기·댓글·다운로드 최소 레벨</small></span><button class="adm-act" onclick="admPermsOpen()">설정</button></div>
+        <div class="adm-row"><span class="adm-row-name">가입 정책<small>신규 가입 기본 레벨 · 승인 대기 모드</small></span><button class="adm-act" onclick="admSignupOpen()">설정</button></div>
+      </div>
+      <div class="adm-sec">
         <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>계정</div>
         <div class="adm-row"><span class="adm-row-name"><span id="adm-account">로그인됨</span></span><button class="adm-act" onclick="doLogout();navigate('home')">로그아웃</button></div>
       </div>
@@ -2661,6 +2893,36 @@ body.is-admin #page-admin .adm-body{display:block;}
     <div class="form-actions"><button class="btn-primary" onclick="ntcSave()">SAVE</button><button class="btn-secondary" onclick="closeModal('ntc-modal')">CANCEL</button></div>
   </div>
 </div>
+<!-- 회원 관리 (Admin) -->
+<div class="modal-overlay" id="adm-members-modal">
+  <div class="modal-box" style="max-width:480px" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('adm-members-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <div class="modal-title">회원 관리</div>
+    <div class="adm-sec-sub" style="text-align:center;margin-bottom:18px;">닉네임 옆 레벨(1~10)을 바꾸고 저장</div>
+    <div id="adm-members-list"></div>
+  </div>
+</div>
+<!-- 게시판 권한 (Admin) -->
+<div class="modal-overlay" id="adm-perms-modal">
+  <div class="modal-box" style="max-width:560px" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('adm-perms-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <div class="modal-title">게시판 권한</div>
+    <div class="adm-sec-sub" style="text-align:center;margin-bottom:16px;">각 칸 = 접근 최소 레벨 (빈칸 = 기본값 · 읽기류 0 / 쓰기·댓글 10)</div>
+    <div id="adm-perms-body"></div>
+    <div class="form-actions"><button class="btn-primary" onclick="admPermsSave()">SAVE</button><button class="btn-secondary" onclick="closeModal('adm-perms-modal')">CANCEL</button></div>
+  </div>
+</div>
+<!-- 가입 정책 (Admin) -->
+<div class="modal-overlay" id="adm-signup-modal">
+  <div class="modal-box" style="max-width:400px" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('adm-signup-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <div class="modal-title">가입 정책</div>
+    <div class="form-group adm-sg-opt"><label class="adm-sg-radio"><input type="radio" name="adm-signup-mode" id="adm-signup-auto" onchange="admSignupSync()"><span>자동 승인 · 기본 레벨</span></label><input type="number" class="form-input adm-sg-lv" id="adm-signup-lv" min="1" max="9" value="1" style="max-width:90px;"></div>
+    <div class="form-group adm-sg-opt"><label class="adm-sg-radio"><input type="radio" name="adm-signup-mode" id="adm-signup-pend" onchange="admSignupSync()"><span>승인 대기 (레벨 0 · 관리자가 회원관리에서 승격)</span></label></div>
+    <div class="adm-sec-sub" style="margin:6px 2px 18px;">가입 자체의 열림/닫힘은 Supabase 대시보드에서 관리됩니다.</div>
+    <div class="form-actions"><button class="btn-primary" onclick="admSignupSave()">SAVE</button><button class="btn-secondary" onclick="closeModal('adm-signup-modal')">CANCEL</button></div>
+  </div>
+</div>
 <div class="modal-overlay" id="login-modal">
   <div class="modal-box" style="max-width:380px;">
     <button class="modal-close" onclick="closeModal('login-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
@@ -2678,12 +2940,11 @@ body.is-admin #page-admin .adm-body{display:block;}
         <div class="form-actions"><button class="btn-secondary" onclick="memberLogout()">로그아웃</button><button class="btn-secondary" onclick="closeModal('login-modal')">CLOSE</button></div>
       </div>
       <div id="lm-member-out">
-        <div class="form-group"><label class="form-label">닉네임</label><input type="text" class="form-input" id="m-nick" maxlength="20" autocomplete="username"></div>
+        <div class="form-group"><label class="form-label">아이디</label><input type="text" class="form-input" id="m-id" maxlength="20" autocomplete="username" placeholder="영문 소문자·숫자"></div>
         <div class="form-group"><label class="form-label">비밀번호</label><input type="password" class="form-input" id="m-pw" autocomplete="current-password"></div>
         <div class="form-group" id="m-signup-extra" style="display:none">
-          <label class="form-label">프로필 사진 (선택)</label>
-          <label class="form-file-label"><span>+ 사진 선택</span><input type="file" accept="image/*" style="display:none" id="m-av" onchange="mAvPick(this)"></label>
-          <img id="m-av-prev" class="form-file-preview" style="display:none;max-width:80px;">
+          <label class="form-label">닉네임 (표시명)</label>
+          <input type="text" class="form-input" id="m-nick" maxlength="20" placeholder="방명록 등에 보일 이름">
         </div>
         <div class="form-actions">
           <button class="btn-primary" id="m-go" onclick="memberGo()">로그인</button>
@@ -2967,14 +3228,25 @@ window.addEventListener('DOMContentLoaded',async()=>{
 });
 
 // ══ AUTH ══
-async function checkAuth(){if(!palelyDB)return;try{const{data:{user}}=await palelyDB.auth.getUser();if(user){currentUser=user;isAdmin=true;document.body.classList.add('is-admin');}}catch(e){}}
+let myLevel=0;
+function idToEmail(id){return String(id||'').trim().toLowerCase()+'@palely.local';}
+async function loadMyProfile(user,pw){
+  currentUser=user||null;
+  if(!user){myLevel=0;isAdmin=false;memberP=null;document.body.classList.remove('is-admin');if(typeof memberSync==='function')memberSync();return;}
+  let prof=null;
+  try{const{data}=await palelyDB.from('profiles').select('level,nickname').eq('user_id',user.id).maybeSingle();prof=data;}catch(e){}
+  myLevel=(prof&&typeof prof.level==='number')?prof.level:1;
+  isAdmin=myLevel>=10;
+  document.body.classList.toggle('is-admin',isAdmin);
+  const disp=(prof&&prof.nickname)||((user.email||'').split('@')[0])||'회원';
+  memberP={id:user.id,nickname:disp,avatar:'',ph:pw?await hashPw(pw):((memberP&&memberP.ph)||'')};
+  if(typeof memberSync==='function')memberSync();
+}
+async function checkAuth(){if(!palelyDB)return;try{const{data:{user}}=await palelyDB.auth.getUser();if(user)await loadMyProfile(user,null);}catch(e){}}
 function toggleLoginModal(){document.getElementById('login-modal').classList.toggle('active');document.getElementById('login-error').textContent='';}
 function closeModal(id){document.getElementById(id).classList.remove('active');}
 let memberP=null,mSignupMode=false,mAvUrl='';
-function memberInit(){
-  try{const p=JSON.parse(localStorage.getItem('palely_member')||'null');if(p&&p.id)memberP=p;}catch(e){}
-  memberSync();
-}
+function memberInit(){ memberSync(); }
 function memberSync(){
   document.body.classList.toggle('is-member',!!memberP);
   const inBox=document.getElementById('lm-member-in'),outBox=document.getElementById('lm-member-out');
@@ -3015,30 +3287,44 @@ async function mAvPick(inp){
 }
 async function memberGo(){
   const err=document.getElementById('login-error');err.textContent='';
-  const nick=(document.getElementById('m-nick').value||'').trim();
+  const id=(document.getElementById('m-id').value||'').trim().toLowerCase();
   const pw=document.getElementById('m-pw').value||'';
-  if(!nick||!pw){err.textContent='닉네임과 비밀번호를 입력하세요';return;}
-  const ph=await hashPw(pw);
+  if(!/^[a-z0-9_]{3,20}$/.test(id)){err.textContent='아이디는 영문 소문자·숫자·_ 3~20자';return;}
+  if(pw.length<6){err.textContent='비밀번호는 6자 이상이어야 해요';return;}
+  const email=idToEmail(id);const btn=document.getElementById('m-go');if(btn)btn.disabled=true;
   try{
-    let data,error;
-    if(mSignupMode)({data,error}=await palelyDB.rpc('member_signup',{nick:nick,pwhash:ph,av:mAvUrl||null}));
-    else({data,error}=await palelyDB.rpc('member_login',{nick:nick,pwhash:ph}));
-    if(error)throw error;
-    if(!data){err.textContent='닉네임 또는 비밀번호가 달라요';return;}
-    memberP={id:data.id,nickname:data.nickname,avatar:data.avatar||'',ph:ph};
-    localStorage.setItem('palely_member',JSON.stringify(memberP));
-    memberSync();closeModal('login-modal');
+    let res;
+    if(mSignupMode){
+      const disp=(document.getElementById('m-nick').value||'').trim()||id;
+      res=await palelyDB.auth.signUp({email:email,password:pw,options:{data:{nickname:disp}}});
+      if(res.error)throw res.error;
+      if(!res.data.session){err.textContent='가입되었어요. 이제 로그인해 주세요';if(mSignupMode)mToggleMode();if(btn)btn.disabled=false;return;}
+    }else{
+      res=await palelyDB.auth.signInWithPassword({email:email,password:pw});
+      if(res.error)throw res.error;
+    }
+    const user=res.data.user||(res.data.session&&res.data.session.user);
+    await loadMyProfile(user,pw);
+    closeModal('login-modal');
     showToast(memberP.nickname+' 님 '+(mSignupMode?'가입 완료':'환영합니다')+' ♥');
-  }catch(e){err.textContent=(e.message||'실패')+(/(function|schema)/i.test(e.message||'')?' — 회원 SQL 미설정':'');}
+    await loadBoards();
+  }catch(e){
+    let m=e.message||'실패';
+    if(/already.*regist/i.test(m))m='이미 있는 아이디예요';
+    else if(/signup|disabled/i.test(m))m='지금은 가입이 닫혀 있어요';
+    else if(/invalid login/i.test(m))m='아이디 또는 비밀번호가 달라요';
+    err.textContent=m;
+  }
+  if(btn)btn.disabled=false;
 }
-function memberLogout(){memberP=null;localStorage.removeItem('palely_member');memberSync();showToast('로그아웃 되었어요');}
+function memberLogout(){ doLogout(); }
 async function doLogin(){
   const e=document.getElementById('login-email').value.trim(),p=document.getElementById('login-password').value,err=document.getElementById('login-error'),btn=document.getElementById('login-btn');
   if(!e||!p){err.textContent='Email and password required';return;}btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';
-  try{const{data,error}=await palelyDB.auth.signInWithPassword({email:e,password:p});if(error)throw error;currentUser=data.user;isAdmin=true;document.body.classList.add('is-admin');closeModal('login-modal');showToast('Admin logged in');await loadBoards();}catch(e){err.textContent=e.message||'Login failed';}
+  try{const{data,error}=await palelyDB.auth.signInWithPassword({email:e,password:p});if(error)throw error;await loadMyProfile(data.user,p);closeModal('login-modal');showToast(isAdmin?'Admin logged in':'로그인됨');await loadBoards();}catch(e){err.textContent=e.message||'Login failed';}
   btn.disabled=false;btn.textContent='LOGIN';
 }
-async function doLogout(){if(!palelyDB)return;await palelyDB.auth.signOut();currentUser=null;isAdmin=false;document.body.classList.remove('is-admin');closeModal('login-modal');showToast('Logged out');}
+async function doLogout(){if(!palelyDB)return;try{await palelyDB.auth.signOut();}catch(e){}currentUser=null;myLevel=0;isAdmin=false;memberP=null;document.body.classList.remove('is-admin');if(typeof memberSync==='function')memberSync();closeModal('login-modal');showToast('로그아웃됨');await loadBoards();}
 
 // ══ ROUTER ══
 let curDetail=null,curPopup=null,pendingConsent=null,pendingSharedPost=null;
@@ -3085,8 +3371,8 @@ function declineConsent(){pendingConsent=null;document.getElementById('adult-con
 function navigate(page){
   const dv=document.getElementById('detail-view');if(dv){dv.classList.remove('active');dv.style.display='none';}
   document.querySelectorAll('.page-section').forEach(s=>{s.classList.remove('active');s.style.display='';});
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.querySelectorAll('.nav-item[data-page="'+page+'"]').forEach(n=>n.classList.add('active'));
+  document.querySelectorAll('.nav-item,.mnav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.nav-item[data-page="'+page+'"],.mnav-item[data-page="'+page+'"]').forEach(n=>n.classList.add('active'));
   const mc=document.getElementById('main-content');
   if(page==='home'){document.body.classList.remove('board-open');}
   else{document.body.classList.add('board-open');if(mc){mc.scrollTop=0;}
@@ -3808,7 +4094,8 @@ function renderAssets(){
   astReveal();
 }
 function astLayout(g,nodes){
-  const ncol=window.innerWidth<640?2:3;
+  const gw=(g.clientWidth&&g.clientWidth>120)?g.clientWidth:window.innerWidth;
+  const ncol=gw<640?2:3;
   const cols=[],sums=[];
   for(let i=0;i<ncol;i++){const c=document.createElement('div');c.className='ast-col';g.appendChild(c);cols.push(c);sums.push(0);}
   nodes.forEach(n=>{
@@ -6057,7 +6344,7 @@ function editorStateStr(){
   return parts.join('');
 }
 // ── 모달 배경클릭 공통 처리: 입력 중인 내용이 있으면 확인 후 닫기 ──
-const BG_CLOSE_IDS=['dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal'];
+const BG_CLOSE_IDS=['dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal'];
 function modalHasInput(ov){
   return [...ov.querySelectorAll('input:not([type=checkbox]):not([type=radio]),textarea')].some(el=>el.offsetParent!==null&&(el.value||'').trim()!=='')
     ||[...ov.querySelectorAll('[contenteditable]')].some(el=>el.offsetParent!==null&&el.textContent.trim()!=='');
@@ -6497,6 +6784,8 @@ async function reOnPaste(e){
 }
 function reOnClick(e){
   if(e.target.closest('.re-rz,.re-rot,.re-block-tools'))return;
+  const blk=e.target.closest('.re-slider,.re-grid,.re-yt');
+  if(blk&&!e.target.closest('.re-cap-input')){document.querySelectorAll('.re-body .re-sel').forEach(i=>i.classList.remove('re-sel'));blk.classList.add('re-sel');reSelImg=null;const bar=document.getElementById('re-sizebar');if(bar)bar.style.display='none';return;}
   const img=e.target.closest('img');
   document.querySelectorAll('.re-body .re-sel').forEach(i=>i.classList.remove('re-sel'));
   const bar=document.getElementById('re-sizebar');if(bar)bar.style.display='none';
@@ -6521,8 +6810,8 @@ function reMakeBlocksDraggable(root){
     h.addEventListener('dragstart',reBlockDragStart);h.addEventListener('dragend',reBlockDragEnd);
     tools.appendChild(h);b.appendChild(tools);
     if(b.classList.contains('re-fig')&&!b.querySelector(':scope > .re-rz')){
-      ['nw','ne','sw','se'].forEach(cc=>{const rz=document.createElement('span');rz.className='re-rz';rz.dataset.c=cc;rz.setAttribute('contenteditable','false');rz.addEventListener('mousedown',reRzDown);b.appendChild(rz);});
-      const rot=document.createElement('span');rot.className='re-rot';rot.title='드래그로 회전';rot.setAttribute('contenteditable','false');rot.addEventListener('mousedown',reRotDown);b.appendChild(rot);
+      ['nw','ne','sw','se'].forEach(cc=>{const rz=document.createElement('span');rz.className='re-rz';rz.dataset.c=cc;rz.setAttribute('contenteditable','false');rz.addEventListener('pointerdown',reRzDown);b.appendChild(rz);});
+      const rot=document.createElement('span');rot.className='re-rot';rot.title='드래그로 회전';rot.setAttribute('contenteditable','false');rot.addEventListener('pointerdown',reRotDown);b.appendChild(rot);
       const im=b.querySelector(':scope > img');if(im){im.setAttribute('draggable','true');im.addEventListener('dragstart',reBlockDragStart);im.addEventListener('dragend',reBlockDragEnd);}
     }
   });
@@ -6531,8 +6820,8 @@ function reSetBlockAlign(b,al){b.setAttribute('data-align',al);b.classList.remov
 function reBlockDragStart(e){reDragBlock=e.currentTarget.closest(RE_BLOCK_SEL);if(!reDragBlock)return;e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain','move');}catch(_){}setTimeout(()=>reDragBlock&&reDragBlock.classList.add('re-dragging'),0);}
 function reBlockDragEnd(){if(reDragBlock)reDragBlock.classList.remove('re-dragging');reClearDropLine();reDragBlock=null;}
 function rePlaceHandles(fig){const img=fig&&fig.querySelector(':scope > img');if(!img)return;const ol=img.offsetLeft,ot=img.offsetTop,ow=img.offsetWidth,oh=img.offsetHeight;const Pp={nw:[ol,ot],ne:[ol+ow,ot],sw:[ol,ot+oh],se:[ol+ow,ot+oh]};fig.querySelectorAll(':scope > .re-rz').forEach(h=>{const p=Pp[h.dataset.c];if(p){h.style.left=p[0]+'px';h.style.top=p[1]+'px';}});const rot=fig.querySelector(':scope > .re-rot');if(rot){rot.style.left=(ol+ow/2)+'px';rot.style.top=(ot-26)+'px';}}
-function reRzDown(e){e.preventDefault();e.stopPropagation();const fig=e.currentTarget.closest('.re-fig');const img=fig&&fig.querySelector(':scope > img');if(!img)return;document.querySelectorAll('.re-body .re-sel').forEach(i=>i.classList.remove('re-sel'));fig.classList.add('re-sel');reSelImg=fig;const c=e.currentTarget.dataset.c;const dir=(c==='ne'||c==='se')?1:-1;const startX=e.clientX;const startW=img.getBoundingClientRect().width;function mv(ev){const dx=(ev.clientX-startX)*dir;let nw=Math.max(40,startW+dx);img.style.width=Math.round(nw)+'px';img.style.height='auto';rePlaceHandles(fig);}function up(){document.removeEventListener('mousemove',mv);document.removeEventListener('mouseup',up);if(typeof reSaveSel==='function')reSaveSel();}document.addEventListener('mousemove',mv);document.addEventListener('mouseup',up);}
-function reRotDown(e){e.preventDefault();e.stopPropagation();const fig=e.currentTarget.closest('.re-fig');const img=fig&&fig.querySelector(':scope > img');if(!img)return;document.querySelectorAll('.re-body .re-sel').forEach(i=>i.classList.remove('re-sel'));fig.classList.add('re-sel');reSelImg=fig;const r=img.getBoundingClientRect();const cx=r.left+r.width/2,cy=r.top+r.height/2;const start=Math.atan2(e.clientY-cy,e.clientX-cx);const base=parseFloat(img.dataset.rot||'0');function mv(ev){let d=base+(Math.atan2(ev.clientY-cy,ev.clientX-cx)-start)*180/Math.PI;if(ev.shiftKey)d=Math.round(d/15)*15;img.style.transform='rotate('+d.toFixed(1)+'deg)';img.dataset.rot=d.toFixed(1);}function up(){document.removeEventListener('mousemove',mv);document.removeEventListener('mouseup',up);if(typeof reSaveSel==='function')reSaveSel();}document.addEventListener('mousemove',mv);document.addEventListener('mouseup',up);}
+function reRzDown(e){e.preventDefault();e.stopPropagation();const fig=e.currentTarget.closest('.re-fig');const img=fig&&fig.querySelector(':scope > img');if(!img)return;document.querySelectorAll('.re-body .re-sel').forEach(i=>i.classList.remove('re-sel'));fig.classList.add('re-sel');reSelImg=fig;const c=e.currentTarget.dataset.c;const dir=(c==='ne'||c==='se')?1:-1;const startX=e.clientX;try{e.currentTarget.setPointerCapture(e.pointerId);}catch(_){}const startW=img.getBoundingClientRect().width;function mv(ev){const dx=(ev.clientX-startX)*dir;let nw=Math.max(40,startW+dx);img.style.width=Math.round(nw)+'px';img.style.height='auto';rePlaceHandles(fig);}function up(){document.removeEventListener('pointermove',mv);document.removeEventListener('pointerup',up);document.removeEventListener('pointercancel',up);if(typeof reSaveSel==='function')reSaveSel();}document.addEventListener('pointermove',mv);document.addEventListener('pointerup',up);document.addEventListener('pointercancel',up);}
+function reRotDown(e){e.preventDefault();e.stopPropagation();const fig=e.currentTarget.closest('.re-fig');const img=fig&&fig.querySelector(':scope > img');if(!img)return;document.querySelectorAll('.re-body .re-sel').forEach(i=>i.classList.remove('re-sel'));fig.classList.add('re-sel');reSelImg=fig;const r=img.getBoundingClientRect();const cx=r.left+r.width/2,cy=r.top+r.height/2;const start=Math.atan2(e.clientY-cy,e.clientX-cx);const base=parseFloat(img.dataset.rot||'0');try{e.currentTarget.setPointerCapture(e.pointerId);}catch(_){}function mv(ev){let d=base+(Math.atan2(ev.clientY-cy,ev.clientX-cx)-start)*180/Math.PI;if(ev.shiftKey)d=Math.round(d/15)*15;img.style.transform='rotate('+d.toFixed(1)+'deg)';img.dataset.rot=d.toFixed(1);}function up(){document.removeEventListener('pointermove',mv);document.removeEventListener('pointerup',up);document.removeEventListener('pointercancel',up);if(typeof reSaveSel==='function')reSaveSel();}document.addEventListener('pointermove',mv);document.addEventListener('pointerup',up);document.addEventListener('pointercancel',up);}
 function reGetDragAfter(container,y){const els=[...container.children].filter(c=>c!==reDragBlock);let closest=null,closestOffset=-Infinity;for(const c of els){const box=c.getBoundingClientRect();const offset=y-(box.top+box.height/2);if(offset<0&&offset>closestOffset){closestOffset=offset;closest=c;}}return closest;}
 function reClearDropLine(){const b=reBody();if(b)b.querySelectorAll('.re-drop-before,.re-drop-after').forEach(el=>el.classList.remove('re-drop-before','re-drop-after'));}
 function reOnDragOver(e){if(!reDragBlock)return;e.preventDefault();e.dataTransfer.dropEffect='move';const b=reBody();const after=reGetDragAfter(b,e.clientY);reClearDropLine();if(after)after.classList.add('re-drop-before');else if(b.lastElementChild)b.lastElementChild.classList.add('re-drop-after');}
@@ -6910,6 +7199,18 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight'){e.preventDefault();ivGo(1);}
   else if(e.key==='ArrowLeft'){e.preventDefault();ivGo(-1);}
 });
+(function(){
+  const m=document.getElementById('image-viewer-modal');if(!m)return;
+  let sx=0,sy=0,st=0;
+  m.addEventListener('touchstart',e=>{if(e.touches.length!==1)return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;st=Date.now();},{passive:true});
+  m.addEventListener('touchend',e=>{
+    const sh=document.getElementById('iv-sheet');
+    if(sh&&!sh.hidden)return;
+    const t=e.changedTouches[0];const dx=t.clientX-sx,dy=t.clientY-sy;
+    if(Date.now()-st>600)return;
+    if(Math.abs(dx)>44&&Math.abs(dx)>Math.abs(dy)*1.4)ivGo(dx<0?1:-1);
+  },{passive:true});
+})();
 function copyPromptSilent(enc){const t=decodeURIComponent(atob(enc));navigator.clipboard.writeText(t).then(()=>showToast('클립보드에 복사됨'));}
 function copyPrompt(btn,enc){const t=decodeURIComponent(atob(enc));navigator.clipboard.writeText(t).then(()=>{
   showToast('클립보드에 복사됨');
@@ -7006,6 +7307,101 @@ async function saveDdays(){
   localStorage.setItem('pb_ddays',JSON.stringify(ddays));
   if(palelyDB){try{await palelyDB.from('settings').upsert({key:'ddays',value:JSON.stringify(ddays)},{onConflict:'key'});}catch(e){}}
 }
+/* ===== 회원·권한 관리 (settings/profiles) — 관리자 전용 ===== */
+const ADM_BOARDS=[['notices','공지'],['logs','로그'],['banners','배너'],['prompts','프롬프트'],['distributions','배포'],['diary','다이어리'],['assets','에셋'],['guestbook','방명록']];
+const ADM_PERMS=[['list','목록'],['read','읽기'],['write','쓰기'],['comment','댓글'],['download','다운로드']];
+let admBoardPerms={};
+async function admMembersOpen(){
+  const box=document.getElementById('adm-members-list');
+  box.innerHTML='<div class="adm-empty">불러오는 중…</div>';
+  document.getElementById('adm-members-modal').classList.add('active');
+  let rows=[];
+  try{const{data,error}=await palelyDB.from('profiles').select('user_id,nickname,level,created_at').order('created_at');if(error)throw error;rows=data||[];}
+  catch(e){box.innerHTML='<div class="adm-empty">회원 목록을 불러오지 못했습니다.</div>';return;}
+  if(!rows.length){box.innerHTML='<div class="adm-empty">아직 가입한 회원이 없습니다.</div>';return;}
+  const myId=(currentUser&&currentUser.id)||'';
+  box.innerHTML=rows.map(function(r){
+    const uid=esc(r.user_id);const nn=esc(r.nickname||'(닉네임 없음)');
+    const dt=r.created_at?esc(String(r.created_at).slice(0,10)):'';
+    const lv=(r.level==null?1:r.level);
+    const me=(r.user_id===myId);
+    return '<div class="cm-row adm-mrow"'+(me?' data-me="1"':'')+' data-uid="'+uid+'" data-orig="'+lv+'">'
+      +'<span class="adm-mname">'+nn+(me?' <em>(나)</em>':'')+'<small>'+dt+'</small></span>'
+      +'<span class="adm-mctl"><input type="number" class="form-input adm-mlv" min="1" max="10" value="'+lv+'">'
+      +'<button class="adm-act adm-msave" onclick="admMemberSave(this)">저장</button></span></div>';
+  }).join('');
+}
+async function admMemberSave(btn){
+  const row=btn.closest('.adm-mrow');const uid=row.getAttribute('data-uid');
+  const inp=row.querySelector('.adm-mlv');let lv=parseInt(inp.value,10);
+  if(isNaN(lv)||lv<1||lv>10){showToast('레벨은 1~10 사이여야 합니다');return;}
+  const orig=parseInt(row.getAttribute('data-orig'),10);
+  if(row.getAttribute('data-me')==='1'&&lv<orig){showToast('본인 레벨은 낮출 수 없습니다');inp.value=orig;return;}
+  try{const{error}=await palelyDB.from('profiles').update({level:lv}).eq('user_id',uid);if(error)throw error;
+    row.setAttribute('data-orig',lv);showToast('레벨이 변경되었습니다');}
+  catch(e){showToast('변경 실패 (관리자 권한 필요)');}
+}
+async function admPermsOpen(){
+  const box=document.getElementById('adm-perms-body');
+  document.getElementById('adm-perms-modal').classList.add('active');
+  try{const{data}=await palelyDB.from('settings').select('value').eq('key','board_perms').single();admBoardPerms=data&&data.value?JSON.parse(data.value):{};}
+  catch(e){admBoardPerms={};}
+  let h='<table class="adm-perm-tbl"><thead><tr><th>게시판</th>'+ADM_PERMS.map(function(p){return '<th>'+p[1]+'</th>';}).join('')+'</tr></thead><tbody>';
+  ADM_BOARDS.forEach(function(b){
+    const bk=b[0];const cur=admBoardPerms[bk]||{};
+    h+='<tr data-board="'+bk+'"><td class="adm-perm-bn">'+b[1]+'</td>';
+    ADM_PERMS.forEach(function(p){
+      const pk=p[0];
+      if(pk==='comment'&&bk!=='guestbook'){h+='<td class="adm-perm-na">—</td>';return;}
+      const ph=(pk==='write'||pk==='comment')?'10':'0';
+      const v=(cur[pk]!=null?cur[pk]:'');
+      h+='<td><input type="number" class="form-input adm-perm-in" data-perm="'+pk+'" min="0" max="10" placeholder="'+ph+'" value="'+v+'"></td>';
+    });
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  box.innerHTML=h;
+}
+async function admPermsSave(){
+  const obj={};let warn=false;
+  document.querySelectorAll('#adm-perms-body tr[data-board]').forEach(function(tr){
+    const bk=tr.getAttribute('data-board');const o={};
+    tr.querySelectorAll('.adm-perm-in').forEach(function(inp){
+      const val=(inp.value||'').trim();if(val==='')return;
+      const n=parseInt(val,10);if(isNaN(n)||n<0||n>10)return;
+      o[inp.getAttribute('data-perm')]=n;
+    });
+    if(o.read!=null&&o.write!=null&&o.read>o.write)warn=true;
+    if(Object.keys(o).length)obj[bk]=o;
+  });
+  try{const{error}=await palelyDB.from('settings').upsert({key:'board_perms',value:JSON.stringify(obj)},{onConflict:'key'});if(error)throw error;
+    admBoardPerms=obj;if(typeof boardPerms!=='undefined')boardPerms=obj;
+    showToast(warn?'저장됨 · 읽기>쓰기 모순 주의':'저장됨 · 읽기·쓰기 권한은 즉시 적용됩니다');}
+  catch(e){showToast('저장 실패 (관리자 권한 필요)');}
+}
+async function admSignupOpen(){
+  document.getElementById('adm-signup-modal').classList.add('active');
+  let lv=1;
+  try{const{data}=await palelyDB.from('settings').select('value').eq('key','signup_default_level').single();if(data&&data.value!=null&&data.value!=='')lv=parseInt(data.value,10);}
+  catch(e){lv=1;}
+  if(isNaN(lv))lv=1;
+  const pend=(lv<=0);
+  document.getElementById('adm-signup-auto').checked=!pend;
+  document.getElementById('adm-signup-pend').checked=pend;
+  document.getElementById('adm-signup-lv').value=pend?1:lv;
+  admSignupSync();
+}
+function admSignupSync(){
+  const pend=document.getElementById('adm-signup-pend').checked;
+  document.getElementById('adm-signup-lv').disabled=pend;
+}
+async function admSignupSave(){
+  const pend=document.getElementById('adm-signup-pend').checked;
+  let val='0';
+  if(!pend){let lv=parseInt(document.getElementById('adm-signup-lv').value,10);if(isNaN(lv)||lv<1||lv>9){showToast('기본 레벨은 1~9 사이여야 합니다');return;}val=String(lv);}
+  try{const{error}=await palelyDB.from('settings').upsert({key:'signup_default_level',value:val},{onConflict:'key'});if(error)throw error;showToast('가입 정책이 저장되었습니다');}
+  catch(e){showToast('저장 실패 (관리자 권한 필요)');}
+}
 function ddayCount(dateStr){const p=String(dateStr).split('-').map(Number);const t=new Date(p[0],(p[1]||1)-1,p[2]||1);const n=new Date();n.setHours(0,0,0,0);const diff=Math.round((n-t)/864e5);if(diff>=0)return{pf:'DAY',n:diff+1};return{pf:'DAY',n:-diff};}
 function renderHomeDday(){
   const c=document.getElementById('home-dday');if(!c)return;
@@ -7044,6 +7440,55 @@ function svgToScreen(sx,sy){const svg=document.querySelector('svg.base');if(!svg
 // ══ NAV wiring: each item = glowing star + vertical English; hover reveals ring + line + Korean(+small star) ══
 const NAV_ENG={home:'HOME',notices:'NOTICE',diary:'DIARY',assets:'ASSETS',user:'USER',banners:'BANNER',logs:'LOG',prompts:'ISSUANCE',guestbook:'GUESTBOOK'};
 const NAV_KR={home:'홈',notices:'공지사항',diary:'일기장',assets:'에셋백업',user:'유저',banners:'배너',logs:'로그백업',prompts:'프롬프트',guestbook:'방명록'};
+const MNAV_BAR={home:'HOME',diary:'DIARY',assets:'ASSETS',logs:'LOG'};
+function mnavToggle(){const s=document.getElementById('mnav-sheet');if(!s)return;const open=s.classList.toggle('open');const mb=document.getElementById('mnav-menu');if(mb)mb.classList.toggle('mnav-open',open);}
+function mnavClose(){const s=document.getElementById('mnav-sheet');if(s)s.classList.remove('open');const mb=document.getElementById('mnav-menu');if(mb)mb.classList.remove('mnav-open');}
+function mnavGo(p){navigate(p);mnavClose();}
+function mnavInit(){
+  const nav=document.getElementById('mobile-nav');
+  const star=document.querySelector('.iss-tab-star');const src=star?star.src:'';
+  if(nav&&!nav.childElementCount){
+    Object.keys(MNAV_BAR).forEach(p=>{
+      if(p!=='home'&&!document.getElementById('page-'+p))return;
+      const b=document.createElement('button');
+      b.className='mnav-it mnav-item';b.dataset.page=p;
+      b.innerHTML=(src?'<img class="iss-tab-star" src="'+src+'" alt="" draggable="false">':'')+'<span class="iss-tab-label"></span>';
+      b.querySelector('.iss-tab-label').textContent=MNAV_BAR[p];
+      b.onclick=()=>navigate(p);
+      nav.appendChild(b);
+    });
+    const menu=document.createElement('button');
+    menu.className='mnav-it mnav-item mnav-menu';menu.id='mnav-menu';
+    menu.innerHTML=(src?'<img class="iss-tab-star" src="'+src+'" alt="" draggable="false">':'')+'<span class="iss-tab-label">MENU</span>';
+    menu.onclick=(e)=>{e.stopPropagation();mnavToggle();};
+    nav.appendChild(menu);
+  }
+  if(!document.getElementById('mnav-sheet')){
+    const sheet=document.createElement('div');sheet.id='mnav-sheet';
+    Object.keys(NAV_KR).forEach(p=>{
+      if(p!=='home'&&!document.getElementById('page-'+p))return;
+      const it=document.createElement('button');
+      it.className='mnav-sh-it mnav-item';it.dataset.page=p;
+      it.innerHTML='<img class="iss-tab-star" alt="" draggable="false"><span class="iss-tab-label"></span>';
+      if(src)it.querySelector('img').src=src;
+      it.querySelector('span').textContent=NAV_ENG[p]||p.toUpperCase();
+      it.onclick=()=>mnavGo(p);
+      sheet.appendChild(it);
+    });
+    document.body.appendChild(sheet);
+    document.addEventListener('click',(e)=>{
+      const sh=document.getElementById('mnav-sheet');
+      if(!sh||!sh.classList.contains('open'))return;
+      if(sh.contains(e.target))return;
+      const mb=document.getElementById('mnav-menu');
+      if(mb&&mb.contains(e.target))return;
+      mnavClose();
+    });
+  }
+  const art=document.getElementById('player-art');
+  if(art&&!art.dataset.lpWired){art.dataset.lpWired='1';art.addEventListener('click',()=>{if(window.matchMedia('(max-width:640px)').matches)document.getElementById('lp-player').classList.toggle('lp-open');});}
+}
+mnavInit();
 const SVGNS='http://www.w3.org/2000/svg';
 function svgEl(tag,attrs,text){const e=document.createElementNS(SVGNS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;return e;}
 // 마우스 오버 팝업.svg 원본 소스 (별 path + circle, viewBox 20x31, 중심 ~(10,14))
