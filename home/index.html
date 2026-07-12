@@ -1837,12 +1837,13 @@ body.is-admin #page-admin .adm-body{display:block;}
   .toast-container{bottom:calc(72px + env(safe-area-inset-bottom));}
 }
 @media(max-width:640px){
-  /* 음악 플레이어: 미니 디스크(탭하면 컨트롤 펼침) */
-  .lp-player{top:auto;bottom:calc(126px + env(safe-area-inset-bottom));right:12px;width:64px;gap:6px;}
-  .lp-player::before,.lp-player::after{left:32px;top:32px;width:64px;height:64px;}
-  .lp-disc{width:64px;height:64px;cursor:pointer;}
-  .lp-player .lp-meta{display:none;}
-  .lp-player.lp-open .lp-meta{display:flex;position:absolute;right:0;bottom:calc(100% + 12px);width:176px;padding:13px 14px;background:rgba(9,9,9,.95);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 14px 40px rgba(0,0,0,.5);}
+  /* 음악 플레이어: 별 버튼 탭 → 우측에서 스르륵 슬라이드 (겹침 해소) */
+  .lp-star-btn{display:flex;}
+  .lp-player{top:auto;bottom:calc(84px + env(safe-area-inset-bottom));right:0;left:auto;width:auto;flex-direction:row;align-items:center;gap:11px;padding:12px 15px 12px 14px;background:rgba(9,9,9,.96);border:1px solid rgba(255,255,255,.1);border-right:none;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 16px 46px rgba(0,0,0,.55);border-radius:10px 0 0 10px;transform:translateX(112%);transition:transform .5s cubic-bezier(.22,.9,.28,1.02);z-index:92;}
+  .lp-player.lp-open{transform:translateX(0);}
+  .lp-player::before,.lp-player::after{display:none;}
+  .lp-disc{width:54px;height:54px;flex:none;}
+  .lp-player .lp-meta{display:flex;width:150px;position:static;}
   /* 알림 패널: 화면 폭에 맞춤 */
   .feed-panel{width:min(392px,calc(100vw - 20px));right:10px;max-height:72dvh;}
 }
@@ -2060,6 +2061,25 @@ body.is-admin #page-admin .adm-body{display:block;}
   .dp-page-view .diary-rich p{margin:0 0 1.1em;}
   .dp-page-view .diary-rich img,.diary-rich .diary-slider,.diary-rich .dm-wrap{margin:10px 0;}
   .detail-ics{top:32px;right:20px;gap:14px;}
+}
+/* 음악 별 토글 버튼 (모바일 전용) */
+.lp-star-btn{display:none;position:fixed;right:0;bottom:calc(148px + env(safe-area-inset-bottom));z-index:93;width:34px;height:42px;align-items:center;justify-content:center;background:rgba(9,9,9,.88);border:1px solid rgba(255,255,255,.12);border-right:none;border-radius:9px 0 0 9px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent;transition:background .3s;}
+.lp-star-btn img{width:15px;height:15px;opacity:.72;transition:opacity .3s,filter .3s,transform .5s cubic-bezier(.3,1.4,.4,1);pointer-events:none;}
+.lp-star-btn.on img{opacity:1;filter:drop-shadow(0 0 8px rgba(240,244,255,.95));transform:rotate(72deg) scale(1.12);}
+.detail-back-tx{display:none;}
+/* ① 게시판 헤더 모바일 축소 (첫 화면 낭비 해소) */
+@media(max-width:640px){
+  .lp-star-btn{display:flex;}
+  .iss-head.bhd{padding:12px 0 2px;}
+  .iss-spark{width:74px;height:74px;}
+  .iss-spark-wrap{margin-bottom:-12px;}
+  .iss-tw{display:none;}
+  .iss-title{font-size:18px;letter-spacing:.2em;text-indent:.2em;margin-bottom:4px;}
+  .bhd .iss-sub,.iss-sub{font-size:8.5px;letter-spacing:.24em;text-indent:.24em;margin-bottom:6px;}
+  /* ④ 뒤로가기 가시성: 화살표 키우고 '목록' 라벨 */
+  .detail-back{font-family:var(--font-kr);font-size:12px;letter-spacing:0;color:rgba(215,222,242,.85);}
+  .detail-back svg{width:14px;height:22px;}
+  .detail-back-tx{display:inline;margin-left:3px;}
 }
 </style></head>
 <body>
@@ -2880,7 +2900,7 @@ body.is-admin #page-admin .adm-body{display:block;}
 </section>
 
 <div class="detail-view" id="detail-view">
-  <button class="detail-back" title="뒤로" onclick="closeDetail()"><svg viewBox="0 0 10 18" width="11" height="19" fill="none" stroke="currentColor" stroke-width="1"><path d="M8.5 1L1.5 9l7 8"/></svg></button>
+  <button class="detail-back" title="목록으로" onclick="closeDetail()"><svg viewBox="0 0 10 18" width="11" height="19" fill="none" stroke="currentColor" stroke-width="1"><path d="M8.5 1L1.5 9l7 8"/></svg><span class="detail-back-tx">목록</span></button>
   <h2 class="detail-title" id="detail-title"></h2>
   <div class="detail-date" id="detail-date"></div>
   <div class="detail-ics">
@@ -7631,8 +7651,21 @@ function mnavInit(){
       mnavClose();
     });
   }
-  const art=document.getElementById('player-art');
-  if(art&&!art.dataset.lpWired){art.dataset.lpWired='1';art.addEventListener('click',()=>{if(window.matchMedia('(max-width:640px)').matches)document.getElementById('lp-player').classList.toggle('lp-open');});}
+  lpStarInit();
+}
+function lpStarInit(){
+  if(document.getElementById('lp-star-btn'))return;
+  const star=document.querySelector('.iss-tab-star');const src=star?star.src:'';
+  const b=document.createElement('button');b.id='lp-star-btn';b.className='lp-star-btn';b.title='음악 플레이어';
+  b.innerHTML='<img alt="" draggable="false">';if(src)b.querySelector('img').src=src;
+  b.onclick=(e)=>{e.stopPropagation();const lp=document.getElementById('lp-player');if(!lp)return;const open=lp.classList.toggle('lp-open');b.classList.toggle('on',open);};
+  document.body.appendChild(b);
+  document.addEventListener('click',(e)=>{
+    const lp=document.getElementById('lp-player');if(!lp||!lp.classList.contains('lp-open'))return;
+    if(lp.contains(e.target)||b.contains(e.target))return;
+    if(!window.matchMedia('(max-width:640px)').matches)return;
+    lp.classList.remove('lp-open');b.classList.remove('on');
+  });
 }
 mnavInit();
 const SVGNS='http://www.w3.org/2000/svg';
