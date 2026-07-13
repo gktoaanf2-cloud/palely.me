@@ -2148,8 +2148,8 @@ body.is-admin #page-admin .adm-body{display:block;}
   .detail-title{font-size:23px;line-height:1.4;margin-bottom:8px;}
   .detail-date{font-size:11px;}
   .detail-content{font-size:16.5px;line-height:1.9;}
-  .dp-page-view .diary-rich{font-size:16.5px;line-height:1.9;}
-  .dp-page-view .diary-rich p{margin:0 0 1.1em;}
+  .dp-page-view .diary-rich{font-size:16.5px;line-height:1.72;}
+  .dp-page-view .diary-rich p{margin:0 0 .6em;}
   .dp-page-view .diary-rich img,.diary-rich .diary-slider,.diary-rich .dm-wrap{margin:10px 0;}
   .detail-ics{top:32px;right:20px;gap:14px;}
 }
@@ -6031,7 +6031,7 @@ async function aiLogRun(idOrEl,mode){
   if(!text||!text.trim()){showToast('내용이 비어 있습니다');return;}
   const chunks=aiChunks(text,AI_CHUNK);
   const sysClean=await aiSys('ai_rule_clean','당신은 AI 채팅 로그 정리기입니다. 로그에서 UI 잔여물(버튼 문구, 타임스탬프, 시스템 메시지, 반복 줄)을 제거하고 대사와 지문을 읽기 좋은 문단으로 정리하세요. 내용 자체는 요약하거나 창작하지 말고 그대로 보존합니다. 결과 텍스트만 출력하세요.');
-  const sysCave=await aiSys('ai_rule_cave','당신은 케이브덕(CaveDuck) 채팅 로그를 웹소설 원고로 다듬는 전문 편집자입니다. 입력 관례: *별표*로 감싼 문장은 나레이션·지문이고, 감싸지지 않은 문장은 대사입니다. 편집 지침: ①버튼 문구·재생성 표시·타임스탬프·시스템 안내·기호만 있는 줄 등 UI 잔여물은 삭제 ②나레이션은 별표를 떼고 지문 문단으로 ③대사는 큰따옴표 "…" 로 감싸 항상 별도 줄에 배치 ④장면 전환과 호흡에 따라 문단을 나누고 지문 문단 사이에는 빈 줄 하나 ⑤대사 줄 앞뒤에는 반드시 빈 줄을 두 개씩 넣어 또렷한 여백을 만든다 ⑥긴 지문은 의미 단위로 자연스럽게 문단 분할 ⑦오탈자·조사 실수만 최소한으로 다듬고 문체·표현·수위·내용은 그대로 유지 ⑧요약·창작·생략 절대 금지. 전문 편집자의 솜씨로, 상업 웹소설처럼 읽기 흐름이 매끄러운 판형으로 정돈해 결과 텍스트만 출력하세요.');
+  const sysCave=await aiSys('ai_rule_cave','당신은 케이브덕(CaveDuck) 채팅 로그를 웹소설 원고로 다듬는 전문 편집자입니다. 입력 관례: *별표*로 감싼 문장은 나레이션·지문이고, 감싸지지 않은 문장은 대사입니다. 편집 지침: ①버튼 문구·재생성 표시·타임스탬프·시스템 안내·기호만 있는 줄 등 UI 잔여물은 삭제 ②나레이션은 별표를 떼고 지문 문단으로 ③대사는 큰따옴표 "…" 로 감싸 항상 별도 줄에 배치 ④장면 전환과 호흡에 따라 문단을 나누고 지문 문단 사이에는 빈 줄 하나 ⑤대사 줄 앞뒤에는 빈 줄을 하나씩 둔다 ⑥긴 지문은 의미 단위로 자연스럽게 문단 분할 ⑦오탈자·조사 실수만 최소한으로 다듬고 문체·표현·수위·내용은 그대로 유지 ⑧요약·창작·생략 절대 금지. 전문 편집자의 솜씨로, 상업 웹소설처럼 읽기 흐름이 매끄러운 판형으로 정돈해 결과 텍스트만 출력하세요.');
   const sysSum=await aiSys('ai_rule_sum','아래 글(또는 채팅 로그)의 내용을 한국어로 읽기 좋게 정리·요약하세요. 사건과 대화의 흐름을 순서대로 담되 사소한 세부는 생략합니다. 결과 텍스트만 출력하세요.');
   const sys=(mode==='cave'?sysCave:mode==='clean'?sysClean:sysSum)+'\n\n[출력 계약 — 최우선] 결과 본문 텍스트만 출력한다. 서두·인사·부연 설명·마크다운 표 금지.'+(mode==='cave'?' 줄바꿈·빈 줄·마크다운 강조(*·**)는 규칙이 지시한 형태 그대로 유지하고 임의로 합치거나 제거하지 않는다. 따옴표는 대사 줄에만 사용하며 나레이션·지문 문단에는 절대 붙이지 않는다. 이미 따옴표가 있는 대사는 중복해서 감싸지 않는다.':'');
   const parts=[];let caveFallback=false;
@@ -6064,7 +6064,7 @@ function aiCaveClean(idOrEl){return aiLogRun(idOrEl,'cave');}
 function aiLogSum(idOrEl){return aiLogRun(idOrEl,'sum');}
 function aiTextToHtml(t){return String(t||'').replace(/\r/g,'').replace(/\n+$/,'').split('\n').map(ln=>ln.trim()?'<p>'+aiMdInline(esc(ln))+'</p>':'<p><br></p>').join('');}
 function aiMdInline(s){return s.replace(/\*\*(\S(?:[^*]*?\S)?)\*\*/g,'<strong>$1</strong>').replace(/\*(\S(?:[^*\n]*?\S)?)\*/g,'<em>$1</em>');}
-function caveFinalize(t){var L=String(t||'').replace(/\r/g,'').split('\n'),o=[],inN=false;for(var k=0;k<L.length;k++){var s=L[k].trim();if(!s)continue;if(!/[가-힣a-zA-Z0-9]/.test(s)&&/[^\x00-\x7F]/.test(s)){continue;}if(inN){if(/\*{1,2}$/.test(s)){o.push(s.replace(/\*{1,2}$/,'').trim());inN=false;}else{o.push(s);}continue;}var m=s.match(/^\*{1,2}([\s\S]+?)\*{1,2}$/);if(m){o.push(m[1].trim());continue;}if(/^\*{1,2}/.test(s)&&!/\*{1,2}$/.test(s)){o.push(s.replace(/^\*{1,2}/,'').trim());inN=true;continue;}if(/^["“”「『'].*["”“」』']$/.test(s)){o.push(s);continue;}o.push('"'+s+'"');}return o.join('\n\n').trim();}
+function caveFinalize(t){var L=String(t||'').replace(/\r/g,'').split('\n'),o=[],inN=false;function push(x,d){o.push({s:x,d:!!d});}for(var k=0;k<L.length;k++){var s=L[k].trim();if(!s)continue;if(!/[가-힣a-zA-Z0-9]/.test(s)&&/[^\x00-\x7F]/.test(s)){continue;}if(inN){if(/\*{1,2}$/.test(s)){push(s.replace(/\*{1,2}$/,'').trim(),false);inN=false;}else{push(s,false);}continue;}var m=s.match(/^\*{1,2}([\s\S]+?)\*{1,2}$/);if(m){push(m[1].trim(),false);continue;}if(/^\*{1,2}/.test(s)&&!/\*{1,2}$/.test(s)){push(s.replace(/^\*{1,2}/,'').trim(),false);inN=true;continue;}if(/^["“”「『'].*["”“」』']$/.test(s)){push(s,true);continue;}push('"'+s+'"',true);}var out='';for(var j=0;j<o.length;j++){if(j)out+='\n\n';out+=o[j].s;}return out.trim();}
 function aiToolReplace(){
   const box=document.getElementById('ai-tool-panel');if(!box||!box._tool)return;
   const{el,isRich,result}=box._tool;
