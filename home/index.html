@@ -1597,7 +1597,8 @@ body.is-admin #page-admin .adm-body{display:block;}
 .lgv-btext{z-index:3;position:absolute;top:4%;right:5%;height:92%;writing-mode:vertical-rl;text-orientation:mixed;font-family:'Pretendard',sans-serif;font-weight:800;color:rgb(var(--t-text));letter-spacing:.04em;line-height:1;white-space:nowrap;pointer-events:none;display:flex;align-items:flex-start;}
 .lgv-btext span{opacity:0;display:inline-block;animation:lgvType 5.8s cubic-bezier(.3,.7,.3,1) infinite;animation-delay:var(--td);}
 @keyframes lgvType{0%{opacity:0;transform:translateY(16px);filter:blur(5px);}6%{opacity:1;transform:none;filter:blur(0);text-shadow:0 0 11px rgba(var(--t-fg),.45),0 0 26px rgba(var(--t-glow),.18);}13%{text-shadow:0 0 5px rgba(var(--t-fg),.16);}70%{opacity:1;transform:none;filter:blur(0);}79%{opacity:0;transform:translateY(-12px);filter:blur(4px);}100%{opacity:0;}}
-.lgv-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;flex:1;min-width:0;}
+.lgv-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;flex:1;min-width:0;align-content:start;max-height:var(--lgv-h,none);overflow-y:auto;overflow-x:hidden;scrollbar-width:none;-ms-overflow-style:none;}
+.lgv-grid::-webkit-scrollbar{width:0;height:0;display:none;}
 .lgv-card{position:relative;aspect-ratio:1/1;overflow:hidden;background:rgb(var(--t-surface));border:1px solid rgba(var(--t-accent),.08);cursor:pointer;opacity:0;}
 .lgv-card.in{animation:lgvIn .55s var(--ease-out) forwards;}
 @keyframes lgvIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
@@ -2032,7 +2033,7 @@ body.is-admin #page-admin .adm-body{display:block;}
 }
 
 /* ═══════════ MOBILE NOTICES/GUESTBOOK/EDITOR (배치3) ═══════════ */
-@media(max-width:900px){.lgv-grid{width:100%;}}
+@media(max-width:900px){.lgv-grid{width:100%;max-height:none;overflow:visible;}}
 /* 641~760px: 기존 룰(.ntc-panel left:0)이 만든 패널-텍스트 겹침 보정 */
 @media(max-width:760px){
   .ntc-from,.ntc-rich,.ntc-lh{left:37.5%;}
@@ -6088,6 +6089,42 @@ function aiReplaceOnce(el,isRich,from,to){
   el.value=el.value.slice(0,i)+to+el.value.slice(i+from.length);
   return true;
 }
+// ── 리치 본문 분해: AI는 텍스트만 손대고, 사진·인용·소제목은 원자리 보존 ──
+// (블록을 AI에 아예 넘기지 않는다. 자리표시자를 AI가 지켜주길 기대하는 방식은 '기호만 있는 줄' 삭제 규칙에 걸려 유실됨)
+const AI_MEDIA_SEL='figure.re-fig,.re-slider,.re-grid,.re-yt,img,iframe,video';
+const AI_KEEP_SEL=AI_MEDIA_SEL+',blockquote,h1,h2,h3,h4,hr,ul,ol,table,pre';
+function aiNodesText(nodes){
+  const c=document.createElement('div');
+  nodes.forEach(n=>c.appendChild(n.cloneNode(true)));
+  c.querySelectorAll('.re-block-tools,.re-rz,.re-rot').forEach(x=>x.remove());
+  c.querySelectorAll('strong,b').forEach(n=>n.replaceWith('**'+n.textContent+'**'));
+  c.querySelectorAll('em,i').forEach(n=>n.replaceWith('*'+n.textContent+'*'));
+  c.style.cssText='position:fixed;left:-99999px;top:0;width:600px;pointer-events:none;';
+  document.body.appendChild(c);const t=c.innerText;c.remove();return t;
+}
+function aiBlockHtml(node){
+  const c=node.cloneNode(true);
+  if(c.querySelectorAll)c.querySelectorAll('.re-block-tools,.re-rz,.re-rot').forEach(x=>x.remove());
+  if(c.classList)c.classList.remove('re-sel');
+  if(c.querySelectorAll)c.querySelectorAll('.re-sel').forEach(x=>x.classList.remove('re-sel'));
+  let h=c.outerHTML;
+  if(c.tagName==='IMG')h='<figure class="re-fig re-al-center" data-align="center" contenteditable="false">'+h+'</figure>';
+  return h;
+}
+function aiRichSegs(el){
+  const segs=[];let run=[];
+  const flush=()=>{if(!run.length)return;const t=aiNodesText(run).replace(/\n{3,}/g,'\n\n').trim();if(t)segs.push({type:'text',text:t});run=[];};
+  [...el.children].forEach(ch=>{
+    // 미디어를 품은 문단은 통째로 보존(문단 안 인라인 이미지도 유실 방지)
+    const keep=(ch.matches&&ch.matches(AI_KEEP_SEL))||(ch.querySelector&&ch.querySelector(AI_MEDIA_SEL));
+    if(keep){flush();segs.push({type:'block',html:aiBlockHtml(ch)});}
+    else run.push(ch);
+  });
+  flush();
+  return segs;
+}
+function aiSegsHtml(segs){return segs.map(s=>s.type==='block'?s.html:aiTextToHtml(s.out!=null?s.out:s.text)).join('');}
+function aiSegsPlain(segs){return segs.filter(s=>s.type==='text').map(s=>s.out!=null?s.out:s.text).join('\n\n');}
 // ── 로그 정리 / 요약 (긴 글은 자동 분할) ──
 const AI_CHUNK=12000;
 async function aiLogRun(idOrEl,mode){
@@ -6095,37 +6132,52 @@ async function aiLogRun(idOrEl,mode){
   const _aiBtn=aiProgAnchorBtn();
   const el=aiResolveEl(idOrEl);if(!el)return;
   const isRich=!!(el.classList&&el.classList.contains('re-body'));
-  const text=aiElText(el);
+  // 리치 본문: 텍스트/블록 분해 (요약은 전체를 한 덩이로 다룸)
+  const segs=isRich?aiRichSegs(el):null;
+  const segKeep=segs?segs.filter(x=>x.type==='block').length:0;
+  const text=isRich?aiSegsPlain(segs):aiElText(el);
   if(!text||!text.trim()){showToast('내용이 비어 있습니다');return;}
+  const segMode=!!(segs&&mode!=='sum');
+  const units=segMode?segs.filter(x=>x.type==='text'):[{text:text}];
   const chunks=aiChunks(text,AI_CHUNK);
   const sysClean=await aiSys('ai_rule_clean','당신은 AI 채팅 로그 정리기입니다. 로그에서 UI 잔여물(버튼 문구, 타임스탬프, 시스템 메시지, 반복 줄)을 제거하고 대사와 지문을 읽기 좋은 문단으로 정리하세요. 내용 자체는 요약하거나 창작하지 말고 그대로 보존합니다. 결과 텍스트만 출력하세요.');
   const sysCave=await aiSys('ai_rule_cave','당신은 케이브덕(CaveDuck) 채팅 로그를 웹소설 원고로 다듬는 전문 편집자입니다. 입력 관례: *별표*로 감싼 문장은 나레이션·지문이고, 감싸지지 않은 문장은 대사입니다. 편집 지침: ①버튼 문구·재생성 표시·타임스탬프·시스템 안내·기호만 있는 줄 등 UI 잔여물은 삭제 ②나레이션은 별표를 떼고 지문 문단으로 ③대사는 큰따옴표 "…" 로 감싸 항상 별도 줄에 배치 ④장면 전환과 호흡에 따라 문단을 나누고 지문 문단 사이에는 빈 줄 하나 ⑤대사 줄 앞뒤에는 빈 줄을 하나씩 둔다 ⑥긴 지문은 의미 단위로 자연스럽게 문단 분할 ⑦오탈자·조사 실수만 최소한으로 다듬고 문체·표현·수위·내용은 그대로 유지 ⑧요약·창작·생략 절대 금지. 전문 편집자의 솜씨로, 상업 웹소설처럼 읽기 흐름이 매끄러운 판형으로 정돈해 결과 텍스트만 출력하세요.');
   const sysSum=await aiSys('ai_rule_sum','아래 글(또는 채팅 로그)의 내용을 한국어로 읽기 좋게 정리·요약하세요. 사건과 대화의 흐름을 순서대로 담되 사소한 세부는 생략합니다. 결과 텍스트만 출력하세요.');
   const sys=(mode==='cave'?sysCave:mode==='clean'?sysClean:sysSum)+'\n\n[출력 계약 — 최우선] 결과 본문 텍스트만 출력한다. 서두·인사·부연 설명·마크다운 표 금지.'+(mode==='cave'?' 줄바꿈·빈 줄·마크다운 강조(*·**)는 규칙이 지시한 형태 그대로 유지하고 임의로 합치거나 제거하지 않는다. 따옴표는 대사 줄에만 사용하며 나레이션·지문 문단에는 절대 붙이지 않는다. 이미 따옴표가 있는 대사는 중복해서 감싸지 않는다.':'');
-  const parts=[];let caveFallback=false;
-  aiProgBegin((mode==='cave'?'케이브덕 정리':mode==='clean'?'로그 정리':'요약')+' 시작…',_aiBtn);
+  const LBL=(mode==='cave'?'케이브덕 정리':mode==='clean'?'로그 정리':'요약');
+  let caveFallback=false;
+  // 전체 진행률용: 모든 단위의 청크 총합
+  const uChunks=units.map(u=>aiChunks(u.text,AI_CHUNK));
+  const total=uChunks.reduce((a,c)=>a+c.length,0);let done=0;
+  aiProgBegin(LBL+' 시작…',_aiBtn);
   try{
-    for(let i=0;i<chunks.length;i++){
-      aiProg((mode==='cave'?'케이브덕 정리 중':mode==='clean'?'로그 정리 중':'요약 중')+' · '+(i+1)+'/'+chunks.length,chunks.length>1?i/chunks.length:undefined);
-      parts.push(await aiRequest(sys,chunks[i],false,undefined,mode));
-      if(chunks.length>1)aiProg((mode==='cave'?'케이브덕 정리 중':mode==='clean'?'로그 정리 중':'요약 중')+' · '+(i+1)+'/'+chunks.length+' 완료',(i+1)/chunks.length);
-      if(i<chunks.length-1)await new Promise(r=>setTimeout(r,4200));
+    for(let u=0;u<units.length;u++){
+      const ck=uChunks[u],parts=[];
+      for(let i=0;i<ck.length;i++){
+        aiProg(LBL+' 중 · '+(done+1)+'/'+total,total>1?done/total:undefined);
+        parts.push(await aiRequest(sys,ck[i],false,undefined,mode));
+        done++;
+        if(total>1)aiProg(LBL+' 중 · '+done+'/'+total+' 완료',done/total);
+        if(done<total)await new Promise(r=>setTimeout(r,4200));
+      }
+      units[u].out=parts.join('\n\n');
     }
   }catch(e){aiProgEnd();if(mode==='cave'){caveFallback=true;}else{showToast('실패: '+(e.message||''));return;}}
-  let result=caveFallback?caveFinalize(text):parts.join('\n\n');if(caveFallback)showToast('AI 혼잡 — 규칙 기반으로만 정리했습니다 (UI 잔여물은 직접 확인)');
+  if(caveFallback){units.forEach(u=>{u.out=caveFinalize(u.text);});showToast('AI 혼잡 — 규칙 기반으로만 정리했습니다 (UI 잔여물은 직접 확인)');}
+  let result=segMode?aiSegsPlain(segs):units[0].out;
   if(mode==='sum'&&chunks.length>1){
     aiProg('요약 통합 중…');
     try{result=await aiRequest('아래 부분 요약들을 하나의 자연스러운 요약글로 통합하세요. 결과 텍스트만 출력.',result,false,undefined,'sum');}catch(e){}
   }
   aiProgEnd();
-  const box=aiPanel(el,(mode==='cave'?'케이브덕 로그 정리 결과':mode==='clean'?'로그 정리 결과':'요약 결과')+(chunks.length>1?' · '+chunks.length+'분할 처리':''),
+  const box=aiPanel(el,(mode==='cave'?'케이브덕 로그 정리 결과':mode==='clean'?'로그 정리 결과':'요약 결과')+(total>1?' · '+total+'분할 처리':'')+(segKeep?' · 사진·인용 '+segKeep+'개 원자리 보존':''),
     '<div class="ai-diff-body">'+esc(result)+'</div>'
     +'<div class="ai-diff-btns">'
     +'<button type="button" class="btn-primary" onclick="aiToolReplace()">본문 교체</button>'
     +'<button type="button" class="btn-secondary" onclick="aiToolAppend()">끝에 삽입</button>'
     +'<button type="button" class="btn-secondary" onclick="aiToolCopy()">복사</button>'
     +'</div>');
-  box._tool={el,isRich,result,prev:isRich?el.innerHTML:el.value};
+  box._tool={el,isRich,mode,segs,segMode,result,prev:isRich?el.innerHTML:el.value};
 }
 function aiLogClean(idOrEl){return aiLogRun(idOrEl,'clean');}
 function aiCaveClean(idOrEl){return aiLogRun(idOrEl,'cave');}
@@ -6135,25 +6187,19 @@ function aiMdInline(s){return s.replace(/\*\*(\S(?:[^*]*?\S)?)\*\*/g,'<strong>$1
 function caveFinalize(t){var L=String(t||'').replace(/\r/g,'').split('\n'),o=[],inN=false;function push(x,d){o.push({s:x,d:!!d});}for(var k=0;k<L.length;k++){var s=L[k].trim();if(!s)continue;if(!/[가-힣a-zA-Z0-9]/.test(s)&&/[^\x00-\x7F]/.test(s)){continue;}if(inN){if(/\*{1,2}$/.test(s)){push(s.replace(/\*{1,2}$/,'').trim(),false);inN=false;}else{push(s,false);}continue;}var m=s.match(/^\*{1,2}([\s\S]+?)\*{1,2}$/);if(m){push(m[1].trim(),false);continue;}if(/^\*{1,2}/.test(s)&&!/\*{1,2}$/.test(s)){push(s.replace(/^\*{1,2}/,'').trim(),false);inN=true;continue;}if(/^["“”「『'].*["”“」』']$/.test(s)){push(s,true);continue;}push('"'+s+'"',true);}var out='';for(var j=0;j<o.length;j++){if(j)out+='\n\n';out+=o[j].s;}return out.trim();}
 function aiToolReplace(){
   const box=document.getElementById('ai-tool-panel');if(!box||!box._tool)return;
-  const{el,isRich,result}=box._tool;
-  if(isRich){
-    const kids=[...el.children];const MSEL='figure.re-fig,.re-slider,.re-grid,.re-yt';
-    let mnodes=[...el.querySelectorAll(MSEL)].filter(n=>!(n.parentElement&&n.parentElement.closest(MSEL)));
-    [...el.querySelectorAll('img')].forEach(im=>{if(!im.closest(MSEL)&&!mnodes.includes(im))mnodes.push(im);});
-    const media=mnodes.map(n=>{
-      let top=n;while(top.parentElement&&top.parentElement!==el)top=top.parentElement;const i=kids.indexOf(top);
-      const c=n.cloneNode(true);
-      if(c.querySelectorAll)c.querySelectorAll('.re-block-tools,.re-rz,.re-rot,.re-sel').forEach(x=>x.classList&&x.classList.contains('re-sel')?x.classList.remove('re-sel'):x.remove());
-      if(c.classList)c.classList.remove('re-sel');
-      let html=c.outerHTML;
-      if(c.tagName==='IMG')html='<figure class="re-fig re-al-center" data-align="center" contenteditable="false">'+html+'</figure>';
-      return {html,idx:(i<0?kids.length:i)};
-    });
-    el.innerHTML=aiTextToHtml(result);
-    media.sort((a,b)=>a.idx-b.idx).forEach(m=>{const tmp=document.createElement('div');tmp.innerHTML=m.html;const node=tmp.firstElementChild;if(!node)return;const idx=Math.min(m.idx,el.children.length);if(idx>=el.children.length)el.appendChild(node);else el.insertBefore(node,el.children[idx]);});
+  const{el,isRich,segs,segMode,result}=box._tool;
+  if(isRich&&segMode){
+    // 텍스트 자리엔 정리된 문단, 블록(사진·인용·소제목)은 원래 순서·위치 그대로
+    el.innerHTML=aiSegsHtml(segs);
+    if(typeof reMakeBlocksDraggable==='function')reMakeBlocksDraggable(el);
+  }else if(isRich){
+    // 요약: 요약문 뒤에 원본 블록을 순서대로 보존 (유실 없음)
+    const keep=segs?segs.filter(x=>x.type==='block').map(x=>x.html).join(''):'';
+    el.innerHTML=aiTextToHtml(result)+keep;
     if(typeof reMakeBlocksDraggable==='function')reMakeBlocksDraggable(el);
   }else el.value=result;
-  showToast(isRich?'교체됨 · 사진·미디어 유지 (↩ 되돌리기)':'교체됨 (↩ 되돌리기 가능)');
+  const nk=isRich&&segs?segs.filter(x=>x.type==='block').length:0;
+  showToast(isRich?('교체됨'+(nk?' · 사진·인용 '+nk+'개 원자리 유지':'')+' (↩ 되돌리기)'):'교체됨 (↩ 되돌리기 가능)');
   aiToolUndoBtn(box);
 }
 function aiToolAppend(){
@@ -7645,6 +7691,20 @@ function editorStateStr(){
   return parts.join('');
 }
 // ── 모달 배경클릭 공통 처리: 에디터=저장 경고 · 테마=변경 적용 확인 · 그 외 조용히 닫기 ──
+// ── 로그: 우측 열 높이를 좌측 배너에 고정 (내부 스크롤 · 스크롤바 비표시) ──
+function lgvSyncH(){
+  const bn=document.getElementById('logs-banner');if(!bn)return;
+  const wrap=bn.closest('.lgv-wrap');if(!wrap)return;
+  if(window.innerWidth<=900){wrap.style.removeProperty('--lgv-h');return;}
+  const h=bn.getBoundingClientRect().height;
+  if(h>0)wrap.style.setProperty('--lgv-h',Math.round(h)+'px');
+}
+(function(){
+  const bn=document.getElementById('logs-banner');if(!bn)return;
+  if(window.ResizeObserver)new ResizeObserver(lgvSyncH).observe(bn);
+  window.addEventListener('resize',lgvSyncH);
+  lgvSyncH();
+})();
 const BG_CLOSE_IDS=['dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal','nb-apply-modal','nb-manage-modal','board-name-modal','theme-color-modal','theme-font-modal','theme-logo-modal','theme-bg-modal','stk-crop-modal','version-modal','ai-model-modal'];
 const THEME_SAVE_FNS={'theme-color-modal':'themeColorSave','board-name-modal':'boardNameSave','theme-font-modal':'themeFontSave','theme-logo-modal':'themeLogoSave','theme-bg-modal':'themeBgSave'};
 document.addEventListener('click',e=>{
@@ -8731,8 +8791,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.1.0';
+const APP_VERSION='1.1.1';
 const CHANGELOG=[
+  {v:'1.1.1',date:'2026-07-14',title:'AI 정리 사고 수정 · 로그 레이아웃',sql:false,items:['[중요] AI 로그·케이브덕 정리 시 본문의 사진이 엉뚱한 자리로 옮겨지고 인용글·소제목이 사라지던 문제 수정 — 이제 AI는 글만 다듬고 사진·인용글·소제목은 원래 자리 그대로 보존합니다','로그 게시판: 글이 늘어나도 페이지가 무한히 길어지지 않고, 왼쪽 이미지 높이에 맞춰 오른쪽 목록만 스크롤 (스크롤바는 보이지 않음)']},
   {v:'1.1.0',date:'2026-07-14',title:'디자인 통일 · AI 모델 선택 · 명조 서체',sql:false,items:['한글 서체 보정 — 영문 세리프 구간(홈 서브문구·로그·공지·배너·에셋)에서 한글이 시스템 바탕체로 떨어지던 문제 수정, 부크크 명조로 통일','모달 디자인 통일 — 에디터(다이어리·게시판) 문법을 표준으로: 아웃라인 버튼·박스형 입력창·한글 라벨','디자인 토큰 시스템 — 간격·모서리·그림자·블러를 토큰화해 화면 간 리듬 통일','색상 커스텀 전수 확대 — 어드민·관리 화면까지 모든 글자·배경이 테마 색을 따름 (성공색 신설)','AI 제공자 병행 — Gemini + Claude 동시 지원, 기능별로 쓸 모델을 어드민에서 지정','AI 색상 분배 개선 — 어두운 톤 편중 해소, 테마 단어에 맞춰 밝은·파스텔 스킨도 생성','버전·업데이트 내역 화면 추가 (어드민 → 버전·업데이트)','버그 수정 — 맞춤법 검사 결과가 비어 나오던 문제, 일부 AI 모델 호출 오류']},
   {v:'1.0.0',date:'2026-07-14',title:'색상 테마 시스템 정식화',sql:false,items:['테마 설정 6개 창 디자인 통일 · 라이브 미리보기 후 저장(취소 시 원래대로 복원)','메인색 지정 + AI 색상 분배 — 테마 단어를 재해석해 전 구획 색을 가독성 있게 자동 배치','배경 글로우·우주먼지 색을 색상 테마로 통합 (먼지색 미반영 버그 수정)','사이트 스티커: 화면에 직접 배치 · 모양 자르기 · 게시판별 표시 · 배경 레이어 · 일괄 제거','게시판별 서브문구(공통/개별) · 게시판 이름 관리를 게시판 관리로 이동','모바일 로그·다이어리 본문 행간 정리 · 케이브덕 로그 판형 조정','전역 체크박스·라디오·슬라이더·버튼 디자인 통일 · 배경 이미지 블러']},
   {v:'0.9.0',date:'2026-07-11',title:'배너 · 에셋 게시판 리워크',sql:true,items:['에셋 게시판: 매스너리 레이아웃 · 카메라 포커스 호버 · 멀티이미지 · 비밀글/성인 블러','배너 게시판: 마스킹 배너 · 카드 · 복사 가이드','케이브덕 로그 편집 AI(웹소설 판형) · NAI 메타데이터 감지·제거','모바일 하단 네비게이션 · 구조 리플로우 1차','보안 헤더(CSP) · 아바타 512px 축소']},
