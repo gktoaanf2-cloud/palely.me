@@ -5047,7 +5047,7 @@ function renderDiaryRow(d,idx,altFlag){
     ?'<div class="dyv-strip" data-n="'+imgs.length+'" data-step="'+iw+'" style="width:'+(seq.length*100)+'%">'+seq.map(u=>'<img style="width:'+iw+'%" src="'+esc(u)+'" loading="lazy" draggable="false">').join('')+'</div>'
     :'<div class="dyv-noimg">✦</div>';
   const bg=imgs.length?imgs.map((u,i)=>'<img class="dyv-bgimg'+(i===0?' on':'')+'" src="'+esc(u)+'" loading="lazy" draggable="false">').join(''):'';
-  const body=locked?'클릭해 비밀번호를 입력하면 열람할 수 있습니다.':esc(htmlToText(d.content||'').slice(0,250));
+  const body=locked?'[보호된 글입니다]':esc(htmlToText(d.content||'').slice(0,250));
   const open=locked?"openPrivateDiary('"+d.id+"')":"openDetail('diary','"+d.id+"')";
   return `<div class="dyv${alt}" data-mid="${d.id}" data-si="0" onclick="${open}">
     <div class="dyv-media">${media}</div>${stickersHtml(d.thumb_stickers)}
@@ -5093,7 +5093,7 @@ setInterval(()=>{
 function diaryCardHtml(d){
   if(d.is_private&&!isAdmin){
     const lt=d.thumb?`<div class="dc-thumb"><img src="${esc(d.thumb)}" loading="lazy" draggable="false"><span class="dc-lock-badge">🔒</span></div>`:'<div class="dc-lock">🔒</div>';
-    return `<div class="board-card diary-locked${d.thumb?' has-thumb':''}" data-mid="${d.id}" onclick="openPrivateDiary('${d.id}')">${lt}<div class="card-date">${fmtDate(d.created_at)}</div><div class="card-title">🔒 ${esc(d.title||'비밀글')}</div><div class="card-excerpt">클릭해서 비밀번호 입력</div></div>`;
+    return `<div class="board-card diary-locked${d.thumb?' has-thumb':''}" data-mid="${d.id}" onclick="openPrivateDiary('${d.id}')">${lt}<div class="card-date">${fmtDate(d.created_at)}</div><div class="card-title">🔒 ${esc(d.title||'비밀글')}</div><div class="card-excerpt">[보호된 글입니다]</div></div>`;
   }
   const thumb=d.thumb||dpFirstImage(d);const th=thumb?`<div class="dc-thumb"><img src="${esc(thumb)}" loading="lazy" draggable="false"></div>`:'';
   const tags=Array.isArray(d.tags)&&d.tags.length?d.tags.map(t=>'<span class="card-tag">'+esc(t)+'</span>').join(''):'';
@@ -8811,8 +8811,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.1.3';
+const APP_VERSION='1.1.4';
 const CHANGELOG=[
+  {v:'1.1.4',date:'2026-07-17',title:'비밀글 카드 표기 정리',sql:false,items:['다이어리 비밀글 카드: 본문 요약 자리에 [보호된 글입니다] 표시 (썸네일은 유지, 본문은 서버·클라이언트 이중 차단)']},
   {v:'1.1.3',date:'2026-07-15',title:'로그 게시판 비밀글',sql:true,items:['로그 게시판도 게시글마다 비밀번호를 걸 수 있습니다 — 에디터에서 🔒 비밀글 체크 + 비밀번호 입력. 잠긴 글은 썸네일 위에 자물쇠 아이콘이 표시되고, 클릭 시 비밀번호를 입력해야 열람됩니다 (다른 게시판과 동일)','※ 이 기능은 DB 업데이트가 필요합니다 (logs 비밀글 SQL 1회 실행)']},
   {v:'1.1.2',date:'2026-07-15',title:'로그 게시판 정렬 수정',sql:false,items:['로그 게시판: 글이 많을 때 썸네일이 세로로 겹치고 행 간격이 사라지던 문제 수정 (카드 정사각 비율 유지 + 행간 복구)']},
   {v:'1.1.1',date:'2026-07-14',title:'AI 정리 사고 수정 · 로그 레이아웃',sql:false,items:['[중요] AI 로그·케이브덕 정리 시 본문의 사진이 엉뚱한 자리로 옮겨지고 인용글·소제목이 사라지던 문제 수정 — 이제 AI는 글만 다듬고 사진·인용글·소제목은 원래 자리 그대로 보존합니다','로그 게시판: 글이 늘어나도 페이지가 무한히 길어지지 않고, 왼쪽 이미지 높이에 맞춰 오른쪽 목록만 스크롤 (스크롤바는 보이지 않음)']},
