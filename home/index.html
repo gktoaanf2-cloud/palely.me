@@ -1346,6 +1346,23 @@ svg.pdx-spark{color:rgb(var(--t-text));}
 .pdx-mcopyrow{text-align:center;margin-top:10px;border-top:1px solid rgba(var(--t-fg),.07);padding-top:8px;}
 .pdx-mcopy{background:none;border:none;cursor:pointer;color:rgb(var(--t-snow));font-family:var(--font-kr);font-size:10px;font-weight:600;letter-spacing:.14em;text-indent:.14em;display:inline-flex;align-items:center;gap:8px;padding:4px 10px;transition:color .25s;}
 .pdx-mcopy:hover{color:rgb(var(--t-text));}
+/* ── NAI 다중 블록 (베이스+캐릭터+변형) ── */
+.nb-block{margin-bottom:18px;border:1px solid rgba(var(--t-fg),.08);padding:10px 12px 12px;}
+.nb-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;}
+.nb-kind{font-family:var(--font-kr);font-size:10px;font-weight:600;letter-spacing:.12em;color:rgba(var(--t-fg-mid),.75);white-space:nowrap;}
+.nb-name{width:120px;padding:4px 8px;font-size:11.5px;}
+.nb-var{margin:10px 0 0 14px;border-left:1px solid rgba(var(--t-fg),.14);padding-left:12px;}
+.nb-var .form-textarea{min-height:84px;}
+.pdx-mhead{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.pdx-mlabel{font-family:var(--font-kr);font-size:10px;font-weight:600;letter-spacing:.14em;color:rgb(var(--t-snow));}
+.pdx-mseg{display:inline-flex;border:1px solid rgba(var(--t-fg),.18);}
+.pdx-mseg button{background:none;border:none;border-right:1px solid rgba(var(--t-fg),.18);color:rgba(var(--t-fg-mid),.7);font-family:var(--font-kr);font-size:10px;letter-spacing:.06em;padding:3px 9px;cursor:pointer;transition:color .25s,background .25s;}
+.pdx-mseg button:last-child{border-right:none;}
+.pdx-mseg button.on{color:rgb(var(--t-text));background:rgba(var(--t-fg),.08);}
+.pdx-mcopy.sm{margin-left:auto;padding:2px 6px;font-size:9.5px;}
+.pdx-vgroup{font-family:var(--font-kr);font-size:10px;font-weight:600;letter-spacing:.12em;color:rgba(var(--t-fg-mid),.7);margin:12px 0 8px;padding-bottom:4px;border-bottom:1px solid rgba(var(--t-fg),.08);}
+.pdx-vgroup:first-child{margin-top:0;}
+.pcv-meta.pcv-nb{font-family:var(--font-num);letter-spacing:.12em;opacity:.75;}
 
 /* ── AI 진행 팝업 (누른 버튼 위 앵커 · 마름모 회전) ── */
 .ai-progpop{position:absolute;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:7px;background:rgba(var(--t-surface),.95);border:1px solid rgba(var(--t-fg),.16);padding:7px 12px;font-family:var(--font-kr);font-size:10px;letter-spacing:.05em;color:rgb(var(--t-snow));white-space:nowrap;z-index:80;pointer-events:none;animation:aiPopIn .25s ease;}
@@ -5865,7 +5882,7 @@ function applyPromptFilters(tab){
   const list=(promptTabData[tab]||[]).filter(p=>{
     if(f.cat&&!catArr(p.category).includes(f.cat))return false;
     if(f.tags.size){const pt=Array.isArray(p.tags)?p.tags:[];for(const t of f.tags)if(!pt.includes(t))return false;}
-    if(q){let hay='';if(issSearchScope!=='body')hay+=(p.title||'')+' ';if(issSearchScope!=='title')hay+=(p.prompt_text||'')+' '+(p.description||'')+' ';hay+=(Array.isArray(p.tags)?p.tags.join(' '):'');if(!hay.toLowerCase().includes(q))return false;}
+    if(q){let hay='';if(issSearchScope!=='body')hay+=(p.title||'')+' ';if(issSearchScope!=='title')hay+=naiFlatText(p)+' '+(p.description||'')+' ';hay+=(Array.isArray(p.tags)?p.tags.join(' '):'');if(!hay.toLowerCase().includes(q))return false;}
     return true;
   });
   const g=document.getElementById(cfg.grid);if(!g)return;
@@ -6311,7 +6328,7 @@ function aiTokens(text){
 async function aiGemini(text){
   aiProgBegin('AI 태그 정리 중…');
   try{
-  const policy=await aiSys('ai_rule_tags','태그를 아래 기본 순서로 분류·정렬한다: 품질(quality) → 인물/신체(character) → 표정(expression·얼굴 감정만) → 시선(gaze·looking at viewer 등 시선 처리, 표정과 별개 그룹) → 의상(clothing) → 포즈/동작(pose) → 배경/환경/조명(background) → 기타(other). 시선 그룹의 라벨에는 "표정"이라는 단어를 쓰지 않는다. 태그의 내용·표기·철자·가중치 문법은 절대 변경하지 않는다. 태그를 추가·삭제·병합하지 않는다.');
+  const policy=await aiSys('ai_rule_tags','노벨AI(NAI v5) 태그 정렬기. 태그를 아래 순서로 분류·정렬한다: 0.NSFW(있으면 무조건 최상단) → 1.인물 수(1boy, 2people) → 2.구도/앵글(face focus, upper body, low angle, dutch angle) → 3.포즈/동작(sitting, holding, leaning) → 4.표정(smile, winking, blush · 시선 제외) → 5.시선(looking at viewer, looking away) → 6.의상(모자·장갑·양말·신발 포함) → 7.소품/장신구 → 8.이펙트/파티클 → 9.배경/환경 → 10.색조/분위기 → 11.라이팅 → 12.텍스트/그래픽 → 13.연출/스타일(photoshoot, fake magazine cover 등). 시선 그룹 라벨에는 "표정"이라는 단어를 쓰지 않는다. 가중치 문법(::, {{ }}, 1.5:: 등)·표기·철자는 절대 변경하지 않는다. 태그를 추가·삭제·병합하지 않는다. 참고: 2인 이상 프롬은 공통(베이스)/캐릭터 블록으로 나뉘며 구도 태그는 공통에만 두는 것이 원칙이지만, 이 작업에서는 블록 간 이동·삭제 없이 주어진 태그의 정렬만 한다.');
   const sys=policy+'\n\n[OUTPUT CONTRACT - 위의 어떤 출력 형식 지시보다 우선한다] 출력은 반드시 이 JSON 하나만: {"groups":[{"label":"카테고리 이름","tags":["태그",...]},...]} . groups 배열은 위 규칙이 정한 최종 정렬 순서 그대로여야 한다. 모든 입력 태그는 정확히 한 번씩, 원문 그대로(가중치·중괄호·대괄호·꺾쇠 토큰 포함) 등장해야 한다. JSON 외 텍스트 금지.';
   const user='TAGS:'+String.fromCharCode(10)+aiTokens(text).join(', ');
   const data=await aiRequest(sys,user,true,0,'tags');
@@ -6391,7 +6408,8 @@ function renderPromptCard(p,idx){
     </div></div>`;
   }
   const imgs=promptImages(p);
-  const defaultText=fillPromptDefault(p.prompt_text);
+  const defaultText=fillPromptDefault(naiCopyText(p));
+  const nbMeta=(p.tab!=='ooc'&&naiIsMulti(p))?'<div class="pcv-meta pcv-nb">BASE + '+(naiBlocks(p).length-1)+' CHAR</div>':'';
   const cats=catArr(p.category);
   const num=String(postNum((promptTabData[(p.tab==='ooc')?'ooc':'nai']||[]),p)).padStart(2,'0');
   const tagline=(Array.isArray(p.tags)&&p.tags.length)?p.tags.map(t=>'<div># '+esc(t)+'</div>').join(''):(cats[0]?'<div># '+esc(cats[0])+'</div>':'');
@@ -6407,7 +6425,7 @@ function renderPromptCard(p,idx){
         ${tagline?`<div class="pcv-cat">${tagline}</div>`:''}
       </div>
       <div class="pcv-bot">
-        ${cats.length?`<div class="pcv-meta">${esc(cats.join(' / '))}</div>`:''}
+        ${nbMeta}${cats.length?`<div class="pcv-meta">${esc(cats.join(' / '))}</div>`:''}
         <button class="pcv-copy" onclick="event.stopPropagation();copyPrompt(this,'${btoa(encodeURIComponent(defaultText))}')"><i class="pcv-cl"></i><span class="pcv-copytext">COPY</span></button>
         <div class="pcv-icons">
           <button title="글 공유" onclick="event.stopPropagation();copyShareLink('${p.tab||'nai'}','${p.id}')"><svg width="12" height="14"><use href="#iss-ic-share"/></svg></button>
@@ -6425,7 +6443,7 @@ function pdFmtDate(d){
   const hh=String((h%12)||12).padStart(2,'0');const mm=String(t.getMinutes()).padStart(2,'0');
   return t.getFullYear()+' · '+(t.getMonth()+1)+' · '+t.getDate()+' ·  '+ap+' '+hh+' : '+mm;
 }
-let pdCur=null,pdVarVals={},pdSnaps=[],pdImgs=[],pdImgIdx=0,pdMultiTexts=null;
+let pdCur=null,pdVarVals={},pdSnaps=[],pdImgs=[],pdImgIdx=0,pdMultiTexts=null,pdNai=null,pdNaiSel=[];
 // ── 배포 다운로드: 첨부 파일 + 외부 링크 ──
 function wrapQuote(id){
   const ta=document.getElementById(id);if(!ta)return;
@@ -6456,6 +6474,60 @@ function dlAddLink(v){
   if(v){d.querySelectorAll('input')[0].value=v.name||'';d.querySelectorAll('input')[1].value=v.url||'';}
   c.appendChild(d);
 }
+// ── NAI 다중 블록 헬퍼: {v:2,blocks:[{k:'base'|'char',name,text,variants:[{name,text}]}]} · 평문 = 베이스 1블록 ──
+function naiParse(t){if(typeof t!=='string')return null;const s0=t.trim();if(!s0.startsWith('{'))return null;try{const o=JSON.parse(s0);if(o&&o.v===2&&Array.isArray(o.blocks))return o;}catch(e){}return null;}
+function naiBlocks(p){
+  const t=p&&p.prompt_text;const o=naiParse(t);
+  if(!o)return [{k:'base',name:'',text:String(t||''),variants:[]}];
+  const bs=o.blocks.map(b=>({k:(b&&b.k==='char')?'char':'base',name:String((b&&b.name)||''),text:String((b&&b.text)||''),variants:Array.isArray(b&&b.variants)?b.variants.map(v=>({name:String((v&&v.name)||''),text:String((v&&v.text)||'')})):[]}));
+  return bs.length?bs:[{k:'base',name:'',text:'',variants:[]}];
+}
+function naiIsMulti(p){const b=naiBlocks(p);return b.length>1||b.some(x=>x.variants.length>0);}
+function naiFlatText(p){return naiBlocks(p).map(b=>[b.text].concat(b.variants.map(v=>v.text)).join('\n')).join('\n\n');}
+function naiCopyText(p){return naiBlocks(p).map(b=>b.text).join('\n\n');}
+function naiBlockLabel(b,i){return b.k==='base'?'BASE':('캐릭터 '+(b.name||String.fromCharCode(65+Math.max(0,i-1))));}
+function naiSerialize(blocks){
+  const bs=blocks.map(b=>({k:b.k==='char'?'char':'base',name:(b.name||'').trim(),text:b.text||'',variants:(b.variants||[]).filter(v=>(v.text||'').trim()||(v.name||'').trim()).map(v=>({name:(v.name||'').trim(),text:v.text||''}))}));
+  if(bs.length===1&&bs[0].k==='base'&&!bs[0].variants.length)return bs[0].text;
+  return JSON.stringify({v:2,blocks:bs.map(b=>b.k==='char'?b:{k:'base',text:b.text})});
+}
+// ── NAI 블록 에디터 ──
+const NB_DIA='<svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>';
+let nbBlocks=[];
+function nbToolbar(taId,extra){return '<div class="pt-toolbar">'
+  +'<button type="button" class="md-toolbar-btn" onclick="wrapVar(\''+taId+'\')">'+NB_DIA+' 변수로 지정</button>'
+  +'<button type="button" class="md-toolbar-btn" onclick="wrapPart(\''+taId+'\')">'+NB_DIA+' 파트로 지정</button>'
+  +'<button type="button" class="md-toolbar-btn" onclick="aiOrganizePrompt(\''+taId+'\')">'+NB_DIA+' AI 태그 정리</button>'
+  +'<button type="button" class="md-toolbar-btn" onclick="aiSpell(\''+taId+'\')">'+NB_DIA+' 맞춤법</button>'+(extra||'')+'</div>';}
+function nbSync(){
+  document.querySelectorAll('#nb-list .nb-block').forEach((el,i)=>{const b=nbBlocks[i];if(!b)return;
+    const nm=el.querySelector(':scope > .nb-head .nb-name');if(nm)b.name=nm.value;
+    const ta=el.querySelector('textarea.nb-ta');if(ta)b.text=ta.value;
+    el.querySelectorAll(':scope > .nb-var').forEach((ve,j)=>{const v=b.variants[j];if(!v)return;const vn=ve.querySelector('.nb-vname');if(vn)v.name=vn.value;const vt=ve.querySelector('textarea');if(vt)v.text=vt.value;});
+  });
+}
+function nbRender(){
+  const list=document.getElementById('nb-list');if(!list)return;
+  list.innerHTML=nbBlocks.map((b,i)=>{
+    const taId='nb-ta-'+i;const isBase=b.k==='base';
+    const head='<div class="nb-head"><span class="nb-kind">◆ '+(isBase?'BASE · 공통':'캐릭터')+'</span>'
+      +(isBase?'':'<input class="form-input nb-name" placeholder="이름 (예: A, 흑발)" value="'+esc(b.name)+'">')
+      +'<span style="flex:1"></span>'
+      +(isBase?'':'<button type="button" class="md-toolbar-btn" onclick="nbAddVariant('+i+')">'+NB_DIA+' 변형 추가</button><button type="button" class="md-toolbar-btn" onclick="nbRemove('+i+')">'+NB_DIA+' 블록 삭제</button>')
+      +'</div>';
+    const vars=b.variants.map((v,j)=>{const vid='nb-va-'+i+'-'+j;
+      return '<div class="nb-var"><div class="nb-head"><span class="nb-kind">변형</span><input class="form-input nb-name nb-vname" placeholder="변형 이름 (예: 치마)" value="'+esc(v.name)+'"><span style="flex:1"></span><button type="button" class="md-toolbar-btn" onclick="nbRemoveVariant('+i+','+j+')">'+NB_DIA+' 변형 삭제</button></div>'
+        +nbToolbar(vid)+'<textarea class="form-textarea nb-vta" id="'+vid+'" placeholder="이 변형의 캐릭터 프롬프트 전체 (기본에서 달라지는 부분만 고치면 됨)" style="font-family:\'Pretendard\',monospace;font-size:12px;">'+esc(v.text)+'</textarea></div>';}).join('');
+    const ph=isBase?'공통 프롬프트 — 인원·구도·배경·분위기·조명·연출 (두 사람 모두에 적용되는 것만 · 구도 태그는 여기에만)':'이 캐릭터의 포즈·표정·시선·의상… (외형으로 지칭: light haired character 등)';
+    return '<div class="nb-block" data-nb="'+i+'">'+head+nbToolbar(taId)+'<textarea class="form-textarea nb-ta" id="'+taId+'" placeholder="'+ph+'" style="min-height:120px;font-family:\'Pretendard\',monospace;font-size:12px;">'+esc(b.text)+'</textarea>'+vars+'</div>';
+  }).join('');
+}
+function nbInit(blocks){nbBlocks=JSON.parse(JSON.stringify(blocks||[]));if(!nbBlocks.length)nbBlocks=[{k:'base',name:'',text:'',variants:[]}];nbRender();}
+function nbAddChar(){nbSync();const nm=String.fromCharCode(64+Math.min(26,nbBlocks.length));nbBlocks.push({k:'char',name:nm,text:'',variants:[]});nbRender();const tas=document.querySelectorAll('#nb-list .nb-ta');if(tas.length)tas[tas.length-1].focus();}
+function nbRemove(i){nbSync();const b=nbBlocks[i];if(!b)return;if(b.k==='base'){showToast('베이스 블록은 삭제할 수 없습니다');return;}nbBlocks.splice(i,1);nbRender();}
+function nbAddVariant(i){nbSync();const b=nbBlocks[i];if(!b)return;b.variants.push({name:'',text:b.text});nbRender();const v=document.querySelector('#nb-list .nb-block[data-nb="'+i+'"] .nb-var:last-child textarea');if(v)v.focus();}
+function nbRemoveVariant(i,j){nbSync();const b=nbBlocks[i];if(!b)return;b.variants.splice(j,1);nbRender();}
+function nbCollect(){nbSync();return naiSerialize(nbBlocks);}
 // ── OOC 멀티 프롬프트 헬퍼 ──
 function oocPrompts(p){
   const t=p&&p.prompt_text;
@@ -6537,9 +6609,11 @@ function openPromptDetail(id){
   curPopup={type:p.tab||'nai',id:p.id};
   pdCur=p;pdImgs=promptImages(p);pdImgIdx=0;pdSnaps=[];
   pdMultiTexts=(p.tab==='ooc')?oocPrompts(p):null;
-  document.getElementById('pd-prompt').dataset.raw=pdMultiTexts?pdMultiTexts.join('\n'):(p.prompt_text||'');
-  pdPartState=pdMultiTexts?[]:promptParts(p.prompt_text).map(x=>({name:x.name,content:x.content,on:true,repl:''}));
-  pdVarVals={};(pdMultiTexts?pdMultiTexts.flatMap(t=>promptVars(t)):promptVars(stripPartMarks(p.prompt_text))).forEach(l=>{if(!(l in pdVarVals))pdVarVals[l]=l;});
+  pdNai=(p.tab!=='ooc'&&naiIsMulti(p))?naiBlocks(p):null;pdNaiSel=pdNai?pdNai.map(()=>-1):[];
+  const _raw0=pdMultiTexts?pdMultiTexts.join('\n'):(pdNai?pdNaiRaw():(p.prompt_text||''));
+  document.getElementById('pd-prompt').dataset.raw=_raw0;
+  pdPartState=pdMultiTexts?[]:promptParts(_raw0).map(x=>({name:x.name,content:x.content,on:true,repl:''}));
+  pdVarVals={};(pdMultiTexts?pdMultiTexts.flatMap(t=>promptVars(t)):promptVars(stripPartMarks(_raw0))).forEach(l=>{if(!(l in pdVarVals))pdVarVals[l]=l;});
   const _cr=document.querySelector('#prompt-detail-modal .pdx-copyrow');if(_cr)_cr.style.display=pdMultiTexts?'none':'';
   document.getElementById('pd-edit-sec').classList.toggle('full',!!pdMultiTexts);
   const pcats=catArr(p.category);
@@ -6585,7 +6659,26 @@ function pdEffectiveText(){
   const t=raw.replace(P_PART_RE,(m,n,c)=>{const st=pdPartState[i++];if(!st)return c;return st.on?((st.repl||'').trim()||c):'';});
   return cleanPromptCommas(t);
 }
-function pdSnapshot(){pdSnaps.push(JSON.stringify({v:pdVarVals,ps:pdPartState}));if(pdSnaps.length>30)pdSnaps.shift();}
+function pdSnapshot(){pdSnaps.push(JSON.stringify({v:pdVarVals,ps:pdPartState,sel:pdNaiSel}));if(pdSnaps.length>30)pdSnaps.shift();}
+// NAI 블록: 선택된 변형 반영 텍스트 / 전체 raw / 변형 전환 / 블록별 파트적용 텍스트 / 블록 복사
+function pdNaiText(i){const b=pdNai[i];const s0=pdNaiSel[i];return (s0>=0&&b.variants[s0])?b.variants[s0].text:b.text;}
+function pdNaiRaw(){return pdNai.map((b,i)=>pdNaiText(i)).join('\n\n');}
+function pdNaiRebuildParts(){
+  const old=pdPartState||[];const raw=pdNaiRaw();document.getElementById('pd-prompt').dataset.raw=raw;
+  pdPartState=promptParts(raw).map(x=>{const o=old.find(y=>y.name===x.name&&y.content===x.content);return {name:x.name,content:x.content,on:o?o.on:true,repl:o?o.repl:''};});
+  promptVars(stripPartMarks(raw)).forEach(l=>{if(!(l in pdVarVals))pdVarVals[l]=l;});
+}
+function pdNaiPick(i,s0){pdSnapshot();pdNaiSel[i]=s0;pdNaiRebuildParts();pdRenderVars2();pdRenderParts2();updatePromptPreview();}
+function pdNaiBlockEff(i){
+  let off=0;for(let k=0;k<i;k++)off+=promptParts(pdNaiText(k)).length;
+  let j=0;const t=pdNaiText(i).replace(P_PART_RE,(m,n,c)=>{const st=pdPartState[off+(j++)];if(!st)return c;return st.on?((st.repl||'').trim()||c):'';});
+  return cleanPromptCommas(t);
+}
+function copyNaiBlock(i,btn){
+  const eff=pdNaiBlockEff(i);const labels=promptVars(eff);const vals=labels.map(l=>pdVarVals[l]!==undefined?pdVarVals[l]:l);
+  const out=cleanPromptCommas(fillPromptWith(eff,vals));
+  navigator.clipboard.writeText(out).then(()=>{showToast('클립보드에 복사됨');const tx=btn.querySelector('.pdx-copytext');if(tx){const o=tx.textContent;tx.textContent='COPIED !';setTimeout(()=>{tx.textContent=o;},1400);}}).catch(()=>showToast('복사 실패'));
+}
 function pdRenderBody(){
   const box=document.getElementById('pd-body');if(!box)return;
   if(pdMultiTexts){
@@ -6598,6 +6691,21 @@ function pdRenderBody(){
         return '<span class="pdx-chip'+(changed?' done':'')+'">'+esc(val)+'</span>';
       });
       return '<div class="pdx-mblock"><div class="pdx-mbody">'+html+'</div><div class="pdx-mcopyrow"><button type="button" class="pdx-mcopy" onclick="copyOocPrompt('+i+',this)"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg><span class="pdx-copytext">PROMPT '+String(i+1).padStart(2,'0')+' COPY</span><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg></button></div></div>';
+    }).join('');
+    return;
+  }
+  if(pdNai){
+    box.classList.add('multi');
+    let off=0;
+    box.innerHTML=pdNai.map((b,i)=>{
+      const raw0=pdNaiText(i);let j=0;
+      let work=raw0.replace(P_PART_RE,(m,n,c)=>{const st=pdPartState[off+(j++)];if(!st)return c;if(!st.on)return String.fromCharCode(1)+n+String.fromCharCode(2);return (st.repl||'').trim()||c;});
+      off+=j;work=cleanPromptCommas(work);
+      let html=esc(work);
+      html=html.replace(new RegExp(String.fromCharCode(1)+'([^'+String.fromCharCode(2)+']*)'+String.fromCharCode(2),'g'),'<span class="pdx-part-off">$1 삭제됨</span>');
+      html=html.replace(/&lt;([^&]*?)&gt;/g,(mm,label)=>{const val=pdVarVals[label]!==undefined?pdVarVals[label]:label;return '<span class="pdx-chip'+(val!==label?' done':'')+'">'+esc(val)+'</span>';});
+      const seg=b.variants.length?'<span class="pdx-mseg"><button type="button" class="'+(pdNaiSel[i]<0?'on':'')+'" onclick="pdNaiPick('+i+',-1)">'+esc(b.name||'기본')+'</button>'+b.variants.map((v,s0)=>'<button type="button" class="'+(pdNaiSel[i]===s0?'on':'')+'" onclick="pdNaiPick('+i+','+s0+')">'+esc(v.name||('변형 '+(s0+1)))+'</button>').join('')+'</span>':'';
+      return '<div class="pdx-mblock"><div class="pdx-mhead"><span class="pdx-mlabel">◆ '+esc(naiBlockLabel(b,i))+'</span>'+seg+'<button type="button" class="pdx-mcopy sm" onclick="copyNaiBlock('+i+',this)"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg><span class="pdx-copytext">COPY</span></button></div><div class="pdx-mbody">'+html+'</div></div>';
     }).join('');
     return;
   }
@@ -6620,6 +6728,16 @@ function pdRenderVars2(){
   const wrap=document.getElementById('pd-vars');if(!wrap)return;
   const labels=[...new Set(pdMultiTexts?pdMultiTexts.flatMap(t=>promptVars(t)):promptVars(pdEffectiveText()))];
   document.getElementById('pd-edit-sec').style.display='block';
+  if(pdNai){
+    const per=pdNai.map((b,i)=>[...new Set(promptVars(pdNaiBlockEff(i)))]);
+    const count={};per.forEach(ls=>ls.forEach(l=>count[l]=(count[l]||0)+1));
+    const common=[...new Set(per.flat())].filter(l=>count[l]>1);
+    const row=l=>'<div class="pdx-row"><span class="pdx-vl">'+esc(l)+'</span><span class="pdx-arrow">→</span><input class="pdx-in" data-l="'+esc(l)+'" placeholder="변경할 변수 입력" value="'+esc(pdVarVals[l]!==l?pdVarVals[l]:'')+'"><button type="button" class="pdx-cbtn" onclick="pdVarCommit(this)"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 변경</button></div>';
+    let html='';
+    if(common.length)html+='<div class="pdx-vgroup">공통 변수 · 여러 블록에 함께 적용</div>'+common.map(row).join('');
+    pdNai.forEach((b,i)=>{const own=per[i].filter(l=>count[l]===1);if(own.length)html+='<div class="pdx-vgroup">'+esc(naiBlockLabel(b,i))+'</div>'+own.map(row).join('');});
+    wrap.innerHTML=html||'<div class="pdx-empty">이 프롬프트에는 변수가 없습니다</div>';return;
+  }
   if(!labels.length){wrap.innerHTML='<div class="pdx-empty">이 프롬프트에는 변수가 없습니다</div>';return;}
   wrap.innerHTML=labels.map((l,i)=>'<div class="pdx-row">'
     +'<span class="pdx-vl">'+esc(l)+'</span><span class="pdx-arrow">→</span>'
@@ -6644,11 +6762,13 @@ function pdReset(){
   pdSnapshot();
   Object.keys(pdVarVals).forEach(k=>pdVarVals[k]=k);
   pdPartState.forEach(st=>{st.on=true;st.repl='';});
+  if(pdNai){pdNaiSel=pdNai.map(()=>-1);pdNaiRebuildParts();pdPartState.forEach(st=>{st.on=true;st.repl='';});}
   pdRenderVars2();pdRenderParts2();updatePromptPreview();showToast('리셋됨');
 }
 function pdUndo(){
   const s0=pdSnaps.pop();if(!s0){showToast('되돌릴 기록이 없습니다');return;}
   const o=JSON.parse(s0);pdVarVals=o.v;pdPartState=o.ps;
+  if(pdNai&&Array.isArray(o.sel)){pdNaiSel=o.sel;document.getElementById('pd-prompt').dataset.raw=pdNaiRaw();}
   pdRenderVars2();pdRenderParts2();updatePromptPreview();showToast('되돌림');
 }
 function pdRenderParts2(){
@@ -6656,9 +6776,10 @@ function pdRenderParts2(){
   if(pdMultiTexts){document.getElementById('pd-edit2-sec').style.display='none';wrap.innerHTML='';return;}
   document.getElementById('pd-edit2-sec').style.display='block';
   if(!pdPartState.length){wrap.innerHTML='<div class="pdx-empty">이 프롬프트에는 파트가 없습니다</div>';return;}
+  let _heads=null;if(pdNai){_heads=[];pdNai.forEach((b,bi)=>{const n=promptParts(pdNaiText(bi)).length;for(let k=0;k<n;k++)_heads.push(k===0?naiBlockLabel(b,bi):null);});}
   wrap.innerHTML=pdPartState.map((st,i)=>{
     const dict=pdSuggestFor(st.name);
-    return '<div class="pdx-row'+(st.on?'':' off')+'">'
+    return (_heads&&_heads[i]?'<div class="pdx-vgroup">'+esc(_heads[i])+'</div>':'')+'<div class="pdx-row'+(st.on?'':' off')+'">'
       +'<span class="pdx-vl">'+esc(st.name)+'</span>'
       +(dict?'<button type="button" class="pdx-dictbtn" onclick="openDictFor('+i+')">태그 사전</button>':'')
       +'<span class="pdx-arrow">→</span>'
@@ -7839,6 +7960,11 @@ async function openEditor(type,editId,distType){
     if(f.type==='markdown')return `<div class="form-group"><label class="form-label" for="__x">${f.label} <span class="ai-mini-row"><button type="button" class="ai-mini-btn" onclick="aiSpell('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 맞춤법</button></span></label><div class="md-toolbar"><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','**','**')" title="Bold"><b>B</b></button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','*','*')" title="Italic"><i>I</i></button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','~~','~~')" title="Strikethrough"><s>S</s></button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','# ')" title="H1">H1</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','## ')" title="H2">H2</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','### ')" title="H3">H3</button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','- ')" title="List">☰</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','> ')" title="Quote">❝</button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','[','](url)')" title="Link">🔗</button><button class="md-toolbar-btn" type="button" onclick="mdInsertTable('ef-${f.key}')" title="Table">⊞</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','---\\n')" title="HR">―</button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn md-preview-toggle" type="button" onclick="toggleMdPreview('ef-${f.key}')">PREVIEW</button></div><textarea class="form-textarea" id="ef-${f.key}" placeholder="${f.placeholder||''}" style="min-height:200px;font-family:'Pretendard',monospace;font-size:12px;">${esc(val)}</textarea><div class="md-preview-area md-content" id="ef-${f.key}-preview"></div></div>`;
     if(f.type==='file')return `<div class="form-group"><label class="form-label">${f.label}</label><label class="form-file-label"><span>+ 이미지 추가</span><input type="file" class="form-input-file" id="ef-${f.key}" accept="image/*" onchange="previewFile(this)"></label>${existingData&&existingData[f.key]?'<img class="form-file-preview" id="ef-preview" src="'+esc(existingData[f.key])+'">':'<img class="form-file-preview" id="ef-preview" style="display:none;">'}</div>`;
     if(f.type==='multifile'){const cur=existingData?promptImages(existingData):[];return `<div class="form-group"><label class="form-label">${f.label}</label><div class="mf-hint">드래그로 순서 변경 · 맨 앞이 대표 썸네일 · 다른 이미지의 "대표로" 클릭 시 대표 지정</div><div class="mf-list" id="ef-${f.key}-list">${cur.map(u=>`<div class="mf-item" data-url="${esc(u)}" draggable="true" ondragstart="mfDragStart(event)" ondragover="mfDragOver(event)" ondragend="mfDragEnd(event)"><img src="${esc(u)}"><span class="mf-rep">대표</span><button type="button" class="mf-setrep" onclick="setRepImage(this)">대표로</button><button type="button" class="mf-del" onclick="this.parentElement.remove()">✕</button></div>`).join('')}</div><label class="form-file-label"><span>+ 이미지 추가 (여러 장 가능)</span><input type="file" class="form-input-file" id="ef-${f.key}" accept="image/*" multiple onchange="previewMultiFile(this)"></label></div>`;}
+    if(f.type==='naiblocks'){
+      const blocks=naiBlocks({prompt_text:val});
+      setTimeout(()=>{nbInit(blocks);},0);
+      return `<div class="form-group" id="nb-wrap"><label class="form-label">${f.label} — 베이스(공통) + 캐릭터 블록 · NAI v5 · 블록마다 변수·파트·개별 복사</label><div id="nb-list"></div><button type="button" class="form-file-label nb-add" onclick="nbAddChar()"><span>+ 캐릭터 블록 추가</span></button></div>`;
+    }
     if(f.type==='multiprompt'){
       const arr=(function(){const t=val;if(typeof t==='string'&&t.trim().startsWith('[')){try{const a=JSON.parse(t);if(Array.isArray(a)&&a.length)return a;}catch(e){}}return t?[t]:[''];})();
       return `<div class="form-group" id="mp-wrap"><label class="form-label">${f.label} — 여러 개 가능 · 칸마다 개별 변수·개별 복사</label><div id="mp-list">${arr.map((tx,i)=>mpBlockHtml(i,tx)).join('')}</div><button type="button" class="form-file-label mp-add" onclick="mpAdd()"><span>+ 프롬프트 칸 추가</span></button></div>`;
@@ -7883,7 +8009,7 @@ function getFieldsForType(type,distType){
     case 'assets':return [{key:'title',label:'Title',type:'text',placeholder:'에셋 이름 (선택)'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'blur',label:'미리보기 이미지 가리기 (체크 시 썸네일 블러)',type:'checkbox'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
     case 'banners':return [{key:'link_url',label:'Link URL',type:'url-og',placeholder:'https://...'},{key:'image_url',label:'배너 이미지 (아보카도식·직접 지정 시)',type:'file'},{key:'title',label:'Title',type:'text',placeholder:'사이트 이름 (선택)'},{key:'description',label:'문구 (카드 하단 · 비우면 주소 노출)',type:'text',placeholder:'한 줄 문구 (선택)'}];
     case 'logs':return [{key:'title',label:'Title',type:'text',placeholder:'제목'},{key:'category',label:'Category',type:'catselect'},{key:'source',label:'Source',type:'text',placeholder:'출처 (선택)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'is_private',label:'🔒 비밀글로 설정 (비밀번호 필요)',type:'checkbox'},{key:'secret',label:'비밀번호 (비밀글일 때 · 변경할 때만 입력)',type:'password'},{key:'content',label:'Content',type:'richedit',placeholder:'로그를 자유롭게 작성·붙여넣기… (이미지 삽입·유튜브 지원)'},{key:'html_raw',label:'HTML 원본 코드 (선택 — 붙여넣으면 본문에서 그대로 렌더 · 이미지 저장 가능)',type:'htmlcode'},{key:'thumb',label:'대표 썸네일',type:'thumbpick'}];
-    case 'prompts':return [{key:'title',label:'Title',type:'text',placeholder:'프롬프트 이름 (선택)'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'설명 (복사 안 됨 · 잡담/메모용)',type:'textarea',placeholder:'복사되지 않는 설명·메모...'},{key:'prompt_text',label:'Prompt',type:(editorPromptTab==='ooc'?'multiprompt':'prompttext'),placeholder:'프롬프트 텍스트... (텍스트 선택 후 변수 버튼 → <>로 감쌈)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'blur',label:'미리보기 이미지 가리기 (체크 시 썸네일 블러)',type:'checkbox'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
+    case 'prompts':return [{key:'title',label:'Title',type:'text',placeholder:'프롬프트 이름 (선택)'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'설명 (복사 안 됨 · 잡담/메모용)',type:'textarea',placeholder:'복사되지 않는 설명·메모...'},{key:'prompt_text',label:'Prompt',type:(editorPromptTab==='ooc'?'multiprompt':'naiblocks'),placeholder:'프롬프트 텍스트... (텍스트 선택 후 변수 버튼 → <>로 감쌈)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'blur',label:'미리보기 이미지 가리기 (체크 시 썸네일 블러)',type:'checkbox'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
     case 'distributions':return [{key:'title',label:'Title',type:'text',placeholder:'이름'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'본문 (사담 · 설명 · 인용구)',type:'textarea',placeholder:'사담, 설명, 인용구…  (줄 선택 후 ◆ 인용구 버튼으로 인용 표시)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'files',label:'다운로드 — 첨부 파일 & 외부 링크',type:'dlfiles'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
     case 'notices':return [{key:'title',label:'Title',type:'text',placeholder:'공지 제목'},{key:'content',label:'Content (Markdown)',type:'markdown',placeholder:'마크다운으로 작성...'}];
     default:return[];
@@ -8445,6 +8571,8 @@ async function saveEntry(){
         record[f.key]=!!document.getElementById('ef-'+f.key)?.checked;
       }else if(f.type==='richedit'){
         const el=document.getElementById('ef-'+f.key);record[f.key]=el?reSerialize(el):'';
+      }else if(f.type==='naiblocks'){
+        record[f.key]=nbCollect();
       }else if(f.type==='multiprompt'){
         const arr=mpCollect().map(v=>v.trim()).filter(Boolean);
         record[f.key]=arr.length>1?JSON.stringify(arr):(arr[0]||'');
@@ -8854,8 +8982,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.1.6';
+const APP_VERSION='1.2.0';
 const CHANGELOG=[
+  {v:'1.2.0',date:'2026-09-05',title:'노벨AI v5 다중 블록 프롬프트',sql:false,items:['프롬프트 노벨AI 탭: 한 글에 베이스(공통) + 캐릭터 블록을 여러 개 넣을 수 있습니다 — 에디터에서 + 캐릭터 블록 추가','캐릭터별 변형(예: B / B(치마)) — 블록 안 토글로 골라서 복사','상세 화면: 블록별 작은 COPY + 하단 전체 COPY(블록은 빈 줄로 구분), 변수는 공통/블록별로 자동 정리, 파트는 블록별로 묶어 표시','카드에 BASE + N CHAR 배지 · 검색은 변형 텍스트까지 포함','AI 태그 정리 기본 순서를 NAI v5 규칙(NSFW→인원수→구도→포즈→표정→시선→의상→소품→이펙트→배경→색조→라이팅→텍스트→연출)으로 갱신','기존 글은 그대로 열립니다 (베이스 하나면 이전 형식으로 저장)']},
   {v:'1.1.6',date:'2026-09-05',title:'맞춤법 검사 적용 수정',sql:false,items:['맞춤법 검사에서 교정 항목은 뜨는데 "적용"을 누르면 못찾음이 나던 문제 수정 — 굵게·기울임 처리된 단어, 서식 경계에 걸친 단어, 띄어쓰기(NBSP) 교정이 이제 정상 적용됩니다','AI 7기능(맞춤법·HTML 정리·로그 정리·케이브덕·요약·태그·색상 분배) 요청·파싱 경로 전수 점검 — 이상 없음']},
   {v:'1.1.5',date:'2026-07-17',title:'로그 HTML 잘림 수정',sql:false,items:['로그 HTML 뷰어가 긴 글에서 4000px 지점부터 잘리던 문제 수정 (이제 길이 제한 없이 전체 표시)','HTML 이미지로 저장(백업)이 중간에 잘리던 문제 수정 — 전체 높이를 담고, 매우 긴 글은 배율을 자동 조정해 저장']},
   {v:'1.1.4',date:'2026-07-17',title:'비밀글 카드 표기 정리',sql:false,items:['다이어리 비밀글 카드: 본문 요약 자리에 [보호된 글입니다] 표시 (썸네일은 유지, 본문은 서버·클라이언트 이중 차단)']},
