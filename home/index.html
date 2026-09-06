@@ -1117,7 +1117,13 @@ body.is-admin .pdx-admin{display:inline-flex!important;}
 .pdx-nav:hover{color:rgb(var(--t-text));transform:translateY(-50%) scale(1.15);}
 .pdx-nav.prev{left:8px;}.pdx-nav.next{right:8px;}
 .pdx-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:7px;}
-.pdx-dot{width:3px;height:3px;background:rgba(var(--t-fg),.35);border:none;cursor:pointer;padding:0;transition:.25s;}
+.pdx-dot{width:3px;height:3px;background:rgba(var(--t-fg),.35);border:none;cursor:pointer;padding:0;transition:.25s;appearance:none;-webkit-appearance:none;border-radius:0;position:relative;box-sizing:content-box;}
+.pdx-dot::before{content:'';position:absolute;inset:-10px;}
+.pdx-cnt{position:absolute;top:10px;left:12px;z-index:2;font-family:var(--font-num);font-size:10px;letter-spacing:.14em;color:rgba(var(--t-snow),.92);background:rgba(var(--t-overlay),.55);padding:3px 8px;pointer-events:none;}
+.pdx-allbtn{position:absolute;top:8px;right:8px;z-index:2;background:rgba(var(--t-overlay),.55);border:none;color:rgba(var(--t-snow),.92);cursor:pointer;padding:7px;line-height:0;transition:color .25s,transform .5s cubic-bezier(.3,1.2,.35,1);}
+.pdx-allbtn:hover{color:rgb(var(--t-text));}
+.pdx-allbtn:active{transform:scale(.9);transition-duration:.12s;}
+.pdx-links{padding:14px 0 0;justify-content:flex-start;gap:6px 18px;}
 .pdx-dot:hover{background:rgba(var(--t-fg),.65);}
 .pdx-dot.cur{background:rgb(var(--t-fg));}
 .pdx-sec{padding:26px 50px 0;text-align:left;}
@@ -2041,7 +2047,8 @@ body.is-admin #page-admin .adm-body{display:block;}
   .detail-back{padding:12px;margin:-12px -12px 6px;}
   .lgv-star{padding:12px;margin:-6px;}
   .pdx-close,.isp-close,.dictx-close{padding:12px;margin:-8px;}
-  .pdx-dot{padding:10px;margin:-9px;background-clip:content-box;box-sizing:content-box;}
+  .pdx-dots{gap:9px;}
+  .pdx-allbtn{padding:10px;}
   .iss-pager button{padding:11px 12px;margin:-7px -5px;}
   .isp-chip{padding:8px 10px;margin:-5px -3px;}
   #assets-grid .card-ctrl-btn{padding:8px;margin:-8px;box-sizing:content-box;}
@@ -3344,6 +3351,7 @@ body.is-admin #page-admin .adm-body{display:block;}
       <h3 class="pdx-title" id="pd-title"></h3>
       <div class="pdx-date" id="pd-date"></div>
       <div class="pdx-tags" id="pd-tags"></div>
+      <div class="ddx-links pdx-links" id="pd-links" style="display:none"></div>
     </div>
     <div class="pdx-icons">
       <button title="글 공유 (링크 복사)" onclick="sharePopup()"><svg width="16" height="15"><use href="#iss-ic-share"/></svg></button>
@@ -4481,7 +4489,7 @@ async function mAvPick(inp){
   try{
     const small=await gbShrink(f,512);
     const name='gb_m_'+Date.now()+'_'+Math.random().toString(36).slice(2,8)+'.png';
-    const{error}=await palelyDB.storage.from('images').upload(name,small,{contentType:'image/png'});
+    const{error}=await stUpload(name,small,{contentType:'image/png'});
     if(error)throw error;
     mAvUrl=palelyDB.storage.from('images').getPublicUrl(name).data.publicUrl;
     const pv=document.getElementById('m-av-prev');if(pv){pv.src=mAvUrl;pv.style.display='block';}
@@ -4908,7 +4916,7 @@ async function stkUploadAdd(inp,toPalette){
       try{const det=await detectNAI(f);if(det.found){f=await stripImageMeta(f);showToast('노벨AI 메타데이터 감지·제거됨 ('+det.reasons.join(', ')+')');}}catch(_){}
       const ext=(f.name.split('.').pop()||'png').toLowerCase().replace(/[^a-z0-9]/g,'')||'png';
       const fn='stickers/'+Date.now()+'_'+Math.random().toString(36).slice(2,8)+'.'+ext;
-      const{error:ue}=await palelyDB.storage.from('images').upload(fn,f);if(ue)throw ue;
+      const{error:ue}=await stUpload(fn,f);if(ue)throw ue;
       const{data:pu}=palelyDB.storage.from('images').getPublicUrl(fn);
       if(toPalette)stkPalette.push(pu.publicUrl);
       else stkAdd(pu.publicUrl);
@@ -5531,7 +5539,7 @@ function bnIntroLoop(){
     link.addEventListener('mouseleave',function(){wrap._bnHover=false;play();});}
 }
 function mybnCopy(fmt){if((fmt==='img'||fmt==='imgonly')&&!siteBanner.img){showToast('먼저 배너 이미지를 설정하세요 (설정 버튼)');return;}const link=siteBanner.link||siteRoot();const msg=fmt==='og'?'OG 링크 복사됨':fmt==='imgonly'?'이미지 링크(URL) 복사됨':'이미지 링크식 배너 복사됨 — 갠홈에 붙여넣으세요';doCopy(bannerCode(siteBanner.img,link,fmt,'palely.me'),msg);}
-function mybnUpload(){return new Promise(res=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.onchange=async()=>{let f=inp.files&&inp.files[0];if(!f){res('');return;}try{try{const det=await detectNAI(f);if(det.found){f=await stripImageMeta(f);showToast('노벨AI 메타데이터 감지·제거됨 ('+det.reasons.join(', ')+')');}}catch(e){}const name='sitebn_'+Date.now()+'.'+((f.name.split('.').pop()||'png').toLowerCase());const{error}=await palelyDB.storage.from('images').upload(name,f);if(error)throw error;res(palelyDB.storage.from('images').getPublicUrl(name).data.publicUrl);}catch(e){showToast('업로드 실패');res('');}};inp.click();});}
+function mybnUpload(){return new Promise(res=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.onchange=async()=>{let f=inp.files&&inp.files[0];if(!f){res('');return;}try{try{const det=await detectNAI(f);if(det.found){f=await stripImageMeta(f);showToast('노벨AI 메타데이터 감지·제거됨 ('+det.reasons.join(', ')+')');}}catch(e){}const name='sitebn_'+Date.now()+'.'+((f.name.split('.').pop()||'png').toLowerCase());const{error}=await stUpload(name,f);if(error)throw error;res(palelyDB.storage.from('images').getPublicUrl(name).data.publicUrl);}catch(e){showToast('업로드 실패');res('');}};inp.click();});}
 async function mybnSave(patch){
   siteBanner=Object.assign({img:'',link:'',masktext:'',name:'',intro:''},siteBanner||{},patch);
   try{await palelyDB.from('settings').upsert({key:'site_banner',value:JSON.stringify(siteBanner)},{onConflict:'key'});}catch(e){showToast('저장 실패');return false;}
@@ -5689,7 +5697,7 @@ async function ltImg(i,inp){
   try{
     const ext=(f.name.split('.').pop()||'png').toLowerCase().replace(/[^a-z0-9]/g,'')||'png';
     const fn='logs/banner_'+Date.now()+'.'+ext;
-    const{error:ue}=await palelyDB.storage.from('images').upload(fn,f);if(ue)throw ue;
+    const{error:ue}=await stUpload(fn,f);if(ue)throw ue;
     const{data:pu}=palelyDB.storage.from('images').getPublicUrl(fn);
     logsTabs[i].img=pu.publicUrl;
     await saveLogsTabs();ltRender();renderLogsBanner();showToast('배너 이미지 설정됨');
@@ -6621,6 +6629,7 @@ function openPromptDetail(id){
   document.getElementById('pd-title').textContent=p.title||'(제목 없음)';
   document.getElementById('pd-date').textContent=pdFmtDate(p.created_at);
   document.getElementById('pd-tags').innerHTML=(p.tags||[]).map(t=>'<span>#'+esc(t)+'</span>').join(' ');
+  const _pl=document.getElementById('pd-links');if(_pl){const ls=Array.isArray(p.links)?p.links.filter(l=>l&&l.url):[];_pl.innerHTML=ls.map(l=>'<a class="ddx-link" href="'+esc(l.url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>'+esc(l.label||l.url)+'</a>').join('');_pl.style.display=ls.length?'':'none';}
   const like=document.getElementById('pd-like');
   document.getElementById('pd-like-n').textContent=pcvLikeN(p.id)||'';
   like.onclick=()=>{pcvLike(p.id,like);const n=document.getElementById('pd-like-n');if(n)n.textContent=pcvLikeN(p.id);};
@@ -6633,16 +6642,29 @@ function openPromptDetail(id){
   document.getElementById('prompt-detail-modal').classList.add('active');
   document.getElementById('prompt-detail-modal').scrollTop=0;
 }
+// 상세 슬라이더 공용 HTML (프롬 pd* / 배포 dd*): 화살표 + 점 + "n / N" + 전체보기
+function pdxSliderHtml(imgs,idx,pre){
+  const u=imgs[idx];const n=imgs.length;
+  let h='<div class="pdx-imgwrap"><img src="'+esc(u)+'" draggable="false" onclick="'+pre+'ImgView()">';
+  if(n>1){
+    h+='<button type="button" class="pdx-nav prev" onclick="'+pre+'ImgGo(-1)"><svg viewBox="0 0 10 18" width="11" height="20" fill="none" stroke="currentColor" stroke-width="1"><path d="M8.5 1L1.5 9l7 8"/></svg></button>'
+      +'<button type="button" class="pdx-nav next" onclick="'+pre+'ImgGo(1)"><svg viewBox="0 0 10 18" width="11" height="20" fill="none" stroke="currentColor" stroke-width="1"><path d="M1.5 1l7 8-7 8"/></svg></button>'
+      +'<div class="pdx-dots">'+imgs.map((_,i)=>'<button type="button" class="pdx-dot'+(i===idx?' cur':'')+'" onclick="'+pre+'ImgTo('+i+')"></button>').join('')+'</div>'
+      +'<span class="pdx-cnt">'+(idx+1)+' / '+n+'</span>'
+      +'<button type="button" class="pdx-allbtn" title="전체 이미지 한눈에 보기" onclick="'+pre+'ImgAll()"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1"><rect x="1" y="1" width="5.4" height="5.4"/><rect x="8.6" y="1" width="5.4" height="5.4"/><rect x="1" y="8.6" width="5.4" height="5.4"/><rect x="8.6" y="8.6" width="5.4" height="5.4"/></svg></button>';
+  }
+  return h+'</div>';
+}
+function pdImgView(){viewImages(pdImgs,pdImgIdx);}
+function pdImgAll(){viewImages(pdImgs,pdImgIdx);ivSheetToggle();}
+function ddImgView(){viewImages(ddImgs,ddImgIdx);}
+function ddImgAll(){viewImages(ddImgs,ddImgIdx);ivSheetToggle();}
 function pdRenderSlider(dir){
   const box=document.getElementById('pd-images');
   if(!pdImgs.length){box.innerHTML='';box.style.display='none';return;}
   box.style.display='block';
   const u=pdImgs[pdImgIdx];
-  box.innerHTML='<div class="pdx-imgwrap"><img src="'+esc(u)+'" draggable="false" onclick="viewImage(this.src)">'
-    +(pdImgs.length>1?'<button type="button" class="pdx-nav prev" onclick="pdImgGo(-1)"><svg viewBox="0 0 10 18" width="11" height="20" fill="none" stroke="currentColor" stroke-width="1"><path d="M8.5 1L1.5 9l7 8"/></svg></button>'
-    +'<button type="button" class="pdx-nav next" onclick="pdImgGo(1)"><svg viewBox="0 0 10 18" width="11" height="20" fill="none" stroke="currentColor" stroke-width="1"><path d="M1.5 1l7 8-7 8"/></svg></button>'
-    +'<div class="pdx-dots">'+pdImgs.map((_,i)=>'<button type="button" class="pdx-dot'+(i===pdImgIdx?' cur':'')+'" onclick="pdImgTo('+i+')"></button>').join('')+'</div>':'')
-    +'</div>';
+  box.innerHTML=pdxSliderHtml(pdImgs,pdImgIdx,'pd');
   if(dir){
     const im=box.querySelector('img');
     if(im){try{im.animate([
@@ -6918,11 +6940,7 @@ function ddRenderSlider(dir){
   if(!ddImgs.length){box.innerHTML='';box.style.display='none';return;}
   box.style.display='block';
   const u=ddImgs[ddImgIdx];
-  box.innerHTML='<div class="pdx-imgwrap"><img src="'+esc(u)+'" draggable="false" onclick="viewImage(this.src)">'
-    +(ddImgs.length>1?'<button type="button" class="pdx-nav prev" onclick="ddImgGo(-1)"><svg viewBox="0 0 10 18" width="11" height="20" fill="none" stroke="currentColor" stroke-width="1"><path d="M8.5 1L1.5 9l7 8"/></svg></button>'
-    +'<button type="button" class="pdx-nav next" onclick="ddImgGo(1)"><svg viewBox="0 0 10 18" width="11" height="20" fill="none" stroke="currentColor" stroke-width="1"><path d="M1.5 1l7 8-7 8"/></svg></button>'
-    +'<div class="pdx-dots">'+ddImgs.map((_,i)=>'<button type="button" class="pdx-dot'+(i===ddImgIdx?' cur':'')+'" onclick="ddImgTo('+i+')"></button>').join('')+'</div>':'')
-    +'</div>';
+  box.innerHTML=pdxSliderHtml(ddImgs,ddImgIdx,'dd');
   if(dir){
     const im=box.querySelector('img');
     if(im){try{im.animate([{opacity:0,transform:'translateX('+(dir*30)+'px) scale(1.012)'},{opacity:1,transform:'none'}],{duration:460,easing:'cubic-bezier(.25,.8,.3,1)'});}catch(e){}}
@@ -7663,7 +7681,7 @@ async function gbAvatarChange(inp){
   try{
     const small=await gbShrink(f,512);
     const name='gb_'+Date.now()+'_'+Math.random().toString(36).slice(2,8)+'.png';
-    const{error}=await palelyDB.storage.from('images').upload(name,small,{contentType:'image/png'});
+    const{error}=await stUpload(name,small,{contentType:'image/png'});
     if(error)throw error;
     gbAvatarUrl=palelyDB.storage.from('images').getPublicUrl(name).data.publicUrl;
     const prev=document.getElementById('gb-av-preview');if(prev){prev.src=gbAvatarUrl;prev.style.display='block';}
@@ -7987,8 +8005,8 @@ async function openEditor(type,editId,distType){
       return `<div class="form-group"><label class="form-label">${f.label}</label><div id="ef-dl-files"></div><div id="ef-dl-links"></div><div class="dl-btnrow"><label class="form-file-label"><span>+ 파일 첨부 (여러 개 가능)</span><input type="file" multiple style="display:none" onchange="dlAddFiles(this)"></label><button type="button" class="form-file-label" onclick="dlAddLink()"><span>+ 다운로드 링크 추가</span></button></div></div>`;
     }
     if(f.type==='links'){
-      const links=existingData?existingData.links||[]:[{label:'',url:''}];
-      return `<div class="form-group"><label class="form-label">${f.label}</label><div id="ef-links-container">${links.map((l,i)=>`<div class="link-entry"><input type="text" class="form-input" placeholder="Label" value="${esc(l.label||'')}" data-link-label="${i}"><input type="url" class="form-input" placeholder="URL" value="${esc(l.url||'')}" data-link-url="${i}"><button class="link-remove-btn" onclick="this.parentElement.remove()">✕</button></div>`).join('')}</div><button class="link-add-btn" onclick="addLinkEntry()">+ Add Link</button></div>`;
+      const links=(existingData&&Array.isArray(existingData.links))?existingData.links:[];
+      return `<div class="form-group"><label class="form-label">${f.label}</label><div id="ef-links-container">${links.map((l,i)=>`<div class="link-entry"><input type="text" class="form-input" placeholder="이름 (예: 참고 트윗)" value="${esc(l.label||'')}" data-link-label="${i}"><input type="url" class="form-input" placeholder="https://…" value="${esc(l.url||'')}" data-link-url="${i}"><button type="button" class="link-remove-btn" onclick="this.parentElement.remove()">✕</button></div>`).join('')}</div><button type="button" class="form-file-label link-add-btn" onclick="addLinkEntry()"><span>+ 링크 추가</span></button></div>`;
     }
     if(f.type==='catselect'){const _ck=currentEditorType==='distributions'?editorDistType:(currentEditorType==='prompts'?(editorPromptTab==='ooc'?'ooc':'prompts'):currentEditorType);const cats=getCats(_ck);const cur=catArr(val);return `<div class="form-group"><label class="form-label">${f.label} (다중 선택 가능)</label><input type="hidden" id="ef-${f.key}" value="${JSON.stringify(cur).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}"><div class="cat-select" onclick="onCatSelectClick(event)">${cats.length?cats.map(c=>`<button type="button" class="cat-chip${cur.includes(c)?' active':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join(''):'<span class="cat-empty">카테고리 없음 — 게시판 상단 ⚙카테고리 관리에서 추가</span>'}</div></div>`;}
     if(f.type==='checkbox')return `<div class="form-group"><label class="form-check"><input type="checkbox" id="ef-${f.key}" ${val?'checked':''}><span>${f.label}</span></label></div>`;
@@ -8009,7 +8027,7 @@ function getFieldsForType(type,distType){
     case 'assets':return [{key:'title',label:'Title',type:'text',placeholder:'에셋 이름 (선택)'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'blur',label:'미리보기 이미지 가리기 (체크 시 썸네일 블러)',type:'checkbox'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
     case 'banners':return [{key:'link_url',label:'Link URL',type:'url-og',placeholder:'https://...'},{key:'image_url',label:'배너 이미지 (아보카도식·직접 지정 시)',type:'file'},{key:'title',label:'Title',type:'text',placeholder:'사이트 이름 (선택)'},{key:'description',label:'문구 (카드 하단 · 비우면 주소 노출)',type:'text',placeholder:'한 줄 문구 (선택)'}];
     case 'logs':return [{key:'title',label:'Title',type:'text',placeholder:'제목'},{key:'category',label:'Category',type:'catselect'},{key:'source',label:'Source',type:'text',placeholder:'출처 (선택)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'is_private',label:'🔒 비밀글로 설정 (비밀번호 필요)',type:'checkbox'},{key:'secret',label:'비밀번호 (비밀글일 때 · 변경할 때만 입력)',type:'password'},{key:'content',label:'Content',type:'richedit',placeholder:'로그를 자유롭게 작성·붙여넣기… (이미지 삽입·유튜브 지원)'},{key:'html_raw',label:'HTML 원본 코드 (선택 — 붙여넣으면 본문에서 그대로 렌더 · 이미지 저장 가능)',type:'htmlcode'},{key:'thumb',label:'대표 썸네일',type:'thumbpick'}];
-    case 'prompts':return [{key:'title',label:'Title',type:'text',placeholder:'프롬프트 이름 (선택)'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'설명 (복사 안 됨 · 잡담/메모용)',type:'textarea',placeholder:'복사되지 않는 설명·메모...'},{key:'prompt_text',label:'Prompt',type:(editorPromptTab==='ooc'?'multiprompt':'naiblocks'),placeholder:'프롬프트 텍스트... (텍스트 선택 후 변수 버튼 → <>로 감쌈)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'blur',label:'미리보기 이미지 가리기 (체크 시 썸네일 블러)',type:'checkbox'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
+    case 'prompts':return [{key:'title',label:'Title',type:'text',placeholder:'프롬프트 이름 (선택)'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'설명 (복사 안 됨 · 잡담/메모용)',type:'textarea',placeholder:'복사되지 않는 설명·메모...'},{key:'prompt_text',label:'Prompt',type:(editorPromptTab==='ooc'?'multiprompt':'naiblocks'),placeholder:'프롬프트 텍스트... (텍스트 선택 후 변수 버튼 → <>로 감쌈)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'links',label:'링크 첨부 (이름 + 주소 · 상세에 작은 버튼으로 표시)',type:'links'},{key:'blur',label:'미리보기 이미지 가리기 (체크 시 썸네일 블러)',type:'checkbox'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
     case 'distributions':return [{key:'title',label:'Title',type:'text',placeholder:'이름'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'본문 (사담 · 설명 · 인용구)',type:'textarea',placeholder:'사담, 설명, 인용구…  (줄 선택 후 ◆ 인용구 버튼으로 인용 표시)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'files',label:'다운로드 — 첨부 파일 & 외부 링크',type:'dlfiles'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
     case 'notices':return [{key:'title',label:'Title',type:'text',placeholder:'공지 제목'},{key:'content',label:'Content (Markdown)',type:'markdown',placeholder:'마크다운으로 작성...'}];
     default:return[];
@@ -8019,7 +8037,7 @@ function getFieldsForType(type,distType){
 function addLinkEntry(){
   const c=document.getElementById('ef-links-container');if(!c)return;
   const d=document.createElement('div');d.className='link-entry';
-  d.innerHTML=`<input type="text" class="form-input" placeholder="Label"><input type="url" class="form-input" placeholder="URL"><button class="link-remove-btn" onclick="this.parentElement.remove()">✕</button>`;
+  d.innerHTML=`<input type="text" class="form-input" placeholder="이름 (예: 참고 트윗)"><input type="url" class="form-input" placeholder="https://…"><button type="button" class="link-remove-btn" onclick="this.parentElement.remove()">✕</button>`;
   c.appendChild(d);
 }
 
@@ -8073,6 +8091,39 @@ function previewMultiFile(input){
   input.value='';
 }
 // ── NAI 메타데이터: 자동 감지(#7) ──
+// ══ 업로드 위생 관문: 모든 이미지는 재인코딩 + LSB 스크럽 후에만 스토리지에 올라간다 ══
+// (NovelAI tEXt/iTXt/zTXt·EXIF·XMP·ICC 등 메타데이터 전부 소멸 + 알파/RGB LSB 스텔스 비트열 파괴. 픽셀 변화 ≤1/255)
+const IMG_SANITIZE_SKIP=/^image\/(gif|svg\+xml)$/;
+async function imgDecode(file){
+  try{return await createImageBitmap(file);}catch(e){}
+  return new Promise((res,rej)=>{const url=URL.createObjectURL(file);const im=new Image();im.onload=()=>{URL.revokeObjectURL(url);res(im);};im.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('이미지 디코드 실패'));};im.src=url;});
+}
+async function imgSanitize(file,force){
+  if(!file||!(file instanceof Blob))return file;
+  let type=file.type||'';
+  if(!type||type==='application/octet-stream'){const b=new Uint8Array(await file.slice(0,12).arrayBuffer());if(b[0]===0x89&&b[1]===0x50)type='image/png';else if(b[0]===0xff&&b[1]===0xd8)type='image/jpeg';else if(b[8]===0x57&&b[9]===0x45&&b[10]===0x42)type='image/webp';else if(b[0]===0x47&&b[1]===0x49)type='image/gif';}
+  if(!/^image\//.test(type))return file;                 // 이미지가 아닌 첨부파일 → 그대로
+  if(!force&&IMG_SANITIZE_SKIP.test(type))return file;   // gif(애니메이션)·svg는 래스터 재인코딩 대상 아님
+  const src=await imgDecode(file);
+  const w=src.width||src.naturalWidth,h=src.height||src.naturalHeight;
+  if(!w||!h)throw new Error('이미지 크기 판독 실패');
+  const c=document.createElement('canvas');c.width=w;c.height=h;
+  const cx=c.getContext('2d',{willReadFrequently:true});cx.drawImage(src,0,0);if(src.close)try{src.close();}catch(e){}
+  const im=cx.getImageData(0,0,w,h);const d=im.data;
+  for(let i=0;i<d.length;i+=4){d[i]|=1;d[i+1]|=1;d[i+2]|=1;d[i+3]|=1;}
+  cx.putImageData(im,0,0);
+  const out=type==='image/jpeg'?'image/jpeg':(type==='image/webp'?'image/webp':'image/png');
+  const blob=await new Promise(r=>c.toBlob(r,out,out==='image/png'?undefined:.92));
+  if(!blob)throw new Error('이미지 재인코딩 실패');
+  const base=(file.name||'image').replace(/\.[^.]+$/,'');
+  return new File([blob],base+(out==='image/jpeg'?'.jpg':out==='image/webp'?'.webp':'.png'),{type:out});
+}
+async function stUpload(path,file,opts){
+  const f=await imgSanitize(file);   // 실패 시 throw → 업로드 자체가 취소됨 (원본 유출 없음)
+  const o=Object.assign({},opts||{});
+  if(f&&/^image\//.test(f.type||''))o.contentType=f.type;
+  return palelyDB.storage.from('images').upload(path,f,o);
+}
 async function detectNAI(file){
   const res={found:false,reasons:[]};
   try{
@@ -8130,18 +8181,7 @@ async function removeNAI(itemEl){
     showToast('NAI 메타데이터 제거 완료 (재인코딩+알파 평탄화)');
   }catch(e){showToast('제거 실패: '+(e.message||''));}
 }
-function stripImageMeta(file){
-  return new Promise((resolve,reject)=>{
-    const url=URL.createObjectURL(file);const img=new Image();
-    img.onload=()=>{
-      const c=document.createElement('canvas');c.width=img.width;c.height=img.height;const cx=c.getContext('2d');
-      cx.drawImage(img,0,0);
-      const im=cx.getImageData(0,0,c.width,c.height);const d=im.data;for(let i=3;i<d.length;i+=4)d[i]=255;cx.putImageData(im,0,0);
-      c.toBlob(b=>{URL.revokeObjectURL(url);if(!b){reject(new Error('encode fail'));return;}resolve(new File([b],((file.name||'image').replace(/\.[^.]+$/,''))+'_clean.png',{type:'image/png'}));},'image/png');
-    };
-    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('load fail'));};img.src=url;
-  });
-}
+function stripImageMeta(file){return imgSanitize(file,true);}  // 투명 유지 버전으로 위임
 function wrapPart(id){const ta=document.getElementById(id);if(!ta)return;const s0=ta.selectionStart,e0=ta.selectionEnd;if(s0===e0){showToast('파트로 지정할 텍스트를 드래그로 선택하세요');return;}const name=prompt('파트 이름 (예: 표정, 옷, 배경, 포즈)');if(!name||!name.trim())return;const sel=ta.value.substring(s0,e0);ta.value=ta.value.substring(0,s0)+'《'+name.trim().replace(/[《》:]/g,'')+':'+sel+'》'+ta.value.substring(e0);ta.focus();}
 function wrapVar(id){const ta=document.getElementById(id);if(!ta)return;const s=ta.selectionStart,e=ta.selectionEnd;if(s===e){showToast('변수로 만들 텍스트를 드래그로 선택하세요');return;}const sel=ta.value.substring(s,e);ta.value=ta.value.substring(0,s)+'<'+sel+'>'+ta.value.substring(e);ta.focus();ta.selectionStart=s;ta.selectionEnd=e+2;}
 
@@ -8149,7 +8189,7 @@ function wrapVar(id){const ta=document.getElementById(id);if(!ta)return;const s=
 async function uploadImage(file,folder){
   const ext=((file.name||'img').split('.').pop()||'png').toLowerCase();
   const fn=`${folder}/${Date.now()}_${Math.random().toString(36).slice(2,8)}.${ext}`;
-  const{error:ue}=await palelyDB.storage.from('images').upload(fn,file,{contentType:file.type||'image/png'});if(ue)throw ue;
+  const{error:ue}=await stUpload(fn,file,{contentType:file.type||'image/png'});if(ue)throw ue;
   const{data:ud}=palelyDB.storage.from('images').getPublicUrl(fn);return ud.publicUrl;
 }
 function ytId(u){
@@ -8267,8 +8307,8 @@ async function naiPurgeAll(){
   }finally{if(btn){btn.disabled=false;btn.textContent='NAI 일괄 제거';}}
 }
 async function prepImageForInsert(file){
-  try{const r=await detectNAI(file);if(r.found){if(confirm('⚠ NovelAI 메타데이터가 감지되었습니다 ('+r.reasons.join(', ')+').\n제거하고 삽입할까요? (재인코딩 + 알파 평탄화)')){const cleaned=await stripImageMeta(file);showToast('NAI 메타데이터 제거됨');return cleaned;}}}catch(e){}
-  return file;
+  // 감지 여부와 무관하게 항상 재인코딩(메타·스텔스 제거). 실패 시 삽입 취소.
+  try{return await imgSanitize(file);}catch(e){showToast('이미지 처리 실패 — 삽입을 취소했습니다');throw e;}
 }
 function reImage(){
   const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
@@ -8526,14 +8566,14 @@ async function saveEntry(){
           if(!sfCleanMap[fi.id]&&sfNaiFlag[fi.id]){try{file=await stripImageMeta(file);showToast('NAI 메타데이터 자동 제거 후 업로드');}catch(e){}}
           const ext=file.name.split('.').pop();
           const fn=`${currentEditorType}/${Date.now()}_${Math.random().toString(36).slice(2,8)}.${ext}`;
-          const{error:ue}=await palelyDB.storage.from('images').upload(fn,file,{contentType:file.type});if(ue)throw ue;
+          const{error:ue}=await stUpload(fn,file,{contentType:file.type});if(ue)throw ue;
           const{data:ud}=palelyDB.storage.from('images').getPublicUrl(fn);record[f.key]=ud.publicUrl;
         }else if(currentEditId)continue;
       }else if(f.type==='multifile'){
         const items=[...document.querySelectorAll('#ef-'+f.key+'-list .mf-item')];const all=[];
         for(const it of items){
           if(it.dataset.url){all.push(it.dataset.url);}
-          else if(it.dataset.tmp&&mfFileMap[it.dataset.tmp]){const file=mfFileMap[it.dataset.tmp];const ext=(file.name.split('.').pop()||'png');const fn=`${currentEditorType}/${Date.now()}_${Math.random().toString(36).slice(2,8)}.${ext}`;const{error:ue}=await palelyDB.storage.from('images').upload(fn,file,{contentType:file.type});if(ue)throw ue;const{data:ud}=palelyDB.storage.from('images').getPublicUrl(fn);all.push(ud.publicUrl);}
+          else if(it.dataset.tmp&&mfFileMap[it.dataset.tmp]){const file=mfFileMap[it.dataset.tmp];const ext=(file.name.split('.').pop()||'png');const fn=`${currentEditorType}/${Date.now()}_${Math.random().toString(36).slice(2,8)}.${ext}`;const{error:ue}=await stUpload(fn,file,{contentType:file.type});if(ue)throw ue;const{data:ud}=palelyDB.storage.from('images').getPublicUrl(fn);all.push(ud.publicUrl);}
         }
         record.images=all;record.image_url=all[0]||'';
       }else if(f.type==='url-og'){
@@ -8548,7 +8588,7 @@ async function saveEntry(){
           else if(it.kind==='pending'&&it._file){
             const ext=(it.name.split('.').pop()||'bin').toLowerCase().replace(/[^a-z0-9]/g,'')||'bin';
             const fn='distributions/dl_'+Date.now()+'_'+Math.random().toString(36).slice(2,8)+'.'+ext;
-            const{error:ue}=await palelyDB.storage.from('images').upload(fn,it._file);
+            const{error:ue}=await stUpload(fn,it._file);
             if(ue)throw ue;
             const{data:pu}=palelyDB.storage.from('images').getPublicUrl(fn);
             out.push({name:it.name,url:pu.publicUrl,size:it._file.size});
@@ -8982,8 +9022,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.2.0';
+const APP_VERSION='1.2.1';
 const CHANGELOG=[
+  {v:'1.2.1',date:'2026-09-06',title:'이미지 메타데이터 자동 제거 · 슬라이더 · 링크 첨부',sql:true,items:['[보안] 업로드되는 모든 이미지의 메타데이터를 자동으로 완전 제거합니다 — NovelAI 생성 정보(프롬프트·시드·모델), EXIF, 숨겨진 스텔스 데이터까지. 버튼을 누를 필요 없이 올리는 순간 처리되며, 처리에 실패하면 업로드되지 않습니다','상세 이미지 슬라이더: 모바일에서 네모로 보이던 점 표시 수정, 현재 위치(n / N) 표시, 전체 이미지 한눈에 보기 버튼 추가, 이미지 클릭 시 넘기며 볼 수 있음','프롬프트 게시판(노벨AI·OOC) 링크 첨부 — 이름 + 주소를 넣으면 상세에 작은 버튼으로 표시','※ 링크 첨부는 DB 업데이트가 필요합니다 (prompts 링크 SQL 1회 실행)']},
   {v:'1.2.0',date:'2026-09-05',title:'노벨AI v5 다중 블록 프롬프트',sql:false,items:['프롬프트 노벨AI 탭: 한 글에 베이스(공통) + 캐릭터 블록을 여러 개 넣을 수 있습니다 — 에디터에서 + 캐릭터 블록 추가','캐릭터별 변형(예: B / B(치마)) — 블록 안 토글로 골라서 복사','상세 화면: 블록별 작은 COPY + 하단 전체 COPY(블록은 빈 줄로 구분), 변수는 공통/블록별로 자동 정리, 파트는 블록별로 묶어 표시','카드에 BASE + N CHAR 배지 · 검색은 변형 텍스트까지 포함','AI 태그 정리 기본 순서를 NAI v5 규칙(NSFW→인원수→구도→포즈→표정→시선→의상→소품→이펙트→배경→색조→라이팅→텍스트→연출)으로 갱신','기존 글은 그대로 열립니다 (베이스 하나면 이전 형식으로 저장)']},
   {v:'1.1.6',date:'2026-09-05',title:'맞춤법 검사 적용 수정',sql:false,items:['맞춤법 검사에서 교정 항목은 뜨는데 "적용"을 누르면 못찾음이 나던 문제 수정 — 굵게·기울임 처리된 단어, 서식 경계에 걸친 단어, 띄어쓰기(NBSP) 교정이 이제 정상 적용됩니다','AI 7기능(맞춤법·HTML 정리·로그 정리·케이브덕·요약·태그·색상 분배) 요청·파싱 경로 전수 점검 — 이상 없음']},
   {v:'1.1.5',date:'2026-07-17',title:'로그 HTML 잘림 수정',sql:false,items:['로그 HTML 뷰어가 긴 글에서 4000px 지점부터 잘리던 문제 수정 (이제 길이 제한 없이 전체 표시)','HTML 이미지로 저장(백업)이 중간에 잘리던 문제 수정 — 전체 높이를 담고, 매우 긴 글은 배율을 자동 조정해 저장']},
