@@ -1372,10 +1372,13 @@ svg.pdx-spark{color:rgb(var(--t-text));}
 .pdx-copybtn.cpx .pdx-spark{width:12px;height:12px;margin-bottom:0;}
 .pdx-copybtn.cpx .pdx-copylabel{font-size:11px;letter-spacing:.12em;gap:8px;}
 .pdx-copybtn.cpx:hover .pdx-copylabel{text-shadow:none;}
+.pdx-copybtn.cpx::after{border-bottom-color:transparent;}
+.pdx-copybtn.cpx:hover::after,.pdx-copybtn.cpx.copied::after{border-bottom-color:rgba(var(--t-fg),.85);}
+.pdx-hint{font-family:var(--font-kr);font-size:10px;letter-spacing:-.02em;color:rgba(var(--t-fg-soft),.45);text-align:center;margin:12px 0 0;}
 /* 아이콘형 */
 .cpi{position:relative;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;flex:none;background:none;border:none;padding:0;cursor:pointer;color:rgba(var(--t-snow),.82);transition:color .25s,transform .5s cubic-bezier(.3,1.2,.35,1);}
-.cpi .cpi-ring{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:rgba(var(--t-fg),.8);stroke-width:1;stroke-dasharray:60;stroke-dashoffset:60;transition:stroke-dashoffset .5s cubic-bezier(.25,.8,.3,1),stroke .25s,filter .25s;pointer-events:none;}
-.cpi .cpi-ic{position:relative;width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:1;}
+.cpi .cpi-ring{position:absolute;inset:0;width:100%;height:100%;display:block;fill:none;stroke:rgba(var(--t-fg),.8);stroke-width:1;stroke-dasharray:60;stroke-dashoffset:60;transition:stroke-dashoffset .5s cubic-bezier(.25,.8,.3,1),stroke .25s,filter .25s;pointer-events:none;}
+.cpi .cpi-ic{position:relative;display:block;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1;}
 .cpi:hover{color:rgb(var(--t-text));}
 .cpi:hover .cpi-ring{stroke-dashoffset:0;}
 .cpi:active{transform:scale(.9);transition-duration:.12s;}
@@ -3396,6 +3399,7 @@ body.is-admin #page-admin .adm-body{display:block;}
       <div id="pd-desc" class="pdx-desc"></div>
     </div>
     <div class="pdx-bodybox" id="pd-body"></div>
+    <div class="pdx-hint" id="pd-copyhint" style="display:none">개별 복사는 각 블록의 아이콘을 눌러 진행할 수 있습니다</div>
     <div class="pdx-grid">
       <div class="pdx-sec" id="pd-edit-sec">
         <div class="pdx-label">EDIT<span class="pdx-ctrl"><button type="button" onclick="pdApplyAll()"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 일괄 변경</button><button type="button" onclick="pdReset()">리셋</button><button type="button" onclick="pdUndo()">되돌리기</button></span></div>
@@ -6525,7 +6529,7 @@ function naiBlocks(p){
 function naiIsMulti(p){const b=naiBlocks(p);return b.length>1||b.some(x=>x.variants.length>0);}
 function naiFlatText(p){return naiBlocks(p).map(b=>[b.text].concat(b.variants.map(v=>v.text)).join('\n')).join('\n\n');}
 function naiCopyText(p){return naiBlocks(p).map(b=>b.text).join('\n\n');}
-function cpiHtml(onclick,title){return '<button type="button" class="cpi" title="'+(title||'복사')+'" onclick="'+onclick+'"><svg class="cpi-ring" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5 22.5 12 12 22.5 1.5 12Z"/></svg><svg class="cpi-ic" viewBox="0 0 15 15" aria-hidden="true"><rect x="4" y="4" width="9" height="9"/><path d="M2 11V2h9"/></svg></button>';}
+function cpiHtml(onclick,title){return '<button type="button" class="cpi" title="'+(title||'복사')+'" onclick="'+onclick+'"><svg class="cpi-ring" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5 22.5 12 12 22.5 1.5 12Z"/></svg><svg class="cpi-ic" viewBox="0 0 12 12" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7"/><path d="M1.5 8.5V1.5h7"/></svg></button>';}
 function naiBlockLabel(b,i){return b.k==='base'?'BASE':('캐릭터 '+(b.name||String.fromCharCode(65+Math.max(0,i-1))));}
 function naiSerialize(blocks){
   const bs=blocks.map(b=>({k:b.k==='char'?'char':'base',name:(b.name||'').trim(),text:b.text||'',variants:(b.variants||[]).filter(v=>(v.text||'').trim()||(v.name||'').trim()).map(v=>({name:(v.name||'').trim(),text:v.text||''}))}));
@@ -6657,6 +6661,7 @@ function openPromptDetail(id){
   pdPartState=pdMultiTexts?[]:promptParts(_raw0).map(x=>({name:x.name,content:x.content,on:true,repl:''}));
   pdVarVals={};(pdMultiTexts?pdMultiTexts.flatMap(t=>promptVars(t)):promptVars(stripPartMarks(_raw0))).forEach(l=>{if(!(l in pdVarVals))pdVarVals[l]=l;});
   const _cr=document.querySelector('#prompt-detail-modal .pdx-copyrow');if(_cr)_cr.style.display=pdMultiTexts?'none':'';
+  const _ch=document.getElementById('pd-copyhint');if(_ch)_ch.style.display=(pdMultiTexts||pdNai)?'':'none';
   document.getElementById('pd-edit-sec').classList.toggle('full',!!pdMultiTexts);
   const pcats=catArr(p.category);
   document.getElementById('pd-cat').textContent=pcats.join(' · ');
@@ -9056,8 +9061,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.2.2';
+const APP_VERSION='1.2.3';
 const CHANGELOG=[
+  {v:'1.2.3',date:'2026-09-07',title:'COPY 버튼 미세 조정',sql:false,items:['블록 복사 아이콘을 마름모 정중앙에 정확히 맞춤 (반픽셀 흐림 제거)','상세 하단 전체 COPY: 평소 밑줄 없이, 마우스를 올릴 때만 박스가 그려짐','블록이 있는 프롬프트 하단에 "개별 복사는 각 블록의 아이콘을 눌러 진행할 수 있습니다" 안내 추가']},
   {v:'1.2.2',date:'2026-09-07',title:'COPY 버튼 디자인 정리',sql:false,items:['프롬프트 카드·상세의 COPY 버튼을 더 눈에 띄고 컴팩트하게 — 평소엔 밑줄, 마우스를 올리면 사각 라인이 그어집니다. 복사 완료 시 글로우','OOC·노벨AI 블록별 복사는 작은 아이콘으로 — 마우스를 올리면 마름모 외곽선이 그어지고, 복사하면 링이 빛납니다','상세 하단 전체 COPY는 한 줄로 컴팩트하게 정리']},
   {v:'1.2.1',date:'2026-09-06',title:'이미지 메타데이터 자동 제거 · 슬라이더 · 링크 첨부',sql:true,items:['[보안] 업로드되는 모든 이미지의 메타데이터를 자동으로 완전 제거합니다 — NovelAI 생성 정보(프롬프트·시드·모델), EXIF, 숨겨진 스텔스 데이터까지. 버튼을 누를 필요 없이 올리는 순간 처리되며, 처리에 실패하면 업로드되지 않습니다','상세 이미지 슬라이더: 모바일에서 네모로 보이던 점 표시 수정, 현재 위치(n / N) 표시, 전체 이미지 한눈에 보기 버튼 추가, 이미지 클릭 시 넘기며 볼 수 있음','프롬프트 게시판(노벨AI·OOC) 링크 첨부 — 이름 + 주소를 넣으면 상세에 작은 버튼으로 표시','※ 링크 첨부는 DB 업데이트가 필요합니다 (prompts 링크 SQL 1회 실행)']},
   {v:'1.2.0',date:'2026-09-05',title:'노벨AI v5 다중 블록 프롬프트',sql:false,items:['프롬프트 노벨AI 탭: 한 글에 베이스(공통) + 캐릭터 블록을 여러 개 넣을 수 있습니다 — 에디터에서 + 캐릭터 블록 추가','캐릭터별 변형(예: B / B(치마)) — 블록 안 토글로 골라서 복사','상세 화면: 블록별 작은 COPY + 하단 전체 COPY(블록은 빈 줄로 구분), 변수는 공통/블록별로 자동 정리, 파트는 블록별로 묶어 표시','카드에 BASE + N CHAR 배지 · 검색은 변형 텍스트까지 포함','AI 태그 정리 기본 순서를 NAI v5 규칙(NSFW→인원수→구도→포즈→표정→시선→의상→소품→이펙트→배경→색조→라이팅→텍스트→연출)으로 갱신','기존 글은 그대로 열립니다 (베이스 하나면 이전 형식으로 저장)']},
