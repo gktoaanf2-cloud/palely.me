@@ -1261,10 +1261,10 @@ body.is-admin .pdx-admin{display:inline-flex!important;}
 .form-check input[type=radio]{appearance:none;-webkit-appearance:none;width:9px;height:9px;margin:3px;border:1px solid rgba(var(--t-snow),.45);background:none;border-radius:0;transform:rotate(45deg);cursor:pointer;transition:.25s;flex:none;}
 .form-check:hover input[type=radio]{border-color:rgba(var(--t-snow),.85);}
 .form-check input[type=radio]:checked{background:rgb(var(--t-snow));border-color:rgb(var(--t-snow));box-shadow:0 0 7px rgba(var(--t-glow),.55);}
-#adm-members-modal,#adm-perms-modal,#adm-signup-modal,#cat-manage-modal,#prompts-pw-modal,#ask-modal,#diary-tab-modal,#stk-modal,#logs-tab-modal,#assets-tab-modal,#theme-color-modal,#board-name-modal,#theme-font-modal,#theme-logo-modal,#theme-bg-modal,#stk-crop-modal,#version-modal,#ai-model-modal{backdrop-filter:blur(var(--blur-md));-webkit-backdrop-filter:blur(var(--blur-md));}
+#adm-members-modal,#adm-perms-modal,#adm-signup-modal,#cat-manage-modal,#prompts-pw-modal,#ask-modal,#diary-tab-modal,#stk-modal,#logs-tab-modal,#assets-tab-modal,#theme-color-modal,#board-name-modal,#theme-font-modal,#theme-logo-modal,#theme-bg-modal,#stk-crop-modal,#version-modal,#ai-model-modal,#bgm-modal{backdrop-filter:blur(var(--blur-md));-webkit-backdrop-filter:blur(var(--blur-md));}
 #ask-modal{z-index:950;}
-#adm-members-modal .modal-box,#adm-perms-modal .modal-box,#adm-signup-modal .modal-box,#cat-manage-modal .modal-box,#prompts-pw-modal .modal-box,#ask-modal .modal-box,#diary-tab-modal .modal-box,#stk-modal .modal-box,#logs-tab-modal .modal-box,#assets-tab-modal .modal-box,#theme-color-modal .modal-box,#board-name-modal .modal-box,#theme-font-modal .modal-box,#theme-logo-modal .modal-box,#theme-bg-modal .modal-box,#stk-crop-modal .modal-box,#version-modal .modal-box,#ai-model-modal .modal-box{background:rgba(var(--t-surface),.95);border:1px solid var(--border);border-radius:0;padding:var(--gap-4xl) var(--gap-4xl) var(--gap-3xl);}
-#adm-members-modal .modal-title,#adm-perms-modal .modal-title,#adm-signup-modal .modal-title,#cat-manage-modal .modal-title,#prompts-pw-modal .modal-title,#ask-modal .modal-title,#diary-tab-modal .modal-title,#stk-modal .modal-title,#logs-tab-modal .modal-title,#assets-tab-modal .modal-title,#theme-color-modal .modal-title,#board-name-modal .modal-title,#theme-font-modal .modal-title,#theme-logo-modal .modal-title,#theme-bg-modal .modal-title,#stk-crop-modal .modal-title,#version-modal .modal-title,#ai-model-modal .modal-title{font-family:var(--font-num);font-size:13px;font-style:normal;font-weight:400;letter-spacing:.18em;text-indent:.18em;color:rgb(var(--t-text));text-align:center;margin-bottom:24px;}
+#adm-members-modal .modal-box,#adm-perms-modal .modal-box,#adm-signup-modal .modal-box,#cat-manage-modal .modal-box,#prompts-pw-modal .modal-box,#ask-modal .modal-box,#diary-tab-modal .modal-box,#stk-modal .modal-box,#logs-tab-modal .modal-box,#assets-tab-modal .modal-box,#theme-color-modal .modal-box,#board-name-modal .modal-box,#theme-font-modal .modal-box,#theme-logo-modal .modal-box,#theme-bg-modal .modal-box,#stk-crop-modal .modal-box,#version-modal .modal-box,#ai-model-modal .modal-box,#bgm-modal .modal-box{background:rgba(var(--t-surface),.95);border:1px solid var(--border);border-radius:0;padding:var(--gap-4xl) var(--gap-4xl) var(--gap-3xl);}
+#adm-members-modal .modal-title,#adm-perms-modal .modal-title,#adm-signup-modal .modal-title,#cat-manage-modal .modal-title,#prompts-pw-modal .modal-title,#ask-modal .modal-title,#diary-tab-modal .modal-title,#stk-modal .modal-title,#logs-tab-modal .modal-title,#assets-tab-modal .modal-title,#theme-color-modal .modal-title,#board-name-modal .modal-title,#theme-font-modal .modal-title,#theme-logo-modal .modal-title,#theme-bg-modal .modal-title,#stk-crop-modal .modal-title,#version-modal .modal-title,#ai-model-modal .modal-title,#bgm-modal .modal-title{font-family:var(--font-num);font-size:13px;font-style:normal;font-weight:400;letter-spacing:.18em;text-indent:.18em;color:rgb(var(--t-text));text-align:center;margin-bottom:24px;}
 #adm-members-modal .cm-row,#cat-manage-modal .cm-row,#diary-tab-modal .cm-row,#logs-tab-modal .cm-row,#assets-tab-modal .cm-row{background:none;border-radius:0;border-bottom:1px solid rgba(var(--t-fg),.08);padding:10px 2px;}
 #stk-modal .modal-box{max-width:920px;width:95%;}
 .adm-mrow{gap:10px;}
@@ -3039,6 +3039,11 @@ body.is-admin #page-admin .adm-body{display:block;}
         <div class="adm-row"><span class="adm-row-name">홈 서브문구<small>메인 상단 · 텍스트 번짐 효과</small></span><button class="adm-act" onclick="homeSubSet()">설정</button></div>
       </div>
       <div class="adm-sec">
+        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>배경음악</div>
+        <div class="adm-sec-sub">LP 플레이어 곡 · 자동재생. 방문자가 한 번 끄면 그 기기에서는 다시 자동재생되지 않습니다</div>
+        <div class="adm-row"><span class="adm-row-name">플레이리스트<small>Pair Music Box 연동 또는 유튜브 직접 지정</small></span><button class="adm-act" onclick="bgmOpen()">설정</button></div>
+      </div>
+      <div class="adm-sec">
         <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>보안</div>
         <div class="adm-row"><span class="adm-row-name">Issuance 게시판 비밀번호<small>게시판 전체 잠금·해제</small></span><button class="adm-act" onclick="openBoardPwSetting('prompts_password','Prompts')">설정</button></div><div class="adm-row"><span class="adm-row-name">Diary 게시판 비밀번호<small>게시판 전체 잠금·해제</small></span><button class="adm-act" onclick="openBoardPwSetting('diary_password','Diary')">설정</button></div>
       </div>
@@ -3111,6 +3116,22 @@ body.is-admin #page-admin .adm-body{display:block;}
     <div class="adm-sec-sub" style="text-align:center;margin-bottom:14px;">기능마다 사용할 모델을 고르세요 · Claude 선택 시 Claude API 키 필요</div>
     <div id="ai-model-rows"></div>
     <div class="form-actions"><button class="btn-primary" onclick="aiModelSave()">SAVE</button><button class="btn-secondary" onclick="closeModal('ai-model-modal')">CANCEL</button></div>
+  </div>
+</div>
+<div class="modal-overlay" id="bgm-modal">
+  <div class="modal-box" style="max-width:520px" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('bgm-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <div class="modal-title">배경음악 설정</div>
+    <div class="adm-sec-sub" style="text-align:center;margin-bottom:14px;">LP 플레이어에 흐르는 곡을 정합니다 · 저장 즉시 반영</div>
+    <div class="form-group"><label class="form-label">소스</label>
+      <label class="form-check" style="margin-bottom:6px"><input type="radio" name="bgm-src" value="pmb" onchange="bgmSrcUI()"><span>Pair Music Box 플레이리스트 연동</span></label>
+      <label class="form-check"><input type="radio" name="bgm-src" value="custom" onchange="bgmSrcUI()"><span>유튜브 직접 지정</span></label>
+    </div>
+    <div id="bgm-pmb-box"><div class="form-group"><label class="form-label">플레이리스트 ID (비우면 기본)</label><input class="form-input" id="bgm-pid" placeholder="a261625f-…"></div></div>
+    <div id="bgm-custom-box"><div class="form-group"><label class="form-label">트랙 목록 — 한 줄에 하나 · <code>유튜브 주소 또는 ID | 제목</code></label><textarea class="form-textarea" id="bgm-tracks" placeholder="https://youtu.be/xxxxxxxxxxx | 곡 제목&#10;dQw4w9WgXcQ | 다른 곡" style="min-height:120px;font-family:'Pretendard',monospace;font-size:12px;"></textarea></div></div>
+    <div class="form-group"><label class="form-label">플레이어에 표시할 이름 (선택)</label><input class="form-input" id="bgm-name" placeholder="비우면 플레이리스트 이름"></div>
+    <div class="form-group"><label class="form-check"><input type="checkbox" id="bgm-autoplay"><span>접속 시 자동재생 (방문자가 끄면 그 기기는 예외)</span></label></div>
+    <div class="form-actions"><button class="btn-primary" onclick="bgmSave()">SAVE</button><button class="btn-secondary" onclick="closeModal('bgm-modal')">CANCEL</button></div>
   </div>
 </div>
 <!-- 버전 · 변경내역 (Admin) -->
@@ -7935,7 +7956,7 @@ function lgvSyncH(){
   window.addEventListener('resize',lgvSyncH);
   lgvSyncH();
 })();
-const BG_CLOSE_IDS=['dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal','nb-apply-modal','nb-manage-modal','board-name-modal','theme-color-modal','theme-font-modal','theme-logo-modal','theme-bg-modal','stk-crop-modal','version-modal','ai-model-modal'];
+const BG_CLOSE_IDS=['dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal','nb-apply-modal','nb-manage-modal','board-name-modal','theme-color-modal','theme-font-modal','theme-logo-modal','theme-bg-modal','stk-crop-modal','version-modal','ai-model-modal','bgm-modal'];
 const THEME_SAVE_FNS={'theme-color-modal':'themeColorSave','board-name-modal':'boardNameSave','theme-font-modal':'themeFontSave','theme-logo-modal':'themeLogoSave','theme-bg-modal':'themeBgSave'};
 document.addEventListener('click',e=>{
   const ov=e.target;
@@ -8895,13 +8916,72 @@ function onYTS(e){const a=document.getElementById('player-art'),iP=document.getE
 function startProg(){clearInterval(pmbPI);pmbPI=setInterval(()=>{if(ytPlayer&&pmbPlaying&&ytPlayer.getCurrentTime){try{const c=ytPlayer.getCurrentTime(),d=ytPlayer.getDuration();if(d>0){document.getElementById('player-progress-fill').style.width=(c/d*100)+'%';document.getElementById('player-time-cur').textContent=fT(c);document.getElementById('player-time-dur').textContent=fT(d);}}catch(e){}}},250);}
 function fT(s){if(!s)return'0:00';const m=Math.floor(s/60),ss=Math.floor(s%60);return m+':'+(ss<10?'0':'')+ss;}
 const PMB_PLAYLIST_ID='a261625f-8f24-4e6d-a88e-204b476500b1';
-async function initPMB(){if(!pmbClient)return;try{
-  // Sync with the Pair Music Box viewer playlist first; fall back to the newest playlist if it's unavailable.
-  let{data:p}=await pmbClient.from('playlists').select('*').eq('id',PMB_PLAYLIST_ID).limit(1);
-  if(!p||!p.length){({data:p}=await pmbClient.from('playlists').select('*').limit(1));}
-  if(p&&p.length){document.getElementById('player-playlist-name').textContent=p[0].pair_name||'Pair Music Box';const{data:t}=await pmbClient.from('tracks').select('*').eq('playlist_id',p[0].id).order('position');if(t&&t.length){pmbTracks=t.map(x=>({id:x.id,vid:x.video_id,title:x.title,img:x.image_url||null}));pmbPlay(0);}}}catch(e){}}
-function pmbPlay(i){if(i<0||i>=pmbTracks.length)return;pmbIdx=i;const t=pmbTracks[i];if(ytPlayer&&ytPlayer.loadVideoById)ytPlayer.loadVideoById(t.vid);document.getElementById('player-track-name').textContent=t.title;const img=t.img||(t.vid?'https://img.youtube.com/vi/'+t.vid+'/mqdefault.jpg':'');if(img)document.getElementById('player-art').innerHTML='<img class="player-album-img" src="'+img+'" draggable="false">';}
-function playerToggle(){if(pmbIdx===-1&&pmbTracks.length)pmbPlay(0);else if(ytPlayer&&ytPlayer.getPlayerState)pmbPlaying?ytPlayer.pauseVideo():ytPlayer.playVideo();}
+// ── 배경음악 설정(settings.bgm): {src:'pmb'|'custom', playlistId, name, tracks:[{vid,title}], autoplay} ──
+let bgmCfg=null;
+async function bgmLoad(){
+  if(bgmCfg)return bgmCfg;
+  try{const{data}=await palelyDB.from('settings').select('value').eq('key','bgm').single();let v=data&&data.value;if(typeof v==='string')v=JSON.parse(v);bgmCfg=v||{};}catch(e){bgmCfg={};}
+  if(!bgmCfg.src)bgmCfg.src='pmb';if(bgmCfg.autoplay===undefined)bgmCfg.autoplay=true;if(!Array.isArray(bgmCfg.tracks))bgmCfg.tracks=[];
+  return bgmCfg;
+}
+// 접속자 기기 기억: 'off'면 자동재생 안 함(트랙만 준비), 'on'/없음이면 설정의 autoplay 따름
+function bgmPref(){try{return localStorage.getItem('palely_bgm')||'';}catch(e){return '';}}
+function bgmRemember(v){try{localStorage.setItem('palely_bgm',v);}catch(e){}}
+function bgmShouldAutoplay(cfg){return cfg.autoplay!==false&&bgmPref()!=='off';}
+function ytIdOf(x){x=String(x||'').trim();const m=x.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([A-Za-z0-9_-]{11})/);if(m)return m[1];return /^[A-Za-z0-9_-]{11}$/.test(x)?x:'';}
+async function initPMB(){
+  let cfg={src:'pmb',autoplay:true,tracks:[]};try{cfg=await bgmLoad();}catch(e){}
+  const auto=bgmShouldAutoplay(cfg);
+  try{
+    if(cfg.src==='custom'&&cfg.tracks.length){
+      pmbTracks=cfg.tracks.map((x,i)=>({id:'c'+i,vid:x.vid,title:x.title||('Track '+(i+1)),img:null})).filter(x=>x.vid);
+      document.getElementById('player-playlist-name').textContent=cfg.name||'BGM';
+      if(pmbTracks.length)pmbPlay(0,!auto);
+      return;
+    }
+    if(!pmbClient)return;
+    const pid=cfg.playlistId||PMB_PLAYLIST_ID;
+    let{data:p}=await pmbClient.from('playlists').select('*').eq('id',pid).limit(1);
+    if(!p||!p.length){({data:p}=await pmbClient.from('playlists').select('*').limit(1));}
+    if(p&&p.length){document.getElementById('player-playlist-name').textContent=cfg.name||p[0].pair_name||'Pair Music Box';const{data:t}=await pmbClient.from('tracks').select('*').eq('playlist_id',p[0].id).order('position');if(t&&t.length){pmbTracks=t.map(x=>({id:x.id,vid:x.video_id,title:x.title,img:x.image_url||null}));pmbPlay(0,!auto);}}
+  }catch(e){}
+}
+// cue=true: 트랙 정보만 올리고 재생은 안 함(끈 상태 기억 시)
+function pmbPlay(i,cue){if(i<0||i>=pmbTracks.length)return;pmbIdx=i;const t=pmbTracks[i];if(ytPlayer){if(cue&&ytPlayer.cueVideoById)ytPlayer.cueVideoById(t.vid);else if(ytPlayer.loadVideoById)ytPlayer.loadVideoById(t.vid);}document.getElementById('player-track-name').textContent=t.title;const img=t.img||(t.vid?'https://img.youtube.com/vi/'+t.vid+'/mqdefault.jpg':'');if(img)document.getElementById('player-art').innerHTML='<img class="player-album-img" src="'+img+'" draggable="false">';}
+function playerToggle(){
+  if(pmbIdx===-1&&pmbTracks.length){bgmRemember('on');pmbPlay(0);return;}
+  if(!(ytPlayer&&ytPlayer.getPlayerState))return;
+  if(pmbPlaying){bgmRemember('off');ytPlayer.pauseVideo();}else{bgmRemember('on');ytPlayer.playVideo();}
+}
+// ── 어드민: 배경음악 설정 모달 ──
+async function bgmOpen(){
+  if(!isAdmin){showToast('Admin only');return;}
+  const c=await bgmLoad();
+  document.querySelector('#bgm-modal input[name=bgm-src][value="'+(c.src==='custom'?'custom':'pmb')+'"]').checked=true;
+  document.getElementById('bgm-pid').value=c.playlistId||'';
+  document.getElementById('bgm-name').value=c.name||'';
+  document.getElementById('bgm-tracks').value=(c.tracks||[]).map(t=>t.vid+(t.title?' | '+t.title:'')).join('\n');
+  document.getElementById('bgm-autoplay').checked=c.autoplay!==false;
+  bgmSrcUI();
+  document.getElementById('bgm-modal').classList.add('active');
+}
+function bgmSrcUI(){const src=(document.querySelector('#bgm-modal input[name=bgm-src]:checked')||{}).value||'pmb';document.getElementById('bgm-pmb-box').style.display=src==='pmb'?'':'none';document.getElementById('bgm-custom-box').style.display=src==='custom'?'':'none';}
+async function bgmSave(){
+  const src=(document.querySelector('#bgm-modal input[name=bgm-src]:checked')||{}).value||'pmb';
+  const tracks=[];const bad=[];
+  document.getElementById('bgm-tracks').value.split('\n').map(l=>l.trim()).filter(Boolean).forEach(l=>{const parts=l.split('|');const vid=ytIdOf(parts[0]);if(!vid){bad.push(parts[0].trim());return;}tracks.push({vid,title:(parts[1]||'').trim()});});
+  if(bad.length){showToast('유튜브 주소/ID를 못 읽었어요: '+bad[0]);return;}
+  if(src==='custom'&&!tracks.length){showToast('직접 지정엔 트랙이 1개 이상 필요해요');return;}
+  const cfg={src,playlistId:document.getElementById('bgm-pid').value.trim(),name:document.getElementById('bgm-name').value.trim(),tracks,autoplay:document.getElementById('bgm-autoplay').checked};
+  try{
+    const{error}=await palelyDB.from('settings').upsert({key:'bgm',value:JSON.stringify(cfg)},{onConflict:'key'});if(error)throw error;
+    bgmCfg=cfg;closeModal('bgm-modal');showToast('배경음악 설정 저장됨');
+    // 즉시 반영
+    pmbTracks=[];pmbIdx=-1;pmbPlayed={};if(ytPlayer&&ytPlayer.stopVideo)try{ytPlayer.stopVideo();}catch(e){}
+    document.getElementById('player-track-name').textContent='No Track';
+    initPMB();
+  }catch(e){showToast('저장 실패: '+(e.message||''));}
+}
 function playerNext(){if(!pmbTracks.length)return;let n;if(pmbShuffle){const a=[];for(let i=0;i<pmbTracks.length;i++)if(i!==pmbIdx&&!pmbPlayed[i])a.push(i);if(!a.length){pmbPlayed={};for(let i=0;i<pmbTracks.length;i++)if(i!==pmbIdx)a.push(i);}n=a[Math.floor(Math.random()*a.length)];}else n=(pmbIdx+1)%pmbTracks.length;pmbPlayed[n]=true;pmbPlay(n);}
 function playerPrev(){if(pmbTracks.length)pmbPlay((pmbIdx-1+pmbTracks.length)%pmbTracks.length);}
 function playerToggleShuffle(){pmbShuffle=!pmbShuffle;pmbPlayed={};document.getElementById('player-shuffle-btn').classList.toggle('active',pmbShuffle);showToast(pmbShuffle?'Shuffle ON':'Shuffle OFF');}
@@ -9061,8 +9141,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.2.3';
+const APP_VERSION='1.2.4';
 const CHANGELOG=[
+  {v:'1.2.4',date:'2026-09-08',title:'배경음악 기억 · 곡 설정',sql:false,items:['배경음악을 한 번 끄면 그 기기에서는 다음 방문에도 자동재생되지 않습니다 (다시 재생하면 복귀)','어드민 → 배경음악: Pair Music Box 플레이리스트 연동 또는 유튜브 직접 지정(주소·ID | 제목), 표시 이름, 자동재생 on/off — 저장 즉시 반영']},
   {v:'1.2.3',date:'2026-09-07',title:'COPY 버튼 미세 조정',sql:false,items:['블록 복사 아이콘을 마름모 정중앙에 정확히 맞춤 (반픽셀 흐림 제거)','상세 하단 전체 COPY: 평소 밑줄 없이, 마우스를 올릴 때만 박스가 그려짐','블록이 있는 프롬프트 하단에 "개별 복사는 각 블록의 아이콘을 눌러 진행할 수 있습니다" 안내 추가']},
   {v:'1.2.2',date:'2026-09-07',title:'COPY 버튼 디자인 정리',sql:false,items:['프롬프트 카드·상세의 COPY 버튼을 더 눈에 띄고 컴팩트하게 — 평소엔 밑줄, 마우스를 올리면 사각 라인이 그어집니다. 복사 완료 시 글로우','OOC·노벨AI 블록별 복사는 작은 아이콘으로 — 마우스를 올리면 마름모 외곽선이 그어지고, 복사하면 링이 빛납니다','상세 하단 전체 COPY는 한 줄로 컴팩트하게 정리']},
   {v:'1.2.1',date:'2026-09-06',title:'이미지 메타데이터 자동 제거 · 슬라이더 · 링크 첨부',sql:true,items:['[보안] 업로드되는 모든 이미지의 메타데이터를 자동으로 완전 제거합니다 — NovelAI 생성 정보(프롬프트·시드·모델), EXIF, 숨겨진 스텔스 데이터까지. 버튼을 누를 필요 없이 올리는 순간 처리되며, 처리에 실패하면 업로드되지 않습니다','상세 이미지 슬라이더: 모바일에서 네모로 보이던 점 표시 수정, 현재 위치(n / N) 표시, 전체 이미지 한눈에 보기 버튼 추가, 이미지 클릭 시 넘기며 볼 수 있음','프롬프트 게시판(노벨AI·OOC) 링크 첨부 — 이름 + 주소를 넣으면 상세에 작은 버튼으로 표시','※ 링크 첨부는 DB 업데이트가 필요합니다 (prompts 링크 SQL 1회 실행)']},
