@@ -1,3 +1,4 @@
-# 오르비 멀티테넌트 라우팅 — /@handle 은 본체 SPA(/home/index.html)가 처리 (200 rewrite, 주소 유지)
-/@*  /home/index.html  200
-/hub  /home/index.html  200
+# 오르비 멀티테넌트 라우팅 — /@handle 은 본체 SPA(/home/)가 처리 (200 rewrite, 주소 유지)
+# ※ 대상은 /home/ 로 — /home/index.html 로 쓰면 Workers assets의 트레일링슬래시 정규화가 307로 주소를 /home/ 로 바꿔버림(2026-09-09 실측)
+/@*  /home/  200
+/hub  /home/  200
