@@ -1,0 +1,3 @@
+# 오르비 멀티테넌트 라우팅 — /@handle 은 본체 SPA(/home/index.html)가 처리 (200 rewrite, 주소 유지)
+/@*  /home/index.html  200
+/hub  /home/index.html  200

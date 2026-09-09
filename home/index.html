@@ -659,6 +659,8 @@ body.board-open .main-content{opacity:1;transform:none;pointer-events:auto}
 .cat-add-row{display:flex;gap:8px;margin-bottom:16px}
 .pc-blurtag{position:absolute;left:8px;top:8px;background:rgba(var(--t-bg),.8);color:var(--frost);font-size:9px;letter-spacing:.06em;padding:2px 7px;border-radius:10px;border:1px solid rgba(var(--t-accent),.2)}
 .mf-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}.mf-list:empty{display:none}
+.mf-group.mf-over{outline:1px dashed rgba(var(--t-accent),.55);outline-offset:6px;}
+#editor-modal .modal-box.ed-drop{outline:1px dashed rgba(var(--t-accent),.35);outline-offset:-8px;}
 .mf-item{position:relative;width:72px;height:72px;border:1px solid var(--line-art);border-radius:2px;overflow:hidden}
 .mf-item img{width:100%;height:100%;object-fit:cover;display:block}
 .mf-del{position:absolute;top:2px;right:2px;background:rgba(var(--t-bg),.85);border:1px solid rgba(var(--t-danger-c),.4);color:var(--danger);font-size:10px;width:18px;height:18px;border-radius:50%;cursor:pointer;line-height:1;padding:0}
@@ -1375,6 +1377,10 @@ svg.pdx-spark{color:rgb(var(--t-text));}
 .pdx-copybtn.cpx::after{border-bottom-color:transparent;}
 .pdx-copybtn.cpx:hover::after,.pdx-copybtn.cpx.copied::after{border-bottom-color:rgba(var(--t-fg),.85);}
 .pdx-hint{font-family:var(--font-kr);font-size:10px;letter-spacing:-.02em;color:rgba(var(--t-fg-soft),.45);text-align:center;margin:12px 0 0;}
+.site-404{position:fixed;inset:0;z-index:5000;background:rgb(var(--t-bg));display:flex;align-items:center;justify-content:center;}
+.site-404-box{text-align:center;padding:var(--gap-4xl);border:1px solid var(--border);background:rgba(var(--t-surface),.95);}
+.site-404-t{font-family:var(--font-num);font-size:22px;letter-spacing:.12em;color:rgb(var(--t-snow));margin-bottom:8px;}
+.site-404-m{font-family:var(--font-kr);font-size:12px;letter-spacing:-.02em;color:rgba(var(--t-fg-mid),.75);margin-bottom:18px;}
 /* 아이콘형 */
 .cpi{position:relative;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;flex:none;background:none;border:none;padding:0;cursor:pointer;color:rgba(var(--t-snow),.82);transition:color .25s,transform .5s cubic-bezier(.3,1.2,.35,1);}
 .cpi .cpi-ring{position:absolute;inset:0;width:100%;height:100%;display:block;fill:none;stroke:rgba(var(--t-fg),.8);stroke-width:1;stroke-dasharray:60;stroke-dashoffset:60;transition:stroke-dashoffset .5s cubic-bezier(.25,.8,.3,1),stroke .25s,filter .25s;pointer-events:none;}
@@ -3640,7 +3646,10 @@ const PALELY_URL='https://lwudusogucvuiwglulzh.supabase.co';
 const PALELY_KEY='sb_publishable_CEJvz8BuMNn2XO34mvR4Jw_4PduWouH';
 const PMB_URL='https://zrfasztpsmprfpslizac.supabase.co';
 const PMB_KEY='sb_publishable_z7m5HVzuiUhBzRKIAuOKZQ_y4PFw-6B';
-let palelyDB=null,pmbClient=null,currentUser=null,isAdmin=false;
+let palelyDB=null,palelyDBRaw=null,pmbClient=null,currentUser=null,isAdmin=false,isSuper=false,isOwner=false;
+// ── 멀티테넌트: 현재 사이트(블로그) 컨텍스트 ──
+const BOSS_HANDLE='pale',BOSS_SITE_ID='a55b20a3-3cc9-4393-8f29-ae52f19b2bd7',NULL_SITE_ID='00000000-0000-0000-0000-000000000000';
+let currentSite=null,SITE_ID=NULL_SITE_ID;
 let currentEditorType=null,currentEditId=null,previousPage='home';
 let currentPromptTab='nai',gbDeleteTarget=null;
 let logsAllData=[],logsActiveCategory='all';
@@ -3649,11 +3658,70 @@ let logsAllData=[],logsActiveCategory='all';
 window.addEventListener('DOMContentLoaded',async()=>{
   try{document.fonts.load('400 1em "BookkMyungjo"','가');document.fonts.load('700 1em "BookkMyungjo"','가');}catch(e){}
   try{palelyDB=window.supabase.createClient(PALELY_URL,PALELY_KEY);pmbClient=window.supabase.createClient(PMB_URL,PMB_KEY);}catch(e){}
+  palelyDBRaw=palelyDB;if(palelyDB){await siteBoot();palelyDB=dbShim(palelyDBRaw);}
+  edDropInit();
   await loadTheme();
   await checkAuth();await loadBoards();heartBoot();
   const h=window.location.hash.slice(1);if(h)routeHash(h);
 });
 
+// ══ 멀티테넌트 코어: 사이트 해석 · DB 시임 ══
+// URL /@handle → handle. 없으면 보스(pale). (Pages _redirects: /@* → /home/index.html)
+function siteHandleFromPath(p){const m=String(p==null?location.pathname:p).match(/^\/@([a-z0-9]{4,24})(?:\/|$)/i);return m?m[1].toLowerCase():'';}
+async function siteBoot(){
+  const h=siteHandleFromPath()||BOSS_HANDLE;
+  let row=null;
+  try{const{data}=await palelyDBRaw.from('sites').select('*').eq('handle',h).maybeSingle();row=data||null;}catch(e){row=null;}
+  if(row){currentSite=row;SITE_ID=row.id;}
+  else if(h===BOSS_HANDLE){currentSite={id:BOSS_SITE_ID,handle:BOSS_HANDLE,title:'오르비',tier:'boss',owner_id:null};SITE_ID=BOSS_SITE_ID;} // 조회 실패 시 보스 폴백
+  else{currentSite=null;SITE_ID=NULL_SITE_ID;site404(h);}
+  document.documentElement.dataset.site=currentSite?currentSite.handle:'';
+}
+function site404(h){
+  const d=document.createElement('div');d.className='site-404';
+  d.innerHTML='<div class="site-404-box"><div class="site-404-t">@'+esc(h)+'</div><div class="site-404-m">존재하지 않는 블로그입니다</div><a class="form-file-label" href="/home/"><span>오르비 홈으로</span></a></div>';
+  document.body.appendChild(d);
+}
+// 사이트 스코프 테이블: select에 site_id 필터, insert/upsert에 site_id 주입, update/delete에 site_id 가드
+const SITE_TABLES=new Set(['prompts','prompts_list','distributions','distributions_list','diary','diary_list','logs','logs_list','assets','assets_list','banners','notices','guestbook','guestbook_list','guestbook_comments','guestbook_comments_list']);
+const SITE_REMAP={settings:'site_settings',admin_secrets:'site_secrets'};   // 전역 settings/admin_secrets → 사이트별 (원본은 v1 호환용으로만 남음)
+function siteAddId(rows){const f=r=>(r&&typeof r==='object'&&!('site_id' in r))?Object.assign({site_id:SITE_ID},r):r;return Array.isArray(rows)?rows.map(f):f(rows);}
+function dbShim(raw){
+  const shim={
+    raw,
+    from(t){
+      const mapped=SITE_REMAP[t];
+      if(!mapped&&!SITE_TABLES.has(t))return raw.from(t);
+      const real=raw.from(mapped||t);
+      const fixOpt=o=>{if(!mapped)return o;const x=Object.assign({},o||{});if(!x.onConflict||x.onConflict==='key')x.onConflict='site_id,key';return x;};
+      return {
+        select:(...a)=>real.select(...a).eq('site_id',SITE_ID),
+        insert:(rows,o)=>real.insert(siteAddId(rows),o),
+        upsert:(rows,o)=>real.upsert(siteAddId(rows),fixOpt(o)),
+        update:(v,o)=>real.update(v,o).eq('site_id',SITE_ID),
+        delete:(o)=>real.delete(o).eq('site_id',SITE_ID)
+      };
+    }
+  };
+  // storage: 버킷 경로에 사이트 접두(sitePath) — 업로드·공개URL·삭제·다운로드·서명URL·list 전부 동일 규칙
+  shim.storage=new Proxy(raw.storage,{get:(so,k)=>{
+    if(k==='from')return b=>{const bk=so.from(b);return new Proxy(bk,{get:(o,m)=>{
+      if(m==='upload'||m==='update')return (p,f,opt)=>o[m](sitePath(p),f,opt);
+      if(m==='getPublicUrl'||m==='download'||m==='createSignedUrl')return (p,...a)=>o[m](sitePath(p),...a);
+      if(m==='remove')return ps=>o.remove((ps||[]).map(sitePath));
+      if(m==='list')return (p,...a)=>o.list(sitePath(p||'').replace(/\/$/,''),...a);
+      const v=o[m];return typeof v==='function'?v.bind(o):v;}});};
+    const v=so[k];return typeof v==='function'?v.bind(so):v;}});
+  // auth/rpc/channel 등 나머지는 원본으로 위임
+  return new Proxy(shim,{get:(o,k)=>{if(k in o)return o[k];const v=raw[k];return typeof v==='function'?v.bind(raw):v;}});
+}
+// 보스 사이트 = 기존 경로 그대로(레거시 보존) / 그 외 사이트 = sites/{site_id}/… (storage.objects 정책 sites_prefix_*가 주인 전용 쓰기 보장)
+function sitePath(p){p=String(p==null?'':p);if(SITE_ID===BOSS_SITE_ID||!p||/^sites\//.test(p))return p;return 'sites/'+SITE_ID+'/'+p.replace(/^\/+/,'');}
+function siteTier(){return (currentSite&&currentSite.tier)||'normal';}
+function siteFree(){const t=siteTier();return t==='boss'||t==='vip';}   // 원본 유지·상한 없음·배치 무제한
+const SITE_IMG_SIDE=2048,SITE_IMG_MAX=3*1024*1024,SITE_FILE_MAX=20*1024*1024,SITE_BATCH=10;
+// 한 번에 올릴 이미지 수 제한(normal 10장). 초과분은 잘라내고 안내
+function siteBatch(files){files=[...(files||[])];if(siteFree()||files.length<=SITE_BATCH)return files;showToast('한 번에 최대 '+SITE_BATCH+'장까지 올릴 수 있어요 — 앞의 '+SITE_BATCH+'장만 추가했습니다');return files.slice(0,SITE_BATCH);}
 // ══ THEME (커스텀 색/폰트/로고/파비콘 주입) ══
 let themeData=null;
 const THEME_COLOR_KEYS=['bg','bg-deep','overlay','surface','card','fg','text','mist','snow','fg-soft','fg-mid','silver','rail','accent','glow','aurora','danger-c','warm','shadow','ok'];
@@ -4497,11 +4565,14 @@ let myLevel=0;
 function idToEmail(id){return String(id||'').trim().toLowerCase()+'@palely.local';}
 async function loadMyProfile(user,pw){
   currentUser=user||null;
-  if(!user){myLevel=0;isAdmin=false;memberP=null;document.body.classList.remove('is-admin');if(typeof memberSync==='function')memberSync();return;}
+  if(!user){myLevel=0;isAdmin=false;isSuper=false;isOwner=false;memberP=null;document.body.classList.remove('is-super');document.body.classList.remove('is-admin');if(typeof memberSync==='function')memberSync();return;}
   let prof=null;
   try{const{data}=await palelyDB.from('profiles').select('level,nickname').eq('user_id',user.id).maybeSingle();prof=data;}catch(e){}
   myLevel=(prof&&typeof prof.level==='number')?prof.level:1;
-  isAdmin=myLevel>=10;
+  try{const{data:ua}=await palelyDBRaw.from('user_accounts').select('role,banned').eq('user_id',user.id).maybeSingle();isSuper=!!(ua&&ua.role==='super'&&!ua.banned);}catch(e){isSuper=false;}
+  isOwner=!!(currentSite&&currentSite.owner_id===user.id);
+  isAdmin=isSuper||isOwner||(myLevel>=10&&!!currentSite&&currentSite.handle===BOSS_HANDLE);
+  document.body.classList.toggle('is-super',isSuper);
   document.body.classList.toggle('is-admin',isAdmin);
   const disp=(prof&&prof.nickname)||((user.email||'').split('@')[0])||'회원';
   memberP={id:user.id,nickname:disp,avatar:'',ph:pw?await hashPw(pw):((memberP&&memberP.ph)||'')};
@@ -4592,7 +4663,7 @@ async function doLogin(){
   try{const{data,error}=await palelyDB.auth.signInWithPassword({email:e,password:p});if(error)throw error;await loadMyProfile(data.user,p);closeModal('login-modal');showToast(isAdmin?'Admin logged in':'로그인됨');await loadBoards();}catch(e){err.textContent=e.message||'Login failed';}
   btn.disabled=false;btn.textContent='LOGIN';
 }
-async function doLogout(){if(!palelyDB)return;try{await palelyDB.auth.signOut();}catch(e){}currentUser=null;myLevel=0;isAdmin=false;memberP=null;document.body.classList.remove('is-admin');if(typeof memberSync==='function')memberSync();closeModal('login-modal');showToast('로그아웃됨');await loadBoards();}
+async function doLogout(){if(!palelyDB)return;try{await palelyDB.auth.signOut();}catch(e){}currentUser=null;myLevel=0;isAdmin=false;isSuper=false;isOwner=false;memberP=null;document.body.classList.remove('is-super');document.body.classList.remove('is-admin');if(typeof memberSync==='function')memberSync();closeModal('login-modal');showToast('로그아웃됨');await loadBoards();}
 
 // ══ ROUTER ══
 let curDetail=null,curPopup=null,pendingConsent=null,pendingSharedPost=null;
@@ -4603,7 +4674,7 @@ function sharePopup(){if(curPopup)copyShareLink(curPopup.type,curPopup.id);}
 const SHARE_BASE='https://palely.me/home/'; // 공유 링크는 항상 라이브 주소 (로컬 미리보기에서 복사해도 안전)
 function copyShareLink(type,id){
   const isLocal=/^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname)||location.protocol==='file:';
-  const base=isLocal?SHARE_BASE:location.origin+location.pathname;
+  const base=isLocal?((currentSite&&currentSite.handle!==BOSS_HANDLE)?'https://palely.me/@'+currentSite.handle:SHARE_BASE):location.origin+location.pathname;
   const url=base+'#post='+type+':'+id;
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url).then(()=>showToast('링크 복사됨 — 이 링크로 바로 이 글이 열려요')).catch(()=>prompt('링크 복사:',url));
   else prompt('링크 복사:',url);
@@ -4966,7 +5037,7 @@ function stkRenderPalette(){
 }
 async function stkPalDel(i){stkPalette.splice(i,1);await stkSavePalette();stkRenderPalette();}
 async function stkUploadAdd(inp,toPalette){
-  const files=[...inp.files];inp.value='';
+  const files=siteBatch([...inp.files]);inp.value='';
   if(!files.length)return;
   for(let f of files){
     try{
@@ -5128,7 +5199,7 @@ function renderDiaryRow(d,idx,altFlag){
   const media=imgs.length
     ?'<div class="dyv-strip" data-n="'+imgs.length+'" data-step="'+iw+'" style="width:'+(seq.length*100)+'%">'+seq.map(u=>'<img style="width:'+iw+'%" src="'+esc(u)+'" loading="lazy" draggable="false">').join('')+'</div>'
     :'<div class="dyv-noimg">✦</div>';
-  const bg=imgs.length?imgs.map((u,i)=>'<img class="dyv-bgimg'+(i===0?' on':'')+'" src="'+esc(u)+'" loading="lazy" draggable="false">').join(''):'';
+  const bg=imgs.length?imgs.map((u,i)=>'<img class="dyv-bgimg'+(i===0?' on':'')+'" '+timgAttrs(u)+' loading="lazy" draggable="false">').join(''):'';
   const body=locked?'[보호된 글입니다]':esc(htmlToText(d.content||'').slice(0,250));
   const open=locked?"openPrivateDiary('"+d.id+"')":"openDetail('diary','"+d.id+"')";
   return `<div class="dyv${alt}" data-mid="${d.id}" data-si="0" onclick="${open}">
@@ -5174,10 +5245,10 @@ setInterval(()=>{
 },4200);
 function diaryCardHtml(d){
   if(d.is_private&&!isAdmin){
-    const lt=d.thumb?`<div class="dc-thumb"><img src="${esc(d.thumb)}" loading="lazy" draggable="false"><span class="dc-lock-badge">🔒</span></div>`:'<div class="dc-lock">🔒</div>';
+    const lt=d.thumb?`<div class="dc-thumb"><img ${timgAttrs(d.thumb)} loading="lazy" draggable="false"><span class="dc-lock-badge">🔒</span></div>`:'<div class="dc-lock">🔒</div>';
     return `<div class="board-card diary-locked${d.thumb?' has-thumb':''}" data-mid="${d.id}" onclick="openPrivateDiary('${d.id}')">${lt}<div class="card-date">${fmtDate(d.created_at)}</div><div class="card-title">🔒 ${esc(d.title||'비밀글')}</div><div class="card-excerpt">[보호된 글입니다]</div></div>`;
   }
-  const thumb=d.thumb||dpFirstImage(d);const th=thumb?`<div class="dc-thumb"><img src="${esc(thumb)}" loading="lazy" draggable="false"></div>`:'';
+  const thumb=d.thumb||dpFirstImage(d);const th=thumb?`<div class="dc-thumb"><img ${timgAttrs(thumb)} loading="lazy" draggable="false"></div>`:'';
   const tags=Array.isArray(d.tags)&&d.tags.length?d.tags.map(t=>'<span class="card-tag">'+esc(t)+'</span>').join(''):'';
   const cat=catArr(d.category).join(', ');
   return `<div class="board-card${thumb?' has-thumb':''}" data-mid="${d.id}" onclick="openDetail('diary','${d.id}')"><div class="card-admin-controls"><button class="card-ctrl-btn" onclick="event.stopPropagation();openEditor('diary','${d.id}')">✎</button><button class="card-ctrl-btn delete" onclick="event.stopPropagation();confirmDelete('diary','${d.id}')">✕</button></div>${th}<div class="card-date">${fmtDate(d.created_at)}${cat?' · '+esc(cat):''}</div><div class="card-title">${d.is_private?'🔒 ':''}${esc(d.title)}</div><div class="card-excerpt">${esc(htmlToText(d.content||'').slice(0,140))}</div>${tags}</div>`;
@@ -5351,7 +5422,7 @@ function renderAssets(){
       +'</span></div>';
     return '<div class="image-grid-item'+(thumb?'':' ast-lockitem')+'" data-mid="'+a.id+'" onclick="assetOpen(\''+a.id+'\')">'
       +(a.is_private?'<svg class="ast-lockic" width="11" height="13"><use href="#iss-ic-lock"/></svg>':'')
-      +(thumb?'<img src="'+esc(thumb)+'" alt="'+esc(a.title||'')+'" class="'+(a.blur?'blurred':'')+'" loading="lazy" draggable="false" onload="astAr(this)">':'<div class="ast-lock"><small>이미지 없음</small></div>')
+      +(thumb?'<img '+timgAttrs(thumb)+' alt="'+esc(a.title||'')+'" class="'+(a.blur?'blurred':'')+'" loading="lazy" draggable="false" onload="astAr(this)">':'<div class="ast-lock"><small>이미지 없음</small></div>')
       +(imgs.length>1?'<span class="ast-count">'+imgs.length+'</span>':'')
       +ov
       +'</div>';
@@ -5894,7 +5965,7 @@ function renderLogs(){
     const locked=l.is_private&&!isAdmin;
     const openFn=locked?`openPrivateLog('${l.id}')`:`openDetail('logs','${l.id}')`;
     return `<div class="lgv-card" data-mid="${l.id}" onclick="${openFn}">
-      ${l.thumb?`<img class="lgv-thumb" src="${esc(l.thumb)}" loading="lazy" draggable="false">`:'<div class="lgv-noimg">✦</div>'}
+      ${l.thumb?`<img class="lgv-thumb" ${timgAttrs(l.thumb)} loading="lazy" draggable="false">`:'<div class="lgv-noimg">✦</div>'}
       ${l.is_private?'<svg class="lgv-lockic" width="13" height="15"><use href="#iss-ic-lock"/></svg>':''}
       <button class="lgv-del pdx-admin" title="삭제" onclick="event.stopPropagation();confirmDelete('logs','${l.id}')"><svg width="16" height="16"><use href="#iss-ic-x"/></svg></button>
       <div class="lgv-mid"><div class="lgv-num">${num}</div><div class="lgv-title">${esc(l.title||'무제')}</div></div>
@@ -6481,7 +6552,7 @@ function renderPromptCard(p,idx){
   const lockic=p.is_private?'<svg class="pcv-lockic" width="10" height="12"><use href="#iss-ic-lock"/></svg>':'';
   return `<div class="prompt-card pcv" data-mid="${p.id}" onclick="openPromptDetail('${p.id}')">
     <div class="card-admin-controls" onclick="event.stopPropagation()"><button class="card-ctrl-btn delete" title="삭제" onclick="confirmDelete('prompts','${p.id}')"><svg width="13" height="13"><use href="#iss-ic-del"/></svg></button></div>
-    <div class="pcv-cover">${imgs[0]?`<img src="${esc(imgs[0])}" class="pcv-img${p.blur?' blurred':''}" loading="lazy" draggable="false">`:`<div class="pcv-noimg">✦</div>`}<div class="pcv-shade"></div></div>
+    <div class="pcv-cover">${imgs[0]?`<img ${timgAttrs(imgs[0])} class="pcv-img${p.blur?' blurred':''}" loading="lazy" draggable="false">`:`<div class="pcv-noimg">✦</div>`}<div class="pcv-shade"></div></div>
     <div class="pcv-info">
       <div class="pcv-mid">
         <div class="pcv-hash">#</div>
@@ -6972,7 +7043,7 @@ function renderDistCard(d,idx){
   const cats=catArr(d.category);
   const tag=(Array.isArray(d.tags)&&d.tags.length)?('# '+d.tags[0]):(cats[0]?('# '+cats[0]):'');
   return `<div class="dist-card dcv" data-mid="${d.id}" onclick="openDistDetail('${d.id}')">
-    ${imgs[0]?`<img class="dcv-img" src="${esc(imgs[0])}" loading="lazy" draggable="false">`:'<div class="dcv-img dcv-noimg">✦</div>'}
+    ${imgs[0]?`<img class="dcv-img" ${timgAttrs(imgs[0])} loading="lazy" draggable="false">`:'<div class="dcv-img dcv-noimg">✦</div>'}
     <div class="dcv-shade"></div>
     <button class="dcv-del pdx-admin" title="삭제" onclick="event.stopPropagation();confirmDelete('distributions','${d.id}')"><svg width="14" height="14"><use href="#iss-ic-x"/></svg></button>
     <div class="dcv-info">
@@ -8037,7 +8108,7 @@ async function openEditor(type,editId,distType){
     if(f.type==='textarea')return `<div class="form-group"><label class="form-label" for="__x">${f.label} <span class="ai-mini-row"><button type="button" class="ai-mini-btn" onclick="aiSpell('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 맞춤법</button>${(currentEditorType==='distributions'&&f.key==='description')?`<button type="button" class="ai-mini-btn" onclick="wrapQuote('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 인용구</button>`:''}${f.key==='content'?`<button type="button" class="ai-mini-btn" onclick="aiLogClean('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 로그 정리</button><button type="button" class="ai-mini-btn" onclick="aiLogSum('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 요약</button>`:''}</span></label><textarea class="form-textarea" id="ef-${f.key}" placeholder="${f.placeholder||''}">${esc(Array.isArray(val)?val.join(', '):val)}</textarea></div>`;
     if(f.type==='markdown')return `<div class="form-group"><label class="form-label" for="__x">${f.label} <span class="ai-mini-row"><button type="button" class="ai-mini-btn" onclick="aiSpell('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 맞춤법</button></span></label><div class="md-toolbar"><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','**','**')" title="Bold"><b>B</b></button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','*','*')" title="Italic"><i>I</i></button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','~~','~~')" title="Strikethrough"><s>S</s></button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','# ')" title="H1">H1</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','## ')" title="H2">H2</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','### ')" title="H3">H3</button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','- ')" title="List">☰</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','> ')" title="Quote">❝</button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','[','](url)')" title="Link">🔗</button><button class="md-toolbar-btn" type="button" onclick="mdInsertTable('ef-${f.key}')" title="Table">⊞</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','---\\n')" title="HR">―</button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn md-preview-toggle" type="button" onclick="toggleMdPreview('ef-${f.key}')">PREVIEW</button></div><textarea class="form-textarea" id="ef-${f.key}" placeholder="${f.placeholder||''}" style="min-height:200px;font-family:'Pretendard',monospace;font-size:12px;">${esc(val)}</textarea><div class="md-preview-area md-content" id="ef-${f.key}-preview"></div></div>`;
     if(f.type==='file')return `<div class="form-group"><label class="form-label">${f.label}</label><label class="form-file-label"><span>+ 이미지 추가</span><input type="file" class="form-input-file" id="ef-${f.key}" accept="image/*" onchange="previewFile(this)"></label>${existingData&&existingData[f.key]?'<img class="form-file-preview" id="ef-preview" src="'+esc(existingData[f.key])+'">':'<img class="form-file-preview" id="ef-preview" style="display:none;">'}</div>`;
-    if(f.type==='multifile'){const cur=existingData?promptImages(existingData):[];return `<div class="form-group"><label class="form-label">${f.label}</label><div class="mf-hint">드래그로 순서 변경 · 맨 앞이 대표 썸네일 · 다른 이미지의 "대표로" 클릭 시 대표 지정</div><div class="mf-list" id="ef-${f.key}-list">${cur.map(u=>`<div class="mf-item" data-url="${esc(u)}" draggable="true" ondragstart="mfDragStart(event)" ondragover="mfDragOver(event)" ondragend="mfDragEnd(event)"><img src="${esc(u)}"><span class="mf-rep">대표</span><button type="button" class="mf-setrep" onclick="setRepImage(this)">대표로</button><button type="button" class="mf-del" onclick="this.parentElement.remove()">✕</button></div>`).join('')}</div><label class="form-file-label"><span>+ 이미지 추가 (여러 장 가능)</span><input type="file" class="form-input-file" id="ef-${f.key}" accept="image/*" multiple onchange="previewMultiFile(this)"></label></div>`;}
+    if(f.type==='multifile'){const cur=existingData?promptImages(existingData):[];return `<div class="form-group mf-group" data-mf="ef-${f.key}" ondragover="mfDropOver(event)" ondragleave="mfDropLeave(event)" ondrop="mfDrop(event)"><label class="form-label">${f.label}</label><div class="mf-hint">이미지 파일을 여기로 끌어다 놓으면 추가 · 드래그로 순서 변경 · 맨 앞이 대표 썸네일 · 다른 이미지의 "대표로" 클릭 시 대표 지정</div><div class="mf-list" id="ef-${f.key}-list">${cur.map(u=>`<div class="mf-item" data-url="${esc(u)}" draggable="true" ondragstart="mfDragStart(event)" ondragover="mfDragOver(event)" ondragend="mfDragEnd(event)"><img src="${esc(u)}"><span class="mf-rep">대표</span><button type="button" class="mf-setrep" onclick="setRepImage(this)">대표로</button><button type="button" class="mf-del" onclick="this.parentElement.remove()">✕</button></div>`).join('')}</div><label class="form-file-label"><span>+ 이미지 추가 (여러 장 가능)</span><input type="file" class="form-input-file" id="ef-${f.key}" accept="image/*" multiple onchange="previewMultiFile(this)"></label></div>`;}
     if(f.type==='naiblocks'){
       const blocks=naiBlocks({prompt_text:val});
       setTimeout(()=>{nbInit(blocks);},0);
@@ -8134,9 +8205,11 @@ function mfDragStart(e){mfDragEl=e.currentTarget;mfDragEl.classList.add('mf-drag
 function mfDragOver(e){e.preventDefault();const t=e.currentTarget;if(!mfDragEl||t===mfDragEl)return;const list=t.parentElement;const items=[...list.children];if(items.indexOf(t)<items.indexOf(mfDragEl))list.insertBefore(mfDragEl,t);else list.insertBefore(mfDragEl,t.nextSibling);}
 function mfDragEnd(e){if(mfDragEl)mfDragEl.classList.remove('mf-dragging');mfDragEl=null;}
 function setRepImage(btn){const it=btn.closest('.mf-item');it.parentElement.insertBefore(it,it.parentElement.firstChild);}
-function previewMultiFile(input){
+function previewMultiFile(input){mfAddFiles(input,[...input.files]);input.value='';}
+function isImgFile(f){return !!f&&(/^image\//.test(f.type||'')||/\.(png|jpe?g|webp|gif|avif)$/i.test(f.name||''));}
+function mfAddFiles(input,files){
   const list=document.getElementById(input.id+'-list');if(!list)return;
-  [...input.files].forEach(file=>{
+  siteBatch([...files].filter(isImgFile)).forEach(file=>{
     const id='t'+(mfSeq++);mfFileMap[id]=file;
     const r=new FileReader();
     r.onload=e=>{
@@ -8148,7 +8221,32 @@ function previewMultiFile(input){
     };
     r.readAsDataURL(file);
   });
-  input.value='';
+}
+// ── 드래그 업로드(전 게시판 에디터) ──
+function dtHasFiles(e){const t=e.dataTransfer&&e.dataTransfer.types;return !!t&&[...t].includes('Files');}
+function mfDropOver(e){if(!dtHasFiles(e))return;e.preventDefault();e.dataTransfer.dropEffect='copy';e.currentTarget.classList.add('mf-over');}
+function mfDropLeave(e){if(e.target===e.currentTarget||!e.currentTarget.contains(e.relatedTarget))e.currentTarget.classList.remove('mf-over');}
+function mfDrop(e){if(!dtHasFiles(e))return;e.preventDefault();e.currentTarget.classList.remove('mf-over');const inp=document.getElementById(e.currentTarget.dataset.mf);if(inp)mfAddFiles(inp,[...e.dataTransfer.files]);}
+// 리치 본문에 이미지 파일 드롭 → 순차 업로드 후 그림 블록 삽입
+async function reDropFiles(files){
+  const imgs=siteBatch([...files].filter(isImgFile));if(!imgs.length){showToast('이미지 파일만 넣을 수 있어요');return;}
+  let n=0;for(const f0 of imgs){try{const f=await prepImageForInsert(f0);showToast('이미지 업로드 중… ('+(n+1)+'/'+imgs.length+')');const url=await uploadImage(f,'diary');reInsertHTML(figHtml(url));n++;}catch(e){showToast('업로드 실패: '+(e.message||e));}}
+  reMakeBlocksDraggable();if(n)showToast('이미지 '+n+'장 삽입');
+}
+// 에디터 모달 어디에 떨어뜨려도 알맞은 칸으로 라우팅: 다중이미지 칸 > 리치 본문 > 단일 이미지 칸
+function edDropInit(){
+  const box=document.querySelector('#editor-modal .modal-box');if(!box||box._edDrop)return;box._edDrop=true;
+  box.addEventListener('dragover',e=>{if(!dtHasFiles(e))return;e.preventDefault();box.classList.add('ed-drop');});
+  box.addEventListener('dragleave',e=>{if(!box.contains(e.relatedTarget))box.classList.remove('ed-drop');});
+  box.addEventListener('drop',e=>{
+    box.classList.remove('ed-drop');if(!dtHasFiles(e)||e.defaultPrevented)return;e.preventDefault();
+    const files=[...e.dataTransfer.files];const F=document.getElementById('editor-fields');
+    const mf=F&&F.querySelector('.mf-group');if(mf){const inp=document.getElementById(mf.dataset.mf);if(inp){mfAddFiles(inp,files);return;}}
+    const rb=F&&F.querySelector('.re-body');if(rb){reDropFiles(files);return;}
+    const sf=F&&F.querySelector('input.form-input-file:not([multiple])');
+    if(sf){const img=files.find(isImgFile);if(!img){showToast('이미지 파일만 넣을 수 있어요');return;}try{const dt=new DataTransfer();dt.items.add(img);sf.files=dt.files;previewFile(sf);showToast('이미지 첨부됨');}catch(err){showToast('첨부 실패: '+(err.message||err));}return;}
+    showToast('이 글에는 이미지 칸이 없어요');
+  });
 }
 // ── NAI 메타데이터: 자동 감지(#7) ──
 // ══ 업로드 위생 관문: 모든 이미지는 재인코딩 + LSB 스크럽 후에만 스토리지에 올라간다 ══
@@ -8179,10 +8277,56 @@ async function imgSanitize(file,force){
   return new File([blob],base+(out==='image/jpeg'?'.jpg':out==='image/webp'?'.webp':'.png'),{type:out});
 }
 async function stUpload(path,file,opts){
-  const f=await imgSanitize(file);   // 실패 시 throw → 업로드 자체가 취소됨 (원본 유출 없음)
+  let f=await imgSanitize(file);   // 실패 시 throw → 업로드 자체가 취소됨 (원본 유출 없음)
+  f=await siteTierGate(f);          // normal 등급: 장변 2048·WebP q.9·≤3MB 자동 축소 / 첨부 20MB / boss·vip 통과
   const o=Object.assign({},opts||{});
   if(f&&/^image\//.test(f.type||''))o.contentType=f.type;
-  return palelyDB.storage.from('images').upload(path,f,o);
+  const res=await palelyDB.storage.from('images').upload(path,f,o);   // 시임이 sites/{id}/ 접두 처리
+  if(!res.error&&o.thumb!==false)thumbUpload(path,f).catch(()=>{});   // 썸네일은 베스트에포트(비동기)
+  return res;
+}
+// ── 썸네일(600px WebP): thumbs/<원본경로>.webp — 카드 목록은 이걸 먼저 읽고 없으면 원본 폴백 ──
+const THUMB_SIDE=600,THUMB_Q=.82;
+function thumbPath(p){return 'thumbs/'+String(p).replace(/^\/+/,'')+'.webp';}
+async function thumbMake(f){
+  const src=await imgDecode(f);const w=src.width||src.naturalWidth,h=src.height||src.naturalHeight;if(!w||!h)throw new Error('thumb: 크기 판독 실패');
+  const sc=Math.min(1,THUMB_SIDE/Math.max(w,h));const cw=Math.max(1,Math.round(w*sc)),ch=Math.max(1,Math.round(h*sc));
+  const c=document.createElement('canvas');c.width=cw;c.height=ch;const cx=c.getContext('2d');cx.imageSmoothingQuality='high';cx.drawImage(src,0,0,cw,ch);if(src.close)try{src.close();}catch(e){}
+  const blob=await new Promise(r=>c.toBlob(r,'image/webp',THUMB_Q));if(!blob)throw new Error('thumb: 인코딩 실패');return blob;
+}
+async function thumbUpload(path,f){
+  if(!f||!(f instanceof Blob)||!/^image\//.test(f.type||'')||IMG_SANITIZE_SKIP.test(f.type))return null;
+  const blob=await thumbMake(f);
+  return palelyDB.storage.from('images').upload(thumbPath(path),blob,{contentType:'image/webp',upsert:true});
+}
+// 공개 URL → 썸네일 URL (스토리지 images 버킷 URL만, gif/svg 제외). 카드 <img>는 src=thumbOf(u) data-orig=u onerror=thumbFail(this)
+function thumbOf(u){if(!u||typeof u!=='string')return u;const m=u.match(/^(.*\/storage\/v1\/object\/public\/images\/)((?:sites\/[0-9a-f-]{36}\/)?)(?!thumbs\/)([^?#]+)$/i);if(!m||/\.(gif|svg)$/i.test(m[3]))return u;return m[1]+m[2]+'thumbs/'+m[3]+'.webp';}
+function thumbFail(img){const o=img.getAttribute('data-orig');if(o&&img.src!==o){img.removeAttribute('data-orig');img.src=o;}}
+function timgAttrs(u){return 'src="'+esc(thumbOf(u))+'" data-orig="'+esc(u)+'" onerror="thumbFail(this)"';}
+// ── 등급별 업로드 규제(normal만) ──
+async function siteTierGate(f){
+  if(siteFree()||!f||!(f instanceof Blob))return f;
+  const type=f.type||'';
+  if(!/^image\//.test(type)){if(f.size>SITE_FILE_MAX)throw new Error('첨부 파일은 20MB까지 올릴 수 있어요');return f;}
+  if(IMG_SANITIZE_SKIP.test(type)){if(f.size>SITE_IMG_MAX)throw new Error('gif/svg는 3MB까지 올릴 수 있어요');return f;}
+  return imgShrink(f);
+}
+// 장변 2048 → WebP q.9(투명 유지) → 3MB 초과 시 0.85배·q.85로 최대 3회 재시도 → 거부
+async function imgShrink(f){
+  const src=await imgDecode(f);const w=src.width||src.naturalWidth,h=src.height||src.naturalHeight;
+  if(!w||!h)throw new Error('이미지 크기 판독 실패');
+  let scale=Math.min(1,SITE_IMG_SIDE/Math.max(w,h)),q=.9;
+  const base=(f.name||'image').replace(/\.[^.]+$/,'');
+  for(let i=0;i<4;i++){
+    const cw=Math.max(1,Math.round(w*scale)),ch=Math.max(1,Math.round(h*scale));
+    const c=document.createElement('canvas');c.width=cw;c.height=ch;
+    const cx=c.getContext('2d');cx.imageSmoothingQuality='high';cx.drawImage(src,0,0,cw,ch);
+    const blob=await new Promise(r=>c.toBlob(r,'image/webp',q));
+    if(blob&&blob.size<=SITE_IMG_MAX){if(src.close)try{src.close();}catch(e){}return new File([blob],base+'.webp',{type:'image/webp'});}
+    scale*=.85;q=.85;
+  }
+  if(src.close)try{src.close();}catch(e){}
+  throw new Error('이미지가 너무 커요(3MB 초과) — 더 작은 이미지로 올려주세요');
 }
 async function detectNAI(file){
   const res={found:false,reasons:[]};
@@ -8378,7 +8522,7 @@ function reImage(){
 // 여러 장 선택 → (NAI 확인) → 순차 업로드 → URL 배열 콜백
 function pickImages(cb){
   const inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.multiple=true;
-  inp.onchange=async()=>{const files=[...inp.files];if(!files.length)return;const urls=[];for(let i=0;i<files.length;i++){showToast('업로드 중… ('+(i+1)+'/'+files.length+')');try{let f=await prepImageForInsert(files[i]);urls.push(await uploadImage(f,'diary'));}catch(e){}}if(urls.length)cb(urls);else showToast('업로드 실패');};
+  inp.onchange=async()=>{const files=siteBatch([...inp.files]);if(!files.length)return;const urls=[];for(let i=0;i<files.length;i++){showToast('업로드 중… ('+(i+1)+'/'+files.length+')');try{let f=await prepImageForInsert(files[i]);urls.push(await uploadImage(f,'diary'));}catch(e){}}if(urls.length)cb(urls);else showToast('업로드 실패');};
   inp.click();
 }
 function reSlider(){pickImages(urls=>{reInsertHTML('<div class="re-slider re-al-center" data-align="center" data-imgs="'+attrEsc(JSON.stringify(urls))+'" data-cap="" contenteditable="false"></div><p><br></p>');reHydrateEditor();reMakeBlocksDraggable();showToast('슬라이드 '+urls.length+'장 삽입');});}
@@ -8478,8 +8622,8 @@ function reRzDown(e){e.preventDefault();e.stopPropagation();const fig=e.currentT
 function reRotDown(e){e.preventDefault();e.stopPropagation();const fig=e.currentTarget.closest('.re-fig');const img=fig&&fig.querySelector(':scope > img');if(!img)return;document.querySelectorAll('.re-body .re-sel').forEach(i=>i.classList.remove('re-sel'));fig.classList.add('re-sel');reSelImg=fig;const r=img.getBoundingClientRect();const cx=r.left+r.width/2,cy=r.top+r.height/2;const start=Math.atan2(e.clientY-cy,e.clientX-cx);const base=parseFloat(img.dataset.rot||'0');try{e.currentTarget.setPointerCapture(e.pointerId);}catch(_){}function mv(ev){let d=base+(Math.atan2(ev.clientY-cy,ev.clientX-cx)-start)*180/Math.PI;if(ev.shiftKey)d=Math.round(d/15)*15;img.style.transform='rotate('+d.toFixed(1)+'deg)';img.dataset.rot=d.toFixed(1);}function up(){document.removeEventListener('pointermove',mv);document.removeEventListener('pointerup',up);document.removeEventListener('pointercancel',up);if(typeof reSaveSel==='function')reSaveSel();}document.addEventListener('pointermove',mv);document.addEventListener('pointerup',up);document.addEventListener('pointercancel',up);}
 function reGetDragAfter(container,y){const els=[...container.children].filter(c=>c!==reDragBlock);let closest=null,closestOffset=-Infinity;for(const c of els){const box=c.getBoundingClientRect();const offset=y-(box.top+box.height/2);if(offset<0&&offset>closestOffset){closestOffset=offset;closest=c;}}return closest;}
 function reClearDropLine(){const b=reBody();if(b)b.querySelectorAll('.re-drop-before,.re-drop-after').forEach(el=>el.classList.remove('re-drop-before','re-drop-after'));}
-function reOnDragOver(e){if(!reDragBlock)return;e.preventDefault();e.dataTransfer.dropEffect='move';const b=reBody();const after=reGetDragAfter(b,e.clientY);reClearDropLine();if(after)after.classList.add('re-drop-before');else if(b.lastElementChild)b.lastElementChild.classList.add('re-drop-after');}
-function reOnDrop(e){if(!reDragBlock)return;e.preventDefault();const b=reBody();const after=reGetDragAfter(b,e.clientY);if(after)b.insertBefore(reDragBlock,after);else b.appendChild(reDragBlock);reClearDropLine();reSaveSel();}
+function reOnDragOver(e){if(!reDragBlock){if(dtHasFiles(e)){e.preventDefault();e.dataTransfer.dropEffect='copy';}return;}e.preventDefault();e.dataTransfer.dropEffect='move';const b=reBody();const after=reGetDragAfter(b,e.clientY);reClearDropLine();if(after)after.classList.add('re-drop-before');else if(b.lastElementChild)b.lastElementChild.classList.add('re-drop-after');}
+function reOnDrop(e){if(!reDragBlock){if(dtHasFiles(e)){e.preventDefault();reDropFiles(e.dataTransfer.files);}return;}e.preventDefault();const b=reBody();const after=reGetDragAfter(b,e.clientY);if(after)b.insertBefore(reDragBlock,after);else b.appendChild(reDragBlock);reClearDropLine();reSaveSel();}
 function setupRichEditors(){
   document.querySelectorAll('#editor-fields .re-body').forEach(el=>{
     if(el._reInit)return;el._reInit=true;
@@ -9141,8 +9285,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.2.4';
+const APP_VERSION='1.3.0';
 const CHANGELOG=[
+  {v:'1.3.0',date:'2026-09-09',title:'멀티 블로그 기반 · 썸네일',sql:true,items:['오르비를 여러 블로그가 함께 쓰는 구조로 전환하는 1단계 — 사이트(블로그) 단위로 글·설정·저장 공간이 분리됩니다. 기존 글·링크·주소(/home/)는 그대로입니다','카드 목록이 600px 썸네일을 먼저 읽어 전송량이 약 1/30로 줄고 로딩이 빨라집니다 (원본은 상세에서 그대로)','에디터 어디에든 이미지 파일을 끌어다 놓으면 알맞은 칸(다중 이미지·본문·대표 이미지)에 바로 들어갑니다','업로드 등급: 보스·VIP 블로그는 원본 유지, 일반 블로그는 장변 2048px·WebP·3MB로 자동 축소, 한 번에 10장','블로그 주소 규칙 /@핸들 추가 (아직 가입은 열리지 않음)','DB: P0·P1·P2a SQL — 이미 적용 완료 (sites·user_accounts·site_settings·site_secrets·site_id·스토리지 정책)'],},
   {v:'1.2.4',date:'2026-09-08',title:'배경음악 기억 · 곡 설정',sql:false,items:['배경음악을 한 번 끄면 그 기기에서는 다음 방문에도 자동재생되지 않습니다 (다시 재생하면 복귀)','어드민 → 배경음악: Pair Music Box 플레이리스트 연동 또는 유튜브 직접 지정(주소·ID | 제목), 표시 이름, 자동재생 on/off — 저장 즉시 반영']},
   {v:'1.2.3',date:'2026-09-07',title:'COPY 버튼 미세 조정',sql:false,items:['블록 복사 아이콘을 마름모 정중앙에 정확히 맞춤 (반픽셀 흐림 제거)','상세 하단 전체 COPY: 평소 밑줄 없이, 마우스를 올릴 때만 박스가 그려짐','블록이 있는 프롬프트 하단에 "개별 복사는 각 블록의 아이콘을 눌러 진행할 수 있습니다" 안내 추가']},
   {v:'1.2.2',date:'2026-09-07',title:'COPY 버튼 디자인 정리',sql:false,items:['프롬프트 카드·상세의 COPY 버튼을 더 눈에 띄고 컴팩트하게 — 평소엔 밑줄, 마우스를 올리면 사각 라인이 그어집니다. 복사 완료 시 글로우','OOC·노벨AI 블록별 복사는 작은 아이콘으로 — 마우스를 올리면 마름모 외곽선이 그어지고, 복사하면 링이 빛납니다','상세 하단 전체 COPY는 한 줄로 컴팩트하게 정리']},
