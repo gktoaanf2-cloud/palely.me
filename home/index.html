@@ -1477,6 +1477,36 @@ body.is-super .adm-super{display:block;}
 .svc-code{font-family:var(--font-num);letter-spacing:.14em;cursor:pointer;}
 .svc-terms{min-height:200px;resize:vertical;font-family:var(--font-kr);font-size:12px;line-height:1.7;}
 .vault-denied{opacity:.15;filter:grayscale(1);}
+/* ── P5a 동의 문서 · 신고 창구 ── */
+.ob-doc{margin-bottom:16px;}.ob-doc:last-child{margin-bottom:0;}
+.ob-doc-h{font-weight:600;letter-spacing:-.02em;color:rgb(var(--t-snow));margin-bottom:6px;}
+.rp-kinds{flex-direction:row;flex-wrap:wrap;gap:8px 20px;}
+.rp-body{min-height:120px;resize:vertical;font-family:var(--font-kr);font-size:12.5px;line-height:1.7;}
+.rp-snip{font-weight:500;}
+.rp-st-open{color:rgb(var(--t-warm));border-color:rgba(var(--t-warm),.5);}
+.rp-st-working{color:rgb(var(--t-glow));border-color:rgba(var(--t-glow),.5);}
+.rp-st-done{color:rgb(var(--t-ok));border-color:rgba(var(--t-ok),.5);}
+.rp-st-rejected{color:rgba(var(--t-fg-soft),.5);}
+.rp-row{grid-template-columns:1fr auto;}
+.rp-detail{display:block;font-family:var(--font-kr);font-size:12px;color:rgba(var(--t-fg-mid),.9);line-height:1.7;}
+.rp-detail a{display:block;font-family:var(--font-num);font-size:10.5px;color:rgba(var(--t-fg-soft),.6);margin-top:4px;}
+.rp-log{margin-top:6px;}.rp-log summary{cursor:pointer;font-size:11px;color:rgba(var(--t-fg-soft),.6);}
+.rp-log pre{max-height:220px;overflow:auto;font-size:10px;line-height:1.5;background:rgba(var(--t-fg),.04);padding:8px;margin:6px 0 0;scrollbar-width:none;}
+.rp-log pre::-webkit-scrollbar{display:none;}
+.rp-note{margin-top:6px;font-size:11.5px;color:rgb(var(--t-warm));}
+.hub-foot-act{display:flex;gap:10px;}
+/* ── P6 브랜드 중립화 · 로그인 모달 ── */
+.site-textlogo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:min(80%,720px);}
+.site-textlogo .stl-title{font-size:clamp(28px,5.2vw,64px);line-height:1.1;letter-spacing:.06em;color:rgb(var(--t-snow));text-shadow:0 0 28px rgba(var(--t-glow),.35);text-wrap:balance;animation:hlFade 2.4s ease-out .2s both;}
+.site-textlogo.en .stl-title{font-family:'Bodoni Moda','Cormorant Garamond','Playfair Display',serif;font-weight:400;}
+.site-textlogo.kr .stl-title{font-family:'BookkMyungjo',serif;font-weight:700;letter-spacing:.02em;}
+.site-textlogo .stl-handle{margin-top:10px;font-family:var(--font-num);font-size:clamp(10px,1.1vw,13px);letter-spacing:.3em;color:rgba(var(--t-fg-soft),.6);animation:hlFade 2.4s ease-out .5s both;}
+.site-textlogo .stl-tag{margin-top:8px;font-family:'BookkMyungjo',serif;font-size:clamp(11px,1.2vw,14px);letter-spacing:-.01em;color:rgba(var(--t-fg-mid),.75);animation:hlFade 2.4s ease-out .9s both;}
+body.no-bgm #lp-player{display:none!important;}
+.lm-tabs-hidden{display:none;}
+.lm-intro{margin:0 0 14px;}
+.lm-links{display:flex;justify-content:center;gap:18px;margin:2px 0 6px;}
+.lm-legacy{margin-top:12px;}
 /* 아이콘형 */
 .cpi{position:relative;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;flex:none;background:none;border:none;padding:0;cursor:pointer;color:rgba(var(--t-snow),.82);transition:color .25s,transform .5s cubic-bezier(.3,1.2,.35,1);}
 .cpi .cpi-ring{position:absolute;inset:0;width:100%;height:100%;display:block;fill:none;stroke:rgba(var(--t-fg),.8);stroke-width:1;stroke-dasharray:60;stroke-dashoffset:60;transition:stroke-dashoffset .5s cubic-bezier(.25,.8,.3,1),stroke .25s,filter .25s;pointer-events:none;}
@@ -3138,12 +3168,13 @@ body.is-admin #page-admin .adm-body{display:block;}
       <div class="adm-sec adm-super">
         <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>서비스 운영</div>
         <div class="adm-sec-sub">오르비 전체 운영(super) — 가입 모드·약관·초대 코드·유저 등급/차단/탈퇴</div>
-        <div class="adm-row"><span class="adm-row-name">운영 콘솔<small id="adm-svc-now">…</small></span><button class="adm-act" onclick="svcOpen('users')">유저</button><button class="adm-act" onclick="svcOpen('invites')">초대 코드</button><button class="adm-act" onclick="svcOpen('signup')">가입 · 약관</button></div>
+        <div class="adm-row"><span class="adm-row-name">운영 콘솔<small id="adm-svc-now">…</small></span><button class="adm-act" onclick="svcOpen('users')">유저</button><button class="adm-act" onclick="svcOpen('invites')">초대 코드</button><button class="adm-act" onclick="svcOpen('signup')">가입 · 약관</button><button class="adm-act" onclick="svcOpen('reports')">신고함</button></div>
       </div>
       <div class="adm-sec">
         <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>공개 범위 · 이웃</div>
         <div class="adm-sec-sub">블로그 전체 공개 범위(전체·이웃·비밀번호·비공개), 방명록 범위, 한 줄 소개 — 이웃 관리는 허브에서</div>
         <div class="adm-row"><span class="adm-row-name">블로그 공개 범위<small id="adm-vis-now">현재: 전체 공개</small></span><button class="adm-act" onclick="siteVisOpen()">설정</button><button class="adm-act" onclick="navigate('hub')">허브 · 이웃</button></div>
+        <div class="adm-row"><span class="adm-row-name">운영자에게 보내기<small>신고 · 건의 · 버그(오류 로그 첨부) · 문의</small></span><button class="adm-act" onclick="reportOpen()">보내기</button></div>
       </div>
       <div class="adm-sec">
         <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>게시판 관리</div>
@@ -3470,11 +3501,27 @@ body.is-admin #page-admin .adm-body{display:block;}
     <div class="form-actions" style="justify-content:center;"><button class="btn-primary" onclick="stkCropApply()">적용</button><button class="btn-secondary" onclick="stkCropSkip()">건너뛰기</button><button class="btn-secondary" onclick="stkCropCancel()">취소</button></div>
   </div>
 </div>
+<div class="modal-overlay" id="report-modal">
+  <div class="modal-box" style="max-width:560px;">
+    <button class="modal-close" onclick="closeModal('report-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <div class="modal-title">CONTACT</div>
+    <p class="ob-lead">운영자에게 직접 전달됩니다. 신고는 대상 글·블로그 주소를 함께 적어 주세요.</p>
+    <div class="form-group"><label class="form-label">종류</label>
+      <div class="sv-opts rp-kinds"><label class="form-check"><input type="radio" name="rp-kind" value="report" checked><span>신고</span></label><label class="form-check"><input type="radio" name="rp-kind" value="suggest"><span>건의</span></label><label class="form-check"><input type="radio" name="rp-kind" value="bug"><span>버그</span></label><label class="form-check"><input type="radio" name="rp-kind" value="ask"><span>문의</span></label></div></div>
+    <div class="form-group"><label class="form-label">대상 주소 <small class="ob-st">자동 입력 · 수정 가능</small></label><input class="form-input" id="rp-target" maxlength="500"></div>
+    <div class="form-group"><label class="form-label">내용</label><textarea class="form-input rp-body" id="rp-body" rows="6" maxlength="4000" placeholder="무슨 일이 있었는지, 어디에서, 어떻게 재현되는지"></textarea></div>
+    <label class="form-check ob-check"><input type="checkbox" id="rp-log" checked><span>오류 로그·환경 정보 첨부 (브라우저·버전·최근 오류 <span id="rp-log-n">0</span>건 — 개인정보 없음)</span></label>
+    <div class="form-actions"><button class="btn-primary" id="rp-send" onclick="reportSend()">보내기</button><button class="btn-secondary" onclick="closeModal('report-modal')">닫기</button></div>
+    <div class="ob-err" id="rp-err"></div>
+    <div class="hub-h" style="margin-top:22px">내 접수 내역 <small id="rp-mine-n"></small></div>
+    <div class="hub-list" id="rp-mine"><p class="ob-hint">불러오는 중…</p></div>
+  </div>
+</div>
 <div class="modal-overlay" id="svc-modal">
   <div class="modal-box svc-box">
     <button class="modal-close" onclick="closeModal('svc-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
     <div class="modal-title">OPERATIONS</div>
-    <div class="lm-tabs svc-tabs"><button type="button" class="feed-tab" data-t="users" onclick="svcOpen('users')">유저</button><button type="button" class="feed-tab" data-t="invites" onclick="svcOpen('invites')">초대 코드</button><button type="button" class="feed-tab" data-t="signup" onclick="svcOpen('signup')">가입 · 약관</button></div>
+    <div class="lm-tabs svc-tabs"><button type="button" class="feed-tab" data-t="users" onclick="svcOpen('users')">유저</button><button type="button" class="feed-tab" data-t="invites" onclick="svcOpen('invites')">초대 코드</button><button type="button" class="feed-tab" data-t="signup" onclick="svcOpen('signup')">가입 · 약관</button><button type="button" class="feed-tab" data-t="reports" onclick="svcOpen('reports')">신고함</button></div>
     <div class="svc-stats ob-hint" id="svc-stats"></div>
     <div id="svc-body"></div>
     <div class="ob-err" id="svc-err"></div>
@@ -3518,12 +3565,13 @@ body.is-admin #page-admin .adm-body{display:block;}
   <div class="modal-box" style="max-width:380px;">
     <button class="modal-close" onclick="closeModal('login-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
     <div class="modal-title">LOGIN</div>
-    <div class="lm-tabs"><button type="button" class="feed-tab on" id="lm-tab-member" onclick="lmTab('member')">회원</button><button type="button" class="feed-tab" id="lm-tab-admin" onclick="lmTab('admin')">관리자</button></div>
+    <div class="lm-tabs lm-tabs-hidden"><button type="button" class="feed-tab on" id="lm-tab-member" onclick="lmTab('member')">회원</button><button type="button" class="feed-tab" id="lm-tab-admin" onclick="lmTab('admin')">관리자</button></div>
     <div id="lm-admin" style="display:none">
       <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="login-email" autocomplete="email"></div>
       <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" id="login-password" autocomplete="current-password"></div>
       <div class="form-actions"><button class="btn-primary" id="login-btn" onclick="doLogin()">LOGIN</button><button class="btn-secondary" onclick="closeModal('login-modal')">CANCEL</button></div>
       <button class="btn-secondary" style="margin-top:16px;font-size:10px;opacity:0.5;" onclick="doLogout()">LOGOUT</button>
+      <div class="lm-links"><button type="button" class="hub-mini" onclick="lmTab('member')">← Google 로그인으로</button></div>
     </div>
     <div id="lm-member">
       <div id="lm-member-in" style="display:none">
@@ -3531,8 +3579,11 @@ body.is-admin #page-admin .adm-body{display:block;}
         <div class="form-actions"><button class="btn-primary" onclick="closeModal('login-modal');navigate('hub')">허브</button><button class="btn-secondary" onclick="memberLogout()">로그아웃</button><button class="btn-secondary" onclick="closeModal('login-modal')">CLOSE</button></div>
       </div>
       <div id="lm-member-out">
+        <p class="lm-hello lm-intro">Google 계정으로 로그인하면 이웃·마음함을 쓰고, 초대 코드가 있으면 내 블로그를 열 수 있어요.</p>
         <button type="button" class="form-file-label lm-gbtn" onclick="googleLogin()"><span>Google 계정으로 계속하기</span></button>
-        <div class="lm-or"><span>또는 아이디로</span></div>
+        <div class="lm-links"><button type="button" class="hub-mini" onclick="lmLegacy()">기존 아이디 로그인</button><button type="button" class="hub-mini" onclick="lmTab('admin')">관리자 로그인</button></div>
+        <div id="lm-legacy" class="lm-legacy" hidden>
+        <div class="lm-or"><span>기존 아이디로</span></div>
         <div class="form-group"><label class="form-label">아이디</label><input type="text" class="form-input" id="m-id" maxlength="20" autocomplete="username" placeholder="영문 소문자·숫자"></div>
         <div class="form-group"><label class="form-label">비밀번호</label><input type="password" class="form-input" id="m-pw" autocomplete="current-password"></div>
         <div class="form-group" id="m-signup-extra" style="display:none">
@@ -3541,7 +3592,8 @@ body.is-admin #page-admin .adm-body{display:block;}
         </div>
         <div class="form-actions">
           <button class="btn-primary" id="m-go" onclick="memberGo()">로그인</button>
-          <button class="btn-secondary" id="m-mode" onclick="mToggleMode()">회원가입 하기</button>
+          <button class="btn-secondary" id="m-mode" onclick="mToggleMode()" hidden>회원가입 하기</button>
+        </div>
         </div>
       </div>
     </div>
@@ -3813,6 +3865,7 @@ let palelyDB=null,palelyDBRaw=null,pmbClient=null,currentUser=null,isAdmin=false
 // ── 멀티테넌트: 현재 사이트(블로그) 컨텍스트 ──
 const BOSS_HANDLE='pale',BOSS_SITE_ID='a55b20a3-3cc9-4393-8f29-ae52f19b2bd7',NULL_SITE_ID='00000000-0000-0000-0000-000000000000';
 let currentSite=null,SITE_ID=NULL_SITE_ID,siteImgProtect=false;const stVault=new Set();
+let siteSettingsCache=new Map(),siteSettingsReady=false;const siteSettingsDirty=new Set();
 let currentEditorType=null,currentEditId=null,previousPage='home';
 let currentPromptTab='nai',gbDeleteTarget=null;
 let logsAllData=[],logsActiveCategory='all';
@@ -3821,10 +3874,10 @@ let logsAllData=[],logsActiveCategory='all';
 window.addEventListener('DOMContentLoaded',async()=>{
   try{document.fonts.load('400 1em "BookkMyungjo"','가');document.fonts.load('700 1em "BookkMyungjo"','가');}catch(e){}
   try{palelyDB=window.supabase.createClient(PALELY_URL,PALELY_KEY);pmbClient=window.supabase.createClient(PMB_URL,PMB_KEY);}catch(e){}
-  palelyDBRaw=palelyDB;if(palelyDB){await siteBoot();palelyDB=dbShim(palelyDBRaw);}
+  palelyDBRaw=palelyDB;if(palelyDB){await siteBoot();palelyDB=dbShim(palelyDBRaw);siteBrandApply();}
   edDropInit();vaultInit();
-  await loadTheme();
-  await checkAuth();await siteGate();await loadBoards();heartBoot();
+  await Promise.all([loadTheme(),checkAuth()]);   // 테마·세션 병렬
+  await siteGate();await loadBoards();heartBoot();deferPrefetchLater();
   const h=window.location.hash.slice(1);if(h&&!/^(access_token|error|refresh_token)=/.test(h))routeHash(h);else if(/^\/hub\/?$/i.test(location.pathname))navigate('hub');
 });
 
@@ -3834,8 +3887,15 @@ function siteHandleFromPath(p){const m=String(p==null?location.pathname:p).match
 async function siteBoot(){
   const h=siteHandleFromPath()||BOSS_HANDLE;
   let row=null;
-  try{const{data}=await palelyDBRaw.from('sites').select('*').eq('handle',h).maybeSingle();row=data||null;}catch(e){row=null;}
-  if(row){currentSite=row;SITE_ID=row.id;try{const{data:ip}=await palelyDBRaw.from('site_settings').select('value').eq('site_id',SITE_ID).eq('key','img_protect').maybeSingle();siteImgProtect=!!(ip&&ip.value==='on');}catch(e){siteImgProtect=false;}}
+  // 사이트 행과 사이트 설정 전체를 병렬로(보스는 id 상수, 그 외는 handle 조인) — 이후 settings 읽기는 전부 캐시
+  const pSite=palelyDBRaw.from('sites').select('*').eq('handle',h).maybeSingle();
+  const pSet=(h===BOSS_HANDLE)?palelyDBRaw.from('site_settings').select('key,value').eq('site_id',BOSS_SITE_ID):palelyDBRaw.from('site_settings').select('key,value,sites!inner(handle)').eq('sites.handle',h);
+  const [rs,rt]=await Promise.all([pSite.then(x=>x,()=>({})),pSet.then(x=>x,()=>({}))]);
+  row=(rs&&rs.data)||null;
+  siteSettingsCache=new Map();siteSettingsReady=false;
+  if(rt&&Array.isArray(rt.data)){rt.data.forEach(r=>siteSettingsCache.set(r.key,r.value));siteSettingsReady=true;}
+  siteImgProtect=siteSettingsCache.get('img_protect')==='on';
+  if(row){currentSite=row;SITE_ID=row.id;}
   else if(h===BOSS_HANDLE){currentSite={id:BOSS_SITE_ID,handle:BOSS_HANDLE,title:'오르비',tier:'boss',owner_id:null};SITE_ID=BOSS_SITE_ID;} // 조회 실패 시 보스 폴백
   else{currentSite=null;SITE_ID=NULL_SITE_ID;site404(h);}
   document.documentElement.dataset.site=currentSite?currentSite.handle:'';
@@ -3853,6 +3913,7 @@ function dbShim(raw){
   const shim={
     raw,
     from(t){
+      if(t==='settings')return settingsBuilder(raw);
       const mapped=SITE_REMAP[t];
       if(!mapped&&!SITE_TABLES.has(t))return raw.from(t);
       const real=raw.from(mapped||t);
@@ -3941,8 +4002,8 @@ function obRender(){
   if(step==='invite'){
     B.innerHTML='<p class="ob-lead">지금은 초대로만 블로그를 열 수 있어요. 받은 초대 코드를 입력해 주세요.</p><div class="form-group"><label class="form-label">초대 코드</label><input class="form-input" id="ob-invite" maxlength="12" placeholder="XXXX-XXXX" autocomplete="off" value="'+esc(st.invite)+'"></div><div class="form-actions"><button class="btn-primary" onclick="obInvite()">확인</button><button class="btn-secondary" onclick="obClose()">나중에</button></div>';
   }else if(step==='terms'){
-    B.innerHTML='<div class="ob-terms" id="ob-terms">'+(svcTerms?esc(svcTerms).replace(/\n/g,'<br>'):'불러오는 중…')+'</div><label class="form-check ob-check"><input type="checkbox" id="ob-agree"><span>위 내용을 읽었고 동의합니다</span></label><div class="form-actions"><button class="btn-primary" onclick="obAgree()">동의하고 계속</button><button class="btn-secondary" onclick="obClose()">나중에</button></div>';
-    if(!svcTerms)obLoadTerms();
+    B.innerHTML='<div class="ob-terms" id="ob-terms">'+(svcDocs?obDocsHtml():'불러오는 중…')+'</div><label class="form-check ob-check"><input type="checkbox" id="ob-agree"><span>이용약관(운영방침)과 개인정보 처리방침을 모두 읽었고 동의합니다 · 만 14세 이상입니다</span></label><div class="form-actions"><button class="btn-primary" onclick="obAgree()">동의하고 계속</button><button class="btn-secondary" onclick="obClose()">나중에</button></div>';
+    if(!svcDocs)obLoadTerms();
   }else if(step==='nick'){
     const add=st.only==='nick';
     B.innerHTML='<p class="ob-lead">'+(add?'새 프로필을 추가해요. 닉네임은 서비스 전체에서 하나만 쓸 수 있어요.':'방명록·좋아요에 쓰일 이름이에요. 서비스 전체에서 하나만, 나중에 프로필을 더 만들 수 있어요.')+'</p><div class="form-group"><label class="form-label">닉네임 <small class="ob-st" id="ob-nick-st"></small></label><input class="form-input" id="ob-nick" maxlength="20" placeholder="2~20자" autocomplete="off" oninput="obNickCheck()"></div><div class="form-group"><label class="form-label">프로필 사진 (선택)</label><div class="ob-avrow"><img class="ob-av" id="ob-av-prev" alt="" style="display:none"><label class="form-file-label"><span>+ 사진 선택</span><input type="file" accept="image/*" style="display:none" onchange="obAvatar(this)"></label></div></div><div class="form-actions"><button class="btn-primary" id="ob-nick-go" onclick="obNick()">'+(add?'추가':'다음')+'</button><button class="btn-secondary" onclick="obClose()">'+(add?'취소':'나중에')+'</button></div>';
@@ -3956,9 +4017,12 @@ function obRender(){
   }
   const f=B.querySelector('input.form-input');if(f)setTimeout(()=>f.focus(),60);
 }
+let svcDocs=null;
+const DOC_KEYS=[['terms_text','이용약관 · 운영방침'],['policy_privacy','개인정보 처리방침']];
+function obDocsHtml(){if(!svcDocs)return '';return DOC_KEYS.map(([k,l])=>svcDocs[k]?'<div class="ob-doc"><div class="ob-doc-h">'+l+'</div>'+esc(svcDocs[k]).replace(/\n/g,'<br>')+'</div>':'').join('')||'안내문이 없습니다';}
 async function obLoadTerms(){
-  try{const{data}=await palelyDBRaw.from('service_settings').select('value').eq('key','terms_text').maybeSingle();svcTerms=(data&&data.value)||'';}catch(e){}
-  const t=document.getElementById('ob-terms');if(t)t.innerHTML=svcTerms?esc(svcTerms).replace(/\n/g,'<br>'):'안내문을 불러오지 못했어요';
+  try{const{data}=await palelyDBRaw.from('service_settings').select('key,value').in('key',DOC_KEYS.map(x=>x[0]));const d={};(data||[]).forEach(r=>d[r.key]=r.value||'');svcDocs=d;svcTerms=d.terms_text||'';}catch(e){}
+  const t=document.getElementById('ob-terms');if(t)t.innerHTML=svcDocs?obDocsHtml():'안내문을 불러오지 못했어요';
 }
 async function obInvite(){
   const v=(document.getElementById('ob-invite').value||'').trim().toUpperCase();if(!v){obErr('초대 코드를 입력해 주세요');return;}
@@ -4026,7 +4090,7 @@ function hubRender(){
   if(sites.length){const cur=hubSiteCur();h+='<div class="hub-sec"><div class="hub-h">타임라인 <small>이웃 새 글</small>'+(sites.length>1?'<select class="form-input hub-sel" onchange="hubSiteSel=this.value;hubRender()">'+sites.map(x=>'<option value="'+x.id+'"'+(x.id===cur?' selected':'')+'>'+esc(x.title)+'</option>').join('')+'</select>':'')+'</div><div class="hub-list" id="hub-timeline"><p class="ob-hint">불러오는 중…</p></div></div>';
     h+='<div class="hub-sec"><div class="hub-h">이웃 <small id="hub-nb-n"></small></div><div id="hub-neighbors"><p class="ob-hint">불러오는 중…</p></div></div>';}
   h+=hubDirSkeleton();
-  h+='<div class="hub-sec hub-foot"><span class="ob-hint">'+esc(currentUser.email||'')+'</span><button class="btn-secondary" onclick="doLogout()">로그아웃</button></div>';
+  h+='<div class="hub-sec hub-foot"><span class="ob-hint">'+esc(currentUser.email||'')+'</span><span class="hub-foot-act"><button class="btn-secondary" onclick="reportOpen()">운영자에게 보내기</button><button class="btn-secondary" onclick="doLogout()">로그아웃</button></span></div>';
   H.innerHTML=h;hubHearts();hubDirectory();if(sites.length){hubTimeline();hubNeighbors();}
 }
 async function hubHearts(){
@@ -4162,6 +4226,51 @@ async function hubTimeline(){
   if(!rows.length){box.innerHTML='<p class="ob-hint">이웃의 새 글이 여기에 모여요.</p>';return;}
   box.innerHTML=rows.map(r=>'<a class="hub-row hub-link-row hub-tl" href="'+esc(heartHref({handle:r.handle,board:r.board,post_id:r.id}))+'">'+(r.thumb?'<img class="hub-tl-img" src="'+esc(thumbOf(r.thumb))+'" data-orig="'+esc(r.thumb)+'" onerror="thumbFail(this)" alt="">':'')+'<div class="hub-rt"><b>'+esc(r.title||'(제목 없음)')+'</b></div><div class="hub-rh">'+esc(r.site_title||'')+' · '+esc(HUB_BOARD_KR[r.board]||r.board)+' · '+esc(String(r.created_at||'').slice(0,10))+'</div></a>').join('');
 }
+// ══ P5a: 오류 로그 버퍼 · 신고/문의 창구 · super 신고함 ══
+const bugLog=[];
+function bugPush(t,m){try{bugLog.push({t,m:String(m==null?'':m).slice(0,400),at:new Date().toISOString(),page:location.hash||'#home'});if(bugLog.length>40)bugLog.shift();}catch(e){}}
+window.addEventListener('error',e=>bugPush('error',(e.message||'')+' @'+String(e.filename||'').split('/').pop()+':'+(e.lineno||0)));
+window.addEventListener('unhandledrejection',e=>bugPush('promise',e.reason&&(e.reason.message||e.reason)));
+(()=>{try{const ce=console.error.bind(console);console.error=(...a)=>{bugPush('console',a.map(x=>(x&&x.message)||x).join(' '));ce(...a);};}catch(e){}})();
+const RP_KIND_KR={report:'신고',suggest:'건의',bug:'버그',ask:'문의'},RP_STATUS_KR={open:'접수',working:'처리중',done:'완료',rejected:'반려'};
+function bugEnv(){return {ua:navigator.userAgent.slice(0,200),ver:APP_VERSION,site:currentSite&&currentSite.handle,page:location.hash||'#home',url:location.href.slice(0,300),vw:innerWidth,vh:innerHeight,lang:navigator.language,errors:bugLog.slice(-20)};}
+async function reportOpen(kind){
+  if(!currentUser){showToast('로그인 후 보낼 수 있어요');toggleLoginModal();return;}
+  if(!myAcct){showToast('구글 계정으로 로그인한 회원만 보낼 수 있어요');return;}
+  if(kind)document.querySelectorAll('input[name="rp-kind"]').forEach(r=>r.checked=(r.value===kind));
+  document.getElementById('rp-target').value=location.href.slice(0,500);document.getElementById('rp-body').value='';document.getElementById('rp-err').textContent='';
+  document.getElementById('rp-log-n').textContent=bugLog.length;
+  document.getElementById('report-modal').classList.add('active');reportMine();setTimeout(()=>document.getElementById('rp-body').focus(),60);
+}
+async function reportSend(){
+  const kind=(document.querySelector('input[name="rp-kind"]:checked')||{}).value||'ask';const body=document.getElementById('rp-body').value.trim();const target=document.getElementById('rp-target').value.trim();const err=document.getElementById('rp-err');
+  if(body.length<2){err.textContent='내용을 적어 주세요';return;}
+  const btn=document.getElementById('rp-send');btn.disabled=true;
+  try{const{error}=await palelyDBRaw.rpc('report_submit',{p_kind:kind,p_body:body,p_target:target||null,p_buglog:document.getElementById('rp-log').checked?bugEnv():null,p_site:SITE_ID===NULL_SITE_ID?null:SITE_ID});if(error)throw error;
+    showToast(RP_KIND_KR[kind]+' 접수됨 — 운영자가 확인합니다');document.getElementById('rp-body').value='';reportMine();
+  }catch(e){err.textContent=e.message||'전송 실패';}
+  btn.disabled=false;
+}
+async function reportMine(){
+  const box=document.getElementById('rp-mine');if(!box)return;let rows=[];try{const{data}=await palelyDBRaw.rpc('my_reports');rows=data||[];}catch(e){}
+  const n=document.getElementById('rp-mine-n');if(n)n.textContent=rows.length;
+  box.innerHTML=rows.length?rows.map(r=>'<div class="hub-row"><div class="hub-rt"><span class="hub-tier">'+RP_KIND_KR[r.kind]+'</span><span class="hub-tier rp-st-'+r.status+'">'+RP_STATUS_KR[r.status]+'</span><b class="rp-snip">'+esc(r.body.slice(0,60))+(r.body.length>60?'…':'')+'</b></div><div class="hub-rh">'+esc(String(r.created_at).slice(0,10))+(r.admin_note?' · 운영자: '+esc(r.admin_note):'')+'</div></div>').join(''):'<p class="ob-hint">아직 보낸 접수가 없어요.</p>';
+}
+// super 신고함
+let svcRpFilter='';
+async function svcReportsRender(){
+  const B=document.getElementById('svc-body');
+  let rows=[];try{const{data,error}=await palelyDBRaw.rpc('admin_reports',{p_status:svcRpFilter||null});if(error)throw error;rows=data||[];}catch(e){B.innerHTML='<p class="ob-err">'+esc(e.message||'실패')+'</p>';return;}
+  const filt='<div class="lm-tabs" style="margin:0 0 14px">'+[['','전체'],['open','접수'],['working','처리중'],['done','완료'],['rejected','반려']].map(([v,l])=>'<button type="button" class="feed-tab'+(svcRpFilter===v?' on':'')+'" onclick="svcRpFilter=\''+v+'\';svcReportsRender()">'+l+'</button>').join('')+'</div>';
+  if(!rows.length){B.innerHTML=filt+'<p class="ob-hint">접수된 건이 없어요.</p>';return;}
+  B.innerHTML=filt+'<div class="svc-list">'+rows.map(r=>{const bl=r.buglog;const errs=bl&&bl.errors?bl.errors.length:0;
+    return '<div class="svc-row rp-row"><div class="svc-main"><span class="hub-tier">'+RP_KIND_KR[r.kind]+'</span><span class="hub-tier rp-st-'+r.status+'">'+RP_STATUS_KR[r.status]+'</span><b>'+esc(r.nick||'(프로필 없음)')+'</b><span class="svc-mail">'+esc(r.email||'')+'</span><span class="svc-mail">'+esc(String(r.created_at).replace('T',' ').slice(0,16))+'</span></div>'
+      +'<div class="svc-sites rp-detail"><div class="rp-body">'+esc(r.body).replace(/\n/g,'<br>')+'</div>'+(r.target?'<a href="'+esc(r.target)+'" target="_blank" rel="noopener">'+esc(r.target.slice(0,80))+'</a>':'')+(r.site_handle?'<small>@'+esc(r.site_handle)+' · '+esc(r.site_title||'')+'</small>':'')
+      +(bl?'<details class="rp-log"><summary>환경 · 오류 로그 '+errs+'건</summary><pre>'+esc(JSON.stringify(bl,null,1))+'</pre></details>':'')+(r.admin_note?'<div class="rp-note">운영자 메모: '+esc(r.admin_note)+'</div>':'')+'</div>'
+      +'<div class="svc-act"><button type="button" class="hub-mini" onclick="svcRpSet(\''+r.id+'\',\'working\')">처리중</button><button type="button" class="hub-mini" onclick="svcRpSet(\''+r.id+'\',\'done\')">완료</button><button type="button" class="hub-mini svc-del" onclick="svcRpSet(\''+r.id+'\',\'rejected\')">반려</button><button type="button" class="hub-mini" onclick="svcRpNote(\''+r.id+'\')">메모</button></div></div>';}).join('')+'</div>';
+}
+async function svcRpSet(id,st){try{const{error}=await palelyDBRaw.rpc('admin_report_set',{p_id:id,p_status:st,p_note:null});if(error)throw error;showToast('상태: '+RP_STATUS_KR[st]);svcReportsRender();}catch(e){svcErr(e.message||'실패');}}
+async function svcRpNote(id){const v=await askModal('운영자 메모','접수자에게도 보이는 메모(처리 결과·답변)','text');if(v==null)return;try{const cur=(svcRpFilter||null);const{error}=await palelyDBRaw.rpc('admin_report_set',{p_id:id,p_status:'working',p_note:v});if(error)throw error;showToast('메모 저장');svcReportsRender();}catch(e){svcErr(e.message||'실패');}}
 // ══ P4: 운영 콘솔(super) ══
 let svcTab='users',svcUsers=[],svcInvites=[],svcSvc={};
 const SIGNUP_KR={invite:'초대 전용',open:'공개 가입',closed:'가입 중단'};
@@ -4173,7 +4282,7 @@ async function svcOpen(tab){
   document.querySelectorAll('.svc-tabs .feed-tab').forEach(b=>b.classList.toggle('on',b.dataset.t===svcTab));
   const B=document.getElementById('svc-body');B.innerHTML='<p class="ob-hint">불러오는 중…</p>';
   try{const{data}=await palelyDBRaw.rpc('admin_stats');if(data){document.getElementById('svc-stats').textContent='유저 '+data.users+' (차단 '+data.banned+') · 블로그 '+data.sites+' (VIP '+data.vip+') · 유효 초대 '+data.invites_open+' · 가입 '+(SIGNUP_KR[data.signup_mode]||'')+' · 약관 v'+data.terms_version;}}catch(e){}
-  if(svcTab==='users')await svcUsersRender();else if(svcTab==='invites')await svcInvitesRender();else await svcSignupRender();
+  if(svcTab==='users')await svcUsersRender();else if(svcTab==='invites')await svcInvitesRender();else if(svcTab==='reports')await svcReportsRender();else await svcSignupRender();
 }
 // ── 유저 ──
 async function svcUsersRender(){
@@ -4218,13 +4327,14 @@ async function svcSignupRender(){
   try{const{data,error}=await palelyDBRaw.from('service_settings').select('key,value');if(error)throw error;svcSvc={};(data||[]).forEach(r=>svcSvc[r.key]=r.value);}catch(e){B.innerHTML='<p class="ob-err">'+esc(e.message||'실패')+'</p>';return;}
   const mode=svcSvc.signup_mode||'invite';
   B.innerHTML='<div class="form-group"><label class="form-label">가입 모드</label><div class="sv-opts">'+[['invite','초대 전용 — 초대 코드가 있어야 첫 블로그 개설'],['open','공개 가입 — 구글 로그인만으로 개설'],['closed','가입 중단 — 새 블로그 개설 불가(기존 유저는 그대로)']].map(([v,l])=>'<label class="form-check"><input type="radio" name="svc-mode" value="'+v+'"'+(v===mode?' checked':'')+' onchange="svcModeSave(this.value)"><span>'+l+'</span></label>').join('')+'</div></div>'
-    +'<div class="form-group"><label class="form-label">이용 안내(약관) <small class="ob-st">현재 v'+esc(svcSvc.terms_version||'1')+'</small></label><textarea class="form-input svc-terms" id="svc-terms" rows="10">'+esc(svcSvc.terms_text||'')+'</textarea><p class="ob-hint">문구만 고치면 기존 동의는 유지돼요. 『재동의 요구』는 버전을 올려 모든 유저가 다음 로그인 때 다시 동의하게 합니다.</p></div>'
+    +'<div class="form-group"><label class="form-label">이용약관 · 운영방침 <small class="ob-st">현재 v'+esc(svcSvc.terms_version||'1')+'</small></label><textarea class="form-input svc-terms" id="svc-terms" rows="10">'+esc(svcSvc.terms_text||'')+'</textarea><p class="ob-hint">문구만 고치면 기존 동의는 유지돼요. 『재동의 요구』는 버전을 올려 모든 유저가 다음 로그인 때 다시 동의하게 합니다.</p></div>'
+    +'<div class="form-group"><label class="form-label">개인정보 처리방침</label><textarea class="form-input svc-terms" id="svc-privacy" rows="10">'+esc(svcSvc.policy_privacy||'')+'</textarea></div>'
     +'<div class="form-actions"><button type="button" class="btn-primary" onclick="svcTermsSave(false)">문구 저장</button><button type="button" class="btn-secondary" onclick="svcTermsSave(true)">저장 + 재동의 요구</button></div>';
 }
 async function svcModeSave(v){try{const{error}=await palelyDBRaw.from('service_settings').upsert({key:'signup_mode',value:v,updated_at:new Date().toISOString()},{onConflict:'key'});if(error)throw error;showToast('가입 모드: '+SIGNUP_KR[v]);svcSummary();}catch(e){svcErr(e.message||'실패');}}
 async function svcTermsSave(bump){
   const t=document.getElementById('svc-terms').value.trim();if(t.length<20){svcErr('안내문이 너무 짧아요');return;}
-  try{const rows=[{key:'terms_text',value:t,updated_at:new Date().toISOString()}];
+  try{const now_=new Date().toISOString();const rows=[{key:'terms_text',value:t,updated_at:now_},{key:'policy_privacy',value:(document.getElementById('svc-privacy')||{}).value||'',updated_at:now_}];svcDocs=null;
     if(bump){const nv=String((parseInt(svcSvc.terms_version)||1)+1);rows.push({key:'terms_version',value:nv,updated_at:new Date().toISOString()});svcSvc.terms_version=nv;}
     const{error}=await palelyDBRaw.from('service_settings').upsert(rows,{onConflict:'key'});if(error)throw error;
     showToast(bump?'약관 v'+svcSvc.terms_version+' — 전체 재동의 요구':'약관 문구 저장');svcSignupRender();svcSummary();
@@ -4248,6 +4358,76 @@ async function vaultResolve(){
   try{const{data}=await palelyDBRaw.storage.from('vault').createSignedUrls([...need],3600);(data||[]).forEach(r=>{if(r&&r.signedUrl&&r.path)vaultCache.set(r.path,{url:r.signedUrl,exp:Date.now()+3300e3});});}catch(e){}
   vaultEls().forEach(e=>{const m=VAULT_RE.exec(e.getAttribute('src'));if(!m)return;const c=vaultCache.get(decodeURIComponent(m[1]));if(c)e.src=c.url;else e.classList.add('vault-denied');});
 }
+// ══ P6: 사이트 브랜드 중립화 — 비보스 블로그는 블로그 이름으로 탭 제목·OG·홈 로고·서브문구 기본값 ══
+function siteBrandApply(){
+  if(!currentSite||currentSite.handle===BOSS_HANDLE)return;
+  const title=currentSite.title||('@'+currentSite.handle),tag=(currentSite.tagline||'').trim();
+  document.title=title+' — palely.me';
+  const setM=(sel,v)=>{const el=document.querySelector(sel);if(!el)return;if(v==null)el.remove();else el.setAttribute('content',v);};
+  setM('meta[property="og:title"]',title);setM('meta[name="twitter:title"]',title);
+  setM('meta[property="og:description"]',tag||'palely.me 블로그');
+  setM('meta[property="og:url"]','https://palely.me/@'+currentSite.handle+'/');
+  setM('meta[property="og:image"]',null);setM('meta[property="og:image:width"]',null);setM('meta[property="og:image:height"]',null);setM('meta[name="twitter:image"]',null);
+  setM('meta[name="twitter:card"]','summary');
+  BOARD_DEF_SUB='@'+currentSite.handle.toUpperCase()+'\u00A0\u00A0\u00B7\u00A0\u00A0'+title;
+  document.documentElement.classList.add('site-guest');
+}
+// 텍스트 로고: 홈 중앙 브랜드 SVG 자리에 블로그 이름 (영문=세리프 디스플레이, 한글=명조)
+function siteTextLogo(on){
+  let el=document.getElementById('site-textlogo');
+  if(!on){if(el)el.remove();return;}
+  const cl=document.getElementById('center-logo');const host=cl&&cl.ownerSVGElement&&cl.ownerSVGElement.parentElement;if(!host)return;
+  if(!el){el=document.createElement('div');el.id='site-textlogo';host.appendChild(el);if(getComputedStyle(host).position==='static')host.style.position='relative';}
+  const title=(currentSite&&currentSite.title)||'';const kr=/[\u3131-\uD79D]/.test(title);
+  el.className='site-textlogo'+(kr?' kr':' en');
+  el.innerHTML='<div class="stl-title">'+esc(title)+'</div><div class="stl-handle">@'+esc(currentSite.handle)+'</div>'+((currentSite.tagline||'').trim()?'<div class="stl-tag">'+esc(currentSite.tagline.trim())+'</div>':'');
+}
+// ══ P7: settings 캐시 빌더 · 지연 이미지 ══
+// palelyDB.from('settings') → 부트 때 받은 site_settings 캐시에서 응답(select·eq('key')·in('key')·single/maybeSingle). 쓰기는 네트워크 후 캐시 갱신.
+function settingsBuilder(raw){
+  const real=()=>raw.from('site_settings');
+  const fixOpt=o=>{const x=Object.assign({},o||{});if(!x.onConflict||x.onConflict==='key')x.onConflict='site_id,key';return x;};
+  const readChain=()=>{
+    const st={keys:null,single:false,maybe:false,cols:'*'};
+    const fromNet=async()=>{
+      let q=real().select(st.cols).eq('site_id',SITE_ID);
+      if(st.keys&&st.keys.length===1)q=q.eq('key',st.keys[0]);else if(st.keys)q=q.in('key',st.keys);
+      const r=st.single?await q.single():st.maybe?await q.maybeSingle():await q;
+      if(st.keys){const rows=Array.isArray(r.data)?r.data:(r.data?[r.data]:[]);const seen=new Set();rows.forEach(x=>{if(x&&x.key!=null){siteSettingsCache.set(x.key,x.value);seen.add(x.key);}});st.keys.forEach(k=>{siteSettingsDirty.delete(k);if(!seen.has(k)&&(st.single||st.maybe||Array.isArray(r.data)))siteSettingsCache.delete(k);});}
+      return r;
+    };
+    const run=async()=>{
+      if(!siteSettingsReady||!st.keys||st.keys.some(k=>siteSettingsDirty.has(k)))return fromNet();
+      let rows=st.keys.filter(k=>siteSettingsCache.has(k)).map(k=>({site_id:SITE_ID,key:k,value:siteSettingsCache.get(k)}));
+      if(st.cols&&st.cols!=='*'){const cs=st.cols.split(',').map(c=>c.trim());rows=rows.map(r=>{const o={};cs.forEach(c=>{if(c in r)o[c]=r[c];});return o;});}
+      if(st.single){if(rows.length===1)return {data:rows[0],error:null,status:200};return {data:null,error:{code:'PGRST116',message:rows.length?'multiple rows':'0 rows',details:'cache',hint:null},status:406};}
+      if(st.maybe)return {data:rows[0]||null,error:null,status:200};
+      return {data:rows,error:null,status:200,count:rows.length};
+    };
+    const ch={select(c){st.cols=c||'*';return ch;},eq(col,v){if(col==='key')st.keys=[v];return ch;},in(col,a){if(col==='key')st.keys=[...a];return ch;},order(){return ch;},limit(){return ch;},range(){return ch;},single(){st.single=true;return ch;},maybeSingle(){st.maybe=true;return ch;},then(res,rej){return run().then(res,rej);},catch(rej){return run().catch(rej);}};
+    return ch;
+  };
+  const writeChain=(q,onOk)=>{const keys=[];const w={eq(c,v){if(c==='key')keys.push(v);q=q.eq(c,v);return w;},in(c,a){if(c==='key')keys.push(...a);q=q.in(c,a);return w;},select(){q=q.select();return w;},then(res,rej){return q.then(r=>{if(!r.error)onOk(keys);return r;}).then(res,rej);},catch(rej){return q.catch(rej);}};return w;};
+  const upsertLike=(rows,o,method)=>{const arr=(Array.isArray(rows)?rows:[rows]).filter(Boolean);const p=real()[method](siteAddId(arr),fixOpt(o));return {then(res,rej){return p.then(r=>{if(!r.error)arr.forEach(x=>{if(x.key!=null){siteSettingsCache.set(x.key,x.value);siteSettingsDirty.delete(x.key);}});return r;}).then(res,rej);},catch(rej){return p.catch(rej);},select(){return p.select();}};};
+  return {
+    select:(c)=>readChain().select(c),
+    upsert:(rows,o)=>upsertLike(rows,o,'upsert'),
+    insert:(rows,o)=>upsertLike(rows,o,'insert'),
+    update:(v,o)=>writeChain(real().update(v,o).eq('site_id',SITE_ID),keys=>keys.forEach(k=>siteSettingsDirty.add(k))),
+    delete:(o)=>writeChain(real().delete(o).eq('site_id',SITE_ID),keys=>keys.forEach(k=>{siteSettingsCache.delete(k);siteSettingsDirty.delete(k);}))
+  };
+}
+// 지연 이미지: 숨은 페이지의 대형 원본(공지 배경·로그 배너·배너 카드·다이어리 스트립)은 data-src로 두고 페이지가 보일 때 로드
+let deferTimer=null;
+function deferImgs(root){(root||document).querySelectorAll('img[data-src]').forEach(im=>{const sec=im.closest('.page-section');if(sec&&sec.id!=='page-home'&&!sec.classList.contains('active'))return;const u=im.dataset.src;delete im.dataset.src;if(u)im.src=u;});}
+function deferSchedule(){clearTimeout(deferTimer);deferTimer=setTimeout(()=>deferImgs(),30);}
+// 유휴 프리페치: 게시판 로드 후 3초(또는 idle) 뒤, 아직 data-src인 이미지를 한 장씩 순차 로드(대역폭 독식 방지). 절약 모드·느린 연결이면 건너뜀
+function deferPrefetchLater(){
+  const c=navigator.connection||{};if(c.saveData||/^(slow-2g|2g)$/.test(c.effectiveType||''))return;
+  const go=()=>{const q=[...document.querySelectorAll('img[data-src]')];let i=0;const step=()=>{if(i>=q.length)return;const im=q[i++];const u=im.dataset.src;if(!u||!im.isConnected){step();return;}const pre=new Image();pre.onload=pre.onerror=()=>{if(im.dataset.src===u){delete im.dataset.src;im.src=u;}setTimeout(step,80);};pre.src=u;};step();};
+  setTimeout(()=>{if(window.requestIdleCallback)requestIdleCallback(go,{timeout:4000});else go();},3000);
+}
+(function deferInit(){try{const mo=new MutationObserver(ms=>{for(const m of ms){for(const n of m.addedNodes){if(n.nodeType===1&&((n.matches&&n.matches('img[data-src]'))||(n.querySelector&&n.querySelector('img[data-src]')))){deferSchedule();return;}}}});const start=()=>mo.observe(document.body,{childList:true,subtree:true});if(document.body)start();else document.addEventListener('DOMContentLoaded',start,{once:true});}catch(e){}})();
 // ══ THEME (커스텀 색/폰트/로고/파비콘 주입) ══
 let themeData=null;
 const THEME_COLOR_KEYS=['bg','bg-deep','overlay','surface','card','fg','text','mist','snow','fg-soft','fg-mid','silver','rail','accent','glow','aurora','danger-c','warm','shadow','ok'];
@@ -4296,7 +4476,9 @@ function applyTheme(t){
 function applyHomeLogo(url){
   const cl=document.getElementById('center-logo');
   window._themeHomeLogo=url||'';
-  if(cl)cl.style.display=url?'none':'';
+  const textLogo=!url&&!!(currentSite&&currentSite.handle!==BOSS_HANDLE);
+  if(cl)cl.style.display=(url||textLogo)?'none':'';
+  siteTextLogo(textLogo);
   // 실제 이미지 오버레이는 Phase3(로고 UI)에서 stage 좌표로 배치
   if(typeof renderHomeLogoImg==='function')renderHomeLogoImg(url);
 }
@@ -4326,7 +4508,7 @@ function themeNormalize(){
 // 게시판 표시명(장식) — 하드코딩 타이틀을 커스텀명으로 교체
 const BOARD_TITLE_KEYS=['notices','diary','assets','banners','logs','prompts','guestbook','user'];
 const BOARD_DEF_TITLES={notices:'NOTICES',diary:'DIARY',assets:'ASSETS',banners:'BANNERS',logs:'LOGS',prompts:'ISSUANCE',guestbook:'GUESTBOOK',user:'USER'};
-const BOARD_DEF_SUB='PALE BLUE DOT\u00A0\u00A0\u00B7\u00A0\u00A0COSMOS ARCHIVE';
+let BOARD_DEF_SUB='PALE BLUE DOT\u00A0\u00A0\u00B7\u00A0\u00A0COSMOS ARCHIVE';   // 비보스 사이트는 siteBrandApply()가 교체
 function applyBoardTitles(bt){
   bt=bt||{};
   BOARD_TITLE_KEYS.forEach(k=>{
@@ -5127,6 +5309,7 @@ function memberSync(){
     chip.innerHTML='<b>'+esc(memberP.nickname)+'</b> 님으로 작성됩니다';chip.style.display='';
   }else if(chip)chip.style.display='none';
 }
+function lmLegacy(){const l=document.getElementById('lm-legacy');if(l){l.hidden=!l.hidden;if(!l.hidden){const i=document.getElementById('m-id');if(i)setTimeout(()=>i.focus(),50);}}}
 function lmTab(t){
   document.getElementById('lm-admin').style.display=t==='admin'?'':'none';
   document.getElementById('lm-member').style.display=t==='member'?'':'none';
@@ -5242,7 +5425,7 @@ function navigate(page){
   const mc=document.getElementById('main-content');
   if(page==='home'){document.body.classList.remove('board-open');}
   else{document.body.classList.add('board-open');if(mc){mc.scrollTop=0;}
-    const t=document.getElementById('page-'+page);if(t){t.classList.add('active');t.style.animation='none';t.offsetHeight;t.style.animation='';}
+    const t=document.getElementById('page-'+page);if(t){t.classList.add('active');t.style.animation='none';t.offsetHeight;t.style.animation='';deferImgs(t);}
     if(page==='prompts'&&typeof checkPromptsLock==='function')checkPromptsLock();
     if(page==='diary'&&typeof checkDiaryLock==='function')checkDiaryLock();
     if(page==='notices'&&typeof ntcIntro==='function')setTimeout(ntcIntro,80);
@@ -5319,9 +5502,9 @@ function ntcRender(){
   st.style.setProperty('--ntc-zoom',((d.zoom!=null?d.zoom:170)/100));
   st.classList.toggle('nobg',!d.bg);
   const bg=document.getElementById('ntc-bg-img');
-  if(bg){if(d.bg)bg.src=d.bg;else bg.removeAttribute('src');}
+  if(bg){if(d.bg){bg.src='data:image/gif;base64,R0lGODlhAQABAAAAACw=';bg.dataset.src=d.bg;deferSchedule();}else{bg.removeAttribute('src');delete bg.dataset.src;}}
   const pnBox=document.getElementById('ntc-panel');
-  if(pnBox)pnBox.innerHTML=d.bg?[0,1,2].map(i=>'<div class="ntc-slice"><img src="'+esc(d.bg)+'" style="left:'+(-i*100)+'%" alt="" draggable="false"></div>').join(''):'';
+  if(pnBox)pnBox.innerHTML=d.bg?[0,1,2].map(i=>'<div class="ntc-slice"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="'+esc(d.bg)+'" style="left:'+(-i*100)+'%" alt="" draggable="false"></div>').join(''):'';
   const nick=document.getElementById('ntc-nick');if(nick)nick.textContent=d.nick||'닉네임';
   const rich=document.getElementById('ntc-rich');if(rich)rich.innerHTML=esc(d.rich||'').replace(/\n/g,'<br>');
   const kws=(t)=>String(t||'').split(/\n/).map(x=>x.trim()).filter(Boolean).map(x=>'<span class="ntc-kw">'+esc(x)+'</span>').join('');
@@ -5727,7 +5910,7 @@ function renderDiaryRow(d,idx,altFlag){
   const seq=imgs.length>1?imgs.concat([imgs[0]]):imgs;
   const iw=100/seq.length;
   const media=imgs.length
-    ?'<div class="dyv-strip" data-n="'+imgs.length+'" data-step="'+iw+'" style="width:'+(seq.length*100)+'%">'+seq.map(u=>'<img style="width:'+iw+'%" src="'+esc(u)+'" loading="lazy" draggable="false">').join('')+'</div>'
+    ?'<div class="dyv-strip" data-n="'+imgs.length+'" data-step="'+iw+'" style="width:'+(seq.length*100)+'%">'+seq.map(u=>'<img style="width:'+iw+'%" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="'+esc(thumbOf(u))+'" data-orig="'+esc(u)+'" onerror="thumbFail(this)" loading="lazy" draggable="false">').join('')+'</div>'
     :'<div class="dyv-noimg">✦</div>';
   const bg=imgs.length?imgs.map((u,i)=>'<img class="dyv-bgimg'+(i===0?' on':'')+'" '+timgAttrs(u)+' loading="lazy" draggable="false">').join(''):'';
   const body=locked?'[보호된 글입니다]':esc(htmlToText(d.content||'').slice(0,250));
@@ -6282,7 +6465,7 @@ async function loadBanners(){
   g.innerHTML=bannersData.map(b=>{
     let url=b.link_url||'';if(url&&!/^https?:\/\//i.test(url))url='';let domain='';try{domain=url?new URL(url).hostname.replace('www.',''):'';}catch(e){}
     const hasImg=!!b.image_url;
-    return `<div class="bnc${hasImg?' has-img':''}" data-mid="${b.id}" onclick="window.open('${url?encodeURI(url).replace(/'/g,'%27'):''}','_blank')"${hasImg?' onmousemove="bncMove(event,this)" onmouseleave="bncLeave(this)"':''}>${nbMatch(b.link_url)?'<span class="bnc-nb" data-nbheart></span>':''}${hasImg?`<div class="bnc-bg"><img src="${esc(b.image_url)}" draggable="false" onerror="const c=this.closest('.bnc');c.classList.remove('has-img');this.parentElement.remove();"><div class="bnc-lens" aria-hidden="true"><img class="bnc-lens-img" src="${esc(b.image_url)}" draggable="false"></div></div>`:''}<div class="bnc-starwrap"><span class="bnc-halo"></span><svg class="bnc-star"><use href="#iss-ic-gbstar"/></svg></div><div class="bnc-text"><div class="bnc-head"><span class="bnc-name">${esc(b.title||domain||'배너')}</span><span class="bnc-date">${b.created_at?fmtDate(b.created_at):''}</span></div><div class="bnc-content">${esc(b.description||domain||url)}</div></div><button class="bnc-edit pdx-admin" title="수정" onclick="event.stopPropagation();openEditor('banners','${b.id}')"><svg width="12" height="12"><use href="#iss-ic-edit"/></svg></button><button class="bnc-del pdx-admin" title="삭제" onclick="event.stopPropagation();confirmDelete('banners','${b.id}')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button></div>`;
+    return `<div class="bnc${hasImg?' has-img':''}" data-mid="${b.id}" onclick="window.open('${url?encodeURI(url).replace(/'/g,'%27'):''}','_blank')"${hasImg?' onmousemove="bncMove(event,this)" onmouseleave="bncLeave(this)"':''}>${nbMatch(b.link_url)?'<span class="bnc-nb" data-nbheart></span>':''}${hasImg?`<div class="bnc-bg"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="${esc(b.image_url)}" draggable="false" onerror="const c=this.closest('.bnc');c.classList.remove('has-img');this.parentElement.remove();"><div class="bnc-lens" aria-hidden="true"><img class="bnc-lens-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="${esc(b.image_url)}" draggable="false"></div></div>`:''}<div class="bnc-starwrap"><span class="bnc-halo"></span><svg class="bnc-star"><use href="#iss-ic-gbstar"/></svg></div><div class="bnc-text"><div class="bnc-head"><span class="bnc-name">${esc(b.title||domain||'배너')}</span><span class="bnc-date">${b.created_at?fmtDate(b.created_at):''}</span></div><div class="bnc-content">${esc(b.description||domain||url)}</div></div><button class="bnc-edit pdx-admin" title="수정" onclick="event.stopPropagation();openEditor('banners','${b.id}')"><svg width="12" height="12"><use href="#iss-ic-edit"/></svg></button><button class="bnc-del pdx-admin" title="삭제" onclick="event.stopPropagation();confirmDelete('banners','${b.id}')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button></div>`;
   }).join('');
   document.querySelectorAll('.bnc-nb[data-nbheart]:not([data-m])').forEach(function(el){el.dataset.m='1';try{window.lottie.loadAnimation({container:el,renderer:'svg',loop:true,autoplay:true,animationData:NB_HEART_LOTTIE});}catch(e){}});
 }
@@ -6382,7 +6565,7 @@ function renderLogsBanner(){
   const b=document.getElementById('logs-banner');if(!b)return;
   const t=logsTabs.find(x=>x.k===currentLogsTab)||logsTabs[0]||{};
   const txt=(t.text||t.label||'LOG').toUpperCase();
-  b.innerHTML=(t.img?'<img class="lgv-bimg" src="'+esc(t.img)+'" draggable="false"><div class="lgv-glitch"></div>':'')
+  b.innerHTML=(t.img?'<img class="lgv-bimg" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="'+esc(t.img)+'" draggable="false"><div class="lgv-glitch"></div>':'')
     +'<span class="lgv-btext">'+[...txt].map((ch,i)=>'<span style="--td:'+(i*0.12)+'s">'+(ch===' '?'&nbsp;':esc(ch))+'</span>').join('')+'</span>';
   let _lgvRaf=0,_lgvMx=0.5,_lgvMy=0.5;
   b.onmousemove=e=>{const rc=b.getBoundingClientRect();_lgvMx=(e.clientX-rc.left)/rc.width;_lgvMy=(e.clientY-rc.top)/rc.height;if(_lgvRaf)return;_lgvRaf=requestAnimationFrame(()=>{_lgvRaf=0;const g=b.querySelector('.lgv-glitch');if(!g||!g._bw)return;g.style.setProperty('--gx',(_lgvMx*(g._cw-g._bw)).toFixed(1)+'px');g.style.setProperty('--gy',(_lgvMy*(g._ch-g._bh)).toFixed(1)+'px');});};
@@ -8253,7 +8436,7 @@ function gbRender(){
   g.innerHTML=slice.map((e,i)=>{
     const num=total-(start+i);
     const hasImg=!!e.avatar;
-    const av=hasImg?`<img class="gbx-av-img" src="${esc(e.avatar)}" draggable="false"><span class="gbx-holo"></span>`:'';
+    const av=hasImg?`<img class="gbx-av-img" ${timgAttrs(e.avatar)} draggable="false"><span class="gbx-holo"></span>`:'';
     return `<div class="gbx-entry">
       <span class="gbx-num">#${num}</span>
       <div class="gbx-av gbx-av-entry${hasImg?' gbx-av-photo':''}">${av}<span class="gbx-av-glow"></span><svg class="gbx-av-draw" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" pathLength="100"/></svg><svg class="gbx-av-star"><use href="#iss-ic-gbstar"/></svg></div>
@@ -9184,7 +9367,8 @@ function setupRichEditors(){
   });
 }
 function reSerialize(el){if(!el)return'';const c=el.cloneNode(true);c.querySelectorAll('.re-sel').forEach(i=>i.classList.remove('re-sel'));c.querySelectorAll('.re-block-tools').forEach(t=>t.remove());c.querySelectorAll('.re-rz,.re-rot').forEach(t=>t.remove());c.querySelectorAll('[draggable]').forEach(x=>x.removeAttribute('draggable'));c.querySelectorAll('.re-dragging,.re-drop-before,.re-drop-after').forEach(x=>x.classList.remove('re-dragging','re-drop-before','re-drop-after'));c.querySelectorAll('.re-slider,.re-grid').forEach(b=>{b.innerHTML='';b.removeAttribute('data-hydrated');});return c.innerHTML;}
-function htmlToText(html){const d=document.createElement('div');d.innerHTML=html||'';return(d.textContent||'').replace(/\s+/g,' ').trim();}
+function inertParse(html){const t=document.createElement('template');t.innerHTML=html||'';return t.content;}   // 이미지·스크립트 로드 없는 파싱
+function htmlToText(html){const d=inertParse(html);return(d.textContent||'').replace(/\s+/g,' ').trim();}
 function renderRich(html,container){
   container.innerHTML=html||'';container.classList.add('diary-rich');
   container.querySelectorAll('.re-yt[data-yt]').forEach(d=>{
@@ -9259,7 +9443,7 @@ function dpRefreshThumbs(){
 }
 function dpPickThumb(u){const h=document.getElementById('ef-thumb');if(!h)return;h.value=(h.value===u)?'':u;dpRefreshThumbs();}
 function dpFirstImage(d){
-  const div=document.createElement('div');div.innerHTML=d.content||'';
+  const div=inertParse(d.content||'');
   const im=div.querySelector('img');if(im&&im.getAttribute('src'))return im.getAttribute('src');
   const st=dpParseStickers(d.stickers);if(st&&st[0]&&st[0].url)return st[0].url;
   return '';
@@ -9610,7 +9794,8 @@ const PMB_PLAYLIST_ID='a261625f-8f24-4e6d-a88e-204b476500b1';
 let bgmCfg=null;
 async function bgmLoad(){
   if(bgmCfg)return bgmCfg;
-  try{const{data}=await palelyDB.from('settings').select('value').eq('key','bgm').single();let v=data&&data.value;if(typeof v==='string')v=JSON.parse(v);bgmCfg=v||{};}catch(e){bgmCfg={};}
+  try{const{data}=await palelyDB.from('settings').select('value').eq('key','bgm').maybeSingle();let v=data&&data.value;if(typeof v==='string')v=JSON.parse(v);bgmCfg=v||{};}catch(e){bgmCfg={};}
+  if(!bgmCfg.src&&currentSite&&currentSite.handle!==BOSS_HANDLE){bgmCfg={src:'none',tracks:[],autoplay:false};document.body.classList.add('no-bgm');return bgmCfg;}
   if(!bgmCfg.src)bgmCfg.src='pmb';if(bgmCfg.autoplay===undefined)bgmCfg.autoplay=true;if(!Array.isArray(bgmCfg.tracks))bgmCfg.tracks=[];
   return bgmCfg;
 }
@@ -9620,6 +9805,7 @@ function bgmRemember(v){try{localStorage.setItem('palely_bgm',v);}catch(e){}}
 function bgmShouldAutoplay(cfg){return cfg.autoplay!==false&&bgmPref()!=='off';}
 function ytIdOf(x){x=String(x||'').trim();const m=x.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([A-Za-z0-9_-]{11})/);if(m)return m[1];return /^[A-Za-z0-9_-]{11}$/.test(x)?x:'';}
 async function initPMB(){
+  if(bgmCfg&&bgmCfg.src==='none'){document.body.classList.add('no-bgm');return;}
   let cfg={src:'pmb',autoplay:true,tracks:[]};try{cfg=await bgmLoad();}catch(e){}
   const auto=bgmShouldAutoplay(cfg);
   try{
@@ -9831,8 +10017,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.4.0';
+const APP_VERSION='1.4.1';
 const CHANGELOG=[
+  {v:'1.4.1',date:'2026-09-11',title:'로딩 성능 · 약관 정본 · 신고 창구',sql:true,items:['첫 로딩이 크게 빨라졌습니다 — 숨은 게시판의 원본 이미지가 미리 내려오던 문제(수십 MB)를 없애고, 설정을 한 번에 받아 요청 수를 줄였습니다. 큰 이미지는 페이지를 열 때 또는 여유 시간에 조용히 미리 받습니다','가입 동의 화면에 이용약관·개인정보 처리방침 정본(2026-09-10 시행)이 표시됩니다','운영자에게 보내기: 신고·건의·버그(오류 로그 자동 첨부)·문의 — 허브 하단과 관리 화면에서. 접수 내역과 운영자 답변 확인','새 블로그 기본값: 블로그 이름 텍스트 로고·탭 제목·서브문구, 배경음악은 설정 전까지 숨김','로그인 창은 Google 우선. 기존 아이디·관리자 로그인은 아래 작은 링크로','콘솔의 불필요한 406 오류가 사라졌습니다','DB: P5a SQL(약관 정본·신고함) — 적용 완료'],},
   {v:'1.4.0',date:'2026-09-10',title:'계정 · 허브 · 공개 범위 · 운영 콘솔',sql:true,items:['Google 계정으로 로그인 → 초대 코드·이용 안내 동의·닉네임·블로그 이름 순서로 내 블로그를 열 수 있습니다 (도메인은 자동 배정)','우상단 HUB: 내 블로그·프로필(멀티/대표)·마음함·블로그 둘러보기·이웃(신청/수락/끊기)·이웃 새 글 타임라인','좋아요를 누르면 로그인 계정의 마음함에도 담깁니다','블로그 공개 범위: 전체 / 이웃 / 비밀번호(구글 없이 비밀번호만) / 비공개 — 글마다도 전체·이웃·비공개 지정. 방명록 범위, 이웃공개 글 미리보기(썸네일·제목) ON/OFF, 이미지 보호(원본 서명 URL) ON/OFF, 표시 프로필','관리 → 서비스 운영(super): 유저 등급·차단·탈퇴, 초대 코드 발급, 가입 모드(초대/공개/중단), 이용 안내 문구·재동의','검색·크롤링 전면 차단(robots.txt · 응답 헤더 · 페이지 메타) + 보안 재점검(쓰기 권한 축소·시도 횟수 제한·스토리지 정책 정리)','DB: P3·P3b·P4·P4b·P4c·P4d SQL — 적용 완료'],},
   {v:'1.3.0',date:'2026-09-09',title:'멀티 블로그 기반 · 썸네일',sql:true,items:['오르비를 여러 블로그가 함께 쓰는 구조로 전환하는 1단계 — 사이트(블로그) 단위로 글·설정·저장 공간이 분리됩니다. 기존 글·링크·주소(/home/)는 그대로입니다','카드 목록이 600px 썸네일을 먼저 읽어 전송량이 약 1/30로 줄고 로딩이 빨라집니다 (원본은 상세에서 그대로)','에디터 어디에든 이미지 파일을 끌어다 놓으면 알맞은 칸(다중 이미지·본문·대표 이미지)에 바로 들어갑니다','업로드 등급: 보스·VIP 블로그는 원본 유지, 일반 블로그는 장변 2048px·WebP·3MB로 자동 축소, 한 번에 10장','블로그 주소 규칙 /@핸들 추가 (아직 가입은 열리지 않음)','DB: P0·P1·P2a SQL — 이미 적용 완료 (sites·user_accounts·site_settings·site_secrets·site_id·스토리지 정책)'],},
   {v:'1.2.4',date:'2026-09-08',title:'배경음악 기억 · 곡 설정',sql:false,items:['배경음악을 한 번 끄면 그 기기에서는 다음 방문에도 자동재생되지 않습니다 (다시 재생하면 복귀)','어드민 → 배경음악: Pair Music Box 플레이리스트 연동 또는 유튜브 직접 지정(주소·ID | 제목), 표시 이름, 자동재생 on/off — 저장 즉시 반영']},
