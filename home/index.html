@@ -5502,9 +5502,9 @@ function ntcRender(){
   st.style.setProperty('--ntc-zoom',((d.zoom!=null?d.zoom:170)/100));
   st.classList.toggle('nobg',!d.bg);
   const bg=document.getElementById('ntc-bg-img');
-  if(bg){if(d.bg){bg.src='data:image/gif;base64,R0lGODlhAQABAAAAACw=';bg.dataset.src=d.bg;deferSchedule();}else{bg.removeAttribute('src');delete bg.dataset.src;}}
+  if(bg){if(d.bg){bg.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';bg.dataset.src=d.bg;deferSchedule();}else{bg.removeAttribute('src');delete bg.dataset.src;}}
   const pnBox=document.getElementById('ntc-panel');
-  if(pnBox)pnBox.innerHTML=d.bg?[0,1,2].map(i=>'<div class="ntc-slice"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="'+esc(d.bg)+'" style="left:'+(-i*100)+'%" alt="" draggable="false"></div>').join(''):'';
+  if(pnBox)pnBox.innerHTML=d.bg?[0,1,2].map(i=>'<div class="ntc-slice"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="'+esc(d.bg)+'" style="left:'+(-i*100)+'%" alt="" draggable="false"></div>').join(''):'';
   const nick=document.getElementById('ntc-nick');if(nick)nick.textContent=d.nick||'닉네임';
   const rich=document.getElementById('ntc-rich');if(rich)rich.innerHTML=esc(d.rich||'').replace(/\n/g,'<br>');
   const kws=(t)=>String(t||'').split(/\n/).map(x=>x.trim()).filter(Boolean).map(x=>'<span class="ntc-kw">'+esc(x)+'</span>').join('');
@@ -5910,7 +5910,7 @@ function renderDiaryRow(d,idx,altFlag){
   const seq=imgs.length>1?imgs.concat([imgs[0]]):imgs;
   const iw=100/seq.length;
   const media=imgs.length
-    ?'<div class="dyv-strip" data-n="'+imgs.length+'" data-step="'+iw+'" style="width:'+(seq.length*100)+'%">'+seq.map(u=>'<img style="width:'+iw+'%" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="'+esc(thumbOf(u))+'" data-orig="'+esc(u)+'" onerror="thumbFail(this)" loading="lazy" draggable="false">').join('')+'</div>'
+    ?'<div class="dyv-strip" data-n="'+imgs.length+'" data-step="'+iw+'" style="width:'+(seq.length*100)+'%">'+seq.map(u=>'<img style="width:'+iw+'%" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="'+esc(thumbOf(u))+'" data-orig="'+esc(u)+'" onerror="thumbFail(this)" loading="lazy" draggable="false">').join('')+'</div>'
     :'<div class="dyv-noimg">✦</div>';
   const bg=imgs.length?imgs.map((u,i)=>'<img class="dyv-bgimg'+(i===0?' on':'')+'" '+timgAttrs(u)+' loading="lazy" draggable="false">').join(''):'';
   const body=locked?'[보호된 글입니다]':esc(htmlToText(d.content||'').slice(0,250));
@@ -6465,7 +6465,7 @@ async function loadBanners(){
   g.innerHTML=bannersData.map(b=>{
     let url=b.link_url||'';if(url&&!/^https?:\/\//i.test(url))url='';let domain='';try{domain=url?new URL(url).hostname.replace('www.',''):'';}catch(e){}
     const hasImg=!!b.image_url;
-    return `<div class="bnc${hasImg?' has-img':''}" data-mid="${b.id}" onclick="window.open('${url?encodeURI(url).replace(/'/g,'%27'):''}','_blank')"${hasImg?' onmousemove="bncMove(event,this)" onmouseleave="bncLeave(this)"':''}>${nbMatch(b.link_url)?'<span class="bnc-nb" data-nbheart></span>':''}${hasImg?`<div class="bnc-bg"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="${esc(b.image_url)}" draggable="false" onerror="const c=this.closest('.bnc');c.classList.remove('has-img');this.parentElement.remove();"><div class="bnc-lens" aria-hidden="true"><img class="bnc-lens-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="${esc(b.image_url)}" draggable="false"></div></div>`:''}<div class="bnc-starwrap"><span class="bnc-halo"></span><svg class="bnc-star"><use href="#iss-ic-gbstar"/></svg></div><div class="bnc-text"><div class="bnc-head"><span class="bnc-name">${esc(b.title||domain||'배너')}</span><span class="bnc-date">${b.created_at?fmtDate(b.created_at):''}</span></div><div class="bnc-content">${esc(b.description||domain||url)}</div></div><button class="bnc-edit pdx-admin" title="수정" onclick="event.stopPropagation();openEditor('banners','${b.id}')"><svg width="12" height="12"><use href="#iss-ic-edit"/></svg></button><button class="bnc-del pdx-admin" title="삭제" onclick="event.stopPropagation();confirmDelete('banners','${b.id}')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button></div>`;
+    return `<div class="bnc${hasImg?' has-img':''}" data-mid="${b.id}" onclick="window.open('${url?encodeURI(url).replace(/'/g,'%27'):''}','_blank')"${hasImg?' onmousemove="bncMove(event,this)" onmouseleave="bncLeave(this)"':''}>${nbMatch(b.link_url)?'<span class="bnc-nb" data-nbheart></span>':''}${hasImg?`<div class="bnc-bg"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="${esc(b.image_url)}" draggable="false" onerror="const c=this.closest('.bnc');c.classList.remove('has-img');this.parentElement.remove();"><div class="bnc-lens" aria-hidden="true"><img class="bnc-lens-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="${esc(b.image_url)}" draggable="false"></div></div>`:''}<div class="bnc-starwrap"><span class="bnc-halo"></span><svg class="bnc-star"><use href="#iss-ic-gbstar"/></svg></div><div class="bnc-text"><div class="bnc-head"><span class="bnc-name">${esc(b.title||domain||'배너')}</span><span class="bnc-date">${b.created_at?fmtDate(b.created_at):''}</span></div><div class="bnc-content">${esc(b.description||domain||url)}</div></div><button class="bnc-edit pdx-admin" title="수정" onclick="event.stopPropagation();openEditor('banners','${b.id}')"><svg width="12" height="12"><use href="#iss-ic-edit"/></svg></button><button class="bnc-del pdx-admin" title="삭제" onclick="event.stopPropagation();confirmDelete('banners','${b.id}')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button></div>`;
   }).join('');
   document.querySelectorAll('.bnc-nb[data-nbheart]:not([data-m])').forEach(function(el){el.dataset.m='1';try{window.lottie.loadAnimation({container:el,renderer:'svg',loop:true,autoplay:true,animationData:NB_HEART_LOTTIE});}catch(e){}});
 }
@@ -6565,7 +6565,7 @@ function renderLogsBanner(){
   const b=document.getElementById('logs-banner');if(!b)return;
   const t=logsTabs.find(x=>x.k===currentLogsTab)||logsTabs[0]||{};
   const txt=(t.text||t.label||'LOG').toUpperCase();
-  b.innerHTML=(t.img?'<img class="lgv-bimg" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="'+esc(t.img)+'" draggable="false"><div class="lgv-glitch"></div>':'')
+  b.innerHTML=(t.img?'<img class="lgv-bimg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="'+esc(t.img)+'" draggable="false"><div class="lgv-glitch"></div>':'')
     +'<span class="lgv-btext">'+[...txt].map((ch,i)=>'<span style="--td:'+(i*0.12)+'s">'+(ch===' '?'&nbsp;':esc(ch))+'</span>').join('')+'</span>';
   let _lgvRaf=0,_lgvMx=0.5,_lgvMy=0.5;
   b.onmousemove=e=>{const rc=b.getBoundingClientRect();_lgvMx=(e.clientX-rc.left)/rc.width;_lgvMy=(e.clientY-rc.top)/rc.height;if(_lgvRaf)return;_lgvRaf=requestAnimationFrame(()=>{_lgvRaf=0;const g=b.querySelector('.lgv-glitch');if(!g||!g._bw)return;g.style.setProperty('--gx',(_lgvMx*(g._cw-g._bw)).toFixed(1)+'px');g.style.setProperty('--gy',(_lgvMy*(g._ch-g._bh)).toFixed(1)+'px');});};
@@ -10017,8 +10017,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.4.1';
+const APP_VERSION='1.4.2';
 const CHANGELOG=[
+  {v:'1.4.2',date:'2026-09-11',title:'배너 이미지 핫픽스',sql:false,items:['배너 게시판 이미지가 사라지던 문제 수정 — 지연 로드용 자리표시 이미지가 잘려 있어 로드 실패로 처리되던 버그']},
   {v:'1.4.1',date:'2026-09-11',title:'로딩 성능 · 약관 정본 · 신고 창구',sql:true,items:['첫 로딩이 크게 빨라졌습니다 — 숨은 게시판의 원본 이미지가 미리 내려오던 문제(수십 MB)를 없애고, 설정을 한 번에 받아 요청 수를 줄였습니다. 큰 이미지는 페이지를 열 때 또는 여유 시간에 조용히 미리 받습니다','가입 동의 화면에 이용약관·개인정보 처리방침 정본(2026-09-10 시행)이 표시됩니다','운영자에게 보내기: 신고·건의·버그(오류 로그 자동 첨부)·문의 — 허브 하단과 관리 화면에서. 접수 내역과 운영자 답변 확인','새 블로그 기본값: 블로그 이름 텍스트 로고·탭 제목·서브문구, 배경음악은 설정 전까지 숨김','로그인 창은 Google 우선. 기존 아이디·관리자 로그인은 아래 작은 링크로','콘솔의 불필요한 406 오류가 사라졌습니다','DB: P5a SQL(약관 정본·신고함) — 적용 완료'],},
   {v:'1.4.0',date:'2026-09-10',title:'계정 · 허브 · 공개 범위 · 운영 콘솔',sql:true,items:['Google 계정으로 로그인 → 초대 코드·이용 안내 동의·닉네임·블로그 이름 순서로 내 블로그를 열 수 있습니다 (도메인은 자동 배정)','우상단 HUB: 내 블로그·프로필(멀티/대표)·마음함·블로그 둘러보기·이웃(신청/수락/끊기)·이웃 새 글 타임라인','좋아요를 누르면 로그인 계정의 마음함에도 담깁니다','블로그 공개 범위: 전체 / 이웃 / 비밀번호(구글 없이 비밀번호만) / 비공개 — 글마다도 전체·이웃·비공개 지정. 방명록 범위, 이웃공개 글 미리보기(썸네일·제목) ON/OFF, 이미지 보호(원본 서명 URL) ON/OFF, 표시 프로필','관리 → 서비스 운영(super): 유저 등급·차단·탈퇴, 초대 코드 발급, 가입 모드(초대/공개/중단), 이용 안내 문구·재동의','검색·크롤링 전면 차단(robots.txt · 응답 헤더 · 페이지 메타) + 보안 재점검(쓰기 권한 축소·시도 횟수 제한·스토리지 정책 정리)','DB: P3·P3b·P4·P4b·P4c·P4d SQL — 적용 완료'],},
   {v:'1.3.0',date:'2026-09-09',title:'멀티 블로그 기반 · 썸네일',sql:true,items:['오르비를 여러 블로그가 함께 쓰는 구조로 전환하는 1단계 — 사이트(블로그) 단위로 글·설정·저장 공간이 분리됩니다. 기존 글·링크·주소(/home/)는 그대로입니다','카드 목록이 600px 썸네일을 먼저 읽어 전송량이 약 1/30로 줄고 로딩이 빨라집니다 (원본은 상세에서 그대로)','에디터 어디에든 이미지 파일을 끌어다 놓으면 알맞은 칸(다중 이미지·본문·대표 이미지)에 바로 들어갑니다','업로드 등급: 보스·VIP 블로그는 원본 유지, 일반 블로그는 장변 2048px·WebP·3MB로 자동 축소, 한 번에 10장','블로그 주소 규칙 /@핸들 추가 (아직 가입은 열리지 않음)','DB: P0·P1·P2a SQL — 이미 적용 완료 (sites·user_accounts·site_settings·site_secrets·site_id·스토리지 정책)'],},
