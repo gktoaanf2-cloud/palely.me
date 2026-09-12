@@ -1495,35 +1495,26 @@ body.is-super .adm-super{display:block;}
 .rp-log pre::-webkit-scrollbar{display:none;}
 .rp-note{margin-top:6px;font-size:11.5px;color:rgb(var(--t-warm));}
 .hub-foot-act{display:flex;gap:10px;}
-/* ── B1 게시판 빌더: 커버형 카드·프롬프트 블록·탭 설정 ── */
-.dgrid-list{display:flex;flex-direction:column;}
-.dls{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;padding:12px 6px;border-top:1px solid rgba(var(--t-fg),.08);cursor:pointer;}
-.dls:first-child{border-top:none;}
-.dls-th{width:44px;height:44px;object-fit:cover;border:1px solid var(--border);display:block;}
-.dls-noimg{background:rgba(var(--t-fg),.05);}
-.dls-title{font-family:var(--font-kr);font-size:13px;color:rgb(var(--t-snow));display:flex;align-items:center;gap:6px;}
-.dls-sub{font-family:var(--font-kr);font-size:10.5px;color:rgba(var(--t-fg-soft),.55);margin-top:3px;}
-.dls-meta{display:flex;align-items:center;gap:10px;font-family:var(--font-num);font-size:10px;letter-spacing:.08em;color:rgba(var(--t-fg-soft),.5);}
-.dls:hover .dls-title{color:rgb(var(--t-glow));}
-.dgrid-mini{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
-.dmn{cursor:pointer;}
-.dmn-th{width:100%;aspect-ratio:1;object-fit:cover;border:1px solid var(--border);display:block;background:rgba(var(--t-fg),.04);}
-.dmn-noimg{display:flex;align-items:center;justify-content:center;color:rgba(var(--t-fg-soft),.35);font-size:18px;}
-.dmn-title{margin-top:8px;font-family:var(--font-kr);font-size:11.5px;color:rgb(var(--t-snow));display:flex;align-items:center;gap:5px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
-.dmn:hover .dmn-th{filter:brightness(1.12);}
-.dgrid-text{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
-.dtx{border:1px solid var(--border);background:rgba(var(--t-surface),.6);padding:18px 20px;cursor:pointer;display:flex;flex-direction:column;gap:8px;transition:border-color .3s;}
-.dtx:hover{border-color:rgba(var(--t-fg),.3);}
-.dtx-head{display:flex;justify-content:space-between;font-family:var(--font-num);font-size:9.5px;letter-spacing:.18em;color:rgba(var(--t-fg-soft),.55);text-transform:uppercase;}
-.dtx-title{font-family:var(--font-kr);font-weight:600;font-size:14px;letter-spacing:-.02em;color:rgb(var(--t-snow));display:flex;align-items:center;gap:6px;}
-.dtx-body{font-family:var(--font-kr);font-size:12px;line-height:1.7;color:rgba(var(--t-fg-mid),.8);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
-.dtx-foot{font-family:var(--font-kr);font-size:10.5px;color:rgba(var(--t-fg-soft),.5);}
+/* ── B1/B2 게시판 빌더: 커버 컨테이너(기존 카드 재사용) · 포토리스트 · 프롬프트 블록 · 탭 설정 ── */
+.dgrid-image{display:grid;grid-template-columns:repeat(5,1fr);gap:24px 20px;max-width:1190px;margin:0 auto;}   /* 프롬프트 카드(pcv) 격자 */
+.dgrid-image .empty-state{grid-column:1/-1;}
+.dgrid-mini{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;padding:0 48px;}   /* 배포 카드(dcv) 흐름 */
+.dgrid-text{display:block;}   /* OOC 행 */
+.dgrid-photolist{display:flex;flex-direction:column;max-width:1190px;margin:0 auto;padding:0 8px;}
+#nai-grid.dgrid-mini,#ooc-grid.dgrid-mini{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;padding:0 48px;}
+#nai-grid.dgrid-text,#ooc-grid.dgrid-text{display:block;}
+#nai-grid.dgrid-photolist,#ooc-grid.dgrid-photolist{display:flex;flex-direction:column;}
+.pl-row{display:grid;grid-template-columns:48px 1fr auto;gap:14px;align-items:center;padding:8px 6px;border-top:1px solid rgba(var(--t-fg),.08);cursor:pointer;}
+.pl-row:first-child{border-top:none;}
+.pl-th{width:48px;height:48px;object-fit:cover;border:1px solid var(--border);display:block;background:rgba(var(--t-fg),.04);transition:filter .3s;}
+.pl-noimg{background:rgba(var(--t-fg),.05);}
+.pl-title{font-family:var(--font-kr);font-size:12.5px;letter-spacing:-.01em;color:rgb(var(--t-snow));display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;transition:color .3s;}
+.pl-date{font-family:var(--font-num);font-size:10px;letter-spacing:.1em;color:rgba(var(--t-fg-soft),.5);}
+.pl-row:hover .pl-title{color:rgb(var(--t-glow));}
+.pl-row:hover .pl-th{filter:brightness(1.12);}
 .ddp-block{border:1px solid rgba(var(--t-fg),.1);background:rgba(var(--t-fg),.03);margin-bottom:10px;}
 .ddp-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(var(--t-fg),.08);font-family:var(--font-num);font-size:10px;letter-spacing:.2em;color:rgba(var(--t-fg-soft),.6);}
 .ddp-text{margin:0;padding:12px 14px;white-space:pre-wrap;word-break:break-word;font-family:var(--font-kr);font-size:12px;line-height:1.7;color:rgba(var(--t-fg-mid),.9);}
-#nai-grid.dgrid-text,#ooc-grid.dgrid-text{display:block;}
-#nai-grid.dgrid-list,#ooc-grid.dgrid-list{display:flex;flex-direction:column;max-width:1190px;margin:0 auto;}
-#nai-grid.dgrid-mini,#ooc-grid.dgrid-mini{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
 .btab-head,.btab-row{display:grid;grid-template-columns:34px 1fr 130px 150px 48px 60px;gap:10px;align-items:center;}
 .btab-head{font-family:var(--font-kr);font-size:10.5px;color:rgba(var(--t-fg-soft),.5);padding:0 0 6px;}
 .btab-row{padding:8px 0;border-top:1px solid rgba(var(--t-fg),.08);}
@@ -1606,7 +1597,7 @@ body.no-bgm #lp-player{display:none!important;}
 #caveduck-grid .empty-state,#utility-grid .empty-state{width:100%;}
 @media(max-width:1300px){#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 54px)/4);}}
 @media(max-width:1100px){#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 36px)/3);}}
-@media(max-width:640px){.dgrid-image{gap:12px;padding:0 12px;}.dgrid-image .dist-card.dcv{width:calc((100% - 12px)/2);}}
+@media(max-width:640px){.dgrid-mini{gap:12px;padding:0 12px;}.dgrid-mini .dist-card.dcv{width:calc((100% - 12px)/2);}#nai-grid.dgrid-mini,#ooc-grid.dgrid-mini{gap:12px;padding:0 12px;}}
 .dist-card.dcv{margin:0;padding:0;background:rgb(var(--t-card));border:1px solid rgba(var(--t-accent),.1);border-radius:0;overflow:hidden;aspect-ratio:1/1;position:relative;container-type:inline-size;transition:border-color .45s var(--ease-out),box-shadow .45s var(--ease-out),transform .45s var(--ease-out);}
 .dist-card.dcv:hover{transform:translateY(-3px);}
 .dcv-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
@@ -3568,7 +3559,7 @@ body.is-admin #page-admin .adm-body{display:block;}
   <div class="modal-box" style="max-width:760px;">
     <button class="modal-close" onclick="closeModal('btab-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
     <div class="modal-title">TABS</div>
-    <p class="ob-lead">Issuance 게시판의 탭을 자유롭게 구성해요. 탭마다 카드 표시형(커버)과 안에 담기는 글 유형을 따로 고릅니다. NovelAI·OOC 두 탭은 글 유형만 고정되고 이름·순서·커버는 바꿀 수 있어요. 탭을 지워도 글은 지워지지 않고 다른 탭으로 옮겨집니다.</p>
+    <p class="ob-lead">Issuance 게시판의 탭을 자유롭게 구성해요. 탭마다 카드 표시형(커버 — 이미지형=프롬프트 카드 · 글형=OOC 행 · 미니 카드형=배포 카드 · 포토리스트)과 안에 담기는 글 유형을 따로 고릅니다. NovelAI·OOC 두 탭은 글 유형만 고정되고 이름·순서·커버는 바꿀 수 있어요. 탭을 지워도 글은 지워지지 않고 다른 탭으로 옮겨집니다.</p>
     <div class="btab-head"><span></span><span>탭 이름</span><span>커버</span><span>글 유형</span><span></span><span></span></div>
     <div id="btab-list"></div>
     <div class="form-actions"><button type="button" class="btn-secondary" onclick="btabAdd()">+ 탭 추가</button><button type="button" class="btn-primary" onclick="btabSave()">저장</button><button type="button" class="btn-secondary" onclick="closeModal('btab-modal')">취소</button></div>
@@ -6793,8 +6784,8 @@ function applyPromptFilters(tab){
   const pageItems=sorted.slice(base,base+ISS_PAGE_SIZE);
   const pager=totalPages>1?'<div class="iss-pager" data-tb="'+tab+'">'+Array.from({length:totalPages},(_,n)=>'<button class="'+(n+1===pg?'cur':'')+'" onclick="issPagerClick(event)">'+(n+1)+'</button>').join('')+'</div>':'';
   const cov_=(issTabByKey(tab)||{}).cover||(tab==='ooc'?'text':'image');
-  const rowFn=cov_==='image'?renderPromptCard:cov_==='text'?renderOocRow:((p,i)=>renderDistCardAlt(p,i,cov_));
-  g.classList.toggle('ooc-listmode',cov_==='text');g.classList.add('dgrid');['image','text','mini','list'].forEach(c=>g.classList.toggle('dgrid-'+c,c===cov_));
+  const rowFn=coverRowFn(cov_);
+  g.classList.toggle('ooc-listmode',cov_==='text');g.classList.add('dgrid');['image','text','mini','photolist'].forEach(c=>g.classList.toggle('dgrid-'+c,c===cov_));
   g.innerHTML=pageItems.length?pageItems.map((p,i)=>rowFn(p,base+i)).join('')+pager:((q||f.cat||f.tags.size)?'<div class="empty-state"><p class="empty-state-text">검색 결과가 없습니다</p></div>':emptyHtml('prompts'));
 }
 // ── 카테고리 관리 (탭별, settings 중앙저장 → 미래 관리패널에 통합 가능) ──
@@ -7299,9 +7290,9 @@ function fillPromptWith(text,values){let i=0;return(text||'').replace(/<([^<>\n]
 // 카테고리 정규화: 배열/JSON문자열/단일문자열 → 배열 (다중선택, 기존 단일값 호환)
 function catArr(v){if(Array.isArray(v))return v.filter(Boolean);if(typeof v==='string'){const t=v.trim();if(t.startsWith('[')){try{return(JSON.parse(t)||[]).filter(Boolean);}catch(e){}}return t?[t]:[];}return [];}
 function renderPromptCard(p,idx){
-  if((p.is_private||p.locked)&&!isAdmin&&!unlockedPrompts.has(p.id)){
-    const lnum=String(postNum((promptTabData[(p.tab==='ooc')?'ooc':'nai']||[]),p)).padStart(2,'0');
-    return `<div class="prompt-card pcv pcv-locked" data-mid="${p.id}" onclick="${p.locked&&!p.is_private?'nbLockedToast()':`openPrivatePrompt('${p.id}')`}">
+  if((p.is_private||p.locked)&&!isAdmin&&!rowUnlocked(p).has(p.id)){
+    const lnum=String(postNum((rowList(p)),p)).padStart(2,'0');
+    return `<div class="prompt-card pcv pcv-locked" data-mid="${p.id}" onclick="${p.locked&&!p.is_private?'nbLockedToast()':`${rowPriv(p)}('${p.id}')`}">
     <div class="pcv-cover"><div class="pcv-noimg">✦</div><div class="pcv-shade"></div></div>
     <div class="pcv-info">
       <div class="pcv-mid"><div class="pcv-hash">#</div><svg class="pcv-lockic" width="10" height="12"><use href="#iss-ic-lock"/></svg><div class="pcv-num">${lnum}</div><div class="pcv-title">${esc(p.title||'비밀글')}</div><div class="pcv-cat"># private</div></div>
@@ -7312,11 +7303,11 @@ function renderPromptCard(p,idx){
   const defaultText=fillPromptDefault(naiCopyText(p));
   const nbMeta=(p.tab!=='ooc'&&naiIsMulti(p))?'<div class="pcv-meta pcv-nb">BASE + '+(naiBlocks(p).length-1)+' CHAR</div>':'';
   const cats=catArr(p.category);
-  const num=String(postNum((promptTabData[(p.tab==='ooc')?'ooc':'nai']||[]),p)).padStart(2,'0');
+  const num=String(postNum((rowList(p)),p)).padStart(2,'0');
   const tagline=(Array.isArray(p.tags)&&p.tags.length)?p.tags.map(t=>'<div># '+esc(t)+'</div>').join(''):(cats[0]?'<div># '+esc(cats[0])+'</div>':'');
   const lockic=(p.is_private||p.locked)?'<svg class="pcv-lockic" width="10" height="12"><use href="#iss-ic-lock"/></svg>':'';
-  return `<div class="prompt-card pcv" data-mid="${p.id}" onclick="openPromptDetail('${p.id}')">
-    <div class="card-admin-controls" onclick="event.stopPropagation()"><button class="card-ctrl-btn delete" title="삭제" onclick="confirmDelete('prompts','${p.id}')"><svg width="13" height="13"><use href="#iss-ic-del"/></svg></button></div>
+  return `<div class="prompt-card pcv" data-mid="${p.id}" onclick="${rowOpen(p)}('${p.id}')">
+    <div class="card-admin-controls" onclick="event.stopPropagation()"><button class="card-ctrl-btn delete" title="삭제" onclick="confirmDelete('${rowTable(p)}','${p.id}')"><svg width="13" height="13"><use href="#iss-ic-del"/></svg></button></div>
     <div class="pcv-cover">${imgs[0]?`<img ${timgAttrs(imgs[0])} class="pcv-img${p.blur?' blurred':''}" loading="lazy" draggable="false">`:`<div class="pcv-noimg">✦</div>`}<div class="pcv-shade"></div></div>
     <div class="pcv-info">
       <div class="pcv-mid">
@@ -7327,10 +7318,10 @@ function renderPromptCard(p,idx){
       </div>
       <div class="pcv-bot">
         ${nbMeta}${cats.length?`<div class="pcv-meta">${esc(cats.join(' / '))}</div>`:''}
-        <button class="pcv-copy cpx" onclick="event.stopPropagation();copyPrompt(this,'${btoa(encodeURIComponent(defaultText))}')"><i class="pcv-cl"></i><span class="pcv-copytext">COPY</span></button>
+        ${p.prompt_text?`<button class="pcv-copy cpx" onclick="event.stopPropagation();copyPrompt(this,'${btoa(encodeURIComponent(defaultText))}')"><i class="pcv-cl"></i><span class="pcv-copytext">COPY</span></button>`:''}
         <div class="pcv-icons">
-          <button title="글 공유" onclick="event.stopPropagation();copyShareLink('${p.tab||'nai'}','${p.id}')"><svg width="12" height="14"><use href="#iss-ic-share"/></svg></button>
-          <button class="pcv-edit" title="글 수정" onclick="event.stopPropagation();openEditor('prompts','${p.id}')"><svg width="16" height="16"><use href="#iss-ic-edit"/></svg></button>
+          <button title="글 공유" onclick="event.stopPropagation();copyShareLink('${p.type||p.tab||'nai'}','${p.id}')"><svg width="12" height="14"><use href="#iss-ic-share"/></svg></button>
+          <button class="pcv-edit" title="글 수정" onclick="event.stopPropagation();openEditor('${rowTable(p)}','${p.id}')"><svg width="16" height="16"><use href="#iss-ic-edit"/></svg></button>
           <button class="pcv-like" title="좋아요" onclick="event.stopPropagation();pcvLike('${p.id}',this)"><svg width="17" height="15"><use href="#iss-ic-heart"/></svg><span class="pcv-like-n">${pcvLikeN(p.id)||''}</span></button>
         </div>
       </div>
@@ -7440,19 +7431,19 @@ function oocPrompts(p){
   return[t];
 }
 function renderOocRow(p,idx){
-  const num=String(postNum((promptTabData[(p.tab==='ooc')?'ooc':'nai']||[]),p)).padStart(2,'0');
+  const num=String(postNum((rowList(p)),p)).padStart(2,'0');
   const cats=catArr(p.category);
-  const locked=(p.is_private||p.locked)&&!isAdmin&&!unlockedPrompts.has(p.id);
+  const locked=(p.is_private||p.locked)&&!isAdmin&&!rowUnlocked(p).has(p.id);
   const lock=(p.is_private||p.locked)?'<svg class="ooc-lockic" width="9" height="11"><use href="#iss-ic-lock"/></svg>':'';
-  return `<div class="ooc-row" data-mid="${p.id}" onclick="openPromptDetail('${p.id}')">
+  return `<div class="ooc-row" data-mid="${p.id}" onclick="${rowOpen(p)}('${p.id}')">
     <span class="ooc-star"><svg width="9" height="9"><use href="#iss-ic-tabstar"/></svg></span>
     <span class="ooc-num">${num}</span>
     <span class="ooc-cat">${esc(cats.join(' / '))}</span>
     <span class="ooc-title">${lock}${esc(p.title||(locked?'비밀글':'무제'))}</span>
     <span class="ooc-date">${pdFmtDate(p.created_at)}</span>
     <span class="ooc-ics" onclick="event.stopPropagation()">
-      <button title="글 공유 (링크 복사)" onclick="shareOoc('${p.id}')"><svg width="14" height="13"><use href="#iss-ic-share"/></svg></button>
-      <button class="pdx-admin" title="글 수정" onclick="openEditor('prompts','${p.id}')"><svg width="12" height="12"><use href="#iss-ic-edit"/></svg></button>
+      <button title="글 공유 (링크 복사)" onclick="copyShareLink('${p.type||'prompts'}','${p.id}')"><svg width="14" height="13"><use href="#iss-ic-share"/></svg></button>
+      <button class="pdx-admin" title="글 수정" onclick="openEditor('${rowTable(p)}','${p.id}')"><svg width="12" height="12"><use href="#iss-ic-edit"/></svg></button>
       <button class="pcv-like" title="좋아요" onclick="pcvLike('${p.id}',this)"><svg width="13" height="11"><use href="#iss-ic-heart"/></svg><span class="pcv-like-n">${pcvLikeN(p.id)||''}</span></button>
     </span>
   </div>`;
@@ -7759,15 +7750,18 @@ function copyDetailPrompt(btn){
 // ── Distributions (CaveDuck / Utility) ──
 let distData={},distFilter={};
 // ══ B1: Issuance 탭 엔진 — site_settings.boards_cfg.issuance.tabs [{k,label,cover,kind}] ══
-const ISS_DEFAULT_TABS=[{k:'nai',label:'NovelAI',table:'prompts',cover:'image',kind:'imgprompt'},{k:'ooc',label:'OOC',table:'prompts',cover:'text',kind:'textprompt'},{k:'caveduck',label:'CaveDuck',table:'distributions',cover:'image',kind:'link'},{k:'utility',label:'Utility',table:'distributions',cover:'image',kind:'download'}];
-const ISS_COVERS={image:'이미지형',text:'글형',mini:'미니 카드형',list:'리스트형'},ISS_KINDS={imgprompt:'이미지 프롬프트',textprompt:'텍스트 프롬프트',download:'다운로드',link:'링크',rich:'리치 글'};
+const ISS_DEFAULT_TABS=[{k:'nai',label:'NovelAI',table:'prompts',cover:'image',kind:'imgprompt'},{k:'ooc',label:'OOC',table:'prompts',cover:'text',kind:'textprompt'},{k:'caveduck',label:'CaveDuck',table:'distributions',cover:'mini',kind:'link'},{k:'utility',label:'Utility',table:'distributions',cover:'mini',kind:'download'}];
+const ISS_COVERS={image:'이미지형',text:'글형',mini:'미니 카드형',photolist:'포토리스트'},   // image=프롬프트 카드(pcv) · text=OOC 행 · mini=배포 카드(dcv) · photolist=사진+제목 컴팩트 행
+ISS_KINDS={imgprompt:'이미지 프롬프트',textprompt:'텍스트 프롬프트',download:'다운로드',link:'링크',rich:'리치 글'};
 let boardsCfg=null;
 function issTabs(){
   const raw=(boardsCfg&&boardsCfg.issuance&&Array.isArray(boardsCfg.issuance.tabs))?boardsCfg.issuance.tabs:null;
-  let tabs=raw?raw.filter(t=>t&&/^[a-z0-9_]{2,24}$/.test(String(t.k))).map(t=>({k:t.k,label:String(t.label||t.k).slice(0,24),table:(t.k==='nai'||t.k==='ooc')?'prompts':'distributions',cover:ISS_COVERS[t.cover]?t.cover:(t.k==='ooc'?'text':'image'),kind:ISS_KINDS[t.kind]?t.kind:'link'})):ISS_DEFAULT_TABS.map(t=>({...t}));
+  const legacy=!(boardsCfg&&Number(boardsCfg.v)>=2);   // v1.5.0 저장분: 배포 탭의 'image'는 배포 카드(dcv)를 뜻했음
+  const covOf=(t,table)=>{let c=t.cover;if(c==='list')c='photolist';if(legacy&&table==='distributions'&&c==='image')c='mini';return ISS_COVERS[c]?c:(t.k==='ooc'?'text':(t.k==='nai'?'image':'mini'));};
+  let tabs=raw?raw.filter(t=>t&&/^[a-z0-9_]{2,24}$/.test(String(t.k))).map(t=>{const table=(t.k==='nai'||t.k==='ooc')?'prompts':'distributions';return {k:t.k,label:String(t.label||t.k).slice(0,24),table,cover:covOf(t,table),kind:ISS_KINDS[t.kind]?t.kind:'link'};}):ISS_DEFAULT_TABS.map(t=>({...t}));
   ['nai','ooc'].forEach((k,i)=>{if(!tabs.some(t=>t.k===k))tabs.splice(i,0,{...ISS_DEFAULT_TABS[i]});});   // 프롬프트 탭 2개는 항상 존재(유형 고정)
   tabs.forEach(t=>{if(t.k==='nai')t.kind='imgprompt';if(t.k==='ooc')t.kind='textprompt';});   // 유형 고정, 커버는 설정대로
-  if(distData._etc&&distData._etc.length&&!tabs.some(t=>t.k==='_etc'))tabs.push({k:'_etc',label:'미분류',table:'distributions',cover:'image',kind:'link',auto:true});   // 어떤 탭에도 없는 글은 절대 숨기지 않음
+  if(distData._etc&&distData._etc.length&&!tabs.some(t=>t.k==='_etc'))tabs.push({k:'_etc',label:'미분류',table:'distributions',cover:'mini',kind:'link',auto:true});   // 어떤 탭에도 없는 글은 절대 숨기지 않음
   return tabs;
 }
 function issTabByKey(k){return issTabs().find(t=>t.k===k)||null;}
@@ -7784,20 +7778,27 @@ function issRebuild(){
   tabs.filter(t=>t.table==='distributions').forEach(t=>{const k=t.k;if(!distData[k])distData[k]=[];if(!distFilter[k])distFilter[k]={cat:'',tags:new Set()};if(!issPage[k])issPage[k]=1;
     let panel=document.getElementById('tab-'+k);
     if(!panel&&wrap){panel=document.createElement('div');panel.className='tab-content';panel.id='tab-'+k;panel.innerHTML='<div class="prompt-filters"><div class="pf-row"><input id="'+k+'-search" class="pf-search" placeholder="검색 (제목·설명·태그)" oninput="applyDistFilters(\''+k+'\')"></div><div id="'+k+'-cat-bar" class="pf-cats" onclick="onDistCatBarClick(\''+k+'\',event)"></div><div id="'+k+'-tag-bar" class="pf-tags" onclick="onDistTagBarClick(\''+k+'\',event)"></div></div><div id="'+k+'-grid"></div>';wrap.appendChild(panel);}
-    const g=document.getElementById(k+'-grid');if(g){g.classList.add('dgrid');['image','text','mini','list'].forEach(c=>g.classList.toggle('dgrid-'+c,c===t.cover));}
+    const g=document.getElementById(k+'-grid');if(g){g.classList.add('dgrid');['image','text','mini','photolist'].forEach(c=>g.classList.toggle('dgrid-'+c,c===t.cover));}
     if(panel)panel.hidden=false;});
   document.querySelectorAll('#prompts-content .tab-content').forEach(p=>{const k=p.id.replace('tab-','');if(!tabs.some(t=>t.k===k))p.hidden=true;});
   if(!tabs.some(t=>t.k===currentPromptTab))switchPromptTab(tabs[0].k);
 }
-// 커버형 카드(글형·미니·리스트) — 이미지형은 기존 dcv
-function distExcerpt(d){const k=d.kind||(issTabByKey(d.type||d.tab)||{}).kind;if(k==='textprompt'&&d.prompt_text){try{const a=JSON.parse(d.prompt_text);if(Array.isArray(a)&&a.length){const p0=a[0];return String(typeof p0==='string'?p0:((p0&&(p0.text||p0.prompt))||'')).slice(0,160);}}catch(e){}return String(d.prompt_text).slice(0,160);}if(k==='rich'&&d.content)return htmlToText(d.content).slice(0,160);if((k==='imgprompt'||k==='textprompt')&&d.prompt_text){try{const b=naiBlocks({prompt_text:d.prompt_text});return String((b[0]&&b[0].text)||'').slice(0,160);}catch(e){return String(d.prompt_text).slice(0,160);}}return htmlToText(d.description||'').slice(0,160);}
-function renderDistCardAlt(d,idx,cover){
-  const imgs=promptImages(d);const cats=catArr(d.category);const lock=(d.is_private||d.locked)?'<svg class="dcv-lockic" width="9" height="11"><use href="#iss-ic-lock"/></svg>':'';
-  const tags=(Array.isArray(d.tags)?d.tags:[]).slice(0,3).map(t=>'#'+esc(t)).join(' ');const date=(typeof pdFmtDate==='function')?pdFmtDate(d.created_at):String(d.created_at||'').slice(0,10);
-  const kindKr=ISS_KINDS[d.kind||(issTabByKey(d.type||d.tab)||{}).kind]||'';const openFn_=d.type?'openDistDetail':'openPromptDetail';
-  if(cover==='list')return `<div class="dist-card dls" data-mid="${d.id}" onclick="${openFn_}('${d.id}')">${imgs[0]?`<img class="dls-th" ${timgAttrs(imgs[0])} loading="lazy" draggable="false">`:'<span class="dls-th dls-noimg"></span>'}<div class="dls-main"><div class="dls-title">${lock}${esc(d.title||'(제목 없음)')}</div><div class="dls-sub">${cats[0]?esc(cats[0])+' · ':''}${tags}</div></div><div class="dls-meta">${kindKr?'<span class="hub-tier">'+kindKr+'</span>':''}<span class="dls-date">${esc(date)}</span></div></div>`;
-  if(cover==='mini')return `<div class="dist-card dmn" data-mid="${d.id}" onclick="${openFn_}('${d.id}')">${imgs[0]?`<img class="dmn-th" ${timgAttrs(imgs[0])} loading="lazy" draggable="false">`:'<div class="dmn-th dmn-noimg">✦</div>'}<div class="dmn-title">${lock}${esc(d.title||'(제목 없음)')}</div></div>`;
-  return `<div class="dist-card dtx" data-mid="${d.id}" onclick="${openFn_}('${d.id}')"><div class="dtx-head"><span class="dtx-cat">${esc(cats[0]||kindKr||'')}</span><span class="dtx-date">${esc(date)}</span></div><div class="dtx-title">${lock}${esc(d.title||'(제목 없음)')}</div><div class="dtx-body">${esc(distExcerpt(d))}</div><div class="dtx-foot">${tags}</div></div>`;
+// 행 컨텍스트: prompts 행(tab)·distributions 행(type)을 같은 카드 렌더러가 처리
+function rowIsDist(p){return !!(p&&p.type);}
+function rowOpen(p){return rowIsDist(p)?'openDistDetail':'openPromptDetail';}
+function rowPriv(p){return rowIsDist(p)?'openPrivateDist':'openPrivatePrompt';}
+function rowTable(p){return rowIsDist(p)?'distributions':'prompts';}
+function rowUnlocked(p){return rowIsDist(p)?unlockedDists:unlockedPrompts;}
+function rowList(p){return rowIsDist(p)?(distData[p.type]||distData._etc||[]):(promptTabData[(p.tab==='ooc')?'ooc':'nai']||[]);}
+// 커버 → 렌더러 (전부 기존 카드 디자인, 포토리스트만 컴팩트 행)
+function coverRowFn(cover){return cover==='image'?renderPromptCard:cover==='text'?renderOocRow:cover==='photolist'?renderPhotoList:renderDistCard;}
+// 포토리스트: 사진(정방형) + 제목 + 날짜 한 줄
+function renderPhotoList(p){
+  const imgs=promptImages(p);const lock=(p.is_private||p.locked)?'<svg class="dcv-lockic" width="9" height="11"><use href="#iss-ic-lock"/></svg>':'';
+  const date=(typeof pdFmtDate==='function')?pdFmtDate(p.created_at):String(p.created_at||'').slice(0,10);
+  const locked=(p.is_private||p.locked)&&!isAdmin&&!rowUnlocked(p).has(p.id);
+  const open=locked?((p.locked&&!p.is_private)?'nbLockedToast()':`${rowPriv(p)}('${p.id}')`):`${rowOpen(p)}('${p.id}')`;
+  return `<div class="pl-row" data-mid="${p.id}" onclick="${open}">${imgs[0]?`<img class="pl-th" ${timgAttrs(imgs[0])} loading="lazy" draggable="false">`:'<span class="pl-th pl-noimg"></span>'}<span class="pl-title">${lock}${esc(p.title||'(제목 없음)')}</span><span class="pl-date">${esc(date)}</span></div>`;
 }
 // 상세: 프롬프트 유형 블록 표시 + 개별 복사(.cpi)
 function ddRenderPrompt(d,kind){
@@ -7851,7 +7852,7 @@ async function btabDel(i){
 async function btabSave(){
   const err=document.getElementById('btab-err');err.textContent='';
   for(const t of btabDraft){t.label=(t.label||'').trim();if(!t.label){err.textContent='탭 이름을 비울 수 없어요';return;}}
-  const cfg=Object.assign({},boardsCfg||{},{issuance:{tabs:btabDraft.map(t=>({k:t.k,label:t.label,cover:t.cover,kind:t.kind}))}});
+  const cfg=Object.assign({},boardsCfg||{},{v:2,issuance:{tabs:btabDraft.map(t=>({k:t.k,label:t.label,cover:t.cover,kind:t.kind}))}});
   try{await boardsCfgSave(cfg);}catch(e){err.textContent='저장 실패: '+(e.message||e);return;}
   closeModal('btab-modal');showToast('탭 설정 저장');await loadDistributions();
 }
@@ -7901,18 +7902,17 @@ function applyDistFilters(tab){
   const pg=issPage[tab]||1,base=(pg-1)*DIST_PAGE_SIZE;
   const pageItems=sorted.slice(base,base+DIST_PAGE_SIZE);
   const pager=totalPages>1?'<div class="iss-pager" data-tb="'+tab+'">'+Array.from({length:totalPages},(_,n)=>'<button class="'+(n+1===pg?'cur':'')+'" onclick="issPagerClick(event)">'+(n+1)+'</button>').join('')+'</div>':'';
-  g.innerHTML=pageItems.length?pageItems.map((d,i)=>renderDistCard(d,base+i)).join('')+pager:((q||f.cat||f.tags.size)?'<div class="empty-state"><p class="empty-state-text">검색 결과가 없습니다</p></div>':emptyHtml(tab));
+  g.innerHTML=pageItems.length?pageItems.map((d,i)=>coverRowFn((issTabByKey(tab)||{}).cover||'mini')(d,base+i)).join('')+pager:((q||f.cat||f.tags.size)?'<div class="empty-state"><p class="empty-state-text">검색 결과가 없습니다</p></div>':emptyHtml(tab));
 }
 function renderDistCard(d,idx){
-  const tbc=issTabByKey(d.type)||{};if(tbc.cover&&tbc.cover!=='image')return renderDistCardAlt(d,idx,tbc.cover);
-  const num=String(postNum((distData[d.type]||distData._etc||[]),d)).padStart(2,'0');
+  const num=String(postNum((rowList(d)),d)).padStart(2,'0');
   const imgs=promptImages(d);
   const cats=catArr(d.category);
   const tag=(Array.isArray(d.tags)&&d.tags.length)?('# '+d.tags[0]):(cats[0]?('# '+cats[0]):'');
-  return `<div class="dist-card dcv" data-mid="${d.id}" onclick="openDistDetail('${d.id}')">
+  return `<div class="dist-card dcv" data-mid="${d.id}" onclick="${rowOpen(d)}('${d.id}')">
     ${imgs[0]?`<img class="dcv-img" ${timgAttrs(imgs[0])} loading="lazy" draggable="false">`:'<div class="dcv-img dcv-noimg">✦</div>'}
     <div class="dcv-shade"></div>
-    <button class="dcv-del pdx-admin" title="삭제" onclick="event.stopPropagation();confirmDelete('distributions','${d.id}')"><svg width="14" height="14"><use href="#iss-ic-x"/></svg></button>
+    <button class="dcv-del pdx-admin" title="삭제" onclick="event.stopPropagation();confirmDelete('${rowTable(d)}','${d.id}')"><svg width="14" height="14"><use href="#iss-ic-x"/></svg></button>
     <div class="dcv-info">
       <div class="dcv-mid">
         <div class="dcv-hash">#</div>
@@ -7924,8 +7924,8 @@ function renderDistCard(d,idx){
       <div class="dcv-bot">
         <span class="dcv-cat">${esc(cats.join(' / '))}</span>
         <span class="dcv-ics" onclick="event.stopPropagation()">
-          <button title="글 공유 (링크 복사)" onclick="copyShareLink('${esc(d.type||'utility')}','${d.id}')"><svg width="15" height="14"><use href="#iss-ic-share"/></svg></button>
-          <button class="pdx-admin" title="글 수정" onclick="openEditor('distributions','${d.id}')"><svg width="13" height="13"><use href="#iss-ic-edit"/></svg></button>
+          <button title="글 공유 (링크 복사)" onclick="copyShareLink('${esc(d.type||d.tab||'utility')}','${d.id}')"><svg width="15" height="14"><use href="#iss-ic-share"/></svg></button>
+          <button class="pdx-admin" title="글 수정" onclick="openEditor('${rowTable(d)}','${d.id}')"><svg width="13" height="13"><use href="#iss-ic-edit"/></svg></button>
           <button class="pcv-like" title="좋아요" onclick="pcvLike('${d.id}',this)"><svg width="14" height="12"><use href="#iss-ic-heart"/></svg><span class="pcv-like-n">${pcvLikeN(d.id)||''}</span></button>
         </span>
       </div>
@@ -10170,8 +10170,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.5.0';
+const APP_VERSION='1.5.1';
 const CHANGELOG=[
+  {v:'1.5.1',date:'2026-09-12',title:'커버 = 기존 카드 디자인',sql:false,items:['탭 커버를 기존 카드 디자인 중에서 고르도록 정리 — 이미지형(프롬프트 카드) · 글형(OOC 행) · 미니 카드형(배포 카드) · 포토리스트(사진+제목 한 줄)','어느 탭이든 네 커버 중 하나로 표시. 프롬프트 글·배포 글 모두 같은 카드를 씁니다','1.5.0에서 저장한 탭 설정은 자동으로 같은 모양으로 읽힙니다']},
   {v:'1.5.0',date:'2026-09-12',title:'게시판 빌더 — Issuance 탭 자유 구성',sql:true,items:['관리 → 게시판 관리 → Issuance 탭 구성: 탭을 원하는 만큼 추가하고 이름·순서를 바꿀 수 있습니다','탭마다 커버(이미지형 · 글형 · 미니 카드형 · 리스트형)와 글 유형(이미지 프롬프트 · 텍스트 프롬프트 · 다운로드 · 링크 · 리치 글)을 따로 고릅니다. 유형에 따라 글쓰기 화면과 상세 화면이 바뀝니다','NovelAI·OOC 탭은 유형만 고정, 커버·이름·순서는 자유','탭을 지워도 글은 지워지지 않고 지정한 탭으로 옮겨집니다. 어떤 탭에도 속하지 않는 글은 미분류 탭에 자동 표시','프롬프트 유형 글 상세에 블록별 복사 아이콘 PROMPT 섹션','배경음악 재생목록 ID에 주소가 저장돼 있어도 정상 인식(설정한 재생목록이 실제로 재생)','이웃 공개 글의 프롬프트 카드가 표시되지 않던 문제 수정','DB: B1 SQL(distributions 컬럼 추가) — 적용 완료'],},
   {v:'1.4.2',date:'2026-09-11',title:'배너 이미지 핫픽스',sql:false,items:['배너 게시판 이미지가 사라지던 문제 수정 — 지연 로드용 자리표시 이미지가 잘려 있어 로드 실패로 처리되던 버그']},
   {v:'1.4.1',date:'2026-09-11',title:'로딩 성능 · 약관 정본 · 신고 창구',sql:true,items:['첫 로딩이 크게 빨라졌습니다 — 숨은 게시판의 원본 이미지가 미리 내려오던 문제(수십 MB)를 없애고, 설정을 한 번에 받아 요청 수를 줄였습니다. 큰 이미지는 페이지를 열 때 또는 여유 시간에 조용히 미리 받습니다','가입 동의 화면에 이용약관·개인정보 처리방침 정본(2026-09-10 시행)이 표시됩니다','운영자에게 보내기: 신고·건의·버그(오류 로그 자동 첨부)·문의 — 허브 하단과 관리 화면에서. 접수 내역과 운영자 답변 확인','새 블로그 기본값: 블로그 이름 텍스트 로고·탭 제목·서브문구, 배경음악은 설정 전까지 숨김','로그인 창은 Google 우선. 기존 아이디·관리자 로그인은 아래 작은 링크로','콘솔의 불필요한 406 오류가 사라졌습니다','DB: P5a SQL(약관 정본·신고함) — 적용 완료'],},
