@@ -1495,6 +1495,42 @@ body.is-super .adm-super{display:block;}
 .rp-log pre::-webkit-scrollbar{display:none;}
 .rp-note{margin-top:6px;font-size:11.5px;color:rgb(var(--t-warm));}
 .hub-foot-act{display:flex;gap:10px;}
+/* ── B1 게시판 빌더: 커버형 카드·프롬프트 블록·탭 설정 ── */
+.dgrid-list{display:flex;flex-direction:column;}
+.dls{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;padding:12px 6px;border-top:1px solid rgba(var(--t-fg),.08);cursor:pointer;}
+.dls:first-child{border-top:none;}
+.dls-th{width:44px;height:44px;object-fit:cover;border:1px solid var(--border);display:block;}
+.dls-noimg{background:rgba(var(--t-fg),.05);}
+.dls-title{font-family:var(--font-kr);font-size:13px;color:rgb(var(--t-snow));display:flex;align-items:center;gap:6px;}
+.dls-sub{font-family:var(--font-kr);font-size:10.5px;color:rgba(var(--t-fg-soft),.55);margin-top:3px;}
+.dls-meta{display:flex;align-items:center;gap:10px;font-family:var(--font-num);font-size:10px;letter-spacing:.08em;color:rgba(var(--t-fg-soft),.5);}
+.dls:hover .dls-title{color:rgb(var(--t-glow));}
+.dgrid-mini{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
+.dmn{cursor:pointer;}
+.dmn-th{width:100%;aspect-ratio:1;object-fit:cover;border:1px solid var(--border);display:block;background:rgba(var(--t-fg),.04);}
+.dmn-noimg{display:flex;align-items:center;justify-content:center;color:rgba(var(--t-fg-soft),.35);font-size:18px;}
+.dmn-title{margin-top:8px;font-family:var(--font-kr);font-size:11.5px;color:rgb(var(--t-snow));display:flex;align-items:center;gap:5px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.dmn:hover .dmn-th{filter:brightness(1.12);}
+.dgrid-text{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.dtx{border:1px solid var(--border);background:rgba(var(--t-surface),.6);padding:18px 20px;cursor:pointer;display:flex;flex-direction:column;gap:8px;transition:border-color .3s;}
+.dtx:hover{border-color:rgba(var(--t-fg),.3);}
+.dtx-head{display:flex;justify-content:space-between;font-family:var(--font-num);font-size:9.5px;letter-spacing:.18em;color:rgba(var(--t-fg-soft),.55);text-transform:uppercase;}
+.dtx-title{font-family:var(--font-kr);font-weight:600;font-size:14px;letter-spacing:-.02em;color:rgb(var(--t-snow));display:flex;align-items:center;gap:6px;}
+.dtx-body{font-family:var(--font-kr);font-size:12px;line-height:1.7;color:rgba(var(--t-fg-mid),.8);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
+.dtx-foot{font-family:var(--font-kr);font-size:10.5px;color:rgba(var(--t-fg-soft),.5);}
+.ddp-block{border:1px solid rgba(var(--t-fg),.1);background:rgba(var(--t-fg),.03);margin-bottom:10px;}
+.ddp-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(var(--t-fg),.08);font-family:var(--font-num);font-size:10px;letter-spacing:.2em;color:rgba(var(--t-fg-soft),.6);}
+.ddp-text{margin:0;padding:12px 14px;white-space:pre-wrap;word-break:break-word;font-family:var(--font-kr);font-size:12px;line-height:1.7;color:rgba(var(--t-fg-mid),.9);}
+#nai-grid.dgrid-text,#ooc-grid.dgrid-text{display:block;}
+#nai-grid.dgrid-list,#ooc-grid.dgrid-list{display:flex;flex-direction:column;max-width:1190px;margin:0 auto;}
+#nai-grid.dgrid-mini,#ooc-grid.dgrid-mini{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
+.btab-head,.btab-row{display:grid;grid-template-columns:34px 1fr 130px 150px 48px 60px;gap:10px;align-items:center;}
+.btab-head{font-family:var(--font-kr);font-size:10.5px;color:rgba(var(--t-fg-soft),.5);padding:0 0 6px;}
+.btab-row{padding:8px 0;border-top:1px solid rgba(var(--t-fg),.08);}
+.btab-ord{display:flex;flex-direction:column;gap:2px;}
+.btab-sel{font-size:11px;padding:4px 8px;}
+.btab-n{font-family:var(--font-num);font-size:10px;letter-spacing:.1em;color:rgba(var(--t-fg-soft),.55);}
+@media(max-width:640px){.btab-head{display:none;}.btab-row{grid-template-columns:34px 1fr;}}
 /* ── P6 브랜드 중립화 · 로그인 모달 ── */
 .site-textlogo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:min(80%,720px);}
 .site-textlogo .stl-title{font-size:clamp(28px,5.2vw,64px);line-height:1.1;letter-spacing:.06em;color:rgb(var(--t-snow));text-shadow:0 0 28px rgba(var(--t-glow),.35);text-wrap:balance;animation:hlFade 2.4s ease-out .2s both;}
@@ -1564,13 +1600,13 @@ body.no-bgm #lp-player{display:none!important;}
 .dd-file-btn small{flex:none;font-size:9.5px;color:rgba(var(--t-fg-soft),.45);letter-spacing:.02em;}
 
 /* ── 유틸/케이브덕: 시안 카드 (정방형 · 좌측 정렬 · 톤다운 오버레이) ── */
-#caveduck-grid,#utility-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;padding:0 48px;}
+.dgrid-image{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;padding:0 48px;}
 #caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 72px)/5);}
 #caveduck-grid .iss-pager,#utility-grid .iss-pager{width:100%;}
 #caveduck-grid .empty-state,#utility-grid .empty-state{width:100%;}
 @media(max-width:1300px){#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 54px)/4);}}
 @media(max-width:1100px){#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 36px)/3);}}
-@media(max-width:640px){#caveduck-grid,#utility-grid{gap:12px;padding:0 12px;}#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 12px)/2);}}
+@media(max-width:640px){.dgrid-image{gap:12px;padding:0 12px;}.dgrid-image .dist-card.dcv{width:calc((100% - 12px)/2);}}
 .dist-card.dcv{margin:0;padding:0;background:rgb(var(--t-card));border:1px solid rgba(var(--t-accent),.1);border-radius:0;overflow:hidden;aspect-ratio:1/1;position:relative;container-type:inline-size;transition:border-color .45s var(--ease-out),box-shadow .45s var(--ease-out),transform .45s var(--ease-out);}
 .dist-card.dcv:hover{transform:translateY(-3px);}
 .dcv-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
@@ -3179,6 +3215,7 @@ body.is-admin #page-admin .adm-body{display:block;}
       <div class="adm-sec">
         <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>게시판 관리</div>
         <div class="adm-sec-sub">카테고리 추가·삭제 및 글 관리 모드(일괄 삭제·수정·비공개·잠금)</div>
+        <div class="adm-row"><span class="adm-row-name">Issuance 탭 구성<small>탭 추가·이름·순서 · 커버(이미지/글/미니/리스트) · 글 유형(프롬프트/다운로드/링크/리치)</small></span><button class="adm-act" onclick="btabOpen()">탭 설정</button></div>
         <div class="adm-row"><span class="adm-row-name">Issuance · NovelAI<small>프롬프트</small></span><button class="adm-act" onclick="openCatManage('prompts')">카테고리 관리</button><button class="adm-act" onclick="adminManage('prompts','nai')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Issuance · OOC</span><button class="adm-act" onclick="openCatManage('ooc')">카테고리 관리</button><button class="adm-act" onclick="adminManage('prompts','ooc')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Issuance · CaveDuck<small>배포</small></span><button class="adm-act" onclick="openCatManage('caveduck')">카테고리 관리</button><button class="adm-act" onclick="adminManage('prompts','caveduck')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Issuance · Utility<small>배포</small></span><button class="adm-act" onclick="openCatManage('utility')">카테고리 관리</button><button class="adm-act" onclick="adminManage('prompts','utility')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Diary<small>일기장</small></span><button class="adm-act" onclick="openDiaryTabManage()">탭 관리</button><button class="adm-act" onclick="openCatManage('diary')">카테고리 관리</button><button class="adm-act" onclick="adminManage('diary')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Notices<small>공지사항</small></span><button class="adm-act" onclick="adminManage('notices')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Assets<small>에셋 백업</small></span><button class="adm-act" onclick="openAssetsTabManage()">탭 관리</button><button class="adm-act" onclick="openCatManage('assets')">카테고리</button><button class="adm-act" onclick="adminManage('assets')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Banners<small>배너 아카이브</small></span><button class="adm-act" onclick="adminManage('banners')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Logs<small>로그 백업</small></span><button class="adm-act" onclick="openLogsTabManage()">탭 관리</button><button class="adm-act" onclick="openCatManage('logs')">카테고리 관리</button><button class="adm-act" onclick="adminManage('logs')">글 관리</button></div>
         <div class="adm-row"><span class="adm-row-name">게시판 이름·문구<small>각 게시판 상단 표시명·서브문구 (장식)</small></span><button class="adm-act" onclick="boardNameOpen()">설정</button></div>
       </div>
@@ -3527,6 +3564,17 @@ body.is-admin #page-admin .adm-body{display:block;}
     <div class="ob-err" id="svc-err"></div>
   </div>
 </div>
+<div class="modal-overlay" id="btab-modal">
+  <div class="modal-box" style="max-width:760px;">
+    <button class="modal-close" onclick="closeModal('btab-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <div class="modal-title">TABS</div>
+    <p class="ob-lead">Issuance 게시판의 탭을 자유롭게 구성해요. 탭마다 카드 표시형(커버)과 안에 담기는 글 유형을 따로 고릅니다. NovelAI·OOC 두 탭은 글 유형만 고정되고 이름·순서·커버는 바꿀 수 있어요. 탭을 지워도 글은 지워지지 않고 다른 탭으로 옮겨집니다.</p>
+    <div class="btab-head"><span></span><span>탭 이름</span><span>커버</span><span>글 유형</span><span></span><span></span></div>
+    <div id="btab-list"></div>
+    <div class="form-actions"><button type="button" class="btn-secondary" onclick="btabAdd()">+ 탭 추가</button><button type="button" class="btn-primary" onclick="btabSave()">저장</button><button type="button" class="btn-secondary" onclick="closeModal('btab-modal')">취소</button></div>
+    <div class="ob-err" id="btab-err"></div>
+  </div>
+</div>
 <div class="modal-overlay" id="sitevis-modal">
   <div class="modal-box" style="max-width:520px;">
     <button class="modal-close" onclick="closeModal('sitevis-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
@@ -3723,6 +3771,7 @@ body.is-admin #page-admin .adm-body{display:block;}
       <button class="pcv-like" id="dd-like" title="좋아요"><svg width="15" height="13"><use href="#iss-ic-heart"/></svg><span class="pcv-like-n" id="dd-like-n"></span></button>
     </div>
     <div class="pdx-slider" id="dd-images"></div>
+    <div class="pdx-sec" id="dd-prompt-sec" hidden><div class="pdx-label">PROMPT</div><div id="dd-prompt"></div></div>
     <div class="pdx-sec" id="dd-coment-sec">
       <div class="pdx-label">COMENT</div>
       <div id="dd-desc" class="pdx-desc"></div>
@@ -5378,7 +5427,7 @@ async function doLogout(){if(!palelyDB)return;try{await palelyDB.auth.signOut();
 // ══ ROUTER ══
 let curDetail=null,curPopup=null,pendingConsent=null,pendingSharedPost=null;
 const POST_PAGE={prompts:'prompts',diary:'diary',notices:'notices',logs:'logs',distributions:'user'};
-const ISSUANCE_TABS={nai:'nai',ooc:'ooc',prompts:'nai',caveduck:'caveduck',utility:'utility'};
+const ISSUANCE_TABS=new Proxy({},{has:(o,k)=>k==='prompts'||!!issTabByKey(k),get:(o,k)=>k==='prompts'?'nai':(issTabByKey(k)?k:undefined)});   // 딥링크 #post=탭:id 판정
 function sharePost(){if(curDetail)copyShareLink(curDetail.type,curDetail.id);}
 function sharePopup(){if(curPopup)copyShareLink(curPopup.type,curPopup.id);}
 const SHARE_BASE='https://palely.me/home/'; // 공유 링크는 항상 라이브 주소 (로컬 미리보기에서 복사해도 안전)
@@ -5446,7 +5495,7 @@ function showToast(m){const t=document.getElementById('toast');t.textContent=m;t
 document.addEventListener('contextmenu',e=>{if(e.target.tagName==='IMG'&&!isAdmin){e.preventDefault();showToast('이미지 저장이 제한됩니다');}});
 
 // ══ LOAD ALL BOARDS ══
-async function loadBoards(){if(!palelyDB)return;await loadNeighbors();await Promise.all([loadNotices(),loadDiary(),loadAssets(),loadBanners(),loadLogs(),loadPrompts(),loadDistributions(),loadGuestbook(),loadUser()]);await loadDdaysFromDB();renderHomeDday();loadHomeSub();feedInit();memberInit();}
+async function loadBoards(){if(!palelyDB)return;await loadNeighbors();await boardsCfgLoad();await Promise.all([loadNotices(),loadDiary(),loadAssets(),loadBanners(),loadLogs(),loadPrompts(),loadDistributions(),loadGuestbook(),loadUser()]);await loadDdaysFromDB();renderHomeDday();loadHomeSub();feedInit();memberInit();}
 let homeSubText='';
 async function loadHomeSub(){
   try{const{data}=await palelyDB.from('settings').select('value').eq('key','home_subtext').single();homeSubText=(data&&data.value)||'';}catch(e){homeSubText='';}
@@ -6743,8 +6792,9 @@ function applyPromptFilters(tab){
   const pg=issPage[tab]||1,base=(pg-1)*ISS_PAGE_SIZE;
   const pageItems=sorted.slice(base,base+ISS_PAGE_SIZE);
   const pager=totalPages>1?'<div class="iss-pager" data-tb="'+tab+'">'+Array.from({length:totalPages},(_,n)=>'<button class="'+(n+1===pg?'cur':'')+'" onclick="issPagerClick(event)">'+(n+1)+'</button>').join('')+'</div>':'';
-  const rowFn=(tab==='ooc')?renderOocRow:renderPromptCard;
-  g.classList.toggle('ooc-listmode',tab==='ooc');
+  const cov_=(issTabByKey(tab)||{}).cover||(tab==='ooc'?'text':'image');
+  const rowFn=cov_==='image'?renderPromptCard:cov_==='text'?renderOocRow:((p,i)=>renderDistCardAlt(p,i,cov_));
+  g.classList.toggle('ooc-listmode',cov_==='text');g.classList.add('dgrid');['image','text','mini','list'].forEach(c=>g.classList.toggle('dgrid-'+c,c===cov_));
   g.innerHTML=pageItems.length?pageItems.map((p,i)=>rowFn(p,base+i)).join('')+pager:((q||f.cat||f.tags.size)?'<div class="empty-state"><p class="empty-state-text">검색 결과가 없습니다</p></div>':emptyHtml('prompts'));
 }
 // ── 카테고리 관리 (탭별, settings 중앙저장 → 미래 관리패널에 통합 가능) ──
@@ -6757,7 +6807,7 @@ async function saveBoardCategories(){try{await palelyDB.from('settings').upsert(
 function getCats(type){return Array.isArray(boardCategories[type])?boardCategories[type]:[];}
 let catManageType='prompts';
 function openCatManage(type){if(!isAdmin){showToast('Admin only');return;}catManageType=type||'prompts';renderCatManageList();document.getElementById('cat-manage-modal').classList.add('active');}
-function refreshBoardFilters(t){if(t==='prompts'){renderPromptFilters('nai');applyPromptFilters('nai');}else if(t==='ooc'){renderPromptFilters('ooc');applyPromptFilters('ooc');}else if(t==='diary'){renderDiaryFilters();applyDiaryFilters();}else if(t==='caveduck'||t==='utility'){renderDistFilters(t);applyDistFilters(t);}else if(t==='assets'){renderAssets();}}
+function refreshBoardFilters(t){if(t==='prompts'){renderPromptFilters('nai');applyPromptFilters('nai');}else if(t==='ooc'){renderPromptFilters('ooc');applyPromptFilters('ooc');}else if(t==='diary'){renderDiaryFilters();applyDiaryFilters();}else if(distTabKeys().includes(t)){renderDistFilters(t);applyDistFilters(t);}else if(t==='assets'){renderAssets();}}
 function renderCatManageList(){
   const cats=getCats(catManageType);
   document.getElementById('cat-manage-list').innerHTML=cats.length?cats.map((c,i)=>`<div class="cm-row"><span>${esc(c)}</span><button class="cm-del" onclick="removeCat(${i})">✕</button></div>`).join(''):'<div class="cat-empty">카테고리가 없습니다. 아래에서 추가하세요.</div>';
@@ -7249,10 +7299,9 @@ function fillPromptWith(text,values){let i=0;return(text||'').replace(/<([^<>\n]
 // 카테고리 정규화: 배열/JSON문자열/단일문자열 → 배열 (다중선택, 기존 단일값 호환)
 function catArr(v){if(Array.isArray(v))return v.filter(Boolean);if(typeof v==='string'){const t=v.trim();if(t.startsWith('[')){try{return(JSON.parse(t)||[]).filter(Boolean);}catch(e){}}return t?[t]:[];}return [];}
 function renderPromptCard(p,idx){
-  if(p.locked&&!isAdmin){nbLockedToast();return;}
-  if(p.is_private&&!isAdmin&&!unlockedPrompts.has(p.id)){
+  if((p.is_private||p.locked)&&!isAdmin&&!unlockedPrompts.has(p.id)){
     const lnum=String(postNum((promptTabData[(p.tab==='ooc')?'ooc':'nai']||[]),p)).padStart(2,'0');
-    return `<div class="prompt-card pcv pcv-locked" data-mid="${p.id}" onclick="openPrivatePrompt('${p.id}')">
+    return `<div class="prompt-card pcv pcv-locked" data-mid="${p.id}" onclick="${p.locked&&!p.is_private?'nbLockedToast()':`openPrivatePrompt('${p.id}')`}">
     <div class="pcv-cover"><div class="pcv-noimg">✦</div><div class="pcv-shade"></div></div>
     <div class="pcv-info">
       <div class="pcv-mid"><div class="pcv-hash">#</div><svg class="pcv-lockic" width="10" height="12"><use href="#iss-ic-lock"/></svg><div class="pcv-num">${lnum}</div><div class="pcv-title">${esc(p.title||'비밀글')}</div><div class="pcv-cat"># private</div></div>
@@ -7391,7 +7440,7 @@ function oocPrompts(p){
   return[t];
 }
 function renderOocRow(p,idx){
-  const num=String(postNum((promptTabData.ooc||[]),p)).padStart(2,'0');
+  const num=String(postNum((promptTabData[(p.tab==='ooc')?'ooc':'nai']||[]),p)).padStart(2,'0');
   const cats=catArr(p.category);
   const locked=(p.is_private||p.locked)&&!isAdmin&&!unlockedPrompts.has(p.id);
   const lock=(p.is_private||p.locked)?'<svg class="ooc-lockic" width="9" height="11"><use href="#iss-ic-lock"/></svg>':'';
@@ -7708,7 +7757,104 @@ function copyDetailPrompt(btn){
 }
 
 // ── Distributions (CaveDuck / Utility) ──
-let distData={caveduck:[],utility:[]}, distFilter={caveduck:{cat:'',tags:new Set()},utility:{cat:'',tags:new Set()}};
+let distData={},distFilter={};
+// ══ B1: Issuance 탭 엔진 — site_settings.boards_cfg.issuance.tabs [{k,label,cover,kind}] ══
+const ISS_DEFAULT_TABS=[{k:'nai',label:'NovelAI',table:'prompts',cover:'image',kind:'imgprompt'},{k:'ooc',label:'OOC',table:'prompts',cover:'text',kind:'textprompt'},{k:'caveduck',label:'CaveDuck',table:'distributions',cover:'image',kind:'link'},{k:'utility',label:'Utility',table:'distributions',cover:'image',kind:'download'}];
+const ISS_COVERS={image:'이미지형',text:'글형',mini:'미니 카드형',list:'리스트형'},ISS_KINDS={imgprompt:'이미지 프롬프트',textprompt:'텍스트 프롬프트',download:'다운로드',link:'링크',rich:'리치 글'};
+let boardsCfg=null;
+function issTabs(){
+  const raw=(boardsCfg&&boardsCfg.issuance&&Array.isArray(boardsCfg.issuance.tabs))?boardsCfg.issuance.tabs:null;
+  let tabs=raw?raw.filter(t=>t&&/^[a-z0-9_]{2,24}$/.test(String(t.k))).map(t=>({k:t.k,label:String(t.label||t.k).slice(0,24),table:(t.k==='nai'||t.k==='ooc')?'prompts':'distributions',cover:ISS_COVERS[t.cover]?t.cover:(t.k==='ooc'?'text':'image'),kind:ISS_KINDS[t.kind]?t.kind:'link'})):ISS_DEFAULT_TABS.map(t=>({...t}));
+  ['nai','ooc'].forEach((k,i)=>{if(!tabs.some(t=>t.k===k))tabs.splice(i,0,{...ISS_DEFAULT_TABS[i]});});   // 프롬프트 탭 2개는 항상 존재(유형 고정)
+  tabs.forEach(t=>{if(t.k==='nai')t.kind='imgprompt';if(t.k==='ooc')t.kind='textprompt';});   // 유형 고정, 커버는 설정대로
+  if(distData._etc&&distData._etc.length&&!tabs.some(t=>t.k==='_etc'))tabs.push({k:'_etc',label:'미분류',table:'distributions',cover:'image',kind:'link',auto:true});   // 어떤 탭에도 없는 글은 절대 숨기지 않음
+  return tabs;
+}
+function issTabByKey(k){return issTabs().find(t=>t.k===k)||null;}
+function distTabKeys(){return issTabs().filter(t=>t.table==='distributions').map(t=>t.k);}
+function distAll(){return distTabKeys().reduce((a,k)=>a.concat(distData[k]||[]),[]);}
+async function boardsCfgLoad(){try{const{data}=await palelyDB.from('settings').select('value').eq('key','boards_cfg').maybeSingle();boardsCfg=(data&&data.value)?JSON.parse(data.value):null;}catch(e){boardsCfg=null;}}
+async function boardsCfgSave(cfg){const{error}=await palelyDB.from('settings').upsert({key:'boards_cfg',value:JSON.stringify(cfg)},{onConflict:'key'});if(error)throw error;boardsCfg=cfg;}
+// 탭바·패널을 설정대로 재구성: 정적 패널(nai/ooc/caveduck/utility)은 재사용, 새 탭은 패널 생성, 빠진 탭은 숨김
+function issRebuild(){
+  const tabs=issTabs();const bar=document.querySelector('#page-prompts .tab-bar');if(!bar)return;
+  const star=(window._themeStar)||((bar.querySelector('.iss-tab-star')||{}).src)||'';
+  bar.innerHTML=tabs.map(t=>'<button class="tab-btn'+(t.k===currentPromptTab?' active':'')+'" data-tab="'+esc(t.k)+'" onclick="switchPromptTab(\''+esc(t.k)+'\')">'+(star?'<img class="iss-tab-star" src="'+esc(star)+'" alt="" draggable="false">':'')+'<span class="iss-tab-label">'+esc(t.label)+'</span></button>').join('');
+  const wrap=document.getElementById('prompts-content');
+  tabs.filter(t=>t.table==='distributions').forEach(t=>{const k=t.k;if(!distData[k])distData[k]=[];if(!distFilter[k])distFilter[k]={cat:'',tags:new Set()};if(!issPage[k])issPage[k]=1;
+    let panel=document.getElementById('tab-'+k);
+    if(!panel&&wrap){panel=document.createElement('div');panel.className='tab-content';panel.id='tab-'+k;panel.innerHTML='<div class="prompt-filters"><div class="pf-row"><input id="'+k+'-search" class="pf-search" placeholder="검색 (제목·설명·태그)" oninput="applyDistFilters(\''+k+'\')"></div><div id="'+k+'-cat-bar" class="pf-cats" onclick="onDistCatBarClick(\''+k+'\',event)"></div><div id="'+k+'-tag-bar" class="pf-tags" onclick="onDistTagBarClick(\''+k+'\',event)"></div></div><div id="'+k+'-grid"></div>';wrap.appendChild(panel);}
+    const g=document.getElementById(k+'-grid');if(g){g.classList.add('dgrid');['image','text','mini','list'].forEach(c=>g.classList.toggle('dgrid-'+c,c===t.cover));}
+    if(panel)panel.hidden=false;});
+  document.querySelectorAll('#prompts-content .tab-content').forEach(p=>{const k=p.id.replace('tab-','');if(!tabs.some(t=>t.k===k))p.hidden=true;});
+  if(!tabs.some(t=>t.k===currentPromptTab))switchPromptTab(tabs[0].k);
+}
+// 커버형 카드(글형·미니·리스트) — 이미지형은 기존 dcv
+function distExcerpt(d){const k=d.kind||(issTabByKey(d.type||d.tab)||{}).kind;if(k==='textprompt'&&d.prompt_text){try{const a=JSON.parse(d.prompt_text);if(Array.isArray(a)&&a.length){const p0=a[0];return String(typeof p0==='string'?p0:((p0&&(p0.text||p0.prompt))||'')).slice(0,160);}}catch(e){}return String(d.prompt_text).slice(0,160);}if(k==='rich'&&d.content)return htmlToText(d.content).slice(0,160);if((k==='imgprompt'||k==='textprompt')&&d.prompt_text){try{const b=naiBlocks({prompt_text:d.prompt_text});return String((b[0]&&b[0].text)||'').slice(0,160);}catch(e){return String(d.prompt_text).slice(0,160);}}return htmlToText(d.description||'').slice(0,160);}
+function renderDistCardAlt(d,idx,cover){
+  const imgs=promptImages(d);const cats=catArr(d.category);const lock=(d.is_private||d.locked)?'<svg class="dcv-lockic" width="9" height="11"><use href="#iss-ic-lock"/></svg>':'';
+  const tags=(Array.isArray(d.tags)?d.tags:[]).slice(0,3).map(t=>'#'+esc(t)).join(' ');const date=(typeof pdFmtDate==='function')?pdFmtDate(d.created_at):String(d.created_at||'').slice(0,10);
+  const kindKr=ISS_KINDS[d.kind||(issTabByKey(d.type||d.tab)||{}).kind]||'';const openFn_=d.type?'openDistDetail':'openPromptDetail';
+  if(cover==='list')return `<div class="dist-card dls" data-mid="${d.id}" onclick="${openFn_}('${d.id}')">${imgs[0]?`<img class="dls-th" ${timgAttrs(imgs[0])} loading="lazy" draggable="false">`:'<span class="dls-th dls-noimg"></span>'}<div class="dls-main"><div class="dls-title">${lock}${esc(d.title||'(제목 없음)')}</div><div class="dls-sub">${cats[0]?esc(cats[0])+' · ':''}${tags}</div></div><div class="dls-meta">${kindKr?'<span class="hub-tier">'+kindKr+'</span>':''}<span class="dls-date">${esc(date)}</span></div></div>`;
+  if(cover==='mini')return `<div class="dist-card dmn" data-mid="${d.id}" onclick="${openFn_}('${d.id}')">${imgs[0]?`<img class="dmn-th" ${timgAttrs(imgs[0])} loading="lazy" draggable="false">`:'<div class="dmn-th dmn-noimg">✦</div>'}<div class="dmn-title">${lock}${esc(d.title||'(제목 없음)')}</div></div>`;
+  return `<div class="dist-card dtx" data-mid="${d.id}" onclick="${openFn_}('${d.id}')"><div class="dtx-head"><span class="dtx-cat">${esc(cats[0]||kindKr||'')}</span><span class="dtx-date">${esc(date)}</span></div><div class="dtx-title">${lock}${esc(d.title||'(제목 없음)')}</div><div class="dtx-body">${esc(distExcerpt(d))}</div><div class="dtx-foot">${tags}</div></div>`;
+}
+// 상세: 프롬프트 유형 블록 표시 + 개별 복사(.cpi)
+function ddRenderPrompt(d,kind){
+  const sec=document.getElementById('dd-prompt-sec'),box=document.getElementById('dd-prompt');if(!sec||!box)return;
+  if(!(kind==='imgprompt'||kind==='textprompt')||!d.prompt_text){sec.hidden=true;box.innerHTML='';box._blocks=null;return;}
+  let blocks=[];
+  if(kind==='imgprompt'){try{blocks=naiBlocks({prompt_text:d.prompt_text}).map(b=>({name:b.k==='base'?'BASE':(b.name||'CHAR'),text:b.text||''}));}catch(e){blocks=[{name:'PROMPT',text:String(d.prompt_text)}];}}
+  else{try{const arr=JSON.parse(d.prompt_text);blocks=Array.isArray(arr)?arr.map((p,i)=>({name:(p&&p.name)||('PROMPT '+String(i+1).padStart(2,'0')),text:typeof p==='string'?p:((p&&(p.text||p.prompt))||'')})):[{name:'PROMPT',text:String(d.prompt_text)}];}catch(e){blocks=[{name:'PROMPT',text:String(d.prompt_text)}];}}
+  box.innerHTML=blocks.map((b,i)=>'<div class="ddp-block"><div class="ddp-head"><span class="ddp-name">'+esc(b.name)+'</span>'+cpiHtml('ddCopyBlock('+i+',this)','블록 복사')+'</div><pre class="ddp-text">'+esc(b.text||'')+'</pre></div>').join('');
+  box._blocks=blocks;sec.hidden=false;
+}
+function ddCopyBlock(i,btn){const b=(document.getElementById('dd-prompt')||{})._blocks;if(!b||!b[i])return;navigator.clipboard.writeText(b[i].text||'').then(()=>{if(btn){btn.classList.add('copied');setTimeout(()=>btn.classList.remove('copied'),1200);}showToast('복사됨');});}
+// 에디터 필드 = 탭 유형별
+function distFieldsFor(k){
+  const tb=issTabByKey(k)||{};const kind=tb.kind||'link';const f=[{key:'title',label:'Title',type:'text',placeholder:'이름'}];
+  if(kind!=='textprompt')f.push({key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'});
+  f.push({key:'category',label:'Category',type:'catselect'});
+  if(kind==='imgprompt')f.push({key:'prompt_text',label:'Prompt',type:'naiblocks'});
+  else if(kind==='textprompt')f.push({key:'prompt_text',label:'Prompts (블록 여러 개)',type:'multiprompt'});
+  else if(kind==='rich')f.push({key:'content',label:'본문',type:'richedit'});
+  if(kind!=='rich')f.push({key:'description',label:(kind==='imgprompt'||kind==='textprompt')?'설명 (선택)':'본문 (사담 · 설명 · 인용구)',type:'textarea',placeholder:'사담, 설명, 인용구…  (줄 선택 후 ◆ 인용구 버튼으로 인용 표시)'});
+  f.push({key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'});
+  if(kind==='download'||kind==='link')f.push({key:'files',label:kind==='download'?'다운로드 — 첨부 파일 & 외부 링크':'외부 링크 & 첨부',type:'dlfiles'});
+  f.push({key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'});
+  return f;
+}
+// 탭 설정 모달
+let btabDraft=null;
+function btabOpen(){if(!isAdmin){showToast('Admin only');return;}btabDraft=issTabs().filter(t=>!t.auto).map(t=>({...t}));btabRender();document.getElementById('btab-err').textContent='';document.getElementById('btab-modal').classList.add('active');}
+function btabRender(){
+  const L=document.getElementById('btab-list');if(!L)return;
+  L.innerHTML=btabDraft.map((t,i)=>{const fixed=t.table==='prompts';const n=fixed?((typeof promptsData!=='undefined'&&Array.isArray(promptsData))?promptsData.filter(p=>(p.tab||'nai')===t.k).length:0):(distData[t.k]||[]).length;
+    return '<div class="btab-row"><div class="btab-ord"><button type="button" class="hub-mini" onclick="btabMove('+i+',-1)"'+(i===0?' disabled':'')+'>▲</button><button type="button" class="hub-mini" onclick="btabMove('+i+',1)"'+(i===btabDraft.length-1?' disabled':'')+'>▼</button></div>'
+      +'<input class="form-input btab-label" maxlength="24" value="'+esc(t.label)+'" oninput="btabDraft['+i+'].label=this.value" placeholder="탭 이름">'
+      +'<select class="form-input btab-sel" onchange="btabDraft['+i+'].cover=this.value">'+Object.entries(ISS_COVERS).map(([v,l])=>'<option value="'+v+'"'+(t.cover===v?' selected':'')+'>'+l+'</option>').join('')+'</select>'
+      +'<select class="form-input btab-sel" onchange="btabDraft['+i+'].kind=this.value"'+(fixed?' disabled':'')+'>'+Object.entries(ISS_KINDS).map(([v,l])=>'<option value="'+v+'"'+(t.kind===v?' selected':'')+'>'+l+'</option>').join('')+'</select>'
+      +'<span class="btab-n">'+n+'글</span>'+(fixed?'<span class="hub-tier">고정</span>':'<button type="button" class="hub-mini svc-del" onclick="btabDel('+i+')">삭제</button>')+'</div>';}).join('');
+}
+function btabMove(i,d){const j=i+d;if(j<0||j>=btabDraft.length)return;[btabDraft[i],btabDraft[j]]=[btabDraft[j],btabDraft[i]];btabRender();}
+function btabAdd(){let k,n=0;do{k='tab'+String(Math.floor(Date.now()/1000)%100000+n).padStart(5,'0');n++;}while(btabDraft.some(t=>t.k===k));btabDraft.push({k,label:'NEW TAB',table:'distributions',cover:'image',kind:'link'});btabRender();}
+async function btabDel(i){
+  const t=btabDraft[i];const posts=(distData[t.k]||[]);const err=document.getElementById('btab-err');
+  if(posts.length){const others=btabDraft.filter(x=>x.table==='distributions'&&x.k!==t.k);if(!others.length){err.textContent='글을 옮길 다른 탭이 없어요 — 탭을 먼저 추가하세요';return;}
+    const v=await askModal('탭 삭제 — 글 '+posts.length+'개를 먼저 옮깁니다','옮길 탭 이름을 입력: '+others.map(o=>o.label).join(' / ')+'  (글은 삭제되지 않습니다)','text');if(v==null)return;
+    const target=others.find(o=>o.label.trim().toLowerCase()===String(v).trim().toLowerCase());if(!target){err.textContent='그런 탭이 없어요';return;}
+    try{const{error}=await palelyDB.from('distributions').update({type:target.k}).eq('type',t.k);if(error)throw error;showToast('글 '+posts.length+'개 → '+target.label);distData[target.k]=(distData[target.k]||[]).concat(posts.map(p=>({...p,type:target.k})));distData[t.k]=[];}
+    catch(e){err.textContent='이동 실패: '+(e.message||e);return;}
+  }
+  btabDraft.splice(i,1);btabRender();
+}
+async function btabSave(){
+  const err=document.getElementById('btab-err');err.textContent='';
+  for(const t of btabDraft){t.label=(t.label||'').trim();if(!t.label){err.textContent='탭 이름을 비울 수 없어요';return;}}
+  const cfg=Object.assign({},boardsCfg||{},{issuance:{tabs:btabDraft.map(t=>({k:t.k,label:t.label,cover:t.cover,kind:t.kind}))}});
+  try{await boardsCfgSave(cfg);}catch(e){err.textContent='저장 실패: '+(e.message||e);return;}
+  closeModal('btab-modal');showToast('탭 설정 저장');await loadDistributions();
+}
 const unlockedDists=new Set();
 async function loadDistributions(){
   let data;
@@ -7718,9 +7864,12 @@ async function loadDistributions(){
   if(!isAdmin)data=(data||[]).map(d=>(d.is_private&&!unlockedDists.has(d.id))?{...d,description:null,images:[],image_url:null,files:[],links:[]}:d);
   await loadBoardCategories();
   const all=data||[];
-  distData.caveduck=all.filter(d=>d.type==='caveduck');
-  distData.utility=all.filter(d=>d.type==='utility');
-  ['caveduck','utility'].forEach(tab=>{renderDistFilters(tab);applyDistFilters(tab);});
+  const keys=issTabs().filter(t=>t.table==='distributions'&&!t.auto).map(t=>t.k);
+  Object.keys(distData).forEach(k=>{distData[k]=[];});
+  keys.forEach(k=>{distData[k]=all.filter(d=>d.type===k);});
+  distData._etc=all.filter(d=>!keys.includes(d.type)&&d.type!=='user');   // 어떤 탭에도 없는 글 → 『미분류』 탭 자동 표시(숨김 금지)
+  issRebuild();
+  distTabKeys().forEach(tab=>{renderDistFilters(tab);applyDistFilters(tab);});
 }
 function renderDistFilters(tab){
   const list=distData[tab]||[];
@@ -7755,7 +7904,8 @@ function applyDistFilters(tab){
   g.innerHTML=pageItems.length?pageItems.map((d,i)=>renderDistCard(d,base+i)).join('')+pager:((q||f.cat||f.tags.size)?'<div class="empty-state"><p class="empty-state-text">검색 결과가 없습니다</p></div>':emptyHtml(tab));
 }
 function renderDistCard(d,idx){
-  const num=String(postNum((distData[d.type]||distData.caveduck||[]),d)).padStart(2,'0');
+  const tbc=issTabByKey(d.type)||{};if(tbc.cover&&tbc.cover!=='image')return renderDistCardAlt(d,idx,tbc.cover);
+  const num=String(postNum((distData[d.type]||distData._etc||[]),d)).padStart(2,'0');
   const imgs=promptImages(d);
   const cats=catArr(d.category);
   const tag=(Array.isArray(d.tags)&&d.tags.length)?('# '+d.tags[0]):(cats[0]?('# '+cats[0]):'');
@@ -7822,7 +7972,7 @@ async function openPrivateDist(id){
   }catch(e){showToast('열기 실패');}
 }
 function openDistDetail(id){
-  const d=distData.caveduck.concat(distData.utility).find(x=>x.id===id);if(!d)return;
+  const d=distAll().find(x=>x.id===id);if(!d)return;
   if(d.locked&&!isAdmin){nbLockedToast();return;}
   if(d.is_private&&!isAdmin&&!unlockedDists.has(d.id)){openPrivateDist(id);return;}
   if(!consentOK(d.warn)){pendingConsent=()=>openDistDetail(id);showConsent();return;}
@@ -7840,7 +7990,10 @@ function openDistDetail(id){
   ddRenderSlider();
   const desc=document.getElementById('dd-desc');
   desc.innerHTML=ddBodyHtml(d.description);
-  document.getElementById('dd-coment-sec').style.display=d.description?'block':'none';
+  const kind_=d.kind||(issTabByKey(d.type)||{}).kind||'link';
+  desc.classList.toggle('diary-rich',kind_==='rich'&&!!d.content);if(kind_==='rich'&&d.content){desc.innerHTML='';renderRich(d.content,desc);}
+  document.getElementById('dd-coment-sec').style.display=(d.description||(kind_==='rich'&&d.content))?'block':'none';
+  ddRenderPrompt(d,kind_);
   const files=Array.isArray(d.files)?d.files:[];
   const ext=files.filter(x=>x.external).concat((d.links||[]).map(l=>({name:l.label||l.url,url:l.url})));
   document.getElementById('dd-links').innerHTML=ext.map(l=>'<a class="ddx-link" href="'+esc(l.url)+'" target="_blank" rel="noopener"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>'+esc(l.name)+'</a>').join('');
@@ -7904,9 +8057,9 @@ async function savePromptsPw(){
 function switchPromptTab(tab){
   currentPromptTab=tab;
   if(document.getElementById('iss-search-pop')?.classList.contains('open'))setTimeout(issRenderSearch,0);
-  document.querySelectorAll('#page-prompts .tab-btn').forEach((b,i)=>b.classList.toggle('active',['nai','ooc','caveduck','utility'][i]===tab));
+  document.querySelectorAll('#page-prompts .tab-btn').forEach((b,i)=>b.classList.toggle('active',(b.dataset.tab||['nai','ooc','caveduck','utility'][i])===tab));
   document.querySelectorAll('#page-prompts .tab-content').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-'+tab).classList.add('active');
+  const tc_=document.getElementById('tab-'+tab);if(tc_)tc_.classList.add('active');
 }
 function openPromptAdd(){
   if(currentPromptTab==='nai')openEditor('prompts');
@@ -8078,7 +8231,7 @@ function alarmTogglePref(path,on){
 const ALARM_BOARD_KR={prompts:'프롬프트',distributions:'배포',diary:'다이어리',logs:'로그',assets:'에셋'};
 function alarmFindPost(id){
   const sid=String(id);
-  const pools=[['prompts',promptsData],['distributions',(distData.caveduck||[]).concat(distData.utility||[])],['diary',diaryData],['logs',(typeof logsAllData!=='undefined'?logsAllData:[])],['assets',assetsAllData]];
+  const pools=[['prompts',promptsData],['distributions',distAll()],['diary',diaryData],['logs',(typeof logsAllData!=='undefined'?logsAllData:[])],['assets',assetsAllData]];
   for(const[b,arr] of pools){const f=(arr||[]).find(x=>String(x.id)===sid);if(f)return{board:b,title:f.title||'무제'};}
   return null;
 }
@@ -8110,7 +8263,7 @@ async function mainNewLoadCfg(){
 function mainNewPosts(n){
   const cfg=mainNewCfg||{boards:'all'};
   const all=cfg.boards==='all'?['diary','logs','assets','prompts','distributions']:(cfg.boards||[]);
-  const pools={diary:diaryData,logs:(typeof logsAllData!=='undefined'?logsAllData:[]),assets:assetsAllData,prompts:promptsData,distributions:(distData.caveduck||[]).concat(distData.utility||[])};
+  const pools={diary:diaryData,logs:(typeof logsAllData!=='undefined'?logsAllData:[]),assets:assetsAllData,prompts:promptsData,distributions:distAll()};
   const out=[];
   all.forEach(b=>{(pools[b]||[]).forEach(x=>{if(!(x.is_private&&!isAdmin))out.push({board:b,label:ALARM_BOARD_KR[b]||b,title:x.title||'무제',id:x.id,date:new Date(x.created_at).getTime()||0});});});
   out.sort((a,b)=>b.date-a.date);
@@ -8303,7 +8456,7 @@ function issSortFlip(btn){
   }
   const w=document.getElementById('iss-sort');if(w){w.classList.add('open');setTimeout(()=>w.classList.remove('open'),700);}
   issFlipMove(['nai-grid','ooc-grid','caveduck-grid','utility-grid'],()=>{
-    ['nai','ooc'].forEach(t=>applyPromptFilters(t));['caveduck','utility'].forEach(t=>applyDistFilters(t));
+    ['nai','ooc'].forEach(t=>applyPromptFilters(t));distTabKeys().forEach(t=>applyDistFilters(t));
   });
 }
 // FLIP: 재정렬 시 카드가 떠오르며 순차적으로 이동 후 안착 (Web Animations API)
@@ -8343,11 +8496,11 @@ function issFlipMove(gridIds,rerender){
   });
 }
 function issSortToggle(e){if(e){e.preventDefault();e.stopPropagation();}const w=document.getElementById('iss-sort');if(!w)return;const open=w.classList.toggle('open');if(open){const close=ev=>{if(!ev.target.closest('#iss-sort')){w.classList.remove('open');document.removeEventListener('mousedown',close);}};setTimeout(()=>document.addEventListener('mousedown',close),0);}}
-function issSetSort(v){issSort=v;const l=document.getElementById('iss-sort-label');if(l)l.textContent=v==='old'?'OLDEST':'NEWEST';const w=document.getElementById('iss-sort');if(w)w.classList.remove('open');['nai','ooc'].forEach(t=>applyPromptFilters(t));['caveduck','utility'].forEach(t=>applyDistFilters(t));}
+function issSetSort(v){issSort=v;const l=document.getElementById('iss-sort-label');if(l)l.textContent=v==='old'?'OLDEST':'NEWEST';const w=document.getElementById('iss-sort');if(w)w.classList.remove('open');['nai','ooc'].forEach(t=>applyPromptFilters(t));distTabKeys().forEach(t=>applyDistFilters(t));}
 function issSortList(list){return list.slice().sort((a,b)=>issSort==='old'?new Date(a.created_at||0)-new Date(b.created_at||0):new Date(b.created_at||0)-new Date(a.created_at||0));}
 // ── ISSUANCE 우측 레일 · 설정 통합 (카테고리·글관리·PW) ──
-const ISS_CAT_KEY={nai:'prompts',ooc:'ooc',caveduck:'caveduck',utility:'utility'};
-const ISS_TAB_LABEL={nai:'NovelAI',ooc:'OOC',caveduck:'CaveDuck',utility:'Utility'};
+const ISS_CAT_KEY=new Proxy({nai:'prompts'},{get:(o,k)=>typeof k==='string'?(o[k]||k):undefined,has:(o,k)=>k==='nai'||!!issTabByKey(k),ownKeys:()=>issTabs().map(t=>t.k),getOwnPropertyDescriptor:(o,k)=>({enumerable:true,configurable:true,value:(o[k]||k)})});
+const ISS_TAB_LABEL=new Proxy({},{get:(o,k)=>{if(typeof k!=='string')return undefined;const t=issTabByKey(k);return t?t.label:k;},has:(o,k)=>!!issTabByKey(k),ownKeys:()=>issTabs().map(t=>t.k),getOwnPropertyDescriptor:(o,k)=>({enumerable:true,configurable:true,value:(issTabByKey(k)||{}).label||k})});
 let issSearchScope='title';
 function issToggleFilters(){
   const pop=document.getElementById('iss-search-pop');if(!pop)return;
@@ -8881,7 +9034,7 @@ function getFieldsForTypeBase(type,distType){
     case 'banners':return [{key:'link_url',label:'Link URL',type:'url-og',placeholder:'https://...'},{key:'image_url',label:'배너 이미지 (아보카도식·직접 지정 시)',type:'file'},{key:'title',label:'Title',type:'text',placeholder:'사이트 이름 (선택)'},{key:'description',label:'문구 (카드 하단 · 비우면 주소 노출)',type:'text',placeholder:'한 줄 문구 (선택)'}];
     case 'logs':return [{key:'title',label:'Title',type:'text',placeholder:'제목'},{key:'category',label:'Category',type:'catselect'},{key:'source',label:'Source',type:'text',placeholder:'출처 (선택)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'is_private',label:'🔒 비밀글로 설정 (비밀번호 필요)',type:'checkbox'},{key:'secret',label:'비밀번호 (비밀글일 때 · 변경할 때만 입력)',type:'password'},{key:'content',label:'Content',type:'richedit',placeholder:'로그를 자유롭게 작성·붙여넣기… (이미지 삽입·유튜브 지원)'},{key:'html_raw',label:'HTML 원본 코드 (선택 — 붙여넣으면 본문에서 그대로 렌더 · 이미지 저장 가능)',type:'htmlcode'},{key:'thumb',label:'대표 썸네일',type:'thumbpick'}];
     case 'prompts':return [{key:'title',label:'Title',type:'text',placeholder:'프롬프트 이름 (선택)'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'설명 (복사 안 됨 · 잡담/메모용)',type:'textarea',placeholder:'복사되지 않는 설명·메모...'},{key:'prompt_text',label:'Prompt',type:(editorPromptTab==='ooc'?'multiprompt':'naiblocks'),placeholder:'프롬프트 텍스트... (텍스트 선택 후 변수 버튼 → <>로 감쌈)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'links',label:'링크 첨부 (이름 + 주소 · 상세에 작은 버튼으로 표시)',type:'links'},{key:'blur',label:'미리보기 이미지 가리기 (체크 시 썸네일 블러)',type:'checkbox'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
-    case 'distributions':return [{key:'title',label:'Title',type:'text',placeholder:'이름'},{key:'images',label:'Images (여러 장 · 첫 장이 대표 썸네일)',type:'multifile'},{key:'category',label:'Category',type:'catselect'},{key:'description',label:'본문 (사담 · 설명 · 인용구)',type:'textarea',placeholder:'사담, 설명, 인용구…  (줄 선택 후 ◆ 인용구 버튼으로 인용 표시)'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'files',label:'다운로드 — 첨부 파일 & 외부 링크',type:'dlfiles'},{key:'warn',label:'🔞 성인 경고창 (열람 전 동의 필요)',type:'checkbox'},{key:'is_private',label:'비밀글로 설정 (비밀번호 입력 시에만 열람)',type:'checkbox'},{key:'secret',label:'비밀글 비밀번호 (변경할 때만 입력)',type:'password'}];
+    case 'distributions':return distFieldsFor(distType);
     case 'notices':return [{key:'title',label:'Title',type:'text',placeholder:'공지 제목'},{key:'content',label:'Content (Markdown)',type:'markdown',placeholder:'마크다운으로 작성...'}];
     default:return[];
   }
@@ -9566,7 +9719,7 @@ async function saveEntry(){
       if(!record.is_private){record.secret=null;}
       else if(!record.secret&&!currentEditId){showToast('비밀글 비밀번호를 입력하세요');btn.disabled=false;btn.textContent='SAVE';return;}
     }
-    if(currentEditorType==='distributions'&&!currentEditId)record.type=editorDistType;
+    if(currentEditorType==='distributions'){if(!currentEditId)record.type=editorDistType;const tb_=issTabByKey(record.type||editorDistType);if(tb_&&tb_.kind&&!tb_.auto)record.kind=tb_.kind;}
     if(currentEditorType==='prompts'&&!currentEditId)record.tab=editorPromptTab||'nai';
     if(currentEditorType==='assets'&&!currentEditId&&assetsTabs.length>1)record.tab=currentAssetsTab||((assetsTabs&&assetsTabs[0]||{}).k)||'main';
     if(currentEditorType==='diary'&&!currentEditId)record.tab=currentDiaryTab||((diaryTabs&&diaryTabs[0]||{}).k)||'main';
@@ -9776,7 +9929,7 @@ function mdInsert(id,before,after){const ta=document.getElementById(id);if(!ta)r
 function mdLine(id,prefix){const ta=document.getElementById(id);if(!ta)return;const s=ta.selectionStart;const lineStart=ta.value.lastIndexOf('\n',s-1)+1;ta.value=ta.value.substring(0,lineStart)+prefix+ta.value.substring(lineStart);ta.focus();ta.selectionStart=ta.selectionEnd=s+prefix.length;}
 function mdInsertTable(id){const ta=document.getElementById(id);if(!ta)return;const tbl='\n| Column 1 | Column 2 | Column 3 |\n|----------|----------|----------|\n| data | data | data |\n';const s=ta.selectionStart;ta.value=ta.value.substring(0,s)+tbl+ta.value.substring(s);ta.focus();}
 function toggleMdPreview(id){const ta=document.getElementById(id);const pv=document.getElementById(id+'-preview');if(!pv)return;if(pv.style.display==='none'||!pv.style.display){pv.innerHTML=renderMd(ta.value);pv.style.display='block';ta.style.display='none';}else{pv.style.display='none';ta.style.display='block';}}
-function typeLabel(t,dt){return{notices:'Notice',diary:'Diary',assets:'Asset',banners:'Banner',logs:'Log',prompts:'Prompt',distributions:dt==='caveduck'?'CaveDuck':'Utility',guestbook:'Guestbook'}[t]||t;}
+function typeLabel(t,dt){return{notices:'Notice',diary:'Diary',assets:'Asset',banners:'Banner',logs:'Log',prompts:'Prompt',distributions:((typeof issTabByKey==='function'&&issTabByKey(dt))||{}).label||dt||'Dist',guestbook:'Guestbook'}[t]||t;}
 function emptyHtml(type){
   const labels={notices:'공지가',diary:'기록이',assets:'에셋이',banners:'배너가',logs:'로그가',prompts:'프롬프트가',caveduck:'CaveDuck 배포가',utility:'유틸리티가'};
   return `<div class="empty-state" style="grid-column:1/-1;"><p class="empty-state-text">아직 ${labels[type]||'항목이'} 없습니다</p></div>`;
@@ -9816,7 +9969,7 @@ async function initPMB(){
       return;
     }
     if(!pmbClient)return;
-    const pid=cfg.playlistId||PMB_PLAYLIST_ID;
+    const rawPid=cfg.playlistId||PMB_PLAYLIST_ID;const mPid=String(rawPid).match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i);const pid=mPid?mPid[0]:rawPid;   // URL이 저장돼 있어도 UUID만
     let{data:p}=await pmbClient.from('playlists').select('*').eq('id',pid).limit(1);
     if(!p||!p.length){({data:p}=await pmbClient.from('playlists').select('*').limit(1));}
     if(p&&p.length){document.getElementById('player-playlist-name').textContent=cfg.name||p[0].pair_name||'Pair Music Box';const{data:t}=await pmbClient.from('tracks').select('*').eq('playlist_id',p[0].id).order('position');if(t&&t.length){pmbTracks=t.map(x=>({id:x.id,vid:x.video_id,title:x.title,img:x.image_url||null}));pmbPlay(0,!auto);}}
@@ -10017,8 +10170,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.4.2';
+const APP_VERSION='1.5.0';
 const CHANGELOG=[
+  {v:'1.5.0',date:'2026-09-12',title:'게시판 빌더 — Issuance 탭 자유 구성',sql:true,items:['관리 → 게시판 관리 → Issuance 탭 구성: 탭을 원하는 만큼 추가하고 이름·순서를 바꿀 수 있습니다','탭마다 커버(이미지형 · 글형 · 미니 카드형 · 리스트형)와 글 유형(이미지 프롬프트 · 텍스트 프롬프트 · 다운로드 · 링크 · 리치 글)을 따로 고릅니다. 유형에 따라 글쓰기 화면과 상세 화면이 바뀝니다','NovelAI·OOC 탭은 유형만 고정, 커버·이름·순서는 자유','탭을 지워도 글은 지워지지 않고 지정한 탭으로 옮겨집니다. 어떤 탭에도 속하지 않는 글은 미분류 탭에 자동 표시','프롬프트 유형 글 상세에 블록별 복사 아이콘 PROMPT 섹션','배경음악 재생목록 ID에 주소가 저장돼 있어도 정상 인식(설정한 재생목록이 실제로 재생)','이웃 공개 글의 프롬프트 카드가 표시되지 않던 문제 수정','DB: B1 SQL(distributions 컬럼 추가) — 적용 완료'],},
   {v:'1.4.2',date:'2026-09-11',title:'배너 이미지 핫픽스',sql:false,items:['배너 게시판 이미지가 사라지던 문제 수정 — 지연 로드용 자리표시 이미지가 잘려 있어 로드 실패로 처리되던 버그']},
   {v:'1.4.1',date:'2026-09-11',title:'로딩 성능 · 약관 정본 · 신고 창구',sql:true,items:['첫 로딩이 크게 빨라졌습니다 — 숨은 게시판의 원본 이미지가 미리 내려오던 문제(수십 MB)를 없애고, 설정을 한 번에 받아 요청 수를 줄였습니다. 큰 이미지는 페이지를 열 때 또는 여유 시간에 조용히 미리 받습니다','가입 동의 화면에 이용약관·개인정보 처리방침 정본(2026-09-10 시행)이 표시됩니다','운영자에게 보내기: 신고·건의·버그(오류 로그 자동 첨부)·문의 — 허브 하단과 관리 화면에서. 접수 내역과 운영자 답변 확인','새 블로그 기본값: 블로그 이름 텍스트 로고·탭 제목·서브문구, 배경음악은 설정 전까지 숨김','로그인 창은 Google 우선. 기존 아이디·관리자 로그인은 아래 작은 링크로','콘솔의 불필요한 406 오류가 사라졌습니다','DB: P5a SQL(약관 정본·신고함) — 적용 완료'],},
   {v:'1.4.0',date:'2026-09-10',title:'계정 · 허브 · 공개 범위 · 운영 콘솔',sql:true,items:['Google 계정으로 로그인 → 초대 코드·이용 안내 동의·닉네임·블로그 이름 순서로 내 블로그를 열 수 있습니다 (도메인은 자동 배정)','우상단 HUB: 내 블로그·프로필(멀티/대표)·마음함·블로그 둘러보기·이웃(신청/수락/끊기)·이웃 새 글 타임라인','좋아요를 누르면 로그인 계정의 마음함에도 담깁니다','블로그 공개 범위: 전체 / 이웃 / 비밀번호(구글 없이 비밀번호만) / 비공개 — 글마다도 전체·이웃·비공개 지정. 방명록 범위, 이웃공개 글 미리보기(썸네일·제목) ON/OFF, 이미지 보호(원본 서명 URL) ON/OFF, 표시 프로필','관리 → 서비스 운영(super): 유저 등급·차단·탈퇴, 초대 코드 발급, 가입 모드(초대/공개/중단), 이용 안내 문구·재동의','검색·크롤링 전면 차단(robots.txt · 응답 헤더 · 페이지 메타) + 보안 재점검(쓰기 권한 축소·시도 횟수 제한·스토리지 정책 정리)','DB: P3·P3b·P4·P4b·P4c·P4d SQL — 적용 완료'],},
