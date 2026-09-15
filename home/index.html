@@ -1019,9 +1019,9 @@ body.is-admin .pcv-edit{display:inline-flex!important;}
 .tab-bar{margin:8px 0 30px;}
 .iss-sortline{margin-bottom:8px;}
 .iss-pager{padding:16px 0 2px;}
-@media(max-width:1200px){#nai-grid,#ooc-grid{grid-template-columns:repeat(4,1fr);}}
-@media(max-width:920px){#nai-grid,#ooc-grid{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:640px){#nai-grid,#ooc-grid{grid-template-columns:repeat(2,1fr);gap:16px 12px;}}
+@media(max-width:1200px){#nai-grid,#ooc-grid,.dgrid-image{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:920px){#nai-grid,#ooc-grid,.dgrid-image{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:640px){#nai-grid,#ooc-grid,.dgrid-image{grid-template-columns:repeat(2,1fr);gap:16px 12px;}}
 .iss-tab-star{display:block;object-fit:contain;}
 /* ══ 서치 팝업창 (시안: Rectangle13 rgb(var(--t-surface))/95% · Bodoni+프리텐다드 · 0.25px 라인) ══ */
 .iss-search-pop{display:none;position:absolute;top:24px;right:-44px;width:344px;background:rgba(var(--t-surface),.95);z-index:45;padding:38px 40px 34px;box-shadow:0 18px 60px rgba(var(--t-shadow),.55);text-align:left;}
@@ -1431,6 +1431,17 @@ body:not(.is-admin) .hub-link{right:30px;}
 .hub-act{margin-top:12px;}
 .hub-link-row:hover .hub-rt{color:rgb(var(--t-glow));}
 .hub-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.hub-ract{display:flex;align-items:center;gap:12px;}
+.hub-gear{background:none;border:none;cursor:pointer;color:rgba(var(--t-fg-soft),.55);padding:8px;margin:-8px;transition:color .3s,transform .5s cubic-bezier(.3,1.2,.35,1);display:inline-flex;}
+.hub-gear:hover{color:rgb(var(--t-text));transform:rotate(45deg);}
+.hub-here{color:rgb(var(--t-glow));border-color:rgba(var(--t-glow),.5);}
+.hub-chips{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-top:8px;letter-spacing:0;}
+.hub-chips-n{font-family:var(--font-num);font-size:9.5px;letter-spacing:.14em;color:rgba(var(--t-fg-soft),.55);margin-right:4px;}
+.hub-chip{display:inline-flex;align-items:center;gap:5px;background:none;border:none;cursor:pointer;padding:2px 0;font-family:var(--font-kr);font-size:10.5px;letter-spacing:-.01em;color:rgba(var(--t-fg-soft),.5);transition:color .3s;}
+.hub-chip svg{color:rgba(var(--t-fg-soft),.45);}.hub-chip.on{color:rgba(var(--t-snow),.85);}.hub-chip.on svg{color:rgb(var(--t-glow));}.hub-chip:hover{color:rgb(var(--t-text));}
+.hub-svc-act{display:flex;flex-wrap:wrap;gap:10px;}
+.mb-imgrow{display:flex;gap:10px;align-items:center;}.mb-imgrow .form-input{flex:1;}.mb-prev{width:44px;height:44px;object-fit:cover;border:1px solid var(--border);flex:none;}
+.hub-badge{margin-left:auto;font-family:var(--font-kr);font-size:10px;padding:2px 8px;border:1px solid rgba(var(--t-warm),.55);color:rgb(var(--t-warm));}
 /* ── P3b 게이트·공개범위·허브 확장 ── */
 .hub-nb{right:auto;left:auto;}
 body:not(.is-admin) .hub-nb{right:82px;}
@@ -1515,7 +1526,8 @@ body.is-super .adm-super{display:block;}
 .ddp-block{border:1px solid rgba(var(--t-fg),.1);background:rgba(var(--t-fg),.03);margin-bottom:10px;}
 .ddp-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(var(--t-fg),.08);font-family:var(--font-num);font-size:10px;letter-spacing:.2em;color:rgba(var(--t-fg-soft),.6);}
 .ddp-text{margin:0;padding:12px 14px;white-space:pre-wrap;word-break:break-word;font-family:var(--font-kr);font-size:12px;line-height:1.7;color:rgba(var(--t-fg-mid),.9);}
-.btab-head,.btab-row{display:grid;grid-template-columns:34px 1fr 130px 150px 48px 60px;gap:10px;align-items:center;}
+.btab-head,.btab-row{display:grid;grid-template-columns:34px 1fr 130px 150px 48px 60px 96px;gap:10px;align-items:center;}
+.btab-x{display:flex;gap:8px;justify-content:flex-end;white-space:nowrap;}
 .btab-head{font-family:var(--font-kr);font-size:10.5px;color:rgba(var(--t-fg-soft),.5);padding:0 0 6px;}
 .btab-row{padding:8px 0;border-top:1px solid rgba(var(--t-fg),.08);}
 .btab-ord{display:flex;flex-direction:column;gap:2px;}
@@ -1591,13 +1603,12 @@ body.no-bgm #lp-player{display:none!important;}
 .dd-file-btn small{flex:none;font-size:9.5px;color:rgba(var(--t-fg-soft),.45);letter-spacing:.02em;}
 
 /* ── 유틸/케이브덕: 시안 카드 (정방형 · 좌측 정렬 · 톤다운 오버레이) ── */
-.dgrid-image{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;padding:0 48px;}
-#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 72px)/5);}
-#caveduck-grid .iss-pager,#utility-grid .iss-pager{width:100%;}
-#caveduck-grid .empty-state,#utility-grid .empty-state{width:100%;}
-@media(max-width:1300px){#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 54px)/4);}}
-@media(max-width:1100px){#caveduck-grid .dist-card.dcv,#utility-grid .dist-card.dcv{width:calc((100% - 36px)/3);}}
-@media(max-width:640px){.dgrid-mini{gap:12px;padding:0 12px;}.dgrid-mini .dist-card.dcv{width:calc((100% - 12px)/2);}#nai-grid.dgrid-mini,#ooc-grid.dgrid-mini{gap:12px;padding:0 12px;}}
+.dgrid-mini .dist-card.dcv{width:calc((100% - 72px)/5);}
+.dgrid-mini .iss-pager{width:100%;}
+.dgrid-mini .empty-state{width:100%;}
+@media(max-width:1300px){.dgrid-mini .dist-card.dcv{width:calc((100% - 54px)/4);}}
+@media(max-width:1100px){.dgrid-mini .dist-card.dcv{width:calc((100% - 36px)/3);}}
+@media(max-width:640px){.dgrid-mini{gap:12px;padding:0;}.dgrid-mini .dist-card.dcv{width:calc((100% - 12px)/2);}#nai-grid.dgrid-mini,#ooc-grid.dgrid-mini{gap:12px;padding:0;}}
 .dist-card.dcv{margin:0;padding:0;background:rgb(var(--t-card));border:1px solid rgba(var(--t-accent),.1);border-radius:0;overflow:hidden;aspect-ratio:1/1;position:relative;container-type:inline-size;transition:border-color .45s var(--ease-out),box-shadow .45s var(--ease-out),transform .45s var(--ease-out);}
 .dist-card.dcv:hover{transform:translateY(-3px);}
 .dcv-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
@@ -1649,6 +1660,17 @@ body.is-admin #page-admin .adm-body{display:block;}
 .adm-sec{margin-bottom:38px;}
 .adm-sec-title{font-family:var(--font-num);font-size:12px;letter-spacing:.26em;text-indent:.02em;color:rgba(var(--t-snow),.9);margin-bottom:4px;display:flex;align-items:center;gap:9px;}
 .adm-sec-title .pdx-dia{color:rgb(var(--t-text));}
+.adm-sec-title{cursor:pointer;user-select:none;}
+.adm-fold-ic{margin-left:auto;width:7px;height:7px;border-right:1px solid rgba(var(--t-fg-soft),.55);border-bottom:1px solid rgba(var(--t-fg-soft),.55);transform:rotate(45deg) translateY(-2px);transition:transform .35s cubic-bezier(.3,1.2,.35,1);}
+.adm-sec.folded .adm-fold-ic{transform:rotate(-45deg) translateY(1px);}
+.adm-sec.folded .adm-sec-body{display:none;}
+.adm-sec.folded{margin-bottom:22px;}
+.adm-jump{display:flex;gap:22px;justify-content:center;margin:0 0 30px;font-family:var(--font-kr);font-size:11px;}
+.adm-jump a{color:rgba(var(--t-fg-soft),.55);text-decoration:none;letter-spacing:-.01em;position:relative;padding:4px 0;transition:color .3s;}
+.adm-jump a::after{content:'';position:absolute;left:0;right:100%;bottom:0;height:1px;transform:scaleY(.5);background:rgb(var(--t-fg));transition:right .45s cubic-bezier(.25,.8,.3,1);}
+.adm-jump a:hover{color:rgb(var(--t-text));}.adm-jump a:hover::after{right:0;}
+.adm-sec.adm-legacy,.adm-row.adm-legacy{display:none;}body.site-boss .adm-sec.adm-legacy{display:block;}body.site-boss .adm-row.adm-legacy{display:flex;}
+@media(max-width:640px){#page-admin .adm-wrap{padding:0 14px;}#page-admin .adm-row{flex-wrap:wrap;gap:6px 18px;padding:12px 2px 10px;}#page-admin .adm-row-name{flex:1 1 100%;}#page-admin .adm-row-name small{display:block;margin:3px 0 0;}#page-admin .adm-act{padding:10px 2px;margin:-6px 0;font-size:11.5px;}#page-admin .adm-jump{gap:16px;flex-wrap:wrap;}.hub-sec{padding:16px 16px;}}
 #version-modal .modal-box{max-width:520px;display:flex;flex-direction:column;overflow:hidden;}
 #version-rows{flex:1 1 auto;min-height:0;overflow-y:auto;margin-top:4px;}
 .ver-item{padding:14px 2px 16px;border-bottom:1px solid rgba(var(--t-fg),.08);}
@@ -2337,6 +2359,7 @@ body.is-admin #page-admin .adm-body{display:block;}
   #mnav-sheet{position:fixed;left:0;right:0;bottom:calc(58px + env(safe-area-inset-bottom));z-index:149;background:rgba(var(--t-surface),.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid rgba(var(--t-fg),.09);display:none;grid-template-columns:repeat(3,1fr);gap:2px;padding:16px 12px 14px;}
   #mnav-sheet.open{display:grid;animation:mnavSheetIn .45s cubic-bezier(.22,.9,.28,1.04);}
   #mnav-sheet.open .mnav-sh-it{opacity:0;animation:mnavItIn .4s both;}
+.mnav-admin{display:none!important;}body.is-admin .mnav-admin{display:flex!important;}
   #mnav-sheet.open .mnav-sh-it:nth-child(1){animation-delay:.03s;}
   #mnav-sheet.open .mnav-sh-it:nth-child(2){animation-delay:.06s;}
   #mnav-sheet.open .mnav-sh-it:nth-child(3){animation-delay:.09s;}
@@ -3192,83 +3215,73 @@ body.is-admin #page-admin .adm-body{display:block;}
   <div class="adm-wrap">
     <div class="adm-guard">관리자 로그인이 필요합니다.</div>
     <div class="adm-body">
-      <div class="adm-sec adm-super">
-        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>서비스 운영</div>
-        <div class="adm-sec-sub">오르비 전체 운영(super) — 가입 모드·약관·초대 코드·유저 등급/차단/탈퇴</div>
-        <div class="adm-row"><span class="adm-row-name">운영 콘솔<small id="adm-svc-now">…</small></span><button class="adm-act" onclick="svcOpen('users')">유저</button><button class="adm-act" onclick="svcOpen('invites')">초대 코드</button><button class="adm-act" onclick="svcOpen('signup')">가입 · 약관</button><button class="adm-act" onclick="svcOpen('reports')">신고함</button></div>
+      <nav class="adm-jump" aria-label="빠른 이동"><a href="#" onclick="admJump('boards');return false;">게시판</a><a href="#" onclick="admJump('vis');return false;">공개 · 보호</a><a href="#" onclick="admJump('deco');return false;">꾸미기</a><a href="#" onclick="admJump('tools');return false;">도구</a></nav>
+      <div class="adm-sec" id="adm-g-boards">
+        <div class="adm-sec-title" role="button" tabindex="0" onclick="admFold('boards')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>게시판<span class="adm-fold-ic"></span></div>
+        <div class="adm-sec-body">
+          <div class="adm-sec-sub">게시판별 탭·카테고리·글 관리(일괄 삭제·수정·비공개·잠금). Issuance 탭의 카테고리·글 관리는 탭 설정 안에서</div>
+          <div class="adm-row"><span class="adm-row-name">Issuance<small>탭 추가·이름·순서 · 커버 · 글 유형 · 탭별 카테고리</small></span><button class="adm-act" onclick="btabOpen()">탭 설정</button><button class="adm-act" onclick="adminManage('prompts')">글 관리</button></div>
+          <div class="adm-row"><span class="adm-row-name">Diary<small>일기장</small></span><button class="adm-act" onclick="openDiaryTabManage()">탭 관리</button><button class="adm-act" onclick="openCatManage('diary')">카테고리</button><button class="adm-act" onclick="adminManage('diary')">글 관리</button></div>
+          <div class="adm-row"><span class="adm-row-name">Notices<small>공지</small></span><button class="adm-act" onclick="adminManage('notices')">글 관리</button></div>
+          <div class="adm-row"><span class="adm-row-name">Assets<small>에셋</small></span><button class="adm-act" onclick="openAssetsTabManage()">탭 관리</button><button class="adm-act" onclick="openCatManage('assets')">카테고리</button><button class="adm-act" onclick="adminManage('assets')">글 관리</button></div>
+          <div class="adm-row"><span class="adm-row-name">Banners<small>배너 게시판</small></span><button class="adm-act" onclick="adminManage('banners')">글 관리</button></div>
+          <div class="adm-row"><span class="adm-row-name">Logs<small>로그</small></span><button class="adm-act" onclick="openLogsTabManage()">탭 관리</button><button class="adm-act" onclick="openCatManage('logs')">카테고리</button><button class="adm-act" onclick="adminManage('logs')">글 관리</button></div>
+          <div class="adm-row"><span class="adm-row-name">게시판 이름 · 문구<small>각 게시판 상단 표시명·서브문구</small></span><button class="adm-act" onclick="boardNameOpen()">설정</button></div>
+        </div>
       </div>
-      <div class="adm-sec">
-        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>공개 범위 · 이웃</div>
-        <div class="adm-sec-sub">블로그 전체 공개 범위(전체·이웃·비밀번호·비공개), 방명록 범위, 한 줄 소개 — 이웃 관리는 허브에서</div>
-        <div class="adm-row"><span class="adm-row-name">블로그 공개 범위<small id="adm-vis-now">현재: 전체 공개</small></span><button class="adm-act" onclick="siteVisOpen()">설정</button><button class="adm-act" onclick="navigate('hub')">허브 · 이웃</button></div>
-        <div class="adm-row"><span class="adm-row-name">운영자에게 보내기<small>신고 · 건의 · 버그(오류 로그 첨부) · 문의</small></span><button class="adm-act" onclick="reportOpen()">보내기</button></div>
+      <div class="adm-sec" id="adm-g-vis">
+        <div class="adm-sec-title" role="button" tabindex="0" onclick="admFold('vis')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>공개 · 보호<span class="adm-fold-ic"></span></div>
+        <div class="adm-sec-body">
+          <div class="adm-sec-sub">누가 볼 수 있나 — 블로그 전체(전체·이웃·비밀번호·비공개) → 글마다(전체·이웃·비공개, 글쓰기 화면) → 방명록 범위 · 이웃공개 글 미리보기 · 이미지 보호</div>
+          <div class="adm-row"><span class="adm-row-name">블로그 공개 범위<small id="adm-vis-now">현재: 전체 공개</small></span><button class="adm-act" onclick="siteVisOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">이웃 · 방문자<small>이웃 신청 수락·거절, 이웃 목록은 허브에서</small></span><button class="adm-act" onclick="navigate('hub')">허브로</button></div>
+          <div class="adm-row adm-legacy"><span class="adm-row-name">Issuance 게시판 비밀번호<small>레거시 전체 잠금 · 글별 공개 범위와 별개</small></span><button class="adm-act" onclick="openBoardPwSetting('prompts_password','Prompts')">설정</button></div>
+          <div class="adm-row adm-legacy"><span class="adm-row-name">Diary 게시판 비밀번호<small>레거시 전체 잠금 · 글별 공개 범위와 별개</small></span><button class="adm-act" onclick="openBoardPwSetting('diary_password','Diary')">설정</button></div>
+        </div>
       </div>
-      <div class="adm-sec">
-        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>게시판 관리</div>
-        <div class="adm-sec-sub">카테고리 추가·삭제 및 글 관리 모드(일괄 삭제·수정·비공개·잠금)</div>
-        <div class="adm-row"><span class="adm-row-name">Issuance 탭 구성<small>탭 추가·이름·순서 · 커버(이미지/글/미니/리스트) · 글 유형(프롬프트/다운로드/링크/리치)</small></span><button class="adm-act" onclick="btabOpen()">탭 설정</button></div>
-        <div class="adm-row"><span class="adm-row-name">Issuance · NovelAI<small>프롬프트</small></span><button class="adm-act" onclick="openCatManage('prompts')">카테고리 관리</button><button class="adm-act" onclick="adminManage('prompts','nai')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Issuance · OOC</span><button class="adm-act" onclick="openCatManage('ooc')">카테고리 관리</button><button class="adm-act" onclick="adminManage('prompts','ooc')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Issuance · CaveDuck<small>배포</small></span><button class="adm-act" onclick="openCatManage('caveduck')">카테고리 관리</button><button class="adm-act" onclick="adminManage('prompts','caveduck')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Issuance · Utility<small>배포</small></span><button class="adm-act" onclick="openCatManage('utility')">카테고리 관리</button><button class="adm-act" onclick="adminManage('prompts','utility')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Diary<small>일기장</small></span><button class="adm-act" onclick="openDiaryTabManage()">탭 관리</button><button class="adm-act" onclick="openCatManage('diary')">카테고리 관리</button><button class="adm-act" onclick="adminManage('diary')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Notices<small>공지사항</small></span><button class="adm-act" onclick="adminManage('notices')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Assets<small>에셋 백업</small></span><button class="adm-act" onclick="openAssetsTabManage()">탭 관리</button><button class="adm-act" onclick="openCatManage('assets')">카테고리</button><button class="adm-act" onclick="adminManage('assets')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Banners<small>배너 아카이브</small></span><button class="adm-act" onclick="adminManage('banners')">글 관리</button></div><div class="adm-row"><span class="adm-row-name">Logs<small>로그 백업</small></span><button class="adm-act" onclick="openLogsTabManage()">탭 관리</button><button class="adm-act" onclick="openCatManage('logs')">카테고리 관리</button><button class="adm-act" onclick="adminManage('logs')">글 관리</button></div>
-        <div class="adm-row"><span class="adm-row-name">게시판 이름·문구<small>각 게시판 상단 표시명·서브문구 (장식)</small></span><button class="adm-act" onclick="boardNameOpen()">설정</button></div>
+      <div class="adm-sec" id="adm-g-deco">
+        <div class="adm-sec-title" role="button" tabindex="0" onclick="admFold('deco')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>꾸미기<span class="adm-fold-ic"></span></div>
+        <div class="adm-sec-body">
+          <div class="adm-sec-sub">색·폰트·로고·배경·스티커 · 배경음악 · 홈 배너 · 위젯 (라이브 미리보기 · 저장 시 반영)</div>
+          <div class="adm-row"><span class="adm-row-name">색상 테마<small>배경·강조·표면 등 18색 · 프리셋</small></span><button class="adm-act" onclick="themeColorOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">폰트<small>제목·본문·숫자 폰트</small></span><button class="adm-act" onclick="themeFontOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">로고 · 파비콘<small>헤더 별 · 홈 로고 · 파비콘</small></span><button class="adm-act" onclick="themeLogoOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">배경<small>배경색·이미지·우주 먼지·글로우</small></span><button class="adm-act" onclick="themeBgOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">사이트 스티커<small>화면 구석에 이미지 장식 · PC/모바일 따로</small></span><button class="adm-act" onclick="themeStkOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">배경음악<small>LP 플레이어 곡 · 자동재생 (방문자가 끄면 그 기기는 유지)</small></span><button class="adm-act" onclick="bgmOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">홈 배너<small>방문자가 복사해가는 내 배너 — 이미지·문구·링크·이름·소개 한 화면</small></span><button class="adm-act" onclick="mybnOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">홈 서브문구<small>메인 상단 · 텍스트 번짐 효과</small></span><button class="adm-act" onclick="homeSubSet()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">D-day 위젯<small>홈 위젯 항목 추가·삭제</small></span><button class="adm-act" onclick="openDdayModal()">관리</button></div>
+        </div>
       </div>
-      <div class="adm-sec">
-        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>배너</div>
-        <div class="adm-sec-sub">방문자가 복사해가는 내 홈페이지 배너 설정 (항목별)</div>
-        <div class="adm-row"><span class="adm-row-name">배너 이미지<small>글자에 비치는 이미지 · URL/업로드</small></span><button class="adm-act" onclick="mybnSetImg()">설정</button></div>
-        <div class="adm-row"><span class="adm-row-name">마스킹 문구<small>배너에 비칠 텍스트</small></span><button class="adm-act" onclick="mybnSetText()">설정</button></div>
-        <div class="adm-row"><span class="adm-row-name">배너 링크<small>복사 코드의 연결 주소</small></span><button class="adm-act" onclick="mybnSetLink()">설정</button></div>
-        <div class="adm-row"><span class="adm-row-name">이름(닉네임)<small>러버미 배너 복사법에서 사용</small></span><button class="adm-act" onclick="mybnSetName()">설정</button></div>
-        <div class="adm-row"><span class="adm-row-name">한줄소개<small>러버미 배너 복사법에서 사용</small></span><button class="adm-act" onclick="mybnSetIntro()">설정</button></div>
-        <div class="adm-row"><span class="adm-row-name">홈 서브문구<small>메인 상단 · 텍스트 번짐 효과</small></span><button class="adm-act" onclick="homeSubSet()">설정</button></div>
+      <div class="adm-sec" id="adm-g-tools">
+        <div class="adm-sec-title" role="button" tabindex="0" onclick="admFold('tools')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>도구<span class="adm-fold-ic"></span></div>
+        <div class="adm-sec-body">
+          <div class="adm-sec-sub">AI 도우미(맞춤법·정리·태그·색분배) — 키는 이 블로그에만 저장</div>
+          <div class="adm-row"><span class="adm-row-name">Gemini API 키<small>Google AI Studio 발급</small></span><button class="adm-act" onclick="aiSetKey('gemini')">등록 / 변경</button></div>
+          <div class="adm-row"><span class="adm-row-name">Claude API 키<small>console.anthropic.com 발급 (sk-ant-…)</small></span><button class="adm-act" onclick="aiSetKey('anthropic')">등록 / 변경</button></div>
+          <div class="adm-row"><span class="adm-row-name">AI 모델 설정<small>기능마다 Gemini / Claude 모델 지정</small></span><button class="adm-act" onclick="aiModelOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">AI 규칙 편집<small>기능별 지시문 직접 작성</small></span><button class="adm-act" onclick="aiRuleOpen()">열기</button></div>
+        </div>
       </div>
-      <div class="adm-sec">
-        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>배경음악</div>
-        <div class="adm-sec-sub">LP 플레이어 곡 · 자동재생. 방문자가 한 번 끄면 그 기기에서는 다시 자동재생되지 않습니다</div>
-        <div class="adm-row"><span class="adm-row-name">플레이리스트<small>Pair Music Box 연동 또는 유튜브 직접 지정</small></span><button class="adm-act" onclick="bgmOpen()">설정</button></div>
+      <div class="adm-sec" id="adm-g-info">
+        <div class="adm-sec-title" role="button" tabindex="0" onclick="admFold('info')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>버전 · 도움<span class="adm-fold-ic"></span></div>
+        <div class="adm-sec-body">
+          <div class="adm-sec-sub">업데이트해도 게시글·설정·이미지는 그대로 보존됩니다 · 계정·로그아웃·운영 콘솔은 허브</div>
+          <div class="adm-row"><span class="adm-row-name">현재 버전<small id="adm-version-num">—</small></span><button class="adm-act" onclick="versionOpen()">변경 내역</button></div>
+          <div class="adm-row"><span class="adm-row-name">운영자에게 보내기<small>신고 · 건의 · 버그(오류 로그 첨부) · 문의</small></span><button class="adm-act" onclick="reportOpen()">보내기</button></div>
+          <div class="adm-row"><span class="adm-row-name">허브<small>내 블로그 · 프로필 · 마음함 · 이웃 · 로그아웃</small></span><button class="adm-act" onclick="navigate('hub')">열기</button></div>
+        </div>
       </div>
-      <div class="adm-sec">
-        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>보안</div>
-        <div class="adm-row"><span class="adm-row-name">Issuance 게시판 비밀번호<small>게시판 전체 잠금·해제</small></span><button class="adm-act" onclick="openBoardPwSetting('prompts_password','Prompts')">설정</button></div><div class="adm-row"><span class="adm-row-name">Diary 게시판 비밀번호<small>게시판 전체 잠금·해제</small></span><button class="adm-act" onclick="openBoardPwSetting('diary_password','Diary')">설정</button></div>
-      </div>
-      <div class="adm-sec">
-        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>AI</div>
-        <div class="adm-row"><span class="adm-row-name">Gemini API 키<small>Google AI Studio 발급</small></span><button class="adm-act" onclick="aiSetKey('gemini')">등록 / 변경</button></div>
-        <div class="adm-row"><span class="adm-row-name">Claude API 키<small>console.anthropic.com 발급 (sk-ant-…)</small></span><button class="adm-act" onclick="aiSetKey('anthropic')">등록 / 변경</button></div>
-        <div class="adm-row"><span class="adm-row-name">AI 모델 설정<small>기능마다 Gemini / Claude 모델 지정</small></span><button class="adm-act" onclick="aiModelOpen()">설정</button></div>
-        <div class="adm-row"><span class="adm-row-name">AI 규칙 편집<small>기능별 지시문 직접 작성</small></span><button class="adm-act" onclick="aiRuleOpen()">열기</button></div>
-      </div>
-      <div class="adm-sec">
-        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>위젯</div>
-        <div class="adm-row"><span class="adm-row-name">D-day<small>홈 위젯 항목 추가·삭제</small></span><button class="adm-act" onclick="openDdayModal()">관리</button></div>
-      </div>
-      <div class="adm-sec">
-        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>디자인 · 테마</div>
-        <div class="adm-sec-sub">사이트 색상 · 폰트 · 로고를 커스터마이즈 (라이브 미리보기 · 저장 시 반영)</div>
-        <div class="adm-row"><span class="adm-row-name">색상 테마<small>배경·강조·표면 등 18색 · 프리셋</small></span><button class="adm-act" onclick="themeColorOpen()">설정</button></div>
-        <div class="adm-row"><span class="adm-row-name">폰트<small>제목·본문·숫자 폰트</small></span><button class="adm-act" onclick="themeFontOpen()">설정</button></div>
-        <div class="adm-row"><span class="adm-row-name">로고 · 파비콘<small>헤더 별 · 홈 로고 · 파비콘</small></span><button class="adm-act" onclick="themeLogoOpen()">설정</button></div>
-        <div class="adm-row"><span class="adm-row-name">배경<small>배경색·이미지·우주 먼지·글로우</small></span><button class="adm-act" onclick="themeBgOpen()">설정</button></div>
-        <div class="adm-row"><span class="adm-row-name">사이트 스티커<small>화면 구석에 이미지 장식 · PC/모바일 따로</small></span><button class="adm-act" onclick="themeStkOpen()">설정</button></div>
-      </div>
-      <div class="adm-sec">
-        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>회원 · 권한</div>
-        <div class="adm-sec-sub">레벨 회원제 — 회원 등급 부여, 게시판별 접근 권한, 가입 정책</div>
-        <div class="adm-row"><span class="adm-row-name">회원 관리<small>가입 회원 목록 · 레벨(등급) 부여·변경</small></span><button class="adm-act" onclick="admMembersOpen()">관리</button></div>
-        <div class="adm-row"><span class="adm-row-name">게시판 권한<small>게시판별 목록·읽기·쓰기·댓글·다운로드 최소 레벨</small></span><button class="adm-act" onclick="admPermsOpen()">설정</button></div>
-        <div class="adm-row"><span class="adm-row-name">가입 정책<small>신규 가입 기본 레벨 · 승인 대기 모드</small></span><button class="adm-act" onclick="admSignupOpen()">설정</button></div>
-      </div>
-      <div class="adm-sec">
-        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>이웃</div>
-        <div class="adm-sec-sub">받은 이웃 신청 수락·거절 · 내 이웃 목록 관리</div>
-        <div class="adm-row"><span class="adm-row-name">이웃 관리<small>받은 신청 수락·거절 · 내 이웃 목록</small></span><button class="adm-act" onclick="nbManageOpen()">관리</button></div>
-      </div>
-      <div class="adm-sec">
-        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>버전 · 업데이트</div>
-        <div class="adm-sec-sub">현재 설치된 버전과 변경 내역 · 업데이트해도 게시글·설정·이미지는 그대로 보존됩니다</div>
-        <div class="adm-row"><span class="adm-row-name">현재 버전<small id="adm-version-num">—</small></span><button class="adm-act" onclick="versionOpen()">변경 내역</button></div>
-      </div>
-      <div class="adm-sec">
-        <div class="adm-sec-title"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>계정</div>
-        <div class="adm-row"><span class="adm-row-name"><span id="adm-account">로그인됨</span></span><button class="adm-act" onclick="doLogout();navigate('home')">로그아웃</button></div>
+      <div class="adm-sec adm-legacy" id="adm-g-legacy">
+        <div class="adm-sec-title" role="button" tabindex="0" onclick="admFold('legacy')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>레거시 회원제<span class="adm-fold-ic"></span></div>
+        <div class="adm-sec-body">
+          <div class="adm-sec-sub">오르비(보스 블로그) 전용 구 시스템 — 레벨 회원·게시판 권한·구 이웃. 새 블로그에는 표시되지 않습니다</div>
+          <div class="adm-row"><span class="adm-row-name">회원 관리<small>가입 회원 목록 · 레벨(등급) 부여·변경</small></span><button class="adm-act" onclick="admMembersOpen()">관리</button></div>
+          <div class="adm-row"><span class="adm-row-name">게시판 권한<small>게시판별 목록·읽기·쓰기·댓글·다운로드 최소 레벨</small></span><button class="adm-act" onclick="admPermsOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">가입 정책<small>신규 가입 기본 레벨 · 승인 대기 모드</small></span><button class="adm-act" onclick="admSignupOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">구 이웃 관리<small>RSS 이웃 · 구 신청함</small></span><button class="adm-act" onclick="nbManageOpen()">관리</button></div>
+        </div>
       </div>
     </div>
   </div>
@@ -3298,6 +3311,20 @@ body.is-admin #page-admin .adm-body{display:block;}
     <div class="adm-sec-sub" style="text-align:center;margin-bottom:14px;">기능마다 사용할 모델을 고르세요 · Claude 선택 시 Claude API 키 필요</div>
     <div id="ai-model-rows"></div>
     <div class="form-actions"><button class="btn-primary" onclick="aiModelSave()">SAVE</button><button class="btn-secondary" onclick="closeModal('ai-model-modal')">CANCEL</button></div>
+  </div>
+</div>
+<div class="modal-overlay" id="mybn-modal">
+  <div class="modal-box" style="max-width:520px;">
+    <button class="modal-close" onclick="closeModal('mybn-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <div class="modal-title">HOME BANNER</div>
+    <p class="ob-lead">방문자가 복사해가는 내 배너. 이미지·문구·링크·이름·소개를 한 번에 저장해요.</p>
+    <div class="form-group"><label class="form-label">배너 이미지</label><div class="mb-imgrow"><img id="mb-prev" class="mb-prev" alt="" hidden><input class="form-input" id="mb-img" placeholder="이미지 URL — 또는 오른쪽에서 업로드"><button type="button" class="btn-secondary" onclick="mybnPick()">업로드</button></div></div>
+    <div class="form-group"><label class="form-label">마스킹 문구</label><input class="form-input" id="mb-mask" placeholder="배너에 이미지로 비칠 문구 (예: PALE BANNERS)"></div>
+    <div class="form-group"><label class="form-label">배너 링크</label><input class="form-input" id="mb-link" placeholder="비우면 이 블로그 주소"></div>
+    <div class="form-group"><label class="form-label">이름(닉네임)</label><input class="form-input" id="mb-name" placeholder="러버미 배너 복사법에서 사용"></div>
+    <div class="form-group"><label class="form-label">한줄소개</label><input class="form-input" id="mb-intro" placeholder="러버미 배너 복사법에서 사용"></div>
+    <div class="form-actions"><button type="button" class="btn-primary" id="mb-save" onclick="mybnModalSave()">저장</button><button type="button" class="btn-secondary" onclick="closeModal('mybn-modal')">취소</button></div>
+    <div class="ob-err" id="mb-err"></div>
   </div>
 </div>
 <div class="modal-overlay" id="bgm-modal">
@@ -3560,7 +3587,7 @@ body.is-admin #page-admin .adm-body{display:block;}
     <button class="modal-close" onclick="closeModal('btab-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
     <div class="modal-title">TABS</div>
     <p class="ob-lead">Issuance 게시판의 탭을 자유롭게 구성해요. 탭마다 카드 표시형(커버 — 이미지형=프롬프트 카드 · 글형=OOC 행 · 미니 카드형=배포 카드 · 포토리스트)과 안에 담기는 글 유형을 따로 고릅니다. NovelAI·OOC 두 탭은 글 유형만 고정되고 이름·순서·커버는 바꿀 수 있어요. 탭을 지워도 글은 지워지지 않고 다른 탭으로 옮겨집니다.</p>
-    <div class="btab-head"><span></span><span>탭 이름</span><span>커버</span><span>글 유형</span><span></span><span></span></div>
+    <div class="btab-head"><span></span><span>탭 이름</span><span>커버</span><span>글 유형</span><span></span><span></span><span></span></div>
     <div id="btab-list"></div>
     <div class="form-actions"><button type="button" class="btn-secondary" onclick="btabAdd()">+ 탭 추가</button><button type="button" class="btn-primary" onclick="btabSave()">저장</button><button type="button" class="btn-secondary" onclick="closeModal('btab-modal')">취소</button></div>
     <div class="ob-err" id="btab-err"></div>
@@ -4122,17 +4149,26 @@ function hubRender(){
   if(!a){H.innerHTML='<div class="hub-sec"><p class="ob-lead">'+esc(memberP?memberP.nickname:'회원')+' 님, 이 계정은 블로그 회원 계정이에요. 블로그 개설과 마음함은 구글 계정으로 가입하면 쓸 수 있어요.</p><div class="form-actions"><button class="btn-secondary" onclick="doLogout()">로그아웃</button></div></div>';return;}
   const sites=a.sites||[],profs=a.profiles||[];const lim=a.site_limit||1;const left=lim-sites.length;let h='';
   h+='<div class="hub-sec"><div class="hub-h">내 블로그 <small>'+sites.length+' / '+(lim>=999?'∞':lim)+'</small></div>';
-  h+=sites.length?'<div class="hub-list">'+sites.map(x=>'<div class="hub-row"><div class="hub-rt"><b>'+esc(x.title)+'</b><span class="hub-tier">'+esc(x.tier)+'</span></div><div class="hub-rh">palely.me'+esc(hubSiteBase(x.handle))+'</div><div class="hub-ract"><button type="button" class="form-file-label" onclick="siteGo(\''+esc(x.handle)+'\')"><span>이동 →</span></button></div></div>').join('')+'</div>':'<p class="ob-hint">아직 블로그가 없어요.</p>';
+  h+=sites.length?'<div class="hub-list">'+sites.map(x=>'<div class="hub-row"><div class="hub-rt"><b>'+esc(x.title)+'</b><span class="hub-tier">'+esc(x.tier)+'</span>'+(currentSite&&x.id===currentSite.id?'<span class="hub-tier hub-here">지금 여기</span>':'')+'</div><div class="hub-rh">palely.me'+esc(hubSiteBase(x.handle))+hubSetupChips(x)+'</div><div class="hub-ract"><button type="button" class="hub-gear" title="이 블로그 설정" onclick="hubSiteAdmin(\''+esc(x.handle)+'\')"><svg width="14" height="14"><use href="#iss-ic-set"/></svg></button><button type="button" class="form-file-label" onclick="siteGo(\''+esc(x.handle)+'\')"><span>이동 →</span></button></div></div>').join('')+'</div>':'<p class="ob-hint">아직 블로그가 없어요.</p>';
   if(left>0)h+='<div class="form-actions hub-act"><button class="btn-secondary" onclick="obOpen(\'site\')">+ 새 블로그 만들기</button></div>';
   h+='</div>';
+  if(isSuper)h+='<div class="hub-sec hub-svc"><div class="hub-h">운영 콘솔 <small id="hub-svc-now">…</small><span class="hub-badge" id="hub-rp-n" hidden></span></div><div class="hub-svc-act"><button type="button" class="btn-secondary" onclick="svcOpen(\'users\')">유저</button><button type="button" class="btn-secondary" onclick="svcOpen(\'invites\')">초대 코드</button><button type="button" class="btn-secondary" onclick="svcOpen(\'signup\')">가입 · 약관</button><button type="button" class="btn-secondary" onclick="svcOpen(\'reports\')">신고함</button></div></div>';
   h+='<div class="hub-sec"><div class="hub-h">프로필 <small>'+profs.length+'</small></div><div class="hub-list">'+profs.map(p=>'<div class="hub-row"><div class="hub-rt">'+(p.avatar?'<img class="hub-av" src="'+esc(p.avatar)+'" alt="">':'<span class="hub-av hub-av-e"></span>')+'<b>'+esc(p.nickname)+'</b>'+(p.id===a.primary_profile_id?'<span class="hub-tier hub-pri">대표</span>':'<button type="button" class="hub-mini" onclick="hubPrimary(\''+p.id+'\')">대표로</button>')+'</div></div>').join('')+'</div><div class="form-actions hub-act"><button class="btn-secondary" onclick="obOpen(\'nick\')">+ 프로필 추가</button></div></div>';
   h+='<div class="hub-sec"><div class="hub-h">마음함 <small id="hub-heart-n"></small></div><div class="hub-list" id="hub-hearts"><p class="ob-hint">불러오는 중…</p></div></div>';
   if(sites.length){const cur=hubSiteCur();h+='<div class="hub-sec"><div class="hub-h">타임라인 <small>이웃 새 글</small>'+(sites.length>1?'<select class="form-input hub-sel" onchange="hubSiteSel=this.value;hubRender()">'+sites.map(x=>'<option value="'+x.id+'"'+(x.id===cur?' selected':'')+'>'+esc(x.title)+'</option>').join('')+'</select>':'')+'</div><div class="hub-list" id="hub-timeline"><p class="ob-hint">불러오는 중…</p></div></div>';
     h+='<div class="hub-sec"><div class="hub-h">이웃 <small id="hub-nb-n"></small></div><div id="hub-neighbors"><p class="ob-hint">불러오는 중…</p></div></div>';}
   h+=hubDirSkeleton();
   h+='<div class="hub-sec hub-foot"><span class="ob-hint">'+esc(currentUser.email||'')+'</span><span class="hub-foot-act"><button class="btn-secondary" onclick="reportOpen()">운영자에게 보내기</button><button class="btn-secondary" onclick="doLogout()">로그아웃</button></span></div>';
-  H.innerHTML=h;hubHearts();hubDirectory();if(sites.length){hubTimeline();hubNeighbors();}
+  H.innerHTML=h;hubHearts();hubDirectory();if(sites.length){hubTimeline();hubNeighbors();}if(isSuper){svcSummary();hubReportsBadge();}
 }
+// ── 허브: 블로그 설정 진입·설정 진행도·운영 배지 ──
+function hubSiteAdmin(handle){if(currentSite&&currentSite.handle===handle){navigate('admin');return;}const isLocal=/^(localhost|127\.)/.test(location.hostname);if(isLocal){showToast('로컬 미리보기 — 실서버: palely.me'+hubSiteBase(handle)+'#admin');return;}location.href=hubSiteBase(handle)+'#admin';}
+function hubSetupChips(x){if(!currentSite||x.id!==currentSite.id||!isAdmin)return '';const has=k=>typeof siteSettingsCache!=='undefined'&&siteSettingsCache.has(k);
+  const logo=!!(themeData&&themeData.logos&&Object.values(themeData.logos).some(Boolean));
+  const items=[['tagline',!!currentSite.tagline,'한 줄 소개','siteVisOpen'],['vis',true,'공개: '+(VIS_KR[currentSite.visibility||'public']||'전체'),'siteVisOpen'],['theme',has('site_theme'),'색상 테마','themeColorOpen'],['logo',logo,'로고','themeLogoOpen'],['tabs',has('boards_cfg'),'게시판 탭','btabOpen'],['bgm',has('bgm'),'배경음악','bgmOpen']];
+  const done=items.filter(i=>i[1]).length;
+  return '<span class="hub-chips"><span class="hub-chips-n">설정 '+done+'/'+items.length+'</span>'+items.map(i=>'<button type="button" class="hub-chip'+(i[1]?' on':'')+'" onclick="navigate(\'admin\');setTimeout('+i[3]+',120)"><svg width="6" height="6"><use href="#'+(i[1]?'iss-ic-dia':'iss-ic-dia2')+'"/></svg>'+esc(i[2])+'</button>').join('')+'</span>';}
+async function hubReportsBadge(){const el=document.getElementById('hub-rp-n');if(!el)return;try{const{data}=await palelyDBRaw.rpc('admin_reports',{p_status:'open'});const n=(data||[]).length;el.textContent='미처리 '+n;el.hidden=!n;}catch(e){}}
 async function hubHearts(){
   const box=document.getElementById('hub-hearts');if(!box)return;
   let rows=[];try{const{data}=await palelyDBRaw.rpc('my_hearts');rows=data||[];}catch(e){}
@@ -4220,6 +4256,12 @@ async function siteVisSave(){
   }catch(e){err.textContent=e.message||'저장 실패';}
   btn.disabled=false;
 }
+// ── 어드민 그룹 접기(기기 기억)·빠른 이동 ──
+function admFoldGet(){try{return JSON.parse(localStorage.getItem('palely_adm_fold')||'{}')||{};}catch(e){return {};}}
+function admFoldInit(){const f=admFoldGet();document.querySelectorAll('#page-admin .adm-sec[id^=adm-g-]').forEach(el=>{const k=el.id.slice(6);const def=(k==='legacy');el.classList.toggle('folded',f[k]===undefined?def:!!f[k]);});}
+function admFold(k){const el=document.getElementById('adm-g-'+k);if(!el)return;const on=!el.classList.contains('folded');el.classList.toggle('folded',on);const f=admFoldGet();f[k]=on;try{localStorage.setItem('palely_adm_fold',JSON.stringify(f));}catch(e){}}
+function admJump(k){const el=document.getElementById('adm-g-'+k);if(!el)return;if(el.classList.contains('folded'))admFold(k);const mc=document.getElementById('main-content');const top=el.getBoundingClientRect().top-(mc?mc.getBoundingClientRect().top:0)+(mc?mc.scrollTop:0)-16;if(mc)mc.scrollTo({top,behavior:'smooth'});else el.scrollIntoView({behavior:'smooth',block:'start'});}
+function savedToast(m){showToast((m||'저장됨')+' · 바로 반영');}
 function admVisSync(){const el=document.getElementById('adm-vis-now');if(el&&currentSite)el.textContent='현재: '+(VIS_KR[currentSite.visibility||'public']||'전체 공개');}
 // ── 이웃 신청(방문 중인 블로그) ──
 function nbLinkSync(){const a=document.getElementById('hub-nb');if(!a)return;const mine=(myAcct&&myAcct.sites)||[];const show=!!(currentUser&&myAcct&&mine.length&&currentSite&&!mine.some(x=>x.id===currentSite.id));a.hidden=!show;}
@@ -4315,7 +4357,7 @@ async function svcRpNote(id){const v=await askModal('운영자 메모','접수�
 let svcTab='users',svcUsers=[],svcInvites=[],svcSvc={};
 const SIGNUP_KR={invite:'초대 전용',open:'공개 가입',closed:'가입 중단'};
 function svcErr(m){const e=document.getElementById('svc-err');if(e)e.textContent=m||'';}
-async function svcSummary(){const el=document.getElementById('adm-svc-now');if(!el)return;try{const{data}=await palelyDBRaw.rpc('admin_stats');if(data)el.textContent='유저 '+data.users+' · 블로그 '+data.sites+' · 유효 초대 '+data.invites_open+' · '+(SIGNUP_KR[data.signup_mode]||data.signup_mode);}catch(e){el.textContent='통계 불러오기 실패';}}
+async function svcSummary(){const el=document.getElementById('hub-svc-now')||document.getElementById('adm-svc-now');if(!el)return;try{const{data}=await palelyDBRaw.rpc('admin_stats');if(data)el.textContent='유저 '+data.users+' · 블로그 '+data.sites+' · 유효 초대 '+data.invites_open+' · '+(SIGNUP_KR[data.signup_mode]||data.signup_mode);}catch(e){el.textContent='통계 불러오기 실패';}}
 async function svcOpen(tab){
   if(!isSuper){showToast('운영 콘솔은 super만 열 수 있어요');return;}
   svcTab=tab||svcTab;document.getElementById('svc-modal').classList.add('active');svcErr('');
@@ -5470,8 +5512,7 @@ function navigate(page){
     if(page==='diary'&&typeof checkDiaryLock==='function')checkDiaryLock();
     if(page==='notices'&&typeof ntcIntro==='function')setTimeout(ntcIntro,80);
     if(page==='hub'&&typeof hubRender==='function')hubRender();
-    if(page==='admin'&&typeof admVisSync==='function')admVisSync();
-    if(page==='admin'&&isSuper&&typeof svcSummary==='function')svcSummary();
+    if(page==='admin'){if(typeof admVisSync==='function')admVisSync();if(typeof admFoldInit==='function')admFoldInit();document.body.classList.toggle('site-boss',!!(currentSite&&currentSite.handle===BOSS_HANDLE));}
     if(typeof issIntroPlay==='function')issIntroPlay(page);
     if(page==='admin'){const a=document.getElementById('adm-account');if(a)a.textContent=(typeof currentUser!=='undefined'&&currentUser&&currentUser.email)||'로그인됨';const vn=document.getElementById('adm-version-num');if(vn&&typeof APP_VERSION!=='undefined')vn.textContent='v'+APP_VERSION;}}
   window.location.hash=page;previousPage=page;
@@ -6428,6 +6469,11 @@ async function mybnSave(patch){
   try{await palelyDB.from('settings').upsert({key:'site_banner',value:JSON.stringify(siteBanner)},{onConflict:'key'});}catch(e){showToast('저장 실패');return false;}
   loadSiteBanner();return true;
 }
+// ── 홈 배너 1모달 ──
+function mybnOpen(){if(!isAdmin){showToast('Admin only');return;}const b=siteBanner||{};const g=id=>document.getElementById(id);g('mb-img').value=b.img||'';g('mb-mask').value=b.masktext||'';g('mb-link').value=b.link||'';g('mb-name').value=b.name||'';g('mb-intro').value=b.intro||'';g('mb-err').textContent='';mybnPrev();g('mb-img').oninput=mybnPrev;g('mybn-modal').classList.add('active');}
+function mybnPrev(){const v=(document.getElementById('mb-img').value||'').trim();const p=document.getElementById('mb-prev');p.hidden=!v;if(v)p.src=v;}
+async function mybnPick(){const u=await mybnUpload();if(u){document.getElementById('mb-img').value=u;mybnPrev();}}
+async function mybnModalSave(){const g=id=>document.getElementById(id);const btn=g('mb-save');btn.disabled=true;const patch={img:g('mb-img').value.trim(),masktext:g('mb-mask').value.trim()||'PALE BANNERS',link:g('mb-link').value.trim(),name:g('mb-name').value.trim(),intro:g('mb-intro').value.trim()};const ok=await mybnSave(patch);btn.disabled=false;if(ok){closeModal('mybn-modal');savedToast('홈 배너 저장됨');}else g('mb-err').textContent='저장 실패';}
 async function mybnSetImg(){
   if(!isAdmin){showToast('Admin only');return;}
   let img=await askModal('배너 이미지','이미지 URL 입력 · 비우고 확인하면 파일 업로드','text');
@@ -7835,8 +7881,13 @@ function btabRender(){
       +'<input class="form-input btab-label" maxlength="24" value="'+esc(t.label)+'" oninput="btabDraft['+i+'].label=this.value" placeholder="탭 이름">'
       +'<select class="form-input btab-sel" onchange="btabDraft['+i+'].cover=this.value">'+Object.entries(ISS_COVERS).map(([v,l])=>'<option value="'+v+'"'+(t.cover===v?' selected':'')+'>'+l+'</option>').join('')+'</select>'
       +'<select class="form-input btab-sel" onchange="btabDraft['+i+'].kind=this.value"'+(fixed?' disabled':'')+'>'+Object.entries(ISS_KINDS).map(([v,l])=>'<option value="'+v+'"'+(t.kind===v?' selected':'')+'>'+l+'</option>').join('')+'</select>'
-      +'<span class="btab-n">'+n+'글</span>'+(fixed?'<span class="hub-tier">고정</span>':'<button type="button" class="hub-mini svc-del" onclick="btabDel('+i+')">삭제</button>')+'</div>';}).join('');
+      +'<span class="btab-n">'+n+'글</span>'+(fixed?'<span class="hub-tier">고정</span>':'<button type="button" class="hub-mini svc-del" onclick="btabDel('+i+')">삭제</button>')
+      +'<span class="btab-x"><button type="button" class="hub-mini" onclick="btabCat(\''+esc(t.k)+'\')" title="이 탭의 카테고리">카테고리</button><button type="button" class="hub-mini" onclick="btabManage(\''+esc(t.k)+'\')" title="이 탭의 글 관리">글 관리</button></span></div>';}).join('');
 }
+function btabDirty(){try{const cur=issTabs().map(t=>[t.k,t.label,t.cover,t.kind]);const d=btabDraft.map(t=>[t.k,t.label,t.cover,t.kind]);return JSON.stringify(cur)!==JSON.stringify(d);}catch(e){return false;}}
+function btabLeave(){if(btabDirty()){showToast('탭 설정을 먼저 저장하거나 취소하세요');return false;}closeModal('btab-modal');return true;}
+function btabCat(k){if(!btabLeave())return;openCatManage(ISS_CAT_KEY[k]||k);}
+function btabManage(k){if(!btabLeave())return;adminManage('prompts',k);}
 function btabMove(i,d){const j=i+d;if(j<0||j>=btabDraft.length)return;[btabDraft[i],btabDraft[j]]=[btabDraft[j],btabDraft[i]];btabRender();}
 function btabAdd(){let k,n=0;do{k='tab'+String(Math.floor(Date.now()/1000)%100000+n).padStart(5,'0');n++;}while(btabDraft.some(t=>t.k===k));btabDraft.push({k,label:'NEW TAB',table:'distributions',cover:'image',kind:'link'});btabRender();}
 async function btabDel(i){
@@ -8899,7 +8950,7 @@ function lgvSyncH(){
   window.addEventListener('resize',lgvSyncH);
   lgvSyncH();
 })();
-const BG_CLOSE_IDS=['dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal','nb-apply-modal','nb-manage-modal','board-name-modal','theme-color-modal','theme-font-modal','theme-logo-modal','theme-bg-modal','stk-crop-modal','version-modal','ai-model-modal','bgm-modal'];
+const BG_CLOSE_IDS=['dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal','nb-apply-modal','nb-manage-modal','board-name-modal','theme-color-modal','theme-font-modal','theme-logo-modal','theme-bg-modal','stk-crop-modal','version-modal','ai-model-modal','bgm-modal','mybn-modal'];
 const THEME_SAVE_FNS={'theme-color-modal':'themeColorSave','board-name-modal':'boardNameSave','theme-font-modal':'themeFontSave','theme-logo-modal':'themeLogoSave','theme-bg-modal':'themeBgSave'};
 document.addEventListener('click',e=>{
   const ov=e.target;
@@ -10170,8 +10221,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.5.2';
+const APP_VERSION='1.6.0';
 const CHANGELOG=[
+  {v:'1.6.0',date:'2026-09-15',title:'설정 재편 — 허브 = 계정·운영, 관리 = 이 블로그',sql:false,items:['관리 페이지를 4그룹(게시판 · 공개·보호 · 꾸미기 · 도구)으로 재배열, 그룹 접기(기기 기억) · 상단 빠른 이동','허브에 운영 콘솔(유저·초대·가입/약관·신고함, 미처리 배지) 이동 — 어느 블로그에 있어도 접근. 계정·로그아웃도 허브로','허브 내 블로그 카드에 ⚙ 설정 진입 + 설정 진행도(소개·공개·테마·로고·탭·음악) 칩','Issuance 탭별 카테고리·글 관리를 탭 설정 안으로 — 탭이 늘어도 관리 페이지가 길어지지 않음','홈 배너 설정 6버튼 → 한 화면(이미지 미리보기·업로드 포함)','레거시 회원제·구 이웃·게시판 비밀번호는 오르비 블로그에서만 표시(접힘)','모바일: 관리 행 2단 배치 · 터치 44px · 하단 MENU에 HUB / SETTINGS 진입','모바일 카드 축소 수정 — 1.5.0부터 NovelAI 격자에 좌우 48px 여백이 새고 배포 카드가 3열로 좁아지던 문제. 모든 카드 그리드 좌우 여백 20px로 통일']},
   {v:'1.5.2',date:'2026-09-12',title:'모바일 제목 흐림 수정',sql:false,items:['모바일에서 게시판 제목(ISSUANCE 등)과 서브문구가 흐린 블록으로 보이던 문제 수정 — 스티키 탭바의 유리 베일이 제목 영역까지 덮고 있었음','베일을 탭바 영역으로만 한정. 스크롤 시 탭바 아래로 카드가 페이드되는 효과는 그대로']},
   {v:'1.5.1',date:'2026-09-12',title:'커버 = 기존 카드 디자인',sql:false,items:['탭 커버를 기존 카드 디자인 중에서 고르도록 정리 — 이미지형(프롬프트 카드) · 글형(OOC 행) · 미니 카드형(배포 카드) · 포토리스트(사진+제목 한 줄)','어느 탭이든 네 커버 중 하나로 표시. 프롬프트 글·배포 글 모두 같은 카드를 씁니다','1.5.0에서 저장한 탭 설정은 자동으로 같은 모양으로 읽힙니다']},
   {v:'1.5.0',date:'2026-09-12',title:'게시판 빌더 — Issuance 탭 자유 구성',sql:true,items:['관리 → 게시판 관리 → Issuance 탭 구성: 탭을 원하는 만큼 추가하고 이름·순서를 바꿀 수 있습니다','탭마다 커버(이미지형 · 글형 · 미니 카드형 · 리스트형)와 글 유형(이미지 프롬프트 · 텍스트 프롬프트 · 다운로드 · 링크 · 리치 글)을 따로 고릅니다. 유형에 따라 글쓰기 화면과 상세 화면이 바뀝니다','NovelAI·OOC 탭은 유형만 고정, 커버·이름·순서는 자유','탭을 지워도 글은 지워지지 않고 지정한 탭으로 옮겨집니다. 어떤 탭에도 속하지 않는 글은 미분류 탭에 자동 표시','프롬프트 유형 글 상세에 블록별 복사 아이콘 PROMPT 섹션','배경음악 재생목록 ID에 주소가 저장돼 있어도 정상 인식(설정한 재생목록이 실제로 재생)','이웃 공개 글의 프롬프트 카드가 표시되지 않던 문제 수정','DB: B1 SQL(distributions 컬럼 추가) — 적용 완료'],},
@@ -10267,6 +10319,7 @@ function mnavInit(){
       it.onclick=()=>mnavGo(p);
       sheet.appendChild(it);
     });
+    [['hub','HUB',''],['admin','SETTINGS',' mnav-admin']].forEach(([p,l,c])=>{const it=document.createElement('button');it.className='mnav-sh-it mnav-item'+c;it.dataset.page=p;it.innerHTML='<img class="iss-tab-star" alt="" draggable="false"><span class="iss-tab-label"></span>';if(src)it.querySelector('img').src=src;it.querySelector('span').textContent=l;it.onclick=()=>mnavGo(p);sheet.appendChild(it);});
     document.body.appendChild(sheet);
     document.addEventListener('click',(e)=>{
       const sh=document.getElementById('mnav-sheet');
