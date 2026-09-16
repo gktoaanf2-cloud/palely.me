@@ -437,7 +437,7 @@ body.stk-crop-open #stk-editbar{display:none!important;}
 .stage svg.base .nav-item,.stage svg.base .settings-hit,.stage svg.base .nav-hit{pointer-events:auto}
 
 /* home-only content (center logo) hides when a board is open */
-body.board-open #home-only,body.board-open .home-dday,body.board-open .dday-admin-btn,body.board-open .home-sub{opacity:0;pointer-events:none;transition:opacity .4s}
+body.board-open #home-only,body.board-open .home-dday,body.board-open .dday-admin-btn,body.board-open .home-sub,body.board-open #site-textlogo{opacity:0;pointer-events:none;transition:opacity .4s}
 #home-only,.home-dday,.home-sub{transition:opacity .5s}
 .home-sub{position:fixed;left:50%;top:11.5%;transform:translateX(-50%);z-index:6;pointer-events:none;font-family:'Bodoni Moda','Cormorant Garamond','BookkMyungjo',serif;font-size:clamp(10px,1vw,13px);letter-spacing:.4em;text-indent:.4em;color:rgba(var(--t-fg-mid),.8);white-space:nowrap;max-width:94vw;text-align:center;filter:url(#hsub-wave);}
 .hsub-base span,.hsub-glass span{display:inline-block;animation:hsubSpread 5.6s ease-in-out infinite;animation-delay:calc(var(--i)*0.17s);will-change:filter,opacity;}
@@ -10389,8 +10389,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.6.6';
+const APP_VERSION='1.6.7';
 const CHANGELOG=[
+  {v:'1.6.7',date:'2026-09-16',title:'핫픽스 — 텍스트 로고 잔상',sql:false,items:['로고 이미지가 없는 블로그에서 홈의 큰 블로그명(텍스트 로고)이 게시판을 열어도 남아 제목과 겹치던 문제 수정']},
   {v:'1.6.6',date:'2026-09-16',title:'글쓴이 프로필 칩',sql:false,items:['상세 화면(다이어리·로그·프롬프트·배포) 제목 위에 글쓴이 마름모 프로필 사진 + 닉네임 — 블로그의 표시 프로필(관리 › 공개·보호 › 표시 프로필)을 따름, 사진이 없으면 ◆']},
   {v:'1.6.5',date:'2026-09-16',title:'배경 글로우 켜기/끄기',sql:false,items:['배경 구석에 은은하게 깔리던 회색 빛덩이(글로우 3개)를 관리 › 꾸미기 › 배경에서 끌 수 있음. 색은 색상 테마 › 배경 글로우에서 변경','AI 색상 분배가 글로우·먼지 색을 빠뜨려도 팔레트에서 자동 파생 — 회색 기본값이 남지 않음']},
   {v:'1.6.4',date:'2026-09-16',title:'반짝임 복원 핫픽스',sql:false,items:['1.6.3에서 별·스파클·하트·D-Day 링의 밝은 심과 번짐이 평탄해진 문제 수정 — 마스크를 밝기 기준으로 바꿔 원본 질감 그대로, 색은 여전히 테마를 따름']},
