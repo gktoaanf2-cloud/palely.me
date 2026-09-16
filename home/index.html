@@ -2506,6 +2506,14 @@ body.read-paper .modal-box.pdx{background:rgb(var(--t-read-bg))!important;border
 body.read-paper .read-tg{color:rgb(var(--t-glow));}
 .read-tg svg{display:block;}
 @media(max-width:640px){body.read-paper #detail-content{padding:20px 16px;}}
+/* ── 글쓴이 칩(.au-chip): 마름모 아바타(clip-path) + 헤어라인 마름모 외곽 + 닉네임 ── */
+.au-slot{display:flex;justify-content:flex-start;}.pdx-head .au-slot{justify-content:center;}
+.au-chip{display:inline-flex;align-items:center;gap:8px;margin:-4px 0 12px;font-family:var(--font-kr);font-size:11px;letter-spacing:-.01em;color:rgba(var(--t-fg-soft),.8);}
+.au-dia{position:relative;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;color:rgba(var(--t-fg-soft),.6);flex:none;}
+.au-dia img{width:100%;height:100%;object-fit:cover;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);display:block;}
+.au-dia::after{content:'';position:absolute;inset:3px;border:1px solid rgba(var(--t-fg),.35);transform:rotate(45deg);pointer-events:none;}
+.au-nick{line-height:1;}
+#pd-author .au-chip,#dd-author .au-chip{margin:0 0 8px;}
 /* ── 글별 배경음악 미니 재생바(.pbgm): LP 문법 축소 — 디스크(유튜브 썸네일+홀)·POST BGM 라벨·제목·헤어라인 진행바·◆ PLAY/PAUSE ── */
 .pbgm{display:flex;align-items:center;gap:14px;margin:14px auto 22px;padding:10px 14px;max-width:560px;border:1px solid var(--border);background:rgba(var(--t-surface),.55);text-align:left;}
 .pbgm-disc{position:relative;width:44px;height:44px;border-radius:50%;overflow:hidden;border:1px solid rgba(var(--t-fg),.18);background:rgb(var(--t-vinyl));cursor:pointer;padding:0;flex:none;}
@@ -3389,7 +3397,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
 
 <div class="detail-view" id="detail-view">
   <button class="detail-back" title="목록으로" onclick="closeDetail()"><svg viewBox="0 0 10 18" width="11" height="19" fill="none" stroke="currentColor" stroke-width="1"><path d="M8.5 1L1.5 9l7 8"/></svg><span class="detail-back-tx">목록</span></button>
-  <h2 class="detail-title" id="detail-title"></h2>
+  <h2 class="detail-title" id="detail-title"></h2><div id="detail-author" class="au-slot"></div>
   <div class="detail-date" id="detail-date"></div><div id="detail-bgm"></div>
   <div class="detail-ics">
     <button class="read-tg" title="읽기 모드: 종이로 보기" aria-pressed="false" onclick="readToggle()"><svg width="13" height="14" viewBox="0 0 13 14" fill="none" stroke="currentColor" stroke-width="1"><rect x="1.5" y="1.5" width="10" height="11"/><path d="M4 5h5M4 8h5M4 11h3"/></svg></button>
@@ -3797,7 +3805,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
     <div class="pdx-head">
       <div class="pdx-cat" id="pd-cat"></div>
       <h3 class="pdx-title" id="pd-title"></h3>
-      <div id="pd-bgm"></div><div class="pdx-date" id="pd-date"></div>
+      <div id="pd-author" class="au-slot"></div><div id="pd-bgm"></div><div class="pdx-date" id="pd-date"></div>
       <div class="pdx-tags" id="pd-tags"></div>
       <div class="ddx-links pdx-links" id="pd-links" style="display:none"></div>
     </div>
@@ -3886,7 +3894,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
     <div class="pdx-head">
       <div class="pdx-cat" id="dd-cat"></div>
       <h3 class="pdx-title" id="dd-title"></h3>
-      <div id="dd-bgm"></div><div class="pdx-date" id="dd-date"></div>
+      <div id="dd-author" class="au-slot"></div><div id="dd-bgm"></div><div class="pdx-date" id="dd-date"></div>
       <div class="pdx-tags" id="dd-tags"></div>
     </div>
     <div class="pdx-icons">
@@ -7720,7 +7728,7 @@ function openPromptDetail(id){
   const pcats=catArr(p.category);
   document.getElementById('pd-cat').textContent=pcats.join(' · ');
   document.getElementById('pd-title').textContent=p.title||'(제목 없음)';
-  document.getElementById('pd-date').textContent=pdFmtDate(p.created_at);postBgmMount('pd-bgm',p.bgm);
+  document.getElementById('pd-date').textContent=pdFmtDate(p.created_at);authorMount('pd-author');postBgmMount('pd-bgm',p.bgm);
   document.getElementById('pd-tags').innerHTML=(p.tags||[]).map(t=>'<span>#'+esc(t)+'</span>').join(' ');
   const _pl=document.getElementById('pd-links');if(_pl){const ls=Array.isArray(p.links)?p.links.filter(l=>l&&l.url):[];_pl.innerHTML=ls.map(l=>'<a class="ddx-link" href="'+esc(l.url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>'+esc(l.label||l.url)+'</a>').join('');_pl.style.display=ls.length?'':'none';}
   const like=document.getElementById('pd-like');
@@ -8190,7 +8198,7 @@ function openDistDetail(id){
   ddImgs=promptImages(d);ddImgIdx=0;
   document.getElementById('dd-cat').textContent=catArr(d.category).join(' · ');
   document.getElementById('dd-title').textContent=d.title||'(제목 없음)';
-  document.getElementById('dd-date').textContent=pdFmtDate(d.created_at);postBgmMount('dd-bgm',d.bgm);
+  document.getElementById('dd-date').textContent=pdFmtDate(d.created_at);authorMount('dd-author');postBgmMount('dd-bgm',d.bgm);
   document.getElementById('dd-tags').innerHTML=(d.tags||[]).map(t=>'<span>#'+esc(t)+'</span>').join(' ');
   const like=document.getElementById('dd-like');
   document.getElementById('dd-like-n').textContent=pcvLikeN(d.id)||'';
@@ -8974,7 +8982,7 @@ async function openDetail(type,id,preData){
   try{history.replaceState(null,'','#post='+type+':'+id);}catch(e){}
   document.querySelectorAll('.page-section').forEach(s=>s.style.display='none');
   const dv=document.getElementById('detail-view');dv.style.display='block';dv.classList.add('active');dv.classList.toggle('detail-diary',type==='diary'||type==='logs');
-  document.getElementById('detail-title').textContent=(data.is_private?'🔒 ':'')+(data.title||'');postBgmMount('detail-bgm',data.bgm);
+  document.getElementById('detail-title').textContent=(data.is_private?'🔒 ':'')+(data.title||'');authorMount('detail-author');postBgmMount('detail-bgm',data.bgm);
   const _cat=catArr(data.category).join(', ');
   document.getElementById('detail-date').textContent=(type==='diary'?pdFmtDate(data.created_at):fmtDate(data.created_at))+(_cat?' · '+_cat:'')+(data.source?' · '+data.source:'');
   const contentEl=document.getElementById('detail-content');
@@ -10381,8 +10389,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.6.5';
+const APP_VERSION='1.6.6';
 const CHANGELOG=[
+  {v:'1.6.6',date:'2026-09-16',title:'글쓴이 프로필 칩',sql:false,items:['상세 화면(다이어리·로그·프롬프트·배포) 제목 위에 글쓴이 마름모 프로필 사진 + 닉네임 — 블로그의 표시 프로필(관리 › 공개·보호 › 표시 프로필)을 따름, 사진이 없으면 ◆']},
   {v:'1.6.5',date:'2026-09-16',title:'배경 글로우 켜기/끄기',sql:false,items:['배경 구석에 은은하게 깔리던 회색 빛덩이(글로우 3개)를 관리 › 꾸미기 › 배경에서 끌 수 있음. 색은 색상 테마 › 배경 글로우에서 변경','AI 색상 분배가 글로우·먼지 색을 빠뜨려도 팔레트에서 자동 파생 — 회색 기본값이 남지 않음']},
   {v:'1.6.4',date:'2026-09-16',title:'반짝임 복원 핫픽스',sql:false,items:['1.6.3에서 별·스파클·하트·D-Day 링의 밝은 심과 번짐이 평탄해진 문제 수정 — 마스크를 밝기 기준으로 바꿔 원본 질감 그대로, 색은 여전히 테마를 따름']},
   {v:'1.6.3',date:'2026-09-16',title:'다이어리·에셋 모바일 · 로그 배너 터치',sql:false,items:['모바일 다이어리: 사진 아래 글 카드가 한 장처럼 붙고, 글 카드에 사진이 비치던 효과를 꺼서 글이 또렷하게. 카드 높이는 내용만큼','모바일 에셋: 탭 이름 워터마크가 사진을 덮지 않도록 그리드 위 한 줄로','모바일 로그 배너: 탭하면 이미지가 확대·조각나 보이던 호버 연출을 화면 폭 900px 이하에서 완전히 꺼서 자연스럽게','이웃공개 글 카드에 NEIGHBOR 배지 — 주인·이웃이 볼 때 어떤 글이 이웃 한정인지 한눈에(비이웃에게는 기존 잠금 아이콘)','테마 자산 토큰화 — 탭 별·게시판 스파클·로그인 별/하트·D-Day 링(회색 PNG)과 D-Day 글자색이 테마 색을 따라감. 밝기 마스크로 원본의 반짝임(밝은 심·번짐)을 그대로 유지, 밝은 테마에서 검게 남지 않음','LP 판 색 — 색상 테마 › LP 판(판·중심부 2색). 글 배경음악 미니 디스크도 같은 색']},
@@ -10459,6 +10468,11 @@ function mnavGo(p){navigate(p);mnavClose();}
 // ── 맨 위로: main-content 스크롤 360px↓에서 표시, 부드럽게 최상단 ──
 // ── 글별 배경음악(A1): 별도 숨김 YT 플레이어 #post-yt. 상세 진입 → 블로그 LP 일시정지·글 BGM 재생 / 닫기 → 정지·LP 복귀(원래 재생 중이던 경우만) ──
 let postPlayer=null,postBgmReady=false,postBgmCur=null,postBgmSuspended=false,postBgmPI=null;
+// ── 글쓴이 칩: 블로그 표시 프로필(sites.profile_id → user_profiles). 1회 로드 메모, 없으면 블로그명 + ◆ ──
+let _siteProfileP=null;
+function siteProfileLoad(){if(_siteProfileP)return _siteProfileP;_siteProfileP=(async()=>{try{const pid=currentSite&&currentSite.profile_id;if(pid){const{data}=await palelyDBRaw.from('user_profiles').select('nickname,avatar').eq('id',pid).maybeSingle();if(data&&data.nickname)return {nickname:data.nickname,avatar:data.avatar||''};}}catch(e){}return {nickname:(currentSite&&currentSite.title)||'',avatar:''};})();return _siteProfileP;}
+function authorChip(p){if(!p||!p.nickname)return '';return '<div class="au-chip" title="글쓴이"><span class="au-dia">'+(p.avatar?'<img src="'+esc(p.avatar)+'" alt="" draggable="false">':'<svg width="8" height="8"><use href="#iss-ic-dia2"/></svg>')+'</span><span class="au-nick">'+esc(p.nickname)+'</span></div>';}
+function authorMount(slotId){const slot=document.getElementById(slotId);if(!slot)return;slot.innerHTML='';siteProfileLoad().then(p=>{const el=document.getElementById(slotId);if(el)el.innerHTML=authorChip(p);});}
 function postBgmParse(v){v=String(v||'').trim();if(!v)return null;const i=v.indexOf('|');const u=(i>=0?v.slice(0,i):v).trim(),title=(i>=0?v.slice(i+1):'').trim();const vid=(typeof ytIdOf==='function')?ytIdOf(u):'';return vid?{vid,title}:null;}
 function postBgmBar(b){return '<div class="pbgm" id="pbgm"><button type="button" class="pbgm-disc" onclick="postBgmToggle()" title="재생 / 일시정지"><img src="https://img.youtube.com/vi/'+esc(b.vid)+'/mqdefault.jpg" alt="" draggable="false"><span class="pbgm-hole"></span></button><div class="pbgm-meta"><span class="pbgm-label">POST BGM</span><span class="pbgm-title">'+esc(b.title||'이 글의 배경음악')+'</span><span class="pbgm-bar"><i id="pbgm-prog"></i></span></div><button type="button" class="pbgm-btn" onclick="postBgmToggle()"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg><span id="pbgm-btn-t">PLAY</span></button></div>';}
 function postBgmMount(slotId,raw){const slot=document.getElementById(slotId);const b=postBgmParse(raw);if(slot)slot.innerHTML=b?postBgmBar(b):'';if(b)postBgmStart(b);else postBgmStop();}
