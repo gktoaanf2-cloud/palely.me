@@ -4215,9 +4215,10 @@ async function obAgree(){
   const c=document.getElementById('ob-agree');if(!c||!c.checked){obErr('동의에 체크해 주세요');return;}
   try{const{error}=await palelyDBRaw.rpc('agree_terms');if(error)throw error;if(myAcct)myAcct.agreed=true;obNext();}catch(e){obErr('실패: '+(e.message||e));}
 }
+function nickMin(){const a=myAcct||{};return (a.role==='super'||a.tier==='vip')?1:2;}   // VIP·super 1글자 허용(서버 nick_min_len과 동일 규칙)
 function obNickCheck(){
   clearTimeout(obNickT);const v=(document.getElementById('ob-nick').value||'').trim();const st=document.getElementById('ob-nick-st');obState.nickOk=false;
-  if(v.length<2){st.textContent='';return;}st.textContent='확인 중…';st.className='ob-st';
+  if(v.length<nickMin()){st.textContent='';return;}st.textContent='확인 중…';st.className='ob-st';
   const seq=++obNickSeq;obNickT=setTimeout(async()=>{try{const{data}=await palelyDBRaw.rpc('nickname_available',{n:v});if(!obState||seq!==obNickSeq)return;obState.nickOk=!!data;st.textContent=data?'사용 가능':'이미 사용 중';st.className='ob-st '+(data?'ok':'bad');}catch(e){st.textContent='';}},350);
 }
 async function obAvatar(inp){
@@ -4229,7 +4230,7 @@ async function obAvatar(inp){
   }catch(e){showToast('사진 업로드 실패: '+(e.message||e));}
 }
 async function obNick(){
-  const v=(document.getElementById('ob-nick').value||'').trim();if(v.length<2||v.length>20){obErr('닉네임은 2~20자');return;}
+  const v=(document.getElementById('ob-nick').value||'').trim();if(v.length<nickMin()||v.length>20){obErr('닉네임은 '+nickMin()+'~20자');return;}
   const btn=document.getElementById('ob-nick-go');btn.disabled=true;
   try{const{error}=await palelyDBRaw.rpc('create_profile',{p_nick:v,p_avatar:obState.avatar||null,p_bio:null});if(error)throw error;
     await accountRefresh();
@@ -10389,8 +10390,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.6.7';
+const APP_VERSION='1.6.8';
 const CHANGELOG=[
+  {v:'1.6.8',date:'2026-09-17',title:'VIP 1글자 닉네임',sql:true,items:['VIP(및 운영자)는 닉네임 1글자 허용 — 일반은 2~20자 그대로. DB: _sql_vip_nick.sql 실행 필요(RPC 2개 교체)']},
   {v:'1.6.7',date:'2026-09-16',title:'핫픽스 — 텍스트 로고 잔상',sql:false,items:['로고 이미지가 없는 블로그에서 홈의 큰 블로그명(텍스트 로고)이 게시판을 열어도 남아 제목과 겹치던 문제 수정']},
   {v:'1.6.6',date:'2026-09-16',title:'글쓴이 프로필 칩',sql:false,items:['상세 화면(다이어리·로그·프롬프트·배포) 제목 위에 글쓴이 마름모 프로필 사진 + 닉네임 — 블로그의 표시 프로필(관리 › 공개·보호 › 표시 프로필)을 따름, 사진이 없으면 ◆']},
   {v:'1.6.5',date:'2026-09-16',title:'배경 글로우 켜기/끄기',sql:false,items:['배경 구석에 은은하게 깔리던 회색 빛덩이(글로우 3개)를 관리 › 꾸미기 › 배경에서 끌 수 있음. 색은 색상 테마 › 배경 글로우에서 변경','AI 색상 분배가 글로우·먼지 색을 빠뜨려도 팔레트에서 자동 파생 — 회색 기본값이 남지 않음']},
