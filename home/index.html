@@ -3624,6 +3624,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
     </div>
     <div class="tf-row"><label class="form-label">우주 먼지</label>
       <label class="form-check"><input type="checkbox" id="tbg-particles" onchange="themeBgParticlesSet(this.checked)"><span>배경에 떠다니는 먼지 입자 표시</span></label>
+      <label class="form-check"><input type="checkbox" id="tbg-glow" onchange="themeBgGlowSet(this.checked)"><span>배경 글로우 — 구석에 은은하게 깔리는 빛덩이 3개 (색은 색상 테마 › 배경 글로우)</span></label>
     </div>
     <div class="form-actions"><button class="btn-primary" onclick="themeBgSave()">SAVE</button><button class="btn-secondary" onclick="themeBgResetDefault()">기본으로 초기화</button><button class="btn-secondary" onclick="closeModal('theme-bg-modal')">CANCEL</button></div>
   </div>
@@ -4686,6 +4687,7 @@ function applyTheme(t){
   root.setProperty('--t-bg-glow',bg.glowColor||'69,69,80');
   window.PARTICLE_COLOR=bg.particleColor||'200,208,232';
   const pcv=document.getElementById('particle-canvas');if(pcv)pcv.style.display=(bg.particles===false)?'none':'';
+  const bgl=document.querySelector('.bg-glow');if(bgl)bgl.style.display=(bg.glow===false)?'none':'';
   const bgi=document.getElementById('bg-image'),bgd=document.getElementById('bg-dim');
   if(bg.mode==='image'&&bg.image){ if(bgi){bgi.style.backgroundImage='url("'+bg.image+'")';bgi.style.backgroundSize=(bg.fit||'cover');bgi.style.display='block';const _bl=(bg.blur!=null?+bg.blur:0);bgi.style.filter=_bl?'blur('+_bl+'px)':'';bgi.style.transform=_bl?'scale(1.06)':'';} if(bgd)bgd.style.opacity=(bg.dim!=null?bg.dim:0.4); }
   else{ if(bgi){bgi.style.backgroundImage='';bgi.style.display='none';bgi.style.filter='';bgi.style.transform='';} if(bgd)bgd.style.opacity=0; }
@@ -4756,6 +4758,9 @@ function applyBoardSubs(bs){
 // 자동 팔레트: 메인 강조색 하나 → 조화 팔레트 결정론적 파생 (HSL)
 function _rgb2hsl(r,g,b){r/=255;g/=255;b/=255;const mx=Math.max(r,g,b),mn=Math.min(r,g,b);let h,sa,l=(mx+mn)/2;if(mx===mn){h=sa=0;}else{const d=mx-mn;sa=l>0.5?d/(2-mx-mn):d/(mx+mn);if(mx===r)h=(g-b)/d+(g<b?6:0);else if(mx===g)h=(b-r)/d+2;else h=(r-g)/d+4;h/=6;}return[h*360,sa,l];}
 function _hsl2rgb(h,sa,l){h=((h%360)+360)%360/360;let r,g,b;if(sa===0){r=g=b=l;}else{const q=l<0.5?l*(1+sa):l+sa-l*sa,p=2*l-q;const hue=(t)=>{if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p;};r=hue(h+1/3);g=hue(h);b=hue(h-1/3);}return Math.round(r*255)+','+Math.round(g*255)+','+Math.round(b*255);}
+// 배경 밝기·메인색 색상으로 글로우/먼지 색 파생: 어두운 배경=낮은 명도 글로우·밝은 먼지, 밝은 배경=밝은 틴트 글로우·어두운 먼지
+function _deriveBgFx(colors){const c=colors||{};const acc=(c.accent||THEME_DEFAULTS.accent).split(',').map(Number);const bg=(c.bg||THEME_DEFAULTS.bg).split(',').map(Number);const h=_rgb2hsl(acc[0],acc[1],acc[2]),lb=_rgb2hsl(bg[0],bg[1],bg[2])[2];const light=lb>0.5;
+  return {glow:_hsl2rgb(h[0],Math.min(h[1]*0.35,0.3),light?0.80:0.28),particle:_hsl2rgb(h[0],Math.min(h[1]*0.3,0.25),light?0.38:0.85)};}
 function derivePalette(accentRgb){
   const p=(accentRgb||'163,172,208').split(',').map(Number);
   const hsl=_rgb2hsl(p[0],p[1],p[2]);const h=hsl[0],sa=hsl[1];
@@ -4953,6 +4958,8 @@ async function paletteAI(){
       if(k==='glowColor'||k==='particleColor')themeData.bg[k]=clean[k];
       else themeData.colors[k]=clean[k];
     });
+    // AI가 글로우·먼지 색을 빠뜨리면 팔레트에서 파생(배경 밝기 방향 + 메인색 색상) — 회색 기본값이 남지 않게
+    const fx=_deriveBgFx(themeData.colors);if(!clean.glowColor)themeData.bg.glowColor=fx.glow;if(!clean.particleColor)themeData.bg.particleColor=fx.particle;
     applyTheme(themeData);
     themeColorOpen();
     if(st){st.classList.remove('on');st.textContent='적용됨 — 저장해야 반영';}
@@ -5042,7 +5049,7 @@ function themeLogoSet(k,url){
 function themeLogoDefault(k){themeLogoSet(k,'');}
 async function themeLogoSave(){const ok=await saveTheme();if(ok){themeEditCommit();showToast('로고 저장됨');}}
 // ── 배경 UI (Phase3): themeData.bg 채우고 applyTheme/saveTheme 호출만 — 코어 미변경 ──
-const THEME_BG_DEF={mode:'default',image:'',fit:'cover',dim:0.4,particles:true,particleColor:'200,208,232',glowColor:'69,69,80'};
+const THEME_BG_DEF={mode:'default',image:'',fit:'cover',dim:0.4,particles:true,glow:true,particleColor:'200,208,232',glowColor:'69,69,80'};
 // ── 읽기 모드(종이): 주인 기본값 themeData.read('dark'|'paper') + 독자 기기 선택 localStorage.palely_read ──
 function readMode(t){let u='';try{u=localStorage.getItem('palely_read')||'';}catch(e){}if(u==='paper'||u==='dark')return u;const th=t||themeData;return (th&&th.read==='paper')?'paper':'dark';}
 function readApply(t){const on=readMode(t)==='paper';document.body.classList.toggle('read-paper',on);document.querySelectorAll('.read-tg').forEach(b=>{b.setAttribute('aria-pressed',on?'true':'false');b.title=on?'읽기 모드: 종이 (테마로 되돌리기)':'읽기 모드: 종이로 보기';});}
@@ -5061,6 +5068,7 @@ function themeBgOpen(){
   const ds=document.getElementById('tbg-dim');if(ds)ds.value=dim;
   const dv=document.getElementById('tbg-dim-val');if(dv)dv.textContent=(+dim).toFixed(2);
   const pc=document.getElementById('tbg-particles');if(pc)pc.checked=(b.particles!==false);
+  const gw=document.getElementById('tbg-glow');if(gw)gw.checked=(b.glow!==false);
   const rd=(themeData.read==='paper')?'paper':'dark';document.querySelectorAll('input[name="tbg-read"]').forEach(r=>{r.checked=(r.value===rd);});
   const bl=(b.blur!=null)?+b.blur:0;
   const bls=document.getElementById('tbg-blur');if(bls)bls.value=bl;
@@ -5119,6 +5127,7 @@ function themeBgBlurSet(v){
   const bv=document.getElementById('tbg-blur-val');if(bv)bv.textContent=b?b+'px':'없음';
   applyTheme(themeData);
 }
+function themeBgGlowSet(on){if(!themeData)themeData={};if(!themeData.bg)themeData.bg={};themeData.bg.glow=!!on;applyTheme(themeData);}
 function themeBgParticlesSet(on){
   if(!themeData)themeData={};if(!themeData.bg)themeData.bg={};
   themeData.bg.particles=!!on;
@@ -10372,8 +10381,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.6.4';
+const APP_VERSION='1.6.5';
 const CHANGELOG=[
+  {v:'1.6.5',date:'2026-09-16',title:'배경 글로우 켜기/끄기',sql:false,items:['배경 구석에 은은하게 깔리던 회색 빛덩이(글로우 3개)를 관리 › 꾸미기 › 배경에서 끌 수 있음. 색은 색상 테마 › 배경 글로우에서 변경','AI 색상 분배가 글로우·먼지 색을 빠뜨려도 팔레트에서 자동 파생 — 회색 기본값이 남지 않음']},
   {v:'1.6.4',date:'2026-09-16',title:'반짝임 복원 핫픽스',sql:false,items:['1.6.3에서 별·스파클·하트·D-Day 링의 밝은 심과 번짐이 평탄해진 문제 수정 — 마스크를 밝기 기준으로 바꿔 원본 질감 그대로, 색은 여전히 테마를 따름']},
   {v:'1.6.3',date:'2026-09-16',title:'다이어리·에셋 모바일 · 로그 배너 터치',sql:false,items:['모바일 다이어리: 사진 아래 글 카드가 한 장처럼 붙고, 글 카드에 사진이 비치던 효과를 꺼서 글이 또렷하게. 카드 높이는 내용만큼','모바일 에셋: 탭 이름 워터마크가 사진을 덮지 않도록 그리드 위 한 줄로','모바일 로그 배너: 탭하면 이미지가 확대·조각나 보이던 호버 연출을 화면 폭 900px 이하에서 완전히 꺼서 자연스럽게','이웃공개 글 카드에 NEIGHBOR 배지 — 주인·이웃이 볼 때 어떤 글이 이웃 한정인지 한눈에(비이웃에게는 기존 잠금 아이콘)','테마 자산 토큰화 — 탭 별·게시판 스파클·로그인 별/하트·D-Day 링(회색 PNG)과 D-Day 글자색이 테마 색을 따라감. 밝기 마스크로 원본의 반짝임(밝은 심·번짐)을 그대로 유지, 밝은 테마에서 검게 남지 않음','LP 판 색 — 색상 테마 › LP 판(판·중심부 2색). 글 배경음악 미니 디스크도 같은 색']},
   {v:'1.6.2',date:'2026-09-16',title:'글별 배경음악 · 읽기 모드 · D-Day 모바일',sql:true,items:['글마다 배경음악(유튜브 링크) — 글쓰기 화면 맨 아래 칸에 「링크 | 곡 제목」. 상세로 들어가면 블로그 배경음악이 잠시 멈추고 이 글의 음악이 재생, 나오면 원래 음악으로 복귀. 글 안에 미니 재생바(디스크·진행선·PLAY/PAUSE)','DB: A1 SQL(prompts·distributions·diary·logs에 bgm 컬럼 추가) 실행 필요 — 미실행 시 글 저장이 실패합니다','보관함 폴더 — 허브 마음함에서 폴더를 만들고(+ 폴더) 글마다 폴더로 옮겨 정리. 이름 변경·삭제(글은 전체로 복귀). DB: A2 SQL 실행 필요','홈 D-Day 위젯이 모바일에서 세 번째 칩부터 잘리던 문제 수정(풀폭 중앙, 많으면 가로 스크롤)','읽기 모드(종이): 상세 화면 아이콘으로 본문 배경을 밝은 종이·어두운 글자로 전환(기기 기억). 블로그 주인은 관리 › 꾸미기 › 배경에서 기본값을 정하고, 색상 테마 › 읽기 종이에서 색을 바꿀 수 있음']},
