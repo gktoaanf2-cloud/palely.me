@@ -2118,7 +2118,12 @@ body.is-admin #page-admin .adm-body{display:block;}
 .ntc-glow{position:absolute;inset:0;z-index:6;overflow:hidden;pointer-events:none;opacity:0;transition:opacity .8s;mix-blend-mode:screen;}
 #ntc-stage:hover .ntc-glow{opacity:1;}
 .ntc-glow i{position:absolute;left:0;top:0;width:56%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,var(--ntc-glow,rgba(var(--t-fg),.15)),transparent 62%);transform:translate(var(--gx,-9999px),var(--gy,-9999px)) translate(-50%,-50%);transition:transform .55s cubic-bezier(.2,.7,.3,1);}
-.ntc-etc{position:absolute;right:7.5%;top:55%;z-index:3;max-width:24%;text-align:right;display:flex;flex-direction:column;gap:9px;align-items:flex-end;}
+.ntc-etc{position:absolute;right:7.5%;top:55%;bottom:5%;z-index:3;max-width:24%;text-align:right;display:flex;flex-direction:column;gap:9px;align-items:flex-end;}
+.ntc-etc .ntc-kws{min-height:0;flex:1 1 auto;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:4px 6px 10px 10px;margin:-4px -6px 0 0;align-items:flex-end;}
+.ntc-etc .ntc-kws::-webkit-scrollbar{display:none;}
+.ntc-etc .ntc-kws.ntc-more{-webkit-mask-image:linear-gradient(to bottom,#000 82%,transparent);mask-image:linear-gradient(to bottom,#000 82%,transparent);}
+.ntc-etc .ntc-kw{max-width:100%;}
+.ntc-off{display:none!important;}
 .ntc-etc-t{font-family:'Playfair Display SC','Bodoni Moda','BookkMyungjo',serif;font-size:calc(clamp(15px,1.8vw,24px)*var(--fs,1));letter-spacing:.06em;color:var(--ntc-text,rgb(var(--t-fg)));text-shadow:0 2px 14px rgba(var(--t-shadow),.5);}
 .ntc-etc .ntc-kw{transform-origin:right center;}
 .ntc-etc .ntc-kw::before{left:auto;right:-4px;}
@@ -2406,7 +2411,10 @@ body.is-admin #page-admin .adm-body{display:block;}
   .ntc-etc{position:relative;right:auto;top:auto;z-index:3;max-width:100%;text-align:left;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:8px 18px 16px;background:var(--ntc-box04,rgba(var(--t-fg),.04));border:1px solid var(--ntc-box45,rgba(var(--t-fg),.45));border-top:none;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);}
   .ntc-etc.ntc-el{--ntx:0px;--nty:36px;}
   .ntc-etc-t{font-size:calc(15px*var(--fs,1));margin-right:4px;}
-  .ntc-etc .ntc-kws{flex-direction:row;flex-wrap:wrap;gap:8px 10px;}
+  .ntc-etc{bottom:auto;}
+  #diary-grid{overflow-x:clip;}   /* 카드 등장 슬라이드(±36px)가 화면 밖으로 나가 가로 스크롤 생기던 것 */
+  .iss-pager{flex-wrap:wrap;gap:6px 8px;}   /* 페이지 수가 많으면 줄바꿈 */
+  .ntc-etc .ntc-kws{flex-direction:row;flex-wrap:wrap;gap:8px 10px;overflow:visible;padding:0;margin:0;align-items:center;-webkit-mask-image:none;mask-image:none;}
   .ntc-etc .ntc-kw{transform-origin:left center;}
   .ntc-etc .ntc-kw::before{right:auto;left:-4px;}
   .ntc-glow{display:none;}
@@ -5963,11 +5971,15 @@ function ntcRender(){
   const nick=document.getElementById('ntc-nick');if(nick)nick.textContent=d.nick||'닉네임';
   const rich=document.getElementById('ntc-rich');if(rich)rich.innerHTML=esc(d.rich||'').replace(/\n/g,'<br>');
   const kws=(t)=>String(t||'').split(/\n/).map(x=>x.trim()).filter(Boolean).map(x=>'<span class="ntc-kw">'+esc(x)+'</span>').join('');
-  const lv=document.getElementById('ntc-love');if(lv)lv.innerHTML=kws(d.love)||'<span class="ntc-kw" style="opacity:.4">—</span>';
-  const ht=document.getElementById('ntc-hate');if(ht)ht.innerHTML=kws(d.hate)||'<span class="ntc-kw" style="opacity:.4">—</span>';
-  const et=document.getElementById('ntc-etc');if(et)et.innerHTML=kws(d.etc);
+  const lvH=kws(d.love),htH=kws(d.hate),etH=kws(d.etc);   // 비운 칸은 노출하지 않음
+  const lv=document.getElementById('ntc-love');if(lv){lv.innerHTML=lvH;lv.closest('.ntc-lh-sec').classList.toggle('ntc-off',!lvH);}
+  const ht=document.getElementById('ntc-hate');if(ht){ht.innerHTML=htH;ht.closest('.ntc-lh-sec').classList.toggle('ntc-off',!htH);}
+  const lhBox=st.querySelector('.ntc-lh');if(lhBox)lhBox.classList.toggle('ntc-off',!lvH&&!htH);
+  const et=document.getElementById('ntc-etc');if(et){et.innerHTML=etH;et.closest('.ntc-etc').classList.toggle('ntc-off',!etH);}
+  ntcEtcFit();
   ntcIntro();
 }
+function ntcEtcFit(){const k=document.getElementById('ntc-etc');if(!k)return;const _chk=()=>k.classList.toggle('ntc-more',k.scrollHeight-k.clientHeight>2&&k.scrollTop+k.clientHeight<k.scrollHeight-2);_chk();setTimeout(_chk,700);if(!k._fit){k._fit=1;k.addEventListener('scroll',()=>k.classList.toggle('ntc-more',k.scrollTop+k.clientHeight<k.scrollHeight-2),{passive:true});addEventListener('resize',ntcEtcFit);}}
 function ntcIntro(){
   const st=document.getElementById('ntc-stage');if(!st)return;
   const els=[...st.querySelectorAll('.ntc-el')];
@@ -10766,8 +10778,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.6.13';
+const APP_VERSION='1.6.14';
 const CHANGELOG=[
+  {v:'1.6.14',date:'2026-09-17',title:'공지·모바일 다듬기',sql:false,items:['공지: ETC 말풍선이 길거나 많으면 틀 밖으로 넘치던 문제 — 틀 안에서 스크롤(넘칠 때 아래 흐림)','공지: LOVE·HATE·ETC를 비워 두면 해당 칸을 숨김','모바일: 다이어리 카드 등장 애니메이션·프롬프트 페이지 번호가 화면 밖으로 넘쳐 가로 스크롤이 생기던 문제']},
   {v:'1.6.13',date:'2026-09-17',title:'글 임시저장 · 음원 배경음악 · 이웃 목록 정리',sql:true,items:['글 임시저장(모든 게시판) — 쓰다가 닫으면 「임시저장 / 저장 없이 닫기 / 취소」 선택, 에디터 하단 「임시저장」 버튼, 에디터 위 「임시저장 목록」 토글에서 불러오기·삭제. 로그인 계정에 저장(블로그별)','글 배경음악 칸을 「유튜브 링크」와 「곡 제목」 두 칸으로 분리 + 음원 파일(mp3·m4a·ogg·wav·flac) 올리기','블로그 배경음악(LP 플레이어)에 음원 파일 트랙 추가 — 관리 › 배경음악 › 직접 지정에서 여러 개 올리기','이웃 목록: 블로그를 여러 개 가진 이웃이 여러 줄로 나오던 것을 사람 한 줄로 묶음, 이미 이웃인데 다시 신청하면 중복 행이 생기던 문제 수정','BGM을 설정하지 않은 블로그에서 글 배경음악(유튜브)이 재생되지 않던 문제 수정','DB: _sql_drafts_neighbors.sql 실행 필요']},
   {v:'1.6.12',date:'2026-09-17',title:'글자 크기 — 사이트 전체 적용',sql:false,items:['우상단 「Aa」 버튼 → 글자 크기 85·100·115·130·145% 선택(이 기기에 기억, 모든 블로그 공통)','장식 타이포(브랜드·게시판 제목·탭·네비·LP·D-Day 등)를 제외한 사이트 전체 글자(카드·상세·팝업·허브·관리·입력창) 359개 규칙이 배율을 따름','상세·팝업의 A−/A+도 같은 값을 조정']},
   {v:'1.6.11',date:'2026-09-17',title:'메타데이터 추적 · 자동 세척 재점검',sql:false,items:['관리 › 도구 『메타데이터 추적』 — 이 블로그 저장소 이미지의 NAI 텍스트·EXIF·XMP·알파 스텔스 잔존을 빠른/정밀 검사, 잔존 항목은 『세척』으로 재인코딩 후 같은 주소에 덮어쓰기(썸네일 자동 갱신)','에디터 『NAI 일괄 제거』 버튼 제거 — 업로드 시 전부 자동 세척되므로 불필요','감지 보강: PNG eXIf 청크, JPEG·WebP의 EXIF/XMP','GIF도 세척: 재인코딩 없이 주석·XMP 확장 블록만 제거(애니메이션 유지)','AI 배색 후 남던 회색 배경 글로우·먼지색: 기본 회색이면 팔레트에서 자동 파생(모바일 포함)','본문·라벨 글자색을 텍스트 토큰으로 통일 — 밝은 배색에서 글이 안 보이던 문제(상세 본문·배포 설명·프롬프트 텍스트·날짜 등 40곳)','글자 크기 조절 A−/A+ (상세·팝업 아이콘 줄) — 85~150%, 이 기기에 기억, 어느 블로그에서나 동일 적용','모바일: 대형 이미지(약 1,677만 px 초과)에서 세척 재인코딩이 기기 한계로 실패하면 한계 안으로 축소해 재시도(이전엔 업로드 취소)']},
