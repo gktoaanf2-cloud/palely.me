@@ -536,18 +536,18 @@ body.is-admin .admin-fab{display:grid}
 /* LP MUSIC PLAYER (right, persists) */
 .lp-player{position:fixed;right:44px;top:38%;z-index:50;display:flex;flex-direction:column;align-items:center;gap:10px;width:150px}
 /* 하단 워터마크 · 운영자 문의 (옅게) */
-.site-foot{display:flex;align-items:center;justify-content:center;gap:12px;font-family:var(--font-num);font-size:9px;letter-spacing:.3em;color:rgba(var(--t-fg-soft),.24);pointer-events:none;user-select:none;-webkit-user-select:none;}
+.site-foot{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-family:var(--font-num);font-size:9px;letter-spacing:.3em;color:rgba(var(--t-fg-soft),.24);pointer-events:none;user-select:none;-webkit-user-select:none;}
 .site-foot .sf-dot{width:3px;height:3px;background:currentColor;transform:rotate(45deg);flex:none;}
-.site-foot .sf-ask{position:relative;pointer-events:auto;background:none;border:0;padding:5px 0;font-family:var(--font-kr);font-size:10px;letter-spacing:.08em;color:inherit;cursor:pointer;transition:color .35s;}
+.site-foot .sf-ask{position:relative;pointer-events:auto;background:none;border:0;padding:3px 0;font-family:var(--font-kr);font-size:9px;letter-spacing:.04em;opacity:.85;color:inherit;cursor:pointer;transition:color .35s;}
 .site-foot .sf-ask::after{content:'';position:absolute;left:0;right:100%;bottom:3px;height:1px;background:currentColor;transition:right .45s cubic-bezier(.3,1.2,.35,1);}
 .site-foot .sf-ask:hover,.site-foot .sf-ask:focus-visible{color:rgba(var(--t-fg-mid),.72);outline:none;}
 .site-foot .sf-ask:hover::after,.site-foot .sf-ask:focus-visible::after{right:0;}
-.home-foot{position:fixed;left:0;right:0;bottom:16px;z-index:6;}
+.home-foot{position:fixed;left:0;right:0;bottom:10px;z-index:6;}
 body.board-open .home-foot{display:none;}
 #board-foot{margin:64px 0 6px;}
 #main-content:has(#page-hub.active) #board-foot{display:none;}
 .tbg-fxs{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0 4px;}
-@media(max-width:920px){.home-foot{bottom:calc(74px + env(safe-area-inset-bottom));}}
+@media(max-width:920px){.home-foot{bottom:calc(70px + env(safe-area-inset-bottom));}}
 @media(hover:none){.site-foot .sf-ask{padding:12px 6px;margin:-7px -6px;}}
 /* elliptical waves radiating out from the record (emphasized) */
 .lp-player::before,.lp-player::after{content:'';position:absolute;left:75px;top:53px;width:110px;height:110px;border-radius:50%;border:1.6px solid rgba(var(--t-accent),.6);box-shadow:0 0 8px rgba(var(--t-accent),.35);transform:translate(-50%,-50%) scale(.4);opacity:0;pointer-events:none;z-index:0}
@@ -1443,6 +1443,15 @@ body.is-admin .fs-pop{right:126px;}
 .ob-lead{font-family:var(--font-kr);font-size:calc(12.5px*var(--fs,1));line-height:1.8;color:rgba(var(--t-fg-mid),.85);margin:0 0 16px;}
 .ob-hint{font-family:var(--font-kr);font-size:calc(10.5px*var(--fs,1));color:rgba(var(--t-fg-soft),.5);margin:6px 0 0;}
 .ob-st{font-weight:400;letter-spacing:0;margin-left:8px;color:rgba(var(--t-fg-soft),.5);}
+.ob-beta{text-align:center;padding:22px 8px 26px;margin-bottom:6px;border-top:1px solid rgba(var(--t-fg),.1);border-bottom:1px solid rgba(var(--t-fg),.1);}
+.ob-beta-t{font-family:var(--font-kr);font-weight:600;font-size:calc(15px*var(--fs,1));color:rgb(var(--t-snow));margin:0 0 10px;letter-spacing:-.02em;}
+.ob-beta-s{font-family:var(--font-kr);font-size:calc(12.5px*var(--fs,1));line-height:1.7;color:rgba(var(--t-fg-mid),.85);margin:0;}
+.ob-beta-acts{flex-wrap:wrap;}
+.ob-nchecks{display:flex;flex-direction:column;gap:9px;margin:4px 0 16px;}
+.ob-nchecks .ob-check{align-items:flex-start;line-height:1.55;}
+.ob-nchecks .ob-check input{margin-top:5px;}
+.ob-nall{padding-top:9px;border-top:1px solid rgba(var(--t-fg),.1);font-weight:600;}
+#ob-notice-go:disabled{opacity:.35;cursor:default;}
 .ob-st.ok{color:rgb(var(--t-ok));}.ob-st.bad{color:rgb(var(--t-danger-c));}
 .ob-terms{max-height:220px;overflow-y:auto;padding:14px 16px;border:1px solid rgba(var(--t-fg),.12);background:rgba(var(--t-fg),.03);font-family:var(--font-kr);font-size:calc(12px*var(--fs,1));line-height:1.85;color:rgba(var(--t-fg-mid),.9);margin-bottom:14px;scrollbar-width:none;}
 .ob-terms::-webkit-scrollbar{display:none;}
@@ -3703,7 +3712,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
 <div class="home-sub" id="home-sub"></div>
 <div class="home-newposts" id="main-newposts" style="display:none"></div>
 <button class="dday-admin-btn" id="dday-admin-btn" onclick="openDdayModal()">+ D-DAY</button>
-<div class="site-foot home-foot" id="home-foot"><span class="sf-mark">&copy; 2026 PALELY.ME</span><i class="sf-dot" aria-hidden="true"></i><button type="button" class="sf-ask" onclick="siteContact()">운영자 문의</button></div>
+<div class="site-foot home-foot" id="home-foot"><span class="sf-mark">&copy; 2026 PALELY.ME</span><button type="button" class="sf-ask" onclick="siteContact()">운영자에게 문의하기</button></div>
 <button class="totop" id="totop" type="button" aria-label="맨 위로" title="맨 위로" onclick="toTop()"><svg viewBox="0 0 18 10" width="18" height="10" fill="none" stroke="currentColor" stroke-width="1"><path d="M1 9l8-8 8 8"/></svg><span class="totop-tx">TOP</span></button>
 <div class="feed-bell" id="feed-bell" title="이웃 새글 알림" onclick="feedBellClick()"><span class="bell-lot" id="bell-lot"></span><span class="feed-dot" id="feed-dot"></span></div>
 <div class="feed-panel" id="feed-panel">
@@ -4080,7 +4089,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
   <div class="detail-content" id="detail-content"></div>
   <div style="margin-top:40px;" id="detail-admin-actions"></div>
 </div>
-<footer class="site-foot" id="board-foot"><span class="sf-mark">&copy; 2026 PALELY.ME</span><i class="sf-dot" aria-hidden="true"></i><button type="button" class="sf-ask" onclick="siteContact()">운영자 문의</button></footer>
+<footer class="site-foot" id="board-foot"><span class="sf-mark">&copy; 2026 PALELY.ME</span><button type="button" class="sf-ask" onclick="siteContact()">운영자에게 문의하기</button></footer>
 
 </main>
 
@@ -4903,10 +4912,12 @@ function obNeeded(){
   if(!(myAcct.sites||[]).length&&!localStorage.getItem('palely_ob_skip_'+myAcct.user_id))return true;
   return false;
 }
+const OB_BETA_ON=true;     // 베타 테스트 안내(가입 첫 화면) — 정식 오픈 때 false
+const OB_NOTICE_ON=false;  // 가입 주의사항 단계 — 보스 지시로 보류(나중에 true로 켜기)
 function obSteps(){
   const a=myAcct||{};const first=!(a.sites||[]).length;const st=[];
   if(first&&a.signup_mode==='invite'&&a.role!=='super')st.push('invite');
-  if(!a.agreed)st.push('terms');
+  if(!a.agreed){if(OB_BETA_ON)st.unshift('beta');if(OB_NOTICE_ON)st.push('notice');st.push('terms');}   // 약관 앞에 주의사항 확인
   if(!(a.profiles||[]).length)st.push('nick');
   if(first)st.push('site');
   return st;
@@ -4923,12 +4934,15 @@ function obClose(){obState=null;closeModal('onboard-modal');}
 function obNext(){obState.i++;if(obState.i>=obState.steps.length){obClose();return;}obRender();}
 function obRender(){
   const st=obState;if(!st)return;const step=st.steps[st.i];
-  const titles={invite:'INVITE',terms:'AGREEMENT',nick:'PROFILE',site:'NEW BLOG',done:'READY'};
+  const titles={beta:'BETA',invite:'INVITE',notice:'NOTICE',terms:'AGREEMENT',nick:'PROFILE',site:'NEW BLOG',done:'READY'};
   document.getElementById('ob-title').textContent=titles[step]||'WELCOME';
   document.getElementById('ob-steps').innerHTML=st.steps.map((x,k)=>'<span class="ob-dot'+(k<st.i?' done':k===st.i?' on':'')+'"></span>').join('');
   obErr('');const B=document.getElementById('ob-body');
-  if(step==='invite'){
+  if(step==='beta'){
+    B.innerHTML='<div class="ob-beta"><p class="ob-beta-t">지금은 베타 테스트 기간입니다.</p><p class="ob-beta-s">1차 테스터가 아닌 분들은 정식 오픈까지 기다려 주세요!</p></div><div class="form-actions ob-beta-acts"><button class="btn-primary" onclick="obNext()">나는 테스터예요. 진행할게요</button><button class="btn-secondary" onclick="obClose()">기다릴게요</button></div>';
+  }else if(step==='invite'){
     B.innerHTML='<p class="ob-lead">지금은 초대로만 블로그를 열 수 있어요. 받은 초대 코드를 입력해 주세요.</p><div class="form-group"><label class="form-label">초대 코드</label><input class="form-input" id="ob-invite" maxlength="12" placeholder="XXXX-XXXX" autocomplete="off" value="'+esc(st.invite)+'"></div><div class="form-actions"><button class="btn-primary" onclick="obInvite()">확인</button><button class="btn-secondary" onclick="obClose()">나중에</button></div>';
+  }else if(step==='notice'){B.innerHTML=obNoticeHtml();
   }else if(step==='terms'){
     B.innerHTML='<div class="ob-terms" id="ob-terms">'+(svcDocs?obDocsHtml():'불러오는 중…')+'</div><label class="form-check ob-check"><input type="checkbox" id="ob-agree"><span>이용약관(운영방침)과 개인정보 처리방침을 모두 읽었고 동의합니다 · 만 14세 이상입니다</span></label><div class="form-actions"><button class="btn-primary" onclick="obAgree()">동의하고 계속</button><button class="btn-secondary" onclick="obClose()">나중에</button></div>';
     if(!svcDocs)obLoadTerms();
@@ -4957,6 +4971,28 @@ async function obInvite(){
   try{const{data,error}=await palelyDBRaw.rpc('invite_check',{c:v});if(error)throw error;if(!data){obErr('초대 코드가 올바르지 않거나 만료되었어요');return;}obState.invite=v;obNext();}
   catch(e){obErr('확인 실패: '+(e.message||e));}
 }
+// 가입 주의사항(약관 동의 전 필수 확인)
+const OB_NOTICE=[
+  ['페일리는 어떤 곳인가요','페일리(palely.me)는 AI 캐릭터 채팅을 백업하고, 그 이야기를 나누기 위해 개인 운영자가 운영하는 홈페이지입니다.\nAI 캐릭터 채팅과 관련 없는 동인 활동에도 사용할 수 있습니다.'],
+  ['허용되지 않는 활동','광고·홍보, 상업적 목적의 활동, 정치적 목적의 활동, 특정 대상을 비하하거나 혐오를 조장하는 활동은 일절 허용되지 않습니다.'],
+  ['AI 학습을 위한 사이트가 아닙니다','이 사이트는 AI 크롤링을 차단하고 있으며, AI 학습 데이터를 모으기 위한 곳이 아닙니다.\n이곳에 올라온 AI를 사용하지 않은 창작물을 AI 무단 학습·수집에 사용하는 것을 허용하지 않습니다.'],
+  ['AI로 속이는 행위 금지','페일리에 AI를 사용하여 생성한 \'AI 스피드페인팅 영상, AI 그림 프로그램 합성 이미지\' 공유를 엄격하게 금지합니다.\nAI로 사람을 속이기 위한 용도의 프롬프트를 공유하는 것을 금지합니다. (AI 스피드페인팅, AI 그림 프로그램 러프 생성 프롬프트 등)\nAI를 사용하는 것과 별개로 AI임을 숨기고 사람을 속이려 드는 행위는 일절 차단되며, 해당 행위는 지탄받아야 할 행위임을 이용자가 동의하고 있다는 것으로 간주합니다.'],
+  ['운영 방향','페일리는 AI 기술의 문제점을 무조건 옹호하지 않습니다.\n이곳의 목적은 무단 학습이 아니라, AI 캐릭터 채팅에서 만든 이야기를 나누는 동인 활동입니다.']];
+const OB_NOTICE_CHECKS=[
+  '페일리가 AI 캐릭터 채팅 백업과 이야기 나눔(동인 활동)을 위한 개인 운영 홈페이지임을 확인했습니다',
+  '광고·상업·정치 목적이나 비하 목적의 활동을 하지 않겠습니다',
+  '이 사이트는 AI 크롤링이 차단되어 있고 AI 학습을 위한 곳이 아님을 확인했으며, 무단 학습·수집에 사용하지 않겠습니다',
+  'AI 스피드페인팅 영상·AI 그림 프로그램 합성 이미지, 그리고 사람을 속이기 위한 용도의 프롬프트를 공유하지 않으며, AI임을 숨기고 속이는 행위가 금지되고 지탄받아야 할 행위임에 동의합니다'];
+function obNoticeHtml(){
+  return '<p class="ob-lead">가입 전에 꼭 확인해 주세요. 아래 내용에 모두 동의해야 다음 단계로 넘어갈 수 있어요.</p>'
+    +'<div class="ob-terms ob-notice">'+OB_NOTICE.map(x=>'<div class="ob-doc"><div class="ob-doc-h">'+esc(x[0])+'</div>'+esc(x[1]).replace(/\n/g,'<br>')+'</div>').join('')+'</div>'
+    +'<div class="ob-nchecks">'+OB_NOTICE_CHECKS.map((t,i)=>'<label class="form-check ob-check"><input type="checkbox" class="ob-nc" onchange="obNoticeSync()"><span>'+esc(t)+'</span></label>').join('')
+    +'<label class="form-check ob-check ob-nall"><input type="checkbox" id="ob-nall" onchange="obNoticeAll(this.checked)"><span>위 내용에 모두 동의합니다</span></label></div>'
+    +'<div class="form-actions"><button class="btn-primary" id="ob-notice-go" onclick="obNotice()" disabled>확인하고 계속</button><button class="btn-secondary" onclick="obClose()">나중에</button></div>';
+}
+function obNoticeSync(){const cs=[...document.querySelectorAll('#ob-body .ob-nc')],ok=cs.length&&cs.every(c=>c.checked);const a=document.getElementById('ob-nall');if(a)a.checked=ok;const b=document.getElementById('ob-notice-go');if(b)b.disabled=!ok;if(ok)obErr('');}
+function obNoticeAll(on){document.querySelectorAll('#ob-body .ob-nc').forEach(c=>c.checked=on);obNoticeSync();}
+function obNotice(){const cs=[...document.querySelectorAll('#ob-body .ob-nc')];if(!cs.length||!cs.every(c=>c.checked)){obErr('모든 항목에 동의해야 가입을 계속할 수 있어요');return;}obNext();}
 async function obAgree(){
   const c=document.getElementById('ob-agree');if(!c||!c.checked){obErr('동의에 체크해 주세요');return;}
   try{const{error}=await palelyDBRaw.rpc('agree_terms');if(error)throw error;if(myAcct)myAcct.agreed=true;obNext();}catch(e){obErr('실패: '+(e.message||e));}
@@ -11844,8 +11880,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.7.2';
+const APP_VERSION='1.7.3';
 const CHANGELOG=[
+  {v:'1.7.3',date:'2026-09-17',title:'베타 안내 · 하단 정리',sql:false,items:['가입 첫 화면에 베타 테스트 안내(「나는 테스터예요. 진행할게요」)','하단 워터마크 아래에 「운영자에게 문의하기」를 작게 2단 배치']},
   {v:'1.7.2',date:'2026-09-17',title:'공지 구역별 사진 · 큰 제목 켜기/끄기',sql:false,items:['공지 편집 › 사진: 레이아웃마다 구역별 사진(기본 가로형 패널·벤토 5곳·레일 7곳·프로필 4곳·에디토리얼 2곳·앨범 2곳) — 비운 구역은 메인 사진','공지 편집 › 글: 큰 제목 표시 켜기/끄기','모바일: 검색 창이 화면 밖으로 잘리던 문제']},
   {v:'1.7.1',date:'2026-09-17',title:'배경 효과 · 하단 문의',sql:false,items:['관리 › 꾸미기 › 배경 › 배경 효과: 별무리 · 유성우 · 비 · 벼락 · 눈송이 · 벚꽃 · 비눗방울 · 하트 비눗방울 · 물거품 · 파도 물결 · 수중 빛무리 · 불꽃 낙하 · 쌍두룡(VIP) · 도트 하트 — 감상을 해치지 않게 작고 옅게(색은 먼지 색)','홈페이지 배경음악 플레이리스트 편집기 — 음원 파일 여러 개 올리기(끌어다 놓기)·유튜브 링크 추가·제목 수정·순서 변경·삭제·미리 듣기','페이지 하단에 옅은 워터마크와 「운영자 문의」 버튼']},
   {v:'1.7.0',date:'2026-09-17',title:'공지 자기소개표 템플릿',sql:false,items:['공지 편집 › 레이아웃: 기본 가로형 · 세로형(PC에서도) · 벤토 · 사이드 레일 · 프로필 페이지 · 에디토리얼 · 앨범','템플릿 색상 4종(글자·박스·포인트·바탕) — 포인트·바탕은 템플릿 기본색 또는 직접 지정, 글자와 배경 대비가 낮으면 자동 보정','추가 항목을 원하는 만큼(이름·칩/말풍선/글 방식), 비운 항목은 숨김','큰 제목·한 줄 소개 칸','긴 내용은 「더 보기」로 펼치기, 탭·이동 버튼으로 항목 확인, 등장 애니메이션(켜기/끄기)과 포인트별 호버 애니메이션','템플릿마다 모바일 전용 배치','공지 편집창 개편 — 디자인·사진·글·항목·색 탭, 실시간 미리보기(PC·모바일), 구도가 보이는 레이아웃 카드, 작은 마름모 색 선택','긴 내용 보기 방식 선택: 「더 보기」 버튼 또는 칸 안 스크롤(스크롤바 없이, 더 있을 때만 끝이 흐려짐)']},
