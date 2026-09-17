@@ -381,6 +381,16 @@ input[type="range"]::-moz-range-thumb{width:7px;height:7px;border:none;border-ra
   .main-content{height:calc(100vh - var(--player-height) - 52px);margin-left:0}.gb-form-row{flex-direction:column}
 }.mobile-nav{display:none}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}#particle-canvas{display:none}}
+/* ── P8 성능·발열(2026-09-17): 게시판이 열리면 홈 전용 요소는 opacity 0 뒤 visibility hidden + 애니 정지(안 보이는데 74개가 돌던 것) ── */
+body.board-open #home-only,body.board-open .home-sub,body.board-open #site-textlogo{visibility:hidden;transition:opacity .4s,visibility 0s .4s;}
+body.board-open #home-only *,body.board-open .home-sub *{animation-play-state:paused!important;}
+/* 라이트 모드(body.perf-lite = 터치 기기·≤920): 매 프레임 페인트를 일으키는 애니(글자별 blur/text-shadow·feTurbulence·래스터 회전)만 정지. transform/opacity 애니는 유지 */
+body.perf-lite .hsub-base span,body.perf-lite .hsub-glass span{animation:none;filter:none;will-change:auto;}
+body.perf-lite .home-sub{filter:none;}
+body.perf-lite .glow-vector{animation:gvTwA 3.5s ease-in-out infinite;}
+body.perf-lite .iss-sub .sc{animation:issSubIn .5s var(--ease-out) forwards var(--din);}
+body.perf-lite .iss-title{animation:none;text-shadow:0 0 11px rgba(var(--t-glow),.32);}
+body.perf-lite .bnc-bg::after{animation:none;}
 
 /* ═══════════ INGESTED FIGMA DESIGN (chrome) ═══════════ */
 html,body{overflow:hidden}
@@ -694,7 +704,8 @@ body.board-open .main-content{opacity:1;transform:none;pointer-events:auto}
 .re-tb-sel{height:30px;background:rgba(var(--t-fg),.06);border:1px solid rgba(var(--t-fg),.12);border-radius:6px;color:rgb(var(--t-snow));font-size:12px;padding:0 4px;cursor:pointer;}
 .re-tb-color{width:30px;height:30px;padding:0;border:1px solid rgba(var(--t-fg),.12);border-radius:6px;background:none;cursor:pointer;}
 .re-body{min-height:260px;max-height:60vh;overflow-y:auto;padding:16px;background:rgba(var(--t-shadow),.18);border:1px solid rgba(var(--t-fg),.1);border-radius:0 0 8px 8px;color:rgb(var(--t-snow));font-size:14px;line-height:1.7;outline:none;}
-.re-body:empty:before,.re-body:has(>br:only-child):before{content:attr(data-ph);color:rgb(var(--t-fg-soft));pointer-events:none;}
+/* 리치 본문 placeholder: 편집 요소 자체의 ::before는 안드로이드 IME 조합 중 :empty가 풀리며 레이아웃이 바뀌어 첫 글자 조합이 취소됨 → 부모(.dp-page) 절대배치 + JS 클래스(re-empty)로 */
+.dp-page.re-empty::before{content:attr(data-ph);position:absolute;left:16px;top:16px;color:rgb(var(--t-fg-soft));pointer-events:none;font-size:14px;line-height:1.7;z-index:1;}
 .re-body:focus{border-color:rgba(var(--t-glow),.35);}
 .re-body img,.diary-rich img{max-width:100%;height:auto;border-radius:8px;display:inline-block;vertical-align:middle;}
 .re-body img.re-sel{outline:1px solid rgba(var(--t-accent),.28);outline-offset:3px;}
@@ -4070,6 +4081,7 @@ window.addEventListener('DOMContentLoaded',async()=>{
   try{document.fonts.load('400 1em "BookkMyungjo"','가');document.fonts.load('700 1em "BookkMyungjo"','가');}catch(e){}
   try{palelyDB=window.supabase.createClient(PALELY_URL,PALELY_KEY);pmbClient=window.supabase.createClient(PMB_URL,PMB_KEY);}catch(e){}
   palelyDBRaw=palelyDB;if(palelyDB){await siteBoot();palelyDB=dbShim(palelyDBRaw);siteBrandApply();}
+  if(!(currentSite&&currentSite.handle!==BOSS_HANDLE&&!siteSettingsCache.has('bgm')))loadYTAPI();else document.body.classList.add('no-bgm');   // P8: BGM 없는 블로그는 유튜브 iframe 자체를 만들지 않음(bgmLoad의 none 판정과 동일 조건)
   edDropInit();vaultInit();
   await Promise.all([loadTheme(),checkAuth()]);   // 테마·세션 병렬
   await siteGate();await loadBoards();heartBoot();deferPrefetchLater();
@@ -6226,6 +6238,7 @@ function dyvEnter(g){
   [...g.querySelectorAll('.dyv')].forEach((el,i)=>{setTimeout(()=>el.classList.add('in'),i*480);});
 }
 setInterval(()=>{
+  if(document.hidden)return;const pg=document.getElementById('page-diary');if(!pg||!pg.classList.contains('active'))return;   // P8: 다이어리 페이지가 보일 때만
   document.querySelectorAll('#diary-grid .dyv.in').forEach(row=>{
     const strip=row.querySelector('.dyv-strip');if(!strip)return;
     const n=parseInt(strip.dataset.n)||1;if(n<2)return;
@@ -6660,7 +6673,7 @@ function bnIntroLoop(){
   const link=wrap.querySelector('.bnmask-link');
   if(window._bnIntroTimer)clearInterval(window._bnIntroTimer);
   if(typeof window._bnDir!=='number')window._bnDir=0;
-  function play(){if(wrap._bnHover)return;wrap.classList.remove('bnrvl-down','bnrvl-up');void wrap.offsetWidth;wrap.classList.add(window._bnDir%2?'bnrvl-up':'bnrvl-down');window._bnDir++;}
+  function play(){if(wrap._bnHover)return;if(document.hidden)return;const pg=wrap.closest('.page-section');if(pg&&!pg.classList.contains('active'))return;wrap.classList.remove('bnrvl-down','bnrvl-up');void wrap.offsetWidth;wrap.classList.add(window._bnDir%2?'bnrvl-up':'bnrvl-down');window._bnDir++;}
   play();
   window._bnIntroTimer=setInterval(play,7000);
   if(link&&!link._bnHoverBound){link._bnHoverBound=true;
@@ -8895,6 +8908,8 @@ async function gbcLoad(entryId){
 }
 function gbcRender(entryId,rows,formOpen){
   const box=document.getElementById('gbc-'+entryId);if(!box)return;
+  const _pm=document.getElementById('gbc-msg-'+entryId),_pn=document.getElementById('gbc-nick-'+entryId);const _keepMsg=_pm?_pm.value:'',_keepNick=_pn?_pn.value:'';
+  if(_pm&&formOpen===false&&(_pm===document.activeElement||_keepMsg.trim()))return;   // 쓰는 중인 폼을 카운트 갱신이 덮어쓰지 않음
   let list='';
   if(rows===null){list='<div class="gbc-note">코멘트 기능은 관리자 SQL 설정 후 활성화됩니다.</div>';}
   else if(!rows.length){list='<div class="gbc-note">아직 코멘트가 없어요.</div>';}
@@ -8908,6 +8923,7 @@ function gbcRender(entryId,rows,formOpen){
   box.innerHTML=list+(formOpen===false
     ?'<button class="gbc-openform" onclick="this.nextElementSibling.hidden=false;this.remove()">코멘트 쓰기 ＋</button><div class="gbc-formwrap" hidden>'+formHtml+'</div>'
     :formHtml);
+  if(_keepMsg||_keepNick){const m2=document.getElementById('gbc-msg-'+entryId),n2=document.getElementById('gbc-nick-'+entryId);if(m2&&_keepMsg){m2.value=_keepMsg;const w=m2.closest('.gbc-formwrap');if(w){w.hidden=false;const ob=w.previousElementSibling;if(ob&&ob.classList.contains('gbc-openform'))ob.remove();}}if(n2&&_keepNick)n2.value=_keepNick;}
 }
 async function gbcSubmit(entryId){
   const nEl=document.getElementById('gbc-nick-'+entryId);
@@ -9170,6 +9186,7 @@ document.addEventListener('click',e=>{
   if(ov.id==='adult-consent-modal'){declineConsent();return;}
   if(ov.id==='stk-crop-modal'){stkCropCancel();return;}
   if(ov.id==='editor-modal'){
+    if(document.body.classList.contains('perf-lite')&&window._edLastBlur&&performance.now()-window._edLastBlur<450)return;   // 터치: 키보드 닫으려고 바깥을 탭한 것 → 닫기 확인 안 띄움
     if(editorStateStr()!==editorSnap&&!confirm('수정된 내용이 있습니다. 저장하지 않고 닫으시겠습니까?'))return;
     ov.classList.remove('active');return;
   }
@@ -9774,6 +9791,7 @@ function setupRichEditors(){
     el.addEventListener('paste',reOnPaste);
     el.addEventListener('click',reOnClick);
     el.addEventListener('keyup',reSaveSel);
+    const _pg=el.closest('.dp-page');if(_pg){_pg.dataset.ph=el.dataset.ph||'';const _phUpd=()=>{_pg.classList.toggle('re-empty',!el.textContent.trim()&&!el.querySelector('img,figure,iframe,video'));};_phUpd();el.addEventListener('input',_phUpd);el.addEventListener('compositionend',_phUpd);el.addEventListener('blur',_phUpd);}   // placeholder 표시(IME 안전)
     el.addEventListener('mouseup',reSaveSel);
     el.addEventListener('mousedown',()=>{if(typeof dpSel!=='undefined'&&dpSel>=0)dpSelect(-1);});
     el.addEventListener('dragover',reOnDragOver);
@@ -9902,10 +9920,12 @@ async function fetchOG(){
   }catch(e){showToast('Fetch failed');}
 }
 
+document.addEventListener('focusout',e=>{try{if(e.target&&e.target.closest&&e.target.closest('#editor-modal .modal-box'))window._edLastBlur=performance.now();}catch(x){}},true);   // 에디터 입력창 포커스 해제 시각(배경 탭 가드용)
 async function saveEntry(){
   if(!palelyDB||(!isAdmin&&currentEditorType!=='guestbook')){showToast('Admin login required');return;}
   const btn=document.getElementById('editor-save-btn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';
   try{
+    const _ae=document.activeElement;if(_ae&&_ae!==document.body&&document.getElementById('editor-modal').contains(_ae)){try{_ae.blur();}catch(e){}await new Promise(r=>setTimeout(r,30));}   // 모바일 IME: 조합 중 글자를 확정한 뒤 값 읽기
     const fields=getFieldsForType(currentEditorType,editorDistType);const record={};
     for(const f of fields){
       if(f.type==='file'){
@@ -9993,6 +10013,11 @@ async function saveEntry(){
     }
     if('is_private' in record&&!record.is_private)record.secret=null;
     if(record.is_private&&!record.secret&&!currentEditId){showToast('비밀글 비밀번호를 입력하세요');btn.disabled=false;btn.innerHTML='SAVE';return;}
+    if(!currentEditId){   // 빈 글 가드: 제목·본문·이미지·첨부가 전부 비면 저장하지 않음(조용히 빈 글이 올라가던 것)
+      const _txt=k=>typeof record[k]==='string'&&record[k].replace(/<[^>]*>|&nbsp;/g,'').trim();
+      const _hasBody=['content','prompt_text','description','html_raw','source','image','thumb','links'].some(_txt)||['images','files','stickers'].some(k=>Array.isArray(record[k])&&record[k].length);
+      if(!_txt('title')&&!_hasBody){showToast('제목이나 내용을 입력해 주세요');btn.disabled=false;btn.innerHTML='SAVE';return;}
+    }
     if(currentEditId){
       const{error}=await palelyDB.from(currentEditorType).update(record).eq('id',currentEditId);if(error)throw error;showToast('Updated');
     }else{
@@ -10200,7 +10225,7 @@ function emptyHtml(type){
 
 // ══ MUSIC PLAYER ══
 let ytPlayer=null,pmbTracks=[],pmbIdx=-1,pmbPlaying=false,pmbShuffle=false,pmbPlayed={},pmbPI=null;
-function loadYTAPI(){const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);}loadYTAPI();
+function loadYTAPI(){if(window._ytReq)return;window._ytReq=1;const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);}   // P8: 부트 즉시 로드 → INIT(siteBoot 뒤)에서 BGM 있는 블로그만
 window.onYouTubeIframeAPIReady=function(){ytPlayer=new YT.Player('yt-player-container',{height:'0',width:'0',playerVars:{playsinline:1},events:{onReady:function(){try{playerVol=Math.max(0,Math.min(100,parseInt(localStorage.getItem('palely_vol')||'70')||70));}catch(e){}if(ytPlayer&&ytPlayer.setVolume)ytPlayer.setVolume(playerVol);playerVolUI();initPMB();},onStateChange:onYTS}});};
 function onYTS(e){const a=document.getElementById('player-art'),iP=document.getElementById('p-icon-play'),iPa=document.getElementById('p-icon-pause');if(e.data===YT.PlayerState.PLAYING){pmbPlaying=true;a.classList.add('spinning');iP.style.display='none';iPa.style.display='block';startProg();}else{pmbPlaying=false;a.classList.remove('spinning');iP.style.display='block';iPa.style.display='none';clearInterval(pmbPI);}if(e.data===YT.PlayerState.ENDED)playerNext();}
 function startProg(){clearInterval(pmbPI);pmbPI=setInterval(()=>{if(ytPlayer&&pmbPlaying&&ytPlayer.getCurrentTime){try{const c=ytPlayer.getCurrentTime(),d=ytPlayer.getDuration();if(d>0){document.getElementById('player-progress-fill').style.width=(c/d*100)+'%';document.getElementById('player-time-cur').textContent=fT(c);document.getElementById('player-time-dur').textContent=fT(d);}}catch(e){}}},250);}
@@ -10222,6 +10247,7 @@ function bgmShouldAutoplay(cfg){return cfg.autoplay!==false&&bgmPref()!=='off';}
 function ytIdOf(x){x=String(x||'').trim();const m=x.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([A-Za-z0-9_-]{11})/);if(m)return m[1];return /^[A-Za-z0-9_-]{11}$/.test(x)?x:'';}
 async function initPMB(){
   if(bgmCfg&&bgmCfg.src==='none'){document.body.classList.add('no-bgm');return;}
+  if(!ytPlayer){document.body.classList.remove('no-bgm');loadYTAPI();return;}   // P8: API 미로드(BGM을 지금 설정한 블로그) → 로드 후 onReady가 initPMB 재호출
   let cfg={src:'pmb',autoplay:true,tracks:[]};try{cfg=await bgmLoad();}catch(e){}
   const auto=bgmShouldAutoplay(cfg);
   try{
@@ -10433,8 +10459,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.6.9';
+const APP_VERSION='1.6.10';
 const CHANGELOG=[
+  {v:'1.6.10',date:'2026-09-17',title:'성능·발열 최적화 · 모바일 글쓰기 버그',sql:false,items:['성능·발열: 게시판을 열면 홈 애니메이션 정지, 모바일은 글자별 흐림·글로우 회전·물결 필터 등 매 프레임 페인트 애니 정지 + 배경 입자 60개·30fps, 백그라운드 탭 정지, BGM 없는 블로그는 유튜브 플레이어 미생성','모바일 글쓰기: 첫 글자 조합 중 본문 안내문(placeholder)이 사라지며 입력이 취소되던 문제(안드로이드 IME) 수정, 저장 직전 조합 확정, 빈 글은 저장 거부(제목·내용 안내), 키보드 닫으려 바깥을 탭했을 때 닫기 확인창이 뜨던 것 방지, 방명록 코멘트 입력 중 텍스트 보존']},
   {v:'1.6.9',date:'2026-09-17',title:'블로그 노출 옵트인 · 아이디 검색 · 핫픽스',sql:true,items:['블로그 둘러보기 목록은 주인이 허용한 블로그만(기본 꺼짐) — 관리 › 공개 범위에 「둘러보기 노출 허용」「아이디 검색 허용」 스위치 추가','허브 블로그 둘러보기에 @아이디·블로그명 검색 추가(검색 허용 블로그만, 2자 이상)','블로그 목록 직접 열람 잠금(부트는 site_boot RPC로 핸들 1개만 조회). DB: _sql_discover.sql 실행 필요','로그 배너 마우스 호버 시 조각 이미지가 세로로 늘어나던 문제 수정(PC·모바일 공통 원인 — 지연 로드 자리표시 이미지 치수로 조각을 만들던 것)','우상단 HUB 글자 → 홈 아이콘, 알림 벨과 겹치지 않게 재배치. 남의 블로그 방문 중이면 옆에 「MY BLOG」(내 블로그로 돌아가기)·「이웃 신청」 표시','USER 탭의 펜 버튼으로 글을 쓰면 탭 종류가 비어 저장이 거부되던 문제(type null) 수정 — 첫 배포 탭으로 저장','모바일 공지: 배경 사진이 없는 블로그에서 FROM HOME·이름이 페이지 제목 위로 올라가 겹치던 문제 수정']},
   {v:'1.6.8',date:'2026-09-17',title:'VIP 1글자 닉네임',sql:true,items:['VIP(및 운영자)는 닉네임 1글자 허용 — 일반은 2~20자 그대로. DB: _sql_vip_nick.sql 실행 필요(RPC 2개 교체)']},
   {v:'1.6.7',date:'2026-09-16',title:'핫픽스 — 텍스트 로고 잔상',sql:false,items:['로고 이미지가 없는 블로그에서 홈의 큰 블로그명(텍스트 로고)이 게시판을 열어도 남아 제목과 겹치던 문제 수정']},
@@ -10649,9 +10676,11 @@ document.addEventListener('contextmenu',e=>{const t=e.target.tagName;if(t==='IMG
 
 
 /* intro dust */
+try{if(matchMedia('(max-width:920px)').matches||matchMedia('(hover:none)').matches)document.body.classList.add('perf-lite');}catch(e){}   // P8 라이트 모드 판정(터치·모바일)
 !function(){var c=document.getElementById('particle-canvas'),x=c.getContext("2d"),W,H,P=[];
 function r(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener("resize",r);r();
-var N=150;
+var lite=document.body.classList.contains('perf-lite');
+var N=lite?60:150,K=lite?2:1,fr=0;   // 라이트: 입자 60개·30fps(이동·반짝임 속도는 K배로 보정)
 for(var i=0;i<N;i++){
   var bright=Math.random()<0.12; // ~12% bright stars (fewer)
   P.push({
@@ -10665,13 +10694,19 @@ for(var i=0;i<N;i++){
   });
 }
 !function d(){
+  if(document.hidden){setTimeout(function(){requestAnimationFrame(d)},400);return;}   // 백그라운드 탭·화면 꺼짐 → 정지
+  if(lite&&(fr++&1)){requestAnimationFrame(d);return;}                                // 라이트: 2프레임에 1번만 그림
   x.clearRect(0,0,W,H);
   var PC=window.PARTICLE_COLOR||'200,208,232';
   for(var i=0;i<P.length;i++){
-    var q=P[i];q.x+=q.dx;q.y+=q.dy;q.p+=q.s;
+    var q=P[i];q.x+=q.dx*K;q.y+=q.dy*K;q.p+=q.s*K;
     if(q.x<-10)q.x=W+10;if(q.x>W+10)q.x=-10;if(q.y<-10)q.y=H+10;if(q.y>H+10)q.y=-10;
     var tw=q.a*(0.45+0.55*Math.sin(q.p)); // stronger twinkle range
-    if(q.bright){
+    if(q.bright&&lite){
+      // 라이트: 그라데이션 대신 반투명 원 1개(할로) + 심
+      x.fillStyle="rgba("+PC+","+(tw*0.28)+")";x.beginPath();x.arc(q.x,q.y,q.r*2.4,0,6.28);x.fill();
+      x.fillStyle="rgba("+PC+","+tw+")";x.beginPath();x.arc(q.x,q.y,q.r,0,6.28);x.fill();
+    }else if(q.bright){
       // glow halo
       var g=x.createRadialGradient(q.x,q.y,0,q.x,q.y,q.r*2.8);
       g.addColorStop(0,"rgba("+PC+","+(tw*0.9)+")");
