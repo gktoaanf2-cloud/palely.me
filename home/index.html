@@ -1587,6 +1587,8 @@ body.is-admin .fs-pop{right:126px;}
 .ms-sum{font-family:var(--font-kr);font-size:calc(12px*var(--fs,1));margin:8px 0 2px;color:rgb(var(--t-text));}
 .hub-search{display:flex;align-items:center;gap:12px;margin:0 0 12px;}.hub-search .form-input{flex:1;min-width:0;font-size:calc(12px*var(--fs,1));padding:6px 8px;}.hub-search .hub-mini{white-space:nowrap;}
 .hub-tl{grid-template-columns:auto 1fr auto;grid-template-areas:'i t a' 'i h a';}
+.hub-tl-more{display:flex;justify-content:center;padding:10px 0 2px;min-height:20px;}
+#hub-tl-tabs{margin-bottom:6px;flex-wrap:wrap;}
 .hub-tl-img{grid-area:i;width:44px;height:44px;object-fit:cover;border:1px solid var(--border);}
 /* ── P4 운영 콘솔 ── */
 .adm-super{display:none;}
@@ -5053,7 +5055,7 @@ function hubRender(){
   if(isSuper)h+='<div class="hub-sec hub-svc"><div class="hub-h">운영 콘솔 <small id="hub-svc-now">…</small><span class="hub-badge" id="hub-rp-n" hidden></span></div><div class="hub-svc-act"><button type="button" class="btn-secondary" onclick="svcOpen(\'users\')">유저</button><button type="button" class="btn-secondary" onclick="svcOpen(\'invites\')">초대 코드</button><button type="button" class="btn-secondary" onclick="svcOpen(\'signup\')">가입 · 약관</button><button type="button" class="btn-secondary" onclick="svcOpen(\'reports\')">신고함</button></div></div>';
   h+='<div class="hub-sec"><div class="hub-h">프로필 <small>'+profs.length+'</small></div><div class="hub-list">'+profs.map(p=>'<div class="hub-row"><div class="hub-rt">'+(p.avatar?'<img class="hub-av" src="'+esc(p.avatar)+'" alt="">':'<span class="hub-av hub-av-e"></span>')+'<b>'+esc(p.nickname)+'</b>'+(p.id===a.primary_profile_id?'<span class="hub-tier hub-pri">대표</span>':'<button type="button" class="hub-mini" onclick="hubPrimary(\''+p.id+'\')">대표로</button>')+'</div></div>').join('')+'</div><div class="form-actions hub-act"><button class="btn-secondary" onclick="obOpen(\'nick\')">+ 프로필 추가</button></div></div>';
   h+='<div class="hub-sec"><div class="hub-h">마음함 <small id="hub-heart-n"></small></div><div class="hub-fold" id="hub-fold"></div><div class="hub-list" id="hub-hearts"><p class="ob-hint">불러오는 중…</p></div></div>';
-  if(sites.length){const cur=hubSiteCur();h+='<div class="hub-sec"><div class="hub-h">타임라인 <small>이웃 새 글</small>'+(sites.length>1?'<select class="form-input hub-sel" onchange="hubSiteSel=this.value;hubRender()">'+sites.map(x=>'<option value="'+x.id+'"'+(x.id===cur?' selected':'')+'>'+esc(x.title)+'</option>').join('')+'</select>':'')+'</div><div class="hub-list" id="hub-timeline"><p class="ob-hint">불러오는 중…</p></div></div>';
+  if(sites.length){const cur=hubSiteCur();h+='<div class="hub-sec"><div class="hub-h">타임라인 <small>이웃 새 글</small>'+(sites.length>1?'<select class="form-input hub-sel" onchange="hubSiteSel=this.value;hubRender()">'+sites.map(x=>'<option value="'+x.id+'"'+(x.id===cur?' selected':'')+'>'+esc(x.title)+'</option>').join('')+'</select>':'')+'</div><div class="hub-fold" id="hub-tl-tabs"></div><div class="hub-list" id="hub-timeline"><p class="ob-hint">불러오는 중…</p></div><div class="hub-tl-more" id="hub-tl-more"></div></div>';
     h+='<div class="hub-sec"><div class="hub-h">이웃 <small id="hub-nb-n"></small></div><div id="hub-neighbors"><p class="ob-hint">불러오는 중…</p></div></div>';}
   h+=hubDirSkeleton();
   h+='<div class="hub-sec hub-foot"><span class="ob-hint">'+esc(currentUser.email||'')+'</span><span class="hub-foot-act"><button class="btn-secondary" onclick="reportOpen()">운영자에게 보내기</button><button class="btn-secondary" onclick="doLogout()">로그아웃</button></span></div>';
@@ -5300,7 +5302,7 @@ async function hubNeighbors(){
   const box=document.getElementById('hub-neighbors');if(!box)return;const cur=hubSiteCur();if(!cur)return;
   let rows=[];try{const{data}=await palelyDBRaw.rpc('my_neighbors',{p_site:cur});rows=nbDedupe(data||[]);}catch(e){}
   const acc=rows.filter(r=>r.status==='accepted'),inq=rows.filter(r=>r.status==='pending'&&r.direction==='in'),out=rows.filter(r=>r.status==='pending'&&r.direction==='out');
-  const people=nbGroupPeople(acc);
+  const people=nbGroupPeople(acc);hubNbPeople=people;if(!people.some(p=>p.key===tlWho))tlWho='all';tlTabsRender();
   const n=document.getElementById('hub-nb-n');if(n)n.textContent=people.length+(inq.length?' · 받은 신청 '+inq.length:'');
   const row=(r,act)=>'<div class="hub-row"><div class="hub-rt"><b>'+esc(r.title)+'</b>'+(r.visibility!=='public'?'<span class="hub-tier">'+esc(VIS_KR[r.visibility]||'')+'</span>':'')+'</div><div class="hub-rh">palely.me'+esc(hubSiteBase(r.handle))+'</div><div class="hub-ract">'+act+'</div></div>';
   let h='';
@@ -5320,11 +5322,52 @@ function nbPersonRow(p){
 }
 async function hubNbRespond(fromId,accept){try{const{error}=await palelyDBRaw.rpc('neighbor_respond',{p_from:fromId,p_to:hubSiteCur(),p_accept:!!accept});if(error)throw error;showToast(accept?'이웃이 되었어요':'거절했어요');hubNeighbors();hubTimeline();}catch(e){showToast('실패: '+(e.message||e));}}
 async function hubNbRemove(otherId){try{const{error}=await palelyDBRaw.rpc('neighbor_remove',{p_a:hubSiteCur(),p_b:otherId});if(error)throw error;showToast('이웃을 끊었어요');hubNeighbors();hubTimeline();}catch(e){showToast('실패: '+(e.message||e));}}
+// 타임라인: 최신 10개부터, 끝까지 내리면 10개씩 더(서버 최대 100개) · 이웃(사람)별 탭
+const TL_PAGE=10,TL_MAX=100;
+let tlRows=[],tlLimit=0,tlShown=TL_PAGE,tlWho='all',tlSite='',tlBusy=false,tlObs=null,hubNbPeople=[];
+async function tlFetch(limit){
+  const cur=hubSiteCur();if(!cur)return;tlBusy=true;
+  try{const{data}=await palelyDBRaw.rpc('timeline_feed',{p_site:cur,p_limit:limit});tlRows=(data||[]).filter((r,i,a)=>a.findIndex(x=>x.board===r.board&&x.id===r.id)===i);tlLimit=limit;tlSite=cur;}catch(e){}
+  tlBusy=false;
+}
+function tlFiltered(){
+  if(tlWho==='all')return tlRows;
+  const p=hubNbPeople.find(x=>x.key===tlWho);if(!p)return tlRows;
+  const ids=new Set(p.blogs.map(b=>b.site_id));return tlRows.filter(r=>ids.has(r.site_id));
+}
+function tlPersonName(p){return p.nick||(p.blogs[0]&&p.blogs[0].title)||'이웃';}
+function tlTabsRender(){
+  const bar=document.getElementById('hub-tl-tabs');if(!bar)return;
+  if(hubNbPeople.length<2&&tlWho==='all'){bar.innerHTML='';return;}
+  const tab=(k,label)=>'<button type="button" class="hf-tab'+(tlWho===k?' on':'')+'" onclick="tlGo(\''+k.replace(/[^\w:-]/g,'')+'\')">'+esc(label)+'</button>';
+  bar.innerHTML=tab('all','전체')+hubNbPeople.map(p=>tab(p.key,tlPersonName(p))).join('');
+}
+function tlGo(k){tlWho=k;tlShown=TL_PAGE;tlTabsRender();tlRender();const box=document.getElementById('hub-timeline');if(box)try{box.scrollIntoView({block:'nearest'});}catch(e){}}
+function tlRender(){
+  const box=document.getElementById('hub-timeline'),more=document.getElementById('hub-tl-more');if(!box)return;
+  const list=tlFiltered(),vis=list.slice(0,tlShown);
+  if(!vis.length){box.innerHTML='<p class="ob-hint">'+(tlWho==='all'?'이웃의 새 글이 여기에 모여요.':'이 이웃의 최근 글이 아직 없어요.')+'</p>';}
+  else box.innerHTML=vis.map(r=>'<a class="hub-row hub-link-row hub-tl" href="'+esc(heartHref({handle:r.handle,board:r.board,post_id:r.id}))+'">'+(r.thumb?'<img class="hub-tl-img" src="'+esc(thumbOf(r.thumb))+'" data-orig="'+esc(r.thumb)+'" onerror="thumbFail(this)" alt="" loading="lazy">':'')+'<div class="hub-rt"><b>'+esc(r.title||'(제목 없음)')+'</b></div><div class="hub-rh">'+esc(r.site_title||'')+' · '+esc(HUB_BOARD_KR[r.board]||r.board)+' · '+esc(String(r.created_at||'').slice(0,10))+'</div></a>').join('');
+  const canMore=list.length>tlShown||(tlRows.length>=tlLimit&&tlLimit<TL_MAX);
+  if(more)more.innerHTML=canMore?'<button type="button" class="hub-mini" onclick="tlMore()">더 보기</button>':(vis.length>TL_PAGE?'<span class="ob-hint">최근 글을 모두 봤어요</span>':'');
+  tlObserve();
+}
+async function tlMore(){
+  if(tlBusy)return;
+  tlShown+=TL_PAGE;
+  if(tlFiltered().length<tlShown&&tlRows.length>=tlLimit&&tlLimit<TL_MAX){const more=document.getElementById('hub-tl-more');if(more)more.innerHTML='<span class="ob-hint">불러오는 중…</span>';await tlFetch(Math.min(TL_MAX,tlLimit+30));}
+  tlRender();
+}
+function tlObserve(){
+  const more=document.getElementById('hub-tl-more');if(!more||!window.IntersectionObserver)return;
+  if(!tlObs)tlObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.target.querySelector('button'))tlMore();});},{root:document.getElementById('main-content'),rootMargin:'0px 0px 160px 0px'});
+  tlObs.disconnect();tlObs.observe(more);
+}
 async function hubTimeline(){
   const box=document.getElementById('hub-timeline');if(!box)return;const cur=hubSiteCur();if(!cur)return;
-  let rows=[];try{const{data}=await palelyDBRaw.rpc('timeline_feed',{p_site:cur,p_limit:30});rows=(data||[]).filter((r,i,a)=>a.findIndex(x=>x.board===r.board&&x.id===r.id)===i);}catch(e){}
-  if(!rows.length){box.innerHTML='<p class="ob-hint">이웃의 새 글이 여기에 모여요.</p>';return;}
-  box.innerHTML=rows.map(r=>'<a class="hub-row hub-link-row hub-tl" href="'+esc(heartHref({handle:r.handle,board:r.board,post_id:r.id}))+'">'+(r.thumb?'<img class="hub-tl-img" src="'+esc(thumbOf(r.thumb))+'" data-orig="'+esc(r.thumb)+'" onerror="thumbFail(this)" alt="">':'')+'<div class="hub-rt"><b>'+esc(r.title||'(제목 없음)')+'</b></div><div class="hub-rh">'+esc(r.site_title||'')+' · '+esc(HUB_BOARD_KR[r.board]||r.board)+' · '+esc(String(r.created_at||'').slice(0,10))+'</div></a>').join('');
+  if(tlSite!==cur){tlWho='all';}
+  tlShown=TL_PAGE;await tlFetch(30);
+  tlTabsRender();tlRender();
 }
 // ══ P5a: 오류 로그 버퍼 · 신고/문의 창구 · super 신고함 ══
 const bugLog=[];
@@ -11880,8 +11923,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.7.3';
+const APP_VERSION='1.7.4';
 const CHANGELOG=[
+  {v:'1.7.4',date:'2026-09-17',title:'허브 타임라인 정리',sql:false,items:['타임라인은 최신 글 10개부터, 끝까지 내리면 10개씩 더 불러오기(최대 100개)','이웃(사람)별 탭으로 나눠 보기']},
   {v:'1.7.3',date:'2026-09-17',title:'베타 안내 · 하단 정리',sql:false,items:['가입 첫 화면에 베타 테스트 안내(「나는 테스터예요. 진행할게요」)','하단 워터마크 아래에 「운영자에게 문의하기」를 작게 2단 배치']},
   {v:'1.7.2',date:'2026-09-17',title:'공지 구역별 사진 · 큰 제목 켜기/끄기',sql:false,items:['공지 편집 › 사진: 레이아웃마다 구역별 사진(기본 가로형 패널·벤토 5곳·레일 7곳·프로필 4곳·에디토리얼 2곳·앨범 2곳) — 비운 구역은 메인 사진','공지 편집 › 글: 큰 제목 표시 켜기/끄기','모바일: 검색 창이 화면 밖으로 잘리던 문제']},
   {v:'1.7.1',date:'2026-09-17',title:'배경 효과 · 하단 문의',sql:false,items:['관리 › 꾸미기 › 배경 › 배경 효과: 별무리 · 유성우 · 비 · 벼락 · 눈송이 · 벚꽃 · 비눗방울 · 하트 비눗방울 · 물거품 · 파도 물결 · 수중 빛무리 · 불꽃 낙하 · 쌍두룡(VIP) · 도트 하트 — 감상을 해치지 않게 작고 옅게(색은 먼지 색)','홈페이지 배경음악 플레이리스트 편집기 — 음원 파일 여러 개 올리기(끌어다 놓기)·유튜브 링크 추가·제목 수정·순서 변경·삭제·미리 듣기','페이지 하단에 옅은 워터마크와 「운영자 문의」 버튼']},
