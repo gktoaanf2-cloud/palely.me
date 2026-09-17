@@ -403,7 +403,90 @@ html,body{overflow:hidden}
 .tsk-origopt{gap:7px;font-size:11px;white-space:nowrap;}
 .ed-htmlpos{margin-top:10px;gap:18px;flex-wrap:wrap;}
 .ed-htmlpos-l{font-family:var(--font-kr);font-weight:600;font-size:calc(11.5px*var(--fs,1));color:rgba(var(--t-fg-soft),.7);}
-.hub-h .hub-gear{margin:-8px -8px -8px auto;align-self:center;}   /* 허브 섹션 제목 오른쪽 끝(기존 .hub-gear 문법 재사용) */
+.hub-h .hub-gear{margin:-8px -8px -8px auto;align-self:center;}   /* 홈 섹션 제목 오른쪽 끝(기존 .hub-gear 문법 재사용) */
+.mg-hide{display:none!important;}
+.mg-conds{margin:0 0 6px;}
+.mg-lhead{display:flex;align-items:center;justify-content:space-between;}
+.mg-lbd{font-family:var(--font-kr);font-size:calc(10px*var(--fs,1));color:rgba(var(--t-fg-soft),.6);border:1px solid rgba(var(--t-fg),.15);padding:1px 6px;white-space:nowrap;}
+.mg-lt{display:flex;align-items:center;gap:6px;min-width:0;}
+.mg-pw{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-num);font-size:calc(10.5px*var(--fs,1));color:rgba(var(--t-fg-mid),.8);}
+.mg-pw.open .mg-pwv{color:rgb(var(--t-snow));font-family:var(--font-kr);}
+.mg-li .hub-mini{white-space:nowrap;}
+.ap-box{max-width:860px!important;width:94%;}
+.ap-chips{margin:0 0 6px;}
+.ap-q{width:100%;margin:6px 0 10px;font-size:calc(12.5px*var(--fs,1));}
+.ap-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:8px 0;border-top:1px solid rgba(var(--t-fg),.1);}
+.ap-ops{display:flex;flex-wrap:wrap;gap:8px;}
+.ap-list{max-height:52vh;overflow-y:auto;scrollbar-width:none;margin:0;}
+.ap-list::-webkit-scrollbar{display:none;width:0;}
+.mg-li{grid-template-columns:14px auto minmax(0,1fr) auto auto;}
+.mg-li:not(:has(.mg-lbd)){grid-template-columns:14px minmax(0,1fr) auto auto;}
+@media(max-width:640px){.mg-li,.mg-li:not(:has(.mg-lbd)){grid-template-columns:12px minmax(0,1fr) auto;}.mg-lbd{display:none;}.mg-lb{grid-column:2/-1;flex-wrap:wrap;}}
+/* 성인 표시 19 마름모 + 말풍선 */
+.ad19{position:relative;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;flex:none;cursor:help;vertical-align:middle;-webkit-tap-highlight-color:transparent;outline:none;}
+.ad19-d{position:absolute;inset:4px;transform:rotate(45deg);transition:transform .45s cubic-bezier(.3,1.2,.35,1),box-shadow .3s;}
+.ad19 b{position:relative;font-family:var(--font-num);font-weight:700;font-size:9.5px;line-height:1;letter-spacing:-.03em;}
+.ad19-list{width:18px;height:18px;}.ad19-list .ad19-d{inset:3px;}.ad19-list b{font-size:7px;}
+.ad19-card{position:absolute;top:8px;left:8px;z-index:7;}
+.ad19:hover .ad19-d,.ad19:focus-visible .ad19-d,.ad19.tip .ad19-d{transform:rotate(45deg) scale(1.12);}
+.ad19::after{content:attr(data-tip);position:absolute;left:50%;top:calc(100% + 8px);transform:translate(-50%,-4px);white-space:nowrap;padding:5px 10px;border-radius:10px;font-family:var(--font-kr);font-weight:600;font-size:11px;line-height:1.25;letter-spacing:-.01em;opacity:0;pointer-events:none;transition:opacity .2s,transform .3s cubic-bezier(.3,1.2,.35,1);z-index:31;}
+.ad19::before{content:'';position:absolute;left:50%;top:calc(100% + 4px);width:8px;height:8px;transform:translate(-50%,-4px) rotate(45deg);opacity:0;pointer-events:none;transition:opacity .2s,transform .3s;z-index:32;}
+.ad19-card::after{left:-2px;transform:translate(0,-4px);}
+.ad19-card::before{left:9px;transform:translate(0,-4px) rotate(45deg);}
+.ad19:hover::after,.ad19:focus-visible::after,.ad19.tip::after{opacity:1;transform:translate(-50%,0);}
+.ad19:hover::before,.ad19:focus-visible::before,.ad19.tip::before{opacity:1;transform:translate(-50%,0) rotate(45deg);}
+.ad19-card:hover::after,.ad19-card:focus-visible::after,.ad19-card.tip::after{transform:translate(0,0);}
+.ad19-card:hover::before,.ad19-card:focus-visible::before,.ad19-card.tip::before{transform:translate(0,0) rotate(45deg);}
+/* 1 라인 */
+.ad19-s1 .ad19-d{border:1px solid rgba(var(--t-snow),.9);background:rgba(var(--t-surface),.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);}
+.ad19-s1 b{color:rgb(var(--t-snow));}
+.ad19-s1::after{background:rgba(var(--t-surface),.95);color:rgb(var(--t-snow));border:1px solid rgba(var(--t-snow),.35);}
+.ad19-s1::before{background:rgba(var(--t-surface),.95);border-left:1px solid rgba(var(--t-snow),.35);border-top:1px solid rgba(var(--t-snow),.35);}
+/* 2 레드 */
+.ad19-s2 .ad19-d{background:rgb(var(--t-danger-c));box-shadow:0 2px 8px rgba(0,0,0,.35);}
+.ad19-s2 b{color:#fff;}
+.ad19-s2::after,.ad19-s2::before{background:rgb(var(--t-danger-c));color:#fff;}
+/* 3 골드 더블 */
+.ad19-s3 .ad19-d{border:1px solid rgb(var(--t-warm));background:rgba(var(--t-surface),.7);box-shadow:inset 0 0 0 2px rgba(var(--t-surface),.7),inset 0 0 0 3px rgba(var(--t-warm),.75);}
+.ad19-s3 b{color:rgb(var(--t-warm));}
+.ad19-s3::after{background:rgba(var(--t-surface),.96);color:rgb(var(--t-warm));border:1px solid rgba(var(--t-warm),.7);box-shadow:inset 0 0 0 2px rgba(var(--t-surface),.96),inset 0 0 0 3px rgba(var(--t-warm),.35);}
+.ad19-s3::before{background:rgba(var(--t-surface),.96);border-left:1px solid rgba(var(--t-warm),.7);border-top:1px solid rgba(var(--t-warm),.7);}
+/* 4 네온 핑크 */
+.ad19-s4 .ad19-d{border:1.5px solid #ff6fae;background:rgba(40,0,22,.6);box-shadow:0 0 8px rgba(255,111,174,.85),inset 0 0 6px rgba(255,111,174,.55);}
+.ad19-s4 b{color:#ffd4e8;text-shadow:0 0 6px #ff6fae;}
+.ad19-s4::after{background:rgba(30,0,16,.94);color:#ffd4e8;border:1px solid #ff6fae;box-shadow:0 0 12px rgba(255,111,174,.55);text-shadow:0 0 6px rgba(255,111,174,.8);}
+.ad19-s4::before{background:rgba(30,0,16,.94);border-left:1px solid #ff6fae;border-top:1px solid #ff6fae;}
+/* 5 스탬프 */
+.ad19-s5{transform:rotate(-8deg);}
+.ad19-s5 .ad19-d{border:1.5px dashed #c8413c;background:rgba(255,244,234,.92);}
+.ad19-s5 b{color:#c8413c;font-family:'Bodoni Moda','Playfair Display',serif;font-size:10.5px;}
+.ad19-list.ad19-s5 b{font-size:7.5px;}
+.ad19-s5::after{background:#fff4ea;color:#b23a35;border:1px dashed #c8413c;}
+.ad19-s5::before{background:#fff4ea;border-left:1px dashed #c8413c;border-top:1px dashed #c8413c;}
+@media(prefers-reduced-motion:reduce){.ad19-d,.ad19::after,.ad19::before{transition:none;}}
+.admk-box{max-width:520px!important;}
+.admk-styles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:0 0 54px;}
+.admk-opt{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 4px 10px;border:1px solid rgba(var(--t-fg),.1);cursor:pointer;transition:border-color .25s,background .25s;}
+.admk-opt input{position:absolute;opacity:0;pointer-events:none;}
+.admk-opt.on{border-color:rgba(var(--t-text),.7);background:rgba(var(--t-fg),.05);}
+.admk-prev{position:relative;height:30px;display:flex;align-items:center;}
+.admk-prev .ad19{position:relative;top:auto;left:auto;}
+.admk-name{font-family:var(--font-kr);font-size:calc(11px*var(--fs,1));color:rgb(var(--t-snow));margin-top:40px;}
+@media(max-width:520px){.admk-styles{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:14px;}}
+.mg-listing .iss-pager{display:none!important;}
+.mg-list{max-width:760px;margin:0 auto 90px;border-top:1px solid rgba(var(--t-fg),.12);}
+.mg-list[hidden]{display:none;}
+.mg-lhead{font-family:var(--font-kr);font-size:calc(11px*var(--fs,1));color:rgba(var(--t-fg-soft),.6);padding:10px 4px;}
+.mg-li{display:grid;grid-template-columns:14px minmax(0,1fr) auto auto;gap:12px;align-items:center;width:100%;padding:11px 6px;background:none;border:none;border-bottom:1px solid rgba(var(--t-fg),.07);cursor:pointer;text-align:left;color:rgba(var(--t-fg-mid),.85);font-family:var(--font-kr);font-size:calc(13px*var(--fs,1));transition:background .2s,color .2s;}
+.mg-li:hover{background:rgba(var(--t-fg),.04);}
+.mg-li.on{color:rgb(var(--t-snow));background:rgba(var(--t-fg),.07);}
+.mg-dia{width:8px;height:8px;border:1px solid rgba(var(--t-snow),.5);transform:rotate(45deg);transition:.2s;}
+.mg-li.on .mg-dia{background:rgb(var(--t-snow));border-color:rgb(var(--t-snow));box-shadow:0 0 7px rgba(var(--t-glow),.6);}
+.mg-lt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mg-lb{display:flex;gap:5px;}
+.mg-lb em{font-style:normal;font-family:var(--font-kr);font-size:calc(9.5px*var(--fs,1));padding:1px 6px;border:1px solid rgba(var(--t-fg),.2);color:rgba(var(--t-fg-soft),.75);}
+.mg-ld{font-family:var(--font-num);font-size:calc(10px*var(--fs,1));letter-spacing:.06em;color:rgba(var(--t-fg-soft),.5);}
+@media(max-width:640px){.mg-li{grid-template-columns:12px minmax(0,1fr) auto;}.mg-ld{display:none;}}
 .np-list{display:flex;flex-direction:column;gap:12px;margin:0 0 22px;padding:0 6px;}
 body.ast-noword .ast-tabword{display:none!important;}
 @media(max-width:640px){body.ast-noword #assets-grid{padding-top:0;}}
@@ -1418,8 +1501,8 @@ svg.pdx-spark{color:rgb(var(--t-text));}
 .site-404-box{text-align:center;padding:var(--gap-4xl);border:1px solid var(--border);background:rgba(var(--t-surface),.95);}
 .site-404-t{font-family:var(--font-num);font-size:calc(22px*var(--fs,1));letter-spacing:.12em;color:rgb(var(--t-snow));margin-bottom:8px;}
 .site-404-m{font-family:var(--font-kr);font-size:calc(12px*var(--fs,1));letter-spacing:-.02em;color:rgba(var(--t-fg-mid),.75);margin-bottom:18px;}
-/* ── P3a 허브·온보딩·로그인 보강 ── */
-/* 우상단 링크 줄: 관리자면 ∷(right 30)·벨(right 78) 왼쪽(right 126)부터, 아니면 right 30부터 — 오른쪽에서 왼콽으로 홈 → MY BLOG → 이웃 신청 */
+/* ── P3a 홈·온보딩·로그인 보강 ── */
+/* 우상단 링크 줄: 관리자면 ∷(right 30)·벨(right 78) 왼쪽(right 126)부터, 아니면 right 30부터 — 오른쪽에서 왼콽으로 홈 → MY BLOG → 패밀리 신청 */
 .top-links{position:fixed;top:24px;right:30px;height:24px;z-index:85;display:flex;flex-direction:row-reverse;align-items:center;gap:22px;}
 body.is-admin .top-links{right:126px;}
 .hub-link{position:static;font-family:var(--font-num);font-size:9.5px;letter-spacing:.24em;color:rgba(var(--t-fg-soft),.55);text-decoration:none;transition:color .3s;white-space:nowrap;line-height:1;}
@@ -1482,7 +1565,7 @@ body.is-admin .fs-pop{right:126px;}
 .hub-rh{grid-area:h;font-family:var(--font-num);font-size:calc(10.5px*var(--fs,1));letter-spacing:.1em;color:rgba(var(--t-fg-soft),.55);}
 .hub-ract{grid-area:a;}
 .hub-tier{font-family:var(--font-num);font-size:9px;letter-spacing:.18em;text-transform:uppercase;padding:2px 6px;border:1px solid rgba(var(--t-fg),.18);color:rgba(var(--t-fg-soft),.6);}
-/* D3 이웃공개 배지 */
+/* D3 패밀리 공개 배지 */
 .nbg{display:inline-block;font-family:var(--font-num);font-size:7.5px;letter-spacing:.2em;text-indent:.2em;line-height:1;padding:3px 5px 2px;border:1px solid rgba(var(--t-fg),.22);color:rgba(var(--t-fg-soft),.7);vertical-align:middle;margin-right:7px;white-space:nowrap;}
 .pcv-mid .nbg{display:block;margin:0 auto 4px;width:fit-content;}
 .dcv-card .nbg,.dist-card .nbg{display:block;width:fit-content;margin:.6cqw 0;}
@@ -1518,7 +1601,7 @@ body.is-admin .fs-pop{right:126px;}
 @media(max-width:640px){.hf-sel{max-width:110px;}}
 .mb-imgrow{display:flex;gap:10px;align-items:center;}.mb-imgrow .form-input{flex:1;}.mb-prev{width:44px;height:44px;object-fit:cover;border:1px solid var(--border);flex:none;}
 .hub-badge{margin-left:auto;font-family:var(--font-kr);font-size:10px;padding:2px 8px;border:1px solid rgba(var(--t-warm),.55);color:rgb(var(--t-warm));}
-/* ── P3b 게이트·공개범위·허브 확장 ── */
+/* ── P3b 게이트·공개범위·홈 확장 ── */
 
 .sg-box{min-width:300px;max-width:400px;}
 .sg-title{font-family:var(--font-kr);font-weight:600;font-size:calc(14px*var(--fs,1));letter-spacing:-.02em;color:rgb(var(--t-snow));margin:-2px 0 14px;}
@@ -3720,7 +3803,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
 </svg>
 </div>
 
-<div class="nav-fly" data-page="home"><span class="nf-star"><svg viewBox="183 1453 21 33"><path d="M193.061 1454C193.061 1454 193.227 1465.95 193.727 1466.24C194.228 1466.53 200.071 1460.9 200.071 1460.9C200.071 1460.9 194.545 1466.76 194.756 1467.28C194.967 1467.8 202.999 1468.01 202.999 1468.01C202.999 1468.01 194.967 1468.2 194.756 1468.74C194.545 1469.28 200.071 1475.12 200.071 1475.12C200.071 1475.12 194.218 1469.56 193.727 1469.78C193.237 1469.99 193 1485 193 1485C193 1485 192.749 1470.15 192.272 1469.78C191.796 1469.4 185.929 1475.12 185.929 1475.12C185.929 1475.12 191.457 1469.37 191.244 1468.74C191.03 1468.12 183 1468.01 183 1468.01C183 1468.01 190.994 1467.9 191.244 1467.28C191.493 1466.65 185.929 1460.9 185.929 1460.9C185.929 1460.9 191.863 1466.46 192.272 1466.24C192.681 1466.03 193.06 1454 193.06 1454H193.061Z" fill="white"/></svg></span><span class="nf-label">홈</span></div>
+<div class="nav-fly" data-page="home"><span class="nf-star"><svg viewBox="183 1453 21 33"><path d="M193.061 1454C193.061 1454 193.227 1465.95 193.727 1466.24C194.228 1466.53 200.071 1460.9 200.071 1460.9C200.071 1460.9 194.545 1466.76 194.756 1467.28C194.967 1467.8 202.999 1468.01 202.999 1468.01C202.999 1468.01 194.967 1468.2 194.756 1468.74C194.545 1469.28 200.071 1475.12 200.071 1475.12C200.071 1475.12 194.218 1469.56 193.727 1469.78C193.237 1469.99 193 1485 193 1485C193 1485 192.749 1470.15 192.272 1469.78C191.796 1469.4 185.929 1475.12 185.929 1475.12C185.929 1475.12 191.457 1469.37 191.244 1468.74C191.03 1468.12 183 1468.01 183 1468.01C183 1468.01 190.994 1467.9 191.244 1467.28C191.493 1466.65 185.929 1460.9 185.929 1460.9C185.929 1460.9 191.863 1466.46 192.272 1466.24C192.681 1466.03 193.06 1454 193.06 1454H193.061Z" fill="white"/></svg></span><span class="nf-label">메인</span></div>
 <div class="nav-fly" data-page="notices"><span class="nf-star"><svg viewBox="183 1453 21 33"><path d="M193.061 1454C193.061 1454 193.227 1465.95 193.727 1466.24C194.228 1466.53 200.071 1460.9 200.071 1460.9C200.071 1460.9 194.545 1466.76 194.756 1467.28C194.967 1467.8 202.999 1468.01 202.999 1468.01C202.999 1468.01 194.967 1468.2 194.756 1468.74C194.545 1469.28 200.071 1475.12 200.071 1475.12C200.071 1475.12 194.218 1469.56 193.727 1469.78C193.237 1469.99 193 1485 193 1485C193 1485 192.749 1470.15 192.272 1469.78C191.796 1469.4 185.929 1475.12 185.929 1475.12C185.929 1475.12 191.457 1469.37 191.244 1468.74C191.03 1468.12 183 1468.01 183 1468.01C183 1468.01 190.994 1467.9 191.244 1467.28C191.493 1466.65 185.929 1460.9 185.929 1460.9C185.929 1460.9 191.863 1466.46 192.272 1466.24C192.681 1466.03 193.06 1454 193.06 1454H193.061Z" fill="white"/></svg></span><span class="nf-label">공지사항</span></div>
 <div class="nav-fly" data-page="diary"><span class="nf-star"><svg viewBox="183 1453 21 33"><path d="M193.061 1454C193.061 1454 193.227 1465.95 193.727 1466.24C194.228 1466.53 200.071 1460.9 200.071 1460.9C200.071 1460.9 194.545 1466.76 194.756 1467.28C194.967 1467.8 202.999 1468.01 202.999 1468.01C202.999 1468.01 194.967 1468.2 194.756 1468.74C194.545 1469.28 200.071 1475.12 200.071 1475.12C200.071 1475.12 194.218 1469.56 193.727 1469.78C193.237 1469.99 193 1485 193 1485C193 1485 192.749 1470.15 192.272 1469.78C191.796 1469.4 185.929 1475.12 185.929 1475.12C185.929 1475.12 191.457 1469.37 191.244 1468.74C191.03 1468.12 183 1468.01 183 1468.01C183 1468.01 190.994 1467.9 191.244 1467.28C191.493 1466.65 185.929 1460.9 185.929 1460.9C185.929 1460.9 191.863 1466.46 192.272 1466.24C192.681 1466.03 193.06 1454 193.06 1454H193.061Z" fill="white"/></svg></span><span class="nf-label">일기장</span></div>
 <div class="nav-fly" data-page="assets"><span class="nf-star"><svg viewBox="183 1453 21 33"><path d="M193.061 1454C193.061 1454 193.227 1465.95 193.727 1466.24C194.228 1466.53 200.071 1460.9 200.071 1460.9C200.071 1460.9 194.545 1466.76 194.756 1467.28C194.967 1467.8 202.999 1468.01 202.999 1468.01C202.999 1468.01 194.967 1468.2 194.756 1468.74C194.545 1469.28 200.071 1475.12 200.071 1475.12C200.071 1475.12 194.218 1469.56 193.727 1469.78C193.237 1469.99 193 1485 193 1485C193 1485 192.749 1470.15 192.272 1469.78C191.796 1469.4 185.929 1475.12 185.929 1475.12C185.929 1475.12 191.457 1469.37 191.244 1468.74C191.03 1468.12 183 1468.01 183 1468.01C183 1468.01 190.994 1467.9 191.244 1467.28C191.493 1466.65 185.929 1460.9 185.929 1460.9C185.929 1460.9 191.863 1466.46 192.272 1466.24C192.681 1466.03 193.06 1454 193.06 1454H193.061Z" fill="white"/></svg></span><span class="nf-label">에셋백업</span></div>
@@ -3737,7 +3820,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
 <button class="dday-admin-btn" id="dday-admin-btn" onclick="openDdayModal()">+ D-DAY</button>
 <div class="site-foot home-foot" id="home-foot"><span class="sf-mark">&copy; 2026 PALELY.ME</span></div>
 <button class="totop" id="totop" type="button" aria-label="맨 위로" title="맨 위로" onclick="toTop()"><svg viewBox="0 0 18 10" width="18" height="10" fill="none" stroke="currentColor" stroke-width="1"><path d="M1 9l8-8 8 8"/></svg><span class="totop-tx">TOP</span></button>
-<div class="feed-bell" id="feed-bell" title="이웃 새글 알림" onclick="feedBellClick()"><span class="bell-lot" id="bell-lot"></span><span class="feed-dot" id="feed-dot"></span></div>
+<div class="feed-bell" id="feed-bell" title="패밀리 새글 알림" onclick="feedBellClick()"><span class="bell-lot" id="bell-lot"></span><span class="feed-dot" id="feed-dot"></span></div>
 <div class="feed-panel" id="feed-panel">
   <div class="feed-head"><span class="feed-title" id="feed-title">ALARM</span><button class="feed-gear" title="알림 설정" onclick="feedPrefs()"><svg width="13" height="13"><use href="#iss-ic-set"/></svg></button><button class="feed-x" onclick="feedPanelClose()"><svg width="12" height="12"><use href="#iss-ic-x"/></svg></button></div>
   <div class="feed-tabs" id="feed-tabs"><button type="button" class="feed-tab on" data-f="all" onclick="feedSetFilter('all')">전체</button><button type="button" class="feed-tab" data-f="rss" onclick="feedSetFilter('rss')">구독</button></div>
@@ -3775,13 +3858,13 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
   <img class="lf-heart" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAABVsFofAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAACBtJREFUeAHtW2tsU9cd/9+Hn3GcOCEPR7bJizSkobjAAEHShrSJCFubBdg0IF3Sl7oF7cPQpCZjUxkC7VFta6fRL3zYtAmNVQzaSf1AJ61dN0KrBRIS2iaE1I0dcI0fsR07fl3f2/9x3KoUY0Il26fIv8jxvef6Hp/zu+f/OL9zDEAJdDrdN4EysEAN4kAbKCKHPlBDjlyuYoAyUEOOTle0DSgDRWbFRoAyUEMOy9Ln/vIOOQ2oIUeSJOpiOTXkKJWKSnyjKmJRRI7KgG8cUAR6fI4kCUAZ8g45DeghhwEe8maVGjKZrLyyslILFIEms4oHg0ERKAJNeY7IcRxVuQ5FZsVrVqxYoQGKQA05oigp0Kzy5KSEJEHerG4DhmWgpWVTGVAEiqIVg4JX+VagCBkjp6amZmXycFmTSVEU9AaDqQKWB0av16vRgVdBBpExciwWyw3swC48lJb3PQxjscwY7/w54CoqKtRKpWyfy+W6DhlEJs0qYrfbX29qanwRj0lyl3ZqIIpx0fqx9U4+h0PCFSUlxT+2WKzHgTKJ425B5kuwfoP5jeS57HYfbG3ZEuvvf9ICaeoqKSnRbtiw/tXkecaJybRDJjIEf2FkrLuzs92NxzFIQRBmx8WoIfNKpbKaHKeohy8uLtZs3LhudGTkwndhqd0S3CMgI0j2xPf3SsnO32RiWNb20EMtUldXF7lu/sIlMjr43t7e+l27Hg8ly7I2c89WKCcjSNq8aat+YP+z88eOHVsDX+jkjRs3iolX8s57YWxs7KYo19PTs02p5KZPnXpdD0skZy1RzGaeI+zfv99lMtZ1TFweHT106NCRz9pw8eLFtXKFHLxeL1itc9XJdkkDAz/444pS7Zvbtz/WwDBMAJZIzhqynQQKQ0ND/64x1R21zVkGu7u/9R6akWl8fLxkMbQIQjxORlEdlmn37PnOuQX//EBLa/vg7t27iaPOuoyaiwxZfH5o6OdqVeEoz/Mbe779+CVBEB8gi3o4t4LL4xNrnnmmz7a4GNxSXbPqdF9f328gB8QQ5CpPYHB0FB386eDVicvjpaTA7ZoHp8sNjY31EAwEYMuWrZ4jR39VmmxjTiJT1shJRqnqyclp8yef2Is++OD9dQ6744H3/n/OzHEs6jlyzJElCIdjEEITa24yv22ds73T2rrVMzw8fOnMmTNe9DtjkB0kHsgt5GBqXoBD/PMnpVAoRL/fL49Go0pyXkDuUquZ2tra6hiCyAyhUKhKEAQFNl5ctaq2eqWxel1paSnvcDorrVZrjVwuL8NrhbFYFDsfhjj6FpZhEseo44BczgEvkyXKOJ4Fj9ubIAvNDkSUMrAYXwxU6vUQCYcXiWrI8zKO59iowWi8hm2T4XeQB8BiHcFIJBJSKhSMRqvlpq9csUei0YTJMgwrx2quYF0+URTZz9bnlUq1DP3em3i/gpzrdLrJs2fPXmU0Gs1qUoAXSAZaV1lZvg4bFdNotFBYWEAW+IVoVCjH9pBQGl+qj2XxmlrClqPUIEUjMSV+Kf6xSKac0Wq1cd+8t1mtUcsWF8MCnpdiY1VIIng88yDEYsByPNbCgNfnB6fTDs3N98Oc7RpcnbkKJmMN6PVVCaIIyssroKysDPw+vxcfng1H1jVtUfGc0+mY9fl8Nrvd9eHIyHkvtpvDlxdFs7BarWZVKhU7OjrqhZvNMg53NtPUIydTSJrVWofDUTw1NW12u526S6Pja//+6om2w4d/Ae3tHTAzMwNutwMO/uwgPPfsj14rLNJOCJH4DK9gLu3csXNepVNZIYv+J6cO+Yne3qlCrar8wIFBeOn3L0EguAAdHZ1w+vRJNDVF6OTJU2pYSvxyEq1ytYjGoh/7x/XrVvMLLxwO/vbF3w0HFxfQh0XAUGV8u+n+ZlksGi4pKFDtnZmx/AFyNJfKRZ7Dnzjxt0FRDHcdOfLLsYaG+wwsz004nU40qXl0hiX/6e/vN0xNWl7e9vDDDWbzmj/DkuSR9VGebXJkb7113vDfd/51tL2t87jZ/OCDGDn8K1caZ4iGHI1EoKBAk5AtXvvnmZ+UV5p+uHtXT199fe0A3OPkyNDPFPz1L698pCup6O7u6XkOljosYgSaJZFMU6gBr9/9cfLzwtNPP3n8f+fGa3bs2P5yfX3No5DUh+41JHxb777v+Z7q7V0Lt0oW1e3t7dLOnT1fliwIEvpP92M7Jkwm03q4xwhKmENbW+twXV0d0Yhv6RzOxnWPPvKItG/vnts53cQ9m76x/g0cZc1A2W6Mr4oEMZs3bzqJyWY5pOlUZ2fHHI4cR5q6Ei5g9X2rfo0Jnh6yQFAmfU4iy2xsbDgwO2t9KhAIeCCNUBVYCHhwChJLU18iYn04Nf18WWlpF2a/esiwk84kOZLRqO+cnLzyCq5CkA3YaRO51U1NdjK1gjvUSf7N2mx/wimJAXVlE2QQGSPHaDRWhUKx83gYhWVImzKOc8WF+HJ3sUs4DXkX332QQWTM89tstrtacPN4vQsLAf+Fu7nHS3TVDIKatXJcvXwXZYj8trdU8KCWgfJQfgtKKqD4RF1yR9OeQBdGZqo2alNDDs6t/Cif5slJBZQ3WaLz0gSKfowmIjNi/lczqeDx+C0YrAJAEWhyyPlfB6cDy+Z9TkosLbIxMqAINJkVLpEHPwKKQNPcChdCYwtAEajyOQxZEKcI9JBjIA4ZqAI9zZkD6kANObiqwCoUKqpm5tQkFsFgkOz1kfl8PmoiFlVWLorRfJ7zdQFV5AgChCCPrwc+BYgjBIdaEPl9AAAAAElFTkSuQmCC" alt="">
 </div>
 <!-- Admin (D-DAY manager): 2x2 dots at top-right, appears when logged in -->
-<div class="admin-fab" id="admin-fab" onclick="navigate('admin')" title="관리 페이지"><span></span><span></span><span></span><span></span></div>
+<div class="admin-fab" id="admin-fab" onclick="navigate('admin')" title="마이페이지"><span></span><span></span><span></span><span></span></div>
 <div class="fs-pop" id="fs-pop" hidden role="menu" aria-label="글자 크기"><span class="fs-pop-t">글자 크기</span><div class="fs-pop-row" id="fs-pop-row"></div><span class="fs-pop-h">이 기기에 기억 · 모든 블로그에 적용</span></div>
 <div class="top-links" id="top-links">
-<a class="hub-link hub-home" href="#hub" onclick="navigate('hub');return false;" title="허브 — 내 블로그·프로필·마음함"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3.5 11.4 12 4.4l8.5 7"/><path d="M5.6 10V19.6h12.8V10"/></svg></a>
+<a class="hub-link hub-home" href="#hub" onclick="navigate('hub');return false;" title="홈 — 내 블로그·프로필·마음함"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3.5 11.4 12 4.4l8.5 7"/><path d="M5.6 10V19.6h12.8V10"/></svg></a>
 <button type="button" class="hub-link fs-top" id="fs-top" onclick="fsMenu()" title="글자 크기" aria-haspopup="true" aria-expanded="false">Aa</button>
 <a class="hub-link hub-my" id="hub-my" href="#" onclick="myBlogGo();return false;" title="내 블로그로 돌아가기" hidden>MY BLOG</a>
-<a class="hub-link hub-nb" id="hub-nb" href="#" onclick="nbRequestHere();return false;" title="이 블로그에 이웃 신청" hidden>이웃 신청</a>
+<a class="hub-link hub-nb" id="hub-nb" href="#" onclick="nbRequestHere();return false;" title="이 블로그에 패밀리 신청" hidden>패밀리 신청</a>
 </div>
 <nav class="mobile-nav" id="mobile-nav" aria-label="모바일 내비게이션"></nav>
 
@@ -3853,7 +3936,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
   <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
   <h2 class="iss-title">BANNERS</h2>
   <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
-  <div class="bhd-rail"><button class="iss-rail-btn" title="이웃 신청 (내 갠홈을 이웃으로)" onclick="nbApplyOpen()"><svg width="13" height="13"><use href="#iss-ic-heart"/></svg></button><button class="iss-rail-btn iss-admin" title="배너 일괄 새로고침 (링크 OG 재추출)" onclick="bannersRefresh(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button><button class="iss-rail-btn iss-admin" title="배너 링크 추가" onclick="openEditor('banners')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
+  <div class="bhd-rail"><button class="iss-rail-btn" title="패밀리 신청 (내 갠홈을 패밀리로)" onclick="nbApplyOpen()"><svg width="13" height="13"><use href="#iss-ic-heart"/></svg></button><button class="iss-rail-btn iss-admin" title="배너 일괄 새로고침 (링크 OG 재추출)" onclick="bannersRefresh(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button><button class="iss-rail-btn iss-admin" title="배너 링크 추가" onclick="openEditor('banners')"><svg width="13" height="13"><use href="#iss-ic-pen"/></svg></button></div>
 </div>
   <div class="bnmask">
     <a id="mybn-link" href="#" target="_blank" rel="noopener" class="bnmask-link"><h2 class="bnmask-text bnmask-nofill" id="bnmask-text">PALE BANNERS</h2></a>
@@ -4009,7 +4092,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
 <section class="page-section" id="page-hub">
   <div class="iss-head bhd">
   <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
-  <h2 class="iss-title">HUB</h2>
+  <h2 class="iss-title">HOME</h2>
   <p class="iss-sub">MY BLOGS&nbsp;&nbsp;·&nbsp;&nbsp;PROFILES&nbsp;&nbsp;·&nbsp;&nbsp;HEARTS</p>
   <div class="bhd-rail"></div>
 </div>
@@ -4018,7 +4101,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
 <section class="page-section" id="page-admin">
   <div class="iss-head bhd">
     <div class="iss-spark-wrap"><span class="iss-tw tw1">✦</span><span class="iss-tw tw2">✧</span><span class="iss-tw tw3">·</span><span class="iss-tw tw4">✦</span><span class="iss-tw tw5">·</span><span class="iss-tw tw6">✧</span><img class="iss-spark bhd-spark" alt="" draggable="false"></div>
-    <h2 class="iss-title">ADMIN</h2>
+    <h2 class="iss-title">MY PAGE</h2>
     <p class="iss-sub">PALE BLUE DOT&nbsp;&nbsp;·&nbsp;&nbsp;COSMOS ARCHIVE</p>
   </div>
   <div class="adm-wrap">
@@ -4029,9 +4112,10 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
         <div class="adm-sec-title" role="button" tabindex="0" onclick="admFold('boards')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>게시판<span class="adm-fold-ic"></span></div>
         <div class="adm-sec-body">
           <div class="adm-sec-sub">게시판별 탭·카테고리·글 관리(일괄 삭제·수정·비공개·잠금). Issuance 탭의 카테고리·글 관리는 탭 설정 안에서</div>
+          <div class="adm-row"><span class="adm-row-name">전체 글 목록<small>모든 게시판 글을 제목으로 · 비밀글·패밀리·성인 등 조건별 · 일괄 전환</small></span><button class="adm-act" onclick="apOpen()">열기</button></div>
           <div class="adm-row"><span class="adm-row-name">Issuance<small>탭 추가·이름·순서 · 커버 · 글 유형 · 탭별 카테고리</small></span><button class="adm-act" onclick="btabOpen()">탭 설정</button><button class="adm-act" onclick="adminManage('prompts')">글 관리</button></div>
           <div class="adm-row"><span class="adm-row-name">Diary<small>일기장</small></span><button class="adm-act" onclick="openDiaryTabManage()">탭 관리</button><button class="adm-act" onclick="openCatManage('diary')">카테고리</button><button class="adm-act" onclick="adminManage('diary')">글 관리</button></div>
-          <div class="adm-row"><span class="adm-row-name">Notices<small>공지</small></span><button class="adm-act" onclick="adminManage('notices')">글 관리</button></div>
+          <div class="adm-row"><span class="adm-row-name">Notices<small>공지 — 공지 페이지 펜 버튼에서 편집</small></span><button class="adm-act" onclick="navigate('notices')">열기</button></div>
           <div class="adm-row"><span class="adm-row-name">Assets<small>에셋</small></span><button class="adm-act" onclick="openAssetsTabManage()">탭 관리</button><button class="adm-act" onclick="openCatManage('assets')">카테고리</button><button class="adm-act" onclick="adminManage('assets')">글 관리</button></div>
           <div class="adm-row"><span class="adm-row-name">Banners<small>배너 게시판</small></span><button class="adm-act" onclick="adminManage('banners')">글 관리</button></div>
           <div class="adm-row"><span class="adm-row-name">Logs<small>로그</small></span><button class="adm-act" onclick="openLogsTabManage()">탭 관리</button><button class="adm-act" onclick="openCatManage('logs')">카테고리</button><button class="adm-act" onclick="adminManage('logs')">글 관리</button></div>
@@ -4041,9 +4125,9 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
       <div class="adm-sec" id="adm-g-vis">
         <div class="adm-sec-title" role="button" tabindex="0" onclick="admFold('vis')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>공개 · 보호<span class="adm-fold-ic"></span></div>
         <div class="adm-sec-body">
-          <div class="adm-sec-sub">누가 볼 수 있나 — 블로그 전체(전체·이웃·비밀번호·비공개) → 글마다(전체·이웃·비공개, 글쓰기 화면) → 방명록 범위 · 이웃공개 글 미리보기 · 이미지 보호</div>
+          <div class="adm-sec-sub">누가 볼 수 있나 — 블로그 전체(전체·패밀리·비밀번호·비공개) → 글마다(전체·패밀리·비공개, 글쓰기 화면) → 방명록 범위 · 패밀리 공개 글 미리보기 · 이미지 보호</div>
           <div class="adm-row"><span class="adm-row-name">블로그 공개 범위<small id="adm-vis-now">현재: 전체 공개</small></span><button class="adm-act" onclick="siteVisOpen()">설정</button></div>
-          <div class="adm-row"><span class="adm-row-name">이웃 · 방문자<small>이웃 신청 수락·거절, 이웃 목록은 허브에서</small></span><button class="adm-act" onclick="navigate('hub')">허브로</button></div>
+          <div class="adm-row"><span class="adm-row-name">패밀리 · 방문자<small>패밀리 신청 수락·거절, 패밀리 목록은 홈에서</small></span><button class="adm-act" onclick="navigate('hub')">홈으로</button></div>
           <div class="adm-row adm-legacy"><span class="adm-row-name">Issuance 게시판 비밀번호<small>레거시 전체 잠금 · 글별 공개 범위와 별개</small></span><button class="adm-act" onclick="openBoardPwSetting('prompts_password','Prompts')">설정</button></div>
           <div class="adm-row adm-legacy"><span class="adm-row-name">Diary 게시판 비밀번호<small>레거시 전체 잠금 · 글별 공개 범위와 별개</small></span><button class="adm-act" onclick="openBoardPwSetting('diary_password','Diary')">설정</button></div>
         </div>
@@ -4051,17 +4135,18 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
       <div class="adm-sec" id="adm-g-deco">
         <div class="adm-sec-title" role="button" tabindex="0" onclick="admFold('deco')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>꾸미기<span class="adm-fold-ic"></span></div>
         <div class="adm-sec-body">
-          <div class="adm-sec-sub">색·폰트·로고·배경·스티커 · 배경음악 · 홈 배너 · 위젯 (라이브 미리보기 · 저장 시 반영)</div>
+          <div class="adm-sec-sub">색·폰트·로고·배경·스티커 · 배경음악 · 메인 배너 · 위젯 (라이브 미리보기 · 저장 시 반영)</div>
           <div class="adm-row"><span class="adm-row-name">색상 테마<small>배경·강조·표면 등 18색 · 프리셋</small></span><button class="adm-act" onclick="themeColorOpen()">설정</button></div>
           <div class="adm-row"><span class="adm-row-name">폰트<small>제목·본문·숫자 폰트</small></span><button class="adm-act" onclick="themeFontOpen()">설정</button></div>
-          <div class="adm-row"><span class="adm-row-name">로고 · 파비콘<small>헤더 별 · 홈 로고 · 파비콘</small></span><button class="adm-act" onclick="themeLogoOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">로고 · 파비콘<small>헤더 별 · 메인 로고 · 파비콘</small></span><button class="adm-act" onclick="themeLogoOpen()">설정</button></div>
           <div class="adm-row"><span class="adm-row-name">배경<small>배경색·이미지·우주 먼지·글로우</small></span><button class="adm-act" onclick="themeBgOpen()">설정</button></div>
           <div class="adm-row"><span class="adm-row-name">사이트 스티커<small>화면 구석에 이미지 장식 · PC/모바일 따로</small></span><button class="adm-act" onclick="themeStkOpen()">설정</button></div>
           <div class="adm-row"><span class="adm-row-name">배경음악<small>LP 플레이어 곡 · 자동재생 (방문자가 끄면 그 기기는 유지)</small></span><button class="adm-act" onclick="bgmOpen()">설정</button></div>
-          <div class="adm-row"><span class="adm-row-name">홈 배너<small>방문자가 복사해가는 내 배너 — 이미지·문구·링크·이름·소개 한 화면</small></span><button class="adm-act" onclick="mybnOpen()">설정</button></div>
-          <div class="adm-row"><span class="adm-row-name">홈 서브문구<small>메인 상단 · 텍스트 번짐 효과</small></span><button class="adm-act" onclick="homeSubSet()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">메인 배너<small>방문자가 복사해가는 내 배너 — 이미지·문구·링크·이름·소개 한 화면</small></span><button class="adm-act" onclick="mybnOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">메인 서브문구<small>메인 상단 · 텍스트 번짐 효과</small></span><button class="adm-act" onclick="homeSubSet()">설정</button></div>
           <div class="adm-row"><span class="adm-row-name">에셋 제목 글씨<small>에셋 게시판 사진 위 큰 탭 이름</small></span><button class="adm-act" id="adm-astword" onclick="astWordToggle()">켜짐</button></div>
-          <div class="adm-row"><span class="adm-row-name">D-day 위젯<small>홈 위젯 항목 추가·삭제</small></span><button class="adm-act" onclick="openDdayModal()">관리</button></div>
+          <div class="adm-row"><span class="adm-row-name">성인 표시<small>성인 글의 19 마름모 · 디자인 5종 · 말풍선 문구</small></span><button class="adm-act" onclick="admkOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">D-day 위젯<small>메인 위젯 항목 추가·삭제</small></span><button class="adm-act" onclick="openDdayModal()">관리</button></div>
         </div>
       </div>
       <div class="adm-sec" id="adm-g-tools">
@@ -4079,20 +4164,20 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
       <div class="adm-sec" id="adm-g-info">
         <div class="adm-sec-title" role="button" tabindex="0" onclick="admFold('info')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>버전 · 도움<span class="adm-fold-ic"></span></div>
         <div class="adm-sec-body">
-          <div class="adm-sec-sub">업데이트해도 게시글·설정·이미지는 그대로 보존됩니다 · 계정·로그아웃·운영 콘솔은 허브</div>
+          <div class="adm-sec-sub">업데이트해도 게시글·설정·이미지는 그대로 보존됩니다 · 계정·로그아웃·운영 콘솔은 홈</div>
           <div class="adm-row"><span class="adm-row-name">현재 버전<small id="adm-version-num">—</small></span><button class="adm-act" onclick="versionOpen()">변경 내역</button></div>
           <div class="adm-row"><span class="adm-row-name">운영자에게 보내기<small>신고 · 건의 · 버그(오류 로그 첨부) · 문의</small></span><button class="adm-act" onclick="reportOpen()">보내기</button></div>
-          <div class="adm-row"><span class="adm-row-name">허브<small>내 블로그 · 프로필 · 마음함 · 이웃 · 로그아웃</small></span><button class="adm-act" onclick="navigate('hub')">열기</button></div>
+          <div class="adm-row"><span class="adm-row-name">홈<small>내 블로그 · 프로필 · 마음함 · 패밀리 · 로그아웃</small></span><button class="adm-act" onclick="navigate('hub')">열기</button></div>
         </div>
       </div>
       <div class="adm-sec adm-legacy" id="adm-g-legacy">
         <div class="adm-sec-title" role="button" tabindex="0" onclick="admFold('legacy')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg>레거시 회원제<span class="adm-fold-ic"></span></div>
         <div class="adm-sec-body">
-          <div class="adm-sec-sub">오르비(보스 블로그) 전용 구 시스템 — 레벨 회원·게시판 권한·구 이웃. 새 블로그에는 표시되지 않습니다</div>
+          <div class="adm-sec-sub">오르비(보스 블로그) 전용 구 시스템 — 레벨 회원·게시판 권한·구 패밀리. 새 블로그에는 표시되지 않습니다</div>
           <div class="adm-row"><span class="adm-row-name">회원 관리<small>가입 회원 목록 · 레벨(등급) 부여·변경</small></span><button class="adm-act" onclick="admMembersOpen()">관리</button></div>
           <div class="adm-row"><span class="adm-row-name">게시판 권한<small>게시판별 목록·읽기·쓰기·댓글·다운로드 최소 레벨</small></span><button class="adm-act" onclick="admPermsOpen()">설정</button></div>
           <div class="adm-row"><span class="adm-row-name">가입 정책<small>신규 가입 기본 레벨 · 승인 대기 모드</small></span><button class="adm-act" onclick="admSignupOpen()">설정</button></div>
-          <div class="adm-row"><span class="adm-row-name">구 이웃 관리<small>RSS 이웃 · 구 신청함</small></span><button class="adm-act" onclick="nbManageOpen()">관리</button></div>
+          <div class="adm-row"><span class="adm-row-name">구 패밀리 관리<small>RSS 패밀리 · 구 신청함</small></span><button class="adm-act" onclick="nbManageOpen()">관리</button></div>
         </div>
       </div>
     </div>
@@ -4130,7 +4215,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
 <div class="modal-overlay" id="mybn-modal">
   <div class="modal-box" style="max-width:520px;">
     <button class="modal-close" onclick="closeModal('mybn-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
-    <div class="modal-title">HOME BANNER</div>
+    <div class="modal-title">MAIN BANNER</div>
     <p class="ob-lead">방문자가 복사해가는 내 배너. 이미지·문구·링크·이름·소개를 한 번에 저장해요.</p>
     <div class="form-group"><label class="form-label">배너 이미지</label><div class="mb-imgrow"><img id="mb-prev" class="mb-prev" alt="" hidden><input class="form-input" id="mb-img" placeholder="이미지 URL — 또는 오른쪽에서 업로드"><button type="button" class="btn-secondary" onclick="mybnPick()">업로드</button></div></div>
     <div class="form-group"><label class="form-label">마스킹 문구</label><input class="form-input" id="mb-mask" placeholder="배너에 이미지로 비칠 문구 (예: PALE BANNERS)"></div>
@@ -4141,11 +4226,32 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
     <div class="ob-err" id="mb-err"></div>
   </div>
 </div>
+<div class="modal-overlay" id="allposts-modal">
+  <div class="modal-box ap-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('allposts-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <div class="modal-title">전체 글 목록</div>
+    <div class="hub-fold ap-chips" id="ap-boards"></div>
+    <div class="hub-fold ap-chips" id="ap-conds"></div>
+    <input class="form-input ap-q" id="ap-q" placeholder="제목으로 찾기" oninput="apRender()">
+    <div class="ap-bar"><span class="mg-count" id="ap-count"></span><button class="mg-btn" onclick="apSelAll(true)">전체선택</button><button class="mg-btn" onclick="apSelAll(false)">해제</button><span class="ap-ops" id="ap-ops"></span></div>
+    <div class="mg-list ap-list" id="ap-list"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="admark-modal">
+  <div class="modal-box admk-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('admark-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <div class="modal-title">성인 표시</div>
+    <div class="adm-sec-sub" style="text-align:center;margin-bottom:16px;">성인 글 카드·목록에 붙는 19 마름모와, 올리면 뜨는 말풍선</div>
+    <div class="admk-styles" id="admk-styles"></div>
+    <div class="form-group"><label class="form-label">말풍선 문구 <small class="ob-st">비우면 기본 문구</small></label><input class="form-input" id="admk-text" maxlength="24" placeholder="쉿! 섹스중!" oninput="admkRender()"></div>
+    <div class="form-actions"><button class="btn-primary" onclick="admkSave()">SAVE</button><button class="btn-secondary" onclick="admkReset()">기본으로</button><button class="btn-secondary" onclick="closeModal('admark-modal')">CANCEL</button></div>
+  </div>
+</div>
 <div class="modal-overlay" id="nbalarm-modal">
   <div class="modal-box" style="max-width:400px" onclick="event.stopPropagation()">
     <button class="modal-close" onclick="closeModal('nbalarm-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
-    <div class="modal-title">이웃 새 글 알림</div>
-    <div class="adm-sec-sub" style="text-align:center;margin-bottom:16px;">허브 타임라인에 받을 이웃 새 글의 게시판을 골라요</div>
+    <div class="modal-title">패밀리 새 글 알림</div>
+    <div class="adm-sec-sub" style="text-align:center;margin-bottom:16px;">홈 타임라인에 받을 패밀리 새 글의 게시판을 골라요</div>
     <div class="np-list" id="nba-list"></div>
     <div class="form-actions"><button class="btn-primary" onclick="nbAlarmSave()">SAVE</button><button class="btn-secondary" onclick="closeModal('nbalarm-modal')">CANCEL</button></div>
   </div>
@@ -4154,7 +4260,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
   <div class="modal-box" style="max-width:400px" onclick="event.stopPropagation()">
     <button class="modal-close" onclick="closeModal('newpost-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
     <div class="modal-title">새 글 알림</div>
-    <div class="adm-sec-sub" style="text-align:center;margin-bottom:16px;">홈 새 글 목록에 어떤 게시판의 새 글을 띄울지 골라요</div>
+    <div class="adm-sec-sub" style="text-align:center;margin-bottom:16px;">메인 새 글 목록에 어떤 게시판의 새 글을 띄울지 골라요</div>
     <div class="np-list" id="np-list"></div>
     <div class="form-actions"><button class="btn-primary" onclick="newPostSave()">SAVE</button><button class="btn-secondary" onclick="closeModal('newpost-modal')">CANCEL</button></div>
   </div>
@@ -4293,7 +4399,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
 <div class="modal-overlay" id="nb-apply-modal">
   <div class="modal-box" style="max-width:420px" onclick="event.stopPropagation()">
     <button class="modal-close" onclick="closeModal('nb-apply-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
-    <div class="modal-title">이웃 신청</div>
+    <div class="modal-title">패밀리 신청</div>
     <div class="adm-sec-sub" style="text-align:center;margin-bottom:18px;">수락되면 서로의 최신글을 구독으로 받아볼 수 있어요</div>
     <div class="form-group"><label class="form-label">내 갠홈 주소 *</label><input type="url" class="form-input" id="nb-f-from_url" placeholder="https://…"></div>
     <div class="form-group"><label class="form-label">이름</label><input type="text" class="form-input" id="nb-f-from_name" maxlength="40"></div>
@@ -4306,8 +4412,8 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
 <div class="modal-overlay" id="nb-manage-modal">
   <div class="modal-box" style="max-width:480px" onclick="event.stopPropagation()">
     <button class="modal-close" onclick="closeModal('nb-manage-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
-    <div class="modal-title">이웃 관리</div>
-    <div class="lm-tabs" style="justify-content:center;"><button type="button" class="feed-tab on" data-t="reqs" onclick="nbManageTab('reqs')">받은 신청</button><button type="button" class="feed-tab" data-t="list" onclick="nbManageTab('list')">내 이웃</button></div>
+    <div class="modal-title">패밀리 관리</div>
+    <div class="lm-tabs" style="justify-content:center;"><button type="button" class="feed-tab on" data-t="reqs" onclick="nbManageTab('reqs')">받은 신청</button><button type="button" class="feed-tab" data-t="list" onclick="nbManageTab('list')">내 패밀리</button></div>
     <div id="nb-tab-reqs"><div id="nb-reqs-list"></div></div>
     <div id="nb-tab-list" style="display:none"><div id="nb-list-list"></div></div>
   </div>
@@ -4358,7 +4464,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
     <div class="modal-title">로고 · 파비콘</div>
     <div class="adm-sec-sub" style="text-align:center;margin-bottom:12px;">이미지 업로드 또는 URL · 즉시 미리보기 · 저장해야 반영</div>
     <div class="tl-item"><img class="tl-prev" id="tl-prev-star" alt="" style="display:none"><div class="tl-body"><div class="form-label">헤더 · 게시판 별</div><input type="url" class="form-input" id="tl-url-star" placeholder="https://… URL" oninput="themeLogoUrlInput('star',this.value)"><div style="margin-top:8px;display:flex;gap:14px;align-items:center;"><label class="form-file-label">업로드<input type="file" accept="image/*" class="form-input-file" onchange="themeLogoUpload(this,'star')"></label><button class="btn-secondary" onclick="themeLogoDefault('star')">기본으로</button></div></div></div>
-    <div class="tl-item"><img class="tl-prev" id="tl-prev-home" alt="" style="display:none"><div class="tl-body"><div class="form-label">홈 로고 (중앙)</div><input type="url" class="form-input" id="tl-url-home" placeholder="https://… URL" oninput="themeLogoUrlInput('home',this.value)"><div style="margin-top:8px;display:flex;gap:14px;align-items:center;"><label class="form-file-label">업로드<input type="file" accept="image/*" class="form-input-file" onchange="themeLogoUpload(this,'home')"></label><button class="btn-secondary" onclick="themeLogoDefault('home')">기본으로</button></div></div></div>
+    <div class="tl-item"><img class="tl-prev" id="tl-prev-home" alt="" style="display:none"><div class="tl-body"><div class="form-label">메인 로고 (중앙)</div><input type="url" class="form-input" id="tl-url-home" placeholder="https://… URL" oninput="themeLogoUrlInput('home',this.value)"><div style="margin-top:8px;display:flex;gap:14px;align-items:center;"><label class="form-file-label">업로드<input type="file" accept="image/*" class="form-input-file" onchange="themeLogoUpload(this,'home')"></label><button class="btn-secondary" onclick="themeLogoDefault('home')">기본으로</button></div></div></div>
     <div class="tl-item"><img class="tl-prev" id="tl-prev-favicon" alt="" style="display:none"><div class="tl-body"><div class="form-label">파비콘 (탭 아이콘)</div><input type="url" class="form-input" id="tl-url-favicon" placeholder="https://… URL" oninput="themeLogoUrlInput('favicon',this.value)"><div style="margin-top:8px;display:flex;gap:14px;align-items:center;"><label class="form-file-label">업로드<input type="file" accept="image/*" class="form-input-file" onchange="themeLogoUpload(this,'favicon')"></label><button class="btn-secondary" onclick="themeLogoDefault('favicon')">기본으로</button></div></div></div>
     <div class="form-actions"><button class="btn-primary" onclick="themeLogoSave()">SAVE</button><button class="btn-secondary" onclick="closeModal('theme-logo-modal')">CANCEL</button></div>
   </div>
@@ -4416,7 +4522,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
     <button type="button" class="btn-secondary" onclick="themeStkZ(1)">앞으로</button>
     <button type="button" class="btn-secondary" onclick="themeStkZ(-1)">뒤로</button>
     <button type="button" class="btn-secondary" onclick="themeStkDel()">삭제</button>
-    <select id="tsk-page" onchange="themeStkPageSet(this.value)" title="표시할 게시판"><option value="all">전체</option><option value="home">HOME</option><option value="notices">NOTICES</option><option value="diary">DIARY</option><option value="assets">ASSETS</option><option value="banners">BANNERS</option><option value="logs">LOGS</option><option value="prompts">ISSUANCE</option><option value="guestbook">GUESTBOOK</option><option value="user">USER</option></select>
+    <select id="tsk-page" onchange="themeStkPageSet(this.value)" title="표시할 게시판"><option value="all">전체</option><option value="home">MAIN</option><option value="notices">NOTICES</option><option value="diary">DIARY</option><option value="assets">ASSETS</option><option value="banners">BANNERS</option><option value="logs">LOGS</option><option value="prompts">ISSUANCE</option><option value="guestbook">GUESTBOOK</option><option value="user">USER</option></select>
     <button type="button" class="btn-secondary" id="tsk-bgbtn" onclick="themeStkBgToggle()">배경으로</button>
   </div>
   <button type="button" class="btn-secondary" onclick="themeStkClearAll()">일괄제거</button>
@@ -4502,23 +4608,23 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
     <div class="form-group"><label class="form-label">블로그 공개 범위</label>
       <div class="sv-opts" id="sv-vis">
         <label class="form-check"><input type="radio" name="sv-vis" value="public" onchange="siteVisUI()"><span>전체 공개</span></label>
-        <label class="form-check"><input type="radio" name="sv-vis" value="neighbor" onchange="siteVisUI()"><span>이웃 공개 — 서로 이웃인 블로그 주인만</span></label>
+        <label class="form-check"><input type="radio" name="sv-vis" value="neighbor" onchange="siteVisUI()"><span>패밀리 공개 — 서로 패밀리인 블로그 주인만</span></label>
         <label class="form-check"><input type="radio" name="sv-vis" value="password" onchange="siteVisUI()"><span>비밀번호 — 로그인 없이 비밀번호만 맞추면 열람</span></label>
         <label class="form-check"><input type="radio" name="sv-vis" value="private" onchange="siteVisUI()"><span>비공개 — 나만</span></label>
       </div></div>
     <div class="form-group" id="sv-pw-wrap" style="display:none"><label class="form-label">블로그 비밀번호 <small class="ob-st" id="sv-pw-st"></small></label><input type="password" class="form-input" id="sv-pw" autocomplete="new-password" placeholder="8자 이상 · 바꿀 때만 입력"><p class="ob-hint">비밀번호를 바꾸면 이미 들어와 있던 방문자도 다시 입력해야 해요.</p></div>
     <div class="form-group"><label class="form-label">방명록 읽기·쓰기</label>
-      <div class="sv-opts"><label class="form-check"><input type="radio" name="sv-gb" value="public"><span>전체</span></label><label class="form-check"><input type="radio" name="sv-gb" value="neighbor"><span>이웃만</span></label></div></div>
-    <div class="form-group"><label class="form-label">이웃공개 글 미리보기</label>
-      <div class="sv-opts"><label class="form-check"><input type="radio" name="sv-teaser" value="on"><span>켬 — 이웃이 아닌 방문자에게도 카드(제목·썸네일)는 보이고 본문만 잠김</span></label><label class="form-check"><input type="radio" name="sv-teaser" value="off"><span>끔 — 카드 자체를 숨김</span></label></div></div>
+      <div class="sv-opts"><label class="form-check"><input type="radio" name="sv-gb" value="public"><span>전체</span></label><label class="form-check"><input type="radio" name="sv-gb" value="neighbor"><span>패밀리만</span></label></div></div>
+    <div class="form-group"><label class="form-label">패밀리 공개 글 미리보기</label>
+      <div class="sv-opts"><label class="form-check"><input type="radio" name="sv-teaser" value="on"><span>켬 — 패밀리가 아닌 방문자에게도 카드(제목·썸네일)는 보이고 본문만 잠김</span></label><label class="form-check"><input type="radio" name="sv-teaser" value="off"><span>끔 — 카드 자체를 숨김</span></label></div></div>
     <div class="form-group"><label class="form-label">이미지 보호 <small class="ob-st">원본 이미지 서명 URL</small></label>
       <div class="sv-opts"><label class="form-check"><input type="radio" name="sv-imgp" value="off"><span>끔 — 이미지 주소를 아는 사람은 누구나 볼 수 있음 (빠름)</span></label><label class="form-check"><input type="radio" name="sv-imgp" value="on"><span>켬 — 이후 올리는 원본은 읽을 권한이 있는 사람에게만 열림. 카드 썸네일(600px)은 공개 유지</span></label></div>
       <p class="ob-hint">켠 뒤 올린 이미지부터 적용돼요. 이전 이미지는 그대로 공개입니다.</p></div>
     <div class="form-group" id="sv-profile-wrap" style="display:none"><label class="form-label">이 블로그의 표시 프로필</label><select class="form-input" id="sv-profile"></select></div>
     <div class="form-group"><label class="form-label">노출 · 검색 <small class="ob-st">기본은 모두 꺼짐 — 허용하기 전엔 어디에도 뜨지 않음</small></label>
-      <div class="sv-opts"><label class="form-check"><input type="checkbox" id="sv-disc"><span>이웃 둘러보기 노출 허용 — 허브 『블로그 둘러보기』 목록에 표시</span></label><label class="form-check"><input type="checkbox" id="sv-search"><span>아이디 검색 허용 — @아이디나 블로그명으로 검색해 찾을 수 있음</span></label></div></div>
+      <div class="sv-opts"><label class="form-check"><input type="checkbox" id="sv-disc"><span>패밀리 둘러보기 노출 허용 — 홈 『블로그 둘러보기』 목록에 표시</span></label><label class="form-check"><input type="checkbox" id="sv-search"><span>아이디 검색 허용 — @아이디나 블로그명으로 검색해 찾을 수 있음</span></label></div></div>
     <div class="form-group"><label class="form-label">한 줄 소개 <small class="ob-st">둘러보기·검색 결과에 표시</small></label><input class="form-input" id="sv-tagline" maxlength="60" placeholder="예: 자캐와 프롬프트 기록장"></div>
-    <p class="ob-hint">글마다 따로 정한 공개 범위(전체·이웃·비공개)는 블로그 범위 안에서만 적용돼요. 이미지 파일 주소를 직접 아는 사람은 이미지를 볼 수 있으며, 이미지 보호는 다음 업데이트에서 추가됩니다.</p>
+    <p class="ob-hint">글마다 따로 정한 공개 범위(전체·패밀리·비공개)는 블로그 범위 안에서만 적용돼요. 이미지 파일 주소를 직접 아는 사람은 이미지를 볼 수 있으며, 이미지 보호는 다음 업데이트에서 추가됩니다.</p>
     <div class="form-actions"><button class="btn-primary" id="sv-save" onclick="siteVisSave()">저장</button><button class="btn-secondary" onclick="closeModal('sitevis-modal')">취소</button></div>
     <div class="ob-err" id="sv-err"></div>
   </div>
@@ -4546,10 +4652,10 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
     <div id="lm-member">
       <div id="lm-member-in" style="display:none">
         <p class="lm-hello">‹ <span id="lm-member-nick"></span> › 님으로 로그인됨 — 방명록·코멘트에 프로필이 자동 적용됩니다.</p>
-        <div class="form-actions"><button class="btn-primary" onclick="closeModal('login-modal');navigate('hub')">허브</button><button class="btn-secondary" onclick="memberLogout()">로그아웃</button><button class="btn-secondary" onclick="closeModal('login-modal')">CLOSE</button></div>
+        <div class="form-actions"><button class="btn-primary" onclick="closeModal('login-modal');navigate('hub')">홈</button><button class="btn-secondary" onclick="memberLogout()">로그아웃</button><button class="btn-secondary" onclick="closeModal('login-modal')">CLOSE</button></div>
       </div>
       <div id="lm-member-out">
-        <p class="lm-hello lm-intro">Google 계정으로 로그인하면 이웃·마음함을 쓰고, 초대 코드가 있으면 내 블로그를 열 수 있어요.</p>
+        <p class="lm-hello lm-intro">Google 계정으로 로그인하면 패밀리·마음함을 쓰고, 초대 코드가 있으면 내 블로그를 열 수 있어요.</p>
         <button type="button" class="form-file-label lm-gbtn" onclick="googleLogin()"><span>Google 계정으로 계속하기</span></button>
         <div class="lm-links"><button type="button" class="hub-mini" onclick="lmLegacy()">기존 아이디 로그인</button><button type="button" class="hub-mini" onclick="lmTab('admin')">관리자 로그인</button></div>
         <div id="lm-legacy" class="lm-legacy" hidden>
@@ -4885,7 +4991,7 @@ async function siteBoot(){
 }
 function site404(h){
   const d=document.createElement('div');d.className='site-404';
-  d.innerHTML='<div class="site-404-box"><div class="site-404-t">@'+esc(h)+'</div><div class="site-404-m">존재하지 않는 블로그입니다</div><a class="form-file-label" href="/home/"><span>오르비 홈으로</span></a></div>';
+  d.innerHTML='<div class="site-404-box"><div class="site-404-t">@'+esc(h)+'</div><div class="site-404-m">존재하지 않는 블로그입니다</div><a class="form-file-label" href="/home/"><span>오르비 메인으로</span></a></div>';
   document.body.appendChild(d);
 }
 // 사이트 스코프 테이블: select에 site_id 필터, insert/upsert에 site_id 주입, update/delete에 site_id 가드
@@ -4930,7 +5036,7 @@ function siteFree(){const t=siteTier();return t==='boss'||t==='vip';}   // 원�
 const SITE_IMG_SIDE=2048,SITE_IMG_MAX=3*1024*1024,SITE_FILE_MAX=20*1024*1024,SITE_BATCH=10;
 // 한 번에 올릴 이미지 수 제한(normal 10장). 초과분은 잘라내고 안내
 function siteBatch(files){files=[...(files||[])];if(siteFree()||files.length<=SITE_BATCH)return files;showToast('한 번에 최대 '+SITE_BATCH+'장까지 올릴 수 있어요 — 앞의 '+SITE_BATCH+'장만 추가했습니다');return files.slice(0,SITE_BATCH);}
-// ══ P3a: 계정(my_account) · 온보딩 · 허브 · 마음함 ══
+// ══ P3a: 계정(my_account) · 온보딩 · 홈 · 마음함 ══
 let myAcct=null,obState=null,svcTerms='',obNickT=null,obTitleT=null,obNickSeq=0,obTitleSeq=0;
 const HEART_BOARD_OF={prompts:'prompts',diary:'diary',logs:'logs',assets:'assets',user:'distributions'};
 const HUB_BOARD_KR={prompts:'프롬프트',diary:'일기장',logs:'로그백업',assets:'에셋백업',distributions:'유저'};
@@ -5001,7 +5107,7 @@ function obRender(){
     B.innerHTML='<p class="ob-lead">블로그 이름을 정해 주세요. 주소(@도메인)는 예쁜 영단어와 숫자로 자동 배정돼요.</p><div class="form-group"><label class="form-label">블로그 이름 <small class="ob-st" id="ob-title-st"></small></label><input class="form-input" id="ob-stitle" maxlength="20" placeholder="2~20자 · 한글/영문/숫자/공백 · 중복 불가" autocomplete="off" oninput="obTitleCheck()"></div><p class="ob-hint">개설 가능 '+Math.max(0,left)+'개 남음</p><div class="form-actions"><button class="btn-primary" id="ob-site-go" onclick="obSite()">블로그 만들기</button><button class="btn-secondary" onclick="obSkipSite()">'+(st.only==='site'?'취소':'나중에 만들기')+'</button></div>';
   }else if(step==='done'){
     const r=st.result||{};
-    B.innerHTML='<p class="ob-lead">블로그가 열렸어요.</p><div class="ob-result"><div class="ob-rt">'+esc(r.title||'')+'</div><div class="ob-rh">palely.me/@'+esc(r.handle||'')+'</div></div><div class="form-actions"><button class="btn-primary" onclick="siteGo(\''+esc(r.handle||'')+'\')">내 블로그로 가기</button><button class="btn-secondary" onclick="obClose();navigate(\'hub\')">허브로</button></div>';
+    B.innerHTML='<p class="ob-lead">블로그가 열렸어요.</p><div class="ob-result"><div class="ob-rt">'+esc(r.title||'')+'</div><div class="ob-rh">palely.me/@'+esc(r.handle||'')+'</div></div><div class="form-actions"><button class="btn-primary" onclick="siteGo(\''+esc(r.handle||'')+'\')">내 블로그로 가기</button><button class="btn-secondary" onclick="obClose();navigate(\'hub\')">홈으로</button></div>';
   }
   const f=B.querySelector('input.form-input');if(f)setTimeout(()=>f.focus(),60);
 }
@@ -5082,13 +5188,13 @@ async function obSite(){
   if(btn)btn.disabled=false;
 }
 function obSkipSite(){if(myAcct&&obState&&obState.only!=='site')localStorage.setItem('palely_ob_skip_'+myAcct.user_id,'1');obClose();}
-// ── 허브 ──
+// ── 홈 ──
 function hubSiteBase(handle){return handle===BOSS_HANDLE?'/home/':'/@'+handle+'/';}
 function siteGo(handle){const isLocal=/^(localhost|127\.)/.test(location.hostname);if(isLocal){showToast('로컬 미리보기 — 실서버 주소: palely.me'+hubSiteBase(handle));return;}location.href=hubSiteBase(handle);}
 function heartHref(r){const b=hubSiteBase(r.handle);if(r.board==='prompts'||r.board==='diary'||r.board==='logs')return b+'#post='+r.board+':'+r.post_id;return b+'#'+(r.board==='distributions'?'user':r.board);}
 function hubRender(){
   const H=document.getElementById('hub-body');if(!H)return;
-  if(!currentUser){H.innerHTML='<div class="hub-sec"><p class="ob-lead">오르비 허브 — 내 블로그·프로필·마음함을 한곳에서. 로그인하면 시작해요.</p><div class="form-actions"><button class="btn-primary" onclick="googleLogin()">Google 계정으로 계속하기</button><button class="btn-secondary" onclick="toggleLoginModal()">아이디로 로그인</button></div></div>'+hubDirSkeleton();hubDirectory();return;}
+  if(!currentUser){H.innerHTML='<div class="hub-sec"><p class="ob-lead">오르비 홈 — 내 블로그·프로필·마음함을 한곳에서. 로그인하면 시작해요.</p><div class="form-actions"><button class="btn-primary" onclick="googleLogin()">Google 계정으로 계속하기</button><button class="btn-secondary" onclick="toggleLoginModal()">아이디로 로그인</button></div></div>'+hubDirSkeleton();hubDirectory();return;}
   const a=myAcct;
   if(!a){H.innerHTML='<div class="hub-sec"><p class="ob-lead">'+esc(memberP?memberP.nickname:'회원')+' 님, 이 계정은 블로그 회원 계정이에요. 블로그 개설과 마음함은 구글 계정으로 가입하면 쓸 수 있어요.</p><div class="form-actions"><button class="btn-secondary" onclick="doLogout()">로그아웃</button></div></div>';return;}
   const sites=a.sites||[],profs=a.profiles||[];const lim=a.site_limit||1;const left=lim-sites.length;let h='';
@@ -5099,13 +5205,13 @@ function hubRender(){
   if(isSuper)h+='<div class="hub-sec hub-svc"><div class="hub-h">운영 콘솔 <small id="hub-svc-now">…</small><span class="hub-badge" id="hub-rp-n" hidden></span></div><div class="hub-svc-act"><button type="button" class="btn-secondary" onclick="svcOpen(\'users\')">유저</button><button type="button" class="btn-secondary" onclick="svcOpen(\'invites\')">초대 코드</button><button type="button" class="btn-secondary" onclick="svcOpen(\'signup\')">가입 · 약관</button><button type="button" class="btn-secondary" onclick="svcOpen(\'reports\')">신고함</button></div></div>';
   h+='<div class="hub-sec"><div class="hub-h">프로필 <small>'+profs.length+'</small></div><div class="hub-list">'+profs.map(p=>'<div class="hub-row"><div class="hub-rt">'+(p.avatar?'<img class="hub-av" src="'+esc(p.avatar)+'" alt="">':'<span class="hub-av hub-av-e"></span>')+'<b>'+esc(p.nickname)+'</b>'+(p.id===a.primary_profile_id?'<span class="hub-tier hub-pri">대표</span>':'<button type="button" class="hub-mini" onclick="hubPrimary(\''+p.id+'\')">대표로</button>')+'</div></div>').join('')+'</div><div class="form-actions hub-act"><button class="btn-secondary" onclick="obOpen(\'nick\')">+ 프로필 추가</button></div></div>';
   h+='<div class="hub-sec"><div class="hub-h">마음함 <small id="hub-heart-n"></small></div><div class="hub-fold" id="hub-fold"></div><div class="hub-list" id="hub-hearts"><p class="ob-hint">불러오는 중…</p></div></div>';
-  if(sites.length){const cur=hubSiteCur();h+='<div class="hub-sec"><div class="hub-h">타임라인 <small>이웃 새 글</small>'+(sites.length>1?'<select class="form-input hub-sel" onchange="hubSiteSel=this.value;hubRender()">'+sites.map(x=>'<option value="'+x.id+'"'+(x.id===cur?' selected':'')+'>'+esc(x.title)+'</option>').join('')+'</select>':'')+'</div><div class="hub-fold" id="hub-tl-tabs"></div><div class="hub-list" id="hub-timeline"><p class="ob-hint">불러오는 중…</p></div><div class="hub-tl-more" id="hub-tl-more"></div></div>';
-    h+='<div class="hub-sec"><div class="hub-h">이웃 <small id="hub-nb-n"></small><button type="button" class="hub-gear" title="이웃 새 글 알림 설정" aria-label="이웃 새 글 알림 설정" onclick="nbAlarmOpen()"><svg width="14" height="14"><use href="#iss-ic-set"/></svg></button></div><div id="hub-neighbors"><p class="ob-hint">불러오는 중…</p></div></div>';}
+  if(sites.length){const cur=hubSiteCur();h+='<div class="hub-sec"><div class="hub-h">타임라인 <small>패밀리 새 글</small>'+(sites.length>1?'<select class="form-input hub-sel" onchange="hubSiteSel=this.value;hubRender()">'+sites.map(x=>'<option value="'+x.id+'"'+(x.id===cur?' selected':'')+'>'+esc(x.title)+'</option>').join('')+'</select>':'')+'</div><div class="hub-fold" id="hub-tl-tabs"></div><div class="hub-list" id="hub-timeline"><p class="ob-hint">불러오는 중…</p></div><div class="hub-tl-more" id="hub-tl-more"></div></div>';
+    h+='<div class="hub-sec"><div class="hub-h">패밀리 <small id="hub-nb-n"></small><button type="button" class="hub-gear" title="패밀리 새 글 알림 설정" aria-label="패밀리 새 글 알림 설정" onclick="nbAlarmOpen()"><svg width="14" height="14"><use href="#iss-ic-set"/></svg></button></div><div id="hub-neighbors"><p class="ob-hint">불러오는 중…</p></div></div>';}
   h+=hubDirSkeleton();
   h+='<div class="hub-sec hub-foot"><span class="ob-hint">'+esc(currentUser.email||'')+'</span><span class="hub-foot-act"><button class="btn-secondary" onclick="reportOpen()">운영자에게 보내기</button><button class="btn-secondary" onclick="doLogout()">로그아웃</button></span></div>';
   H.innerHTML=h;hubHearts();hubDirectory();if(sites.length){hubTimeline();hubNeighbors();}if(isSuper){svcSummary();hubReportsBadge();}
 }
-// ── 허브: 블로그 설정 진입·설정 진행도·운영 배지 ──
+// ── 홈: 블로그 설정 진입·설정 진행도·운영 배지 ──
 function hubSiteAdmin(handle){if(currentSite&&currentSite.handle===handle){navigate('admin');return;}const isLocal=/^(localhost|127\.)/.test(location.hostname);if(isLocal){showToast('로컬 미리보기 — 실서버: palely.me'+hubSiteBase(handle)+'#admin');return;}location.href=hubSiteBase(handle)+'#admin';}
 function hubSetupChips(x){if(!currentSite||x.id!==currentSite.id||!isAdmin)return '';const has=k=>typeof siteSettingsCache!=='undefined'&&siteSettingsCache.has(k);
   const logo=!!(themeData&&themeData.logos&&Object.values(themeData.logos).some(Boolean));
@@ -5159,8 +5265,8 @@ function heartAdd(id){
   const args={p_site:SITE_ID,p_board:board,p_post:String(id)};
   palelyDBRaw.rpc('heart_toggle',args).then(r=>{if(r&&r.data===false)return palelyDBRaw.rpc('heart_toggle',args);}).catch(()=>{});
 }
-// ══ P3b: 블로그 게이트 · 공개범위 설정 · 허브 디렉토리/이웃/타임라인 ══
-const VIS_KR={public:'전체 공개',neighbor:'이웃 공개',password:'비밀번호',private:'비공개'};
+// ══ P3b: 블로그 게이트 · 공개범위 설정 · 홈 디렉토리/패밀리/타임라인 ══
+const VIS_KR={public:'전체 공개',neighbor:'패밀리 공개',password:'비밀번호',private:'비공개'};
 let hubSiteSel='';
 function hubSiteCur(){const sites=(myAcct&&myAcct.sites)||[];if(!sites.length)return '';return sites.find(x=>x.id===hubSiteSel)?hubSiteSel:sites[0].id;}
 // ── 게이트: 공개가 아닌 블로그는 서버 판정(site_access) 후 못 보면 전면 오버레이 ──
@@ -5175,9 +5281,9 @@ function siteGateShow(acc){
   const d=document.createElement('div');d.className='site-404 site-gate';const v=acc.visibility;
   let body='';
   if(v==='password')body='<div class="site-404-m">비밀번호를 입력하면 볼 수 있는 블로그예요</div><div class="sg-row"><input type="password" class="form-input" id="sg-pw" placeholder="비밀번호" autocomplete="off" onkeydown="if(event.key===\'Enter\')sgUnlock()"><button type="button" class="btn-primary" id="sg-go" onclick="sgUnlock()">들어가기</button></div><div class="ob-err" id="sg-err"></div>';
-  else if(v==='neighbor')body='<div class="site-404-m">이웃에게만 공개된 블로그예요</div>'+(acc.logged&&!acc.anon_session?'<div class="ob-hint" style="margin-bottom:14px">허브에서 이웃을 신청하고, 상대가 수락하면 볼 수 있어요.</div><div class="sg-row"><button type="button" class="btn-primary" onclick="nbRequestHere()">이웃 신청</button><button type="button" class="btn-secondary" onclick="navigate(\'hub\');document.querySelector(\'.site-gate\').remove()">허브로</button></div>':'<div class="sg-row"><button type="button" class="btn-primary" onclick="googleLogin()">Google 로그인</button></div>');
+  else if(v==='neighbor')body='<div class="site-404-m">패밀리에게만 공개된 블로그예요</div>'+(acc.logged&&!acc.anon_session?'<div class="ob-hint" style="margin-bottom:14px">홈에서 패밀리를 신청하고, 상대가 수락하면 볼 수 있어요.</div><div class="sg-row"><button type="button" class="btn-primary" onclick="nbRequestHere()">패밀리 신청</button><button type="button" class="btn-secondary" onclick="navigate(\'hub\');document.querySelector(\'.site-gate\').remove()">홈으로</button></div>':'<div class="sg-row"><button type="button" class="btn-primary" onclick="googleLogin()">Google 로그인</button></div>');
   else body='<div class="site-404-m">비공개 블로그예요</div>';
-  d.innerHTML='<div class="site-404-box sg-box"><div class="site-404-t">@'+esc(currentSite.handle)+'</div><div class="sg-title">'+esc(currentSite.title||'')+'</div>'+body+'<a class="form-file-label sg-home" href="/home/"><span>오르비 홈으로</span></a></div>';
+  d.innerHTML='<div class="site-404-box sg-box"><div class="site-404-t">@'+esc(currentSite.handle)+'</div><div class="sg-title">'+esc(currentSite.title||'')+'</div>'+body+'<a class="form-file-label sg-home" href="/home/"><span>오르비 메인으로</span></a></div>';
   document.body.appendChild(d);
   const f=d.querySelector('#sg-pw');if(f)setTimeout(()=>f.focus(),80);
 }
@@ -5195,7 +5301,7 @@ async function sgUnlock(){
   if(btn)btn.disabled=false;
 }
 // ── 공개범위 설정(주인) ──
-// ── 메타데이터 추적(관리 › 도구): 이 블로그 저장소(images 공개 버킷 + 이미지 보호 시 vault) 전수 검사 ──
+// ── 메타데이터 추적(마이페이지 › 도구): 이 블로그 저장소(images 공개 버킷 + 이미지 보호 시 vault) 전수 검사 ──
 let _msItems=[],_msBusy=false;
 function metaScanOpen(){
   if(!currentSite||!isAdmin){showToast('블로그 주인만 사용할 수 있어요');return;}
@@ -5293,25 +5399,25 @@ async function siteVisSave(){
   }catch(e){err.textContent=e.message||'저장 실패';}
   btn.disabled=false;
 }
-// ── 어드민 그룹 접기(기기 기억)·빠른 이동 ──
+// ── 마이페이지 그룹 접기(기기 기억)·빠른 이동 ──
 function admFoldGet(){try{return JSON.parse(localStorage.getItem('palely_adm_fold')||'{}')||{};}catch(e){return {};}}
 function admFoldInit(){const f=admFoldGet();document.querySelectorAll('#page-admin .adm-sec[id^=adm-g-]').forEach(el=>{const k=el.id.slice(6);const def=(k==='legacy');el.classList.toggle('folded',f[k]===undefined?def:!!f[k]);});}
 function admFold(k){const el=document.getElementById('adm-g-'+k);if(!el)return;const on=!el.classList.contains('folded');el.classList.toggle('folded',on);const f=admFoldGet();f[k]=on;try{localStorage.setItem('palely_adm_fold',JSON.stringify(f));}catch(e){}}
 function admJump(k){const el=document.getElementById('adm-g-'+k);if(!el)return;if(el.classList.contains('folded'))admFold(k);const mc=document.getElementById('main-content');const top=el.getBoundingClientRect().top-(mc?mc.getBoundingClientRect().top:0)+(mc?mc.scrollTop:0)-16;if(mc)mc.scrollTo({top,behavior:'smooth'});else el.scrollIntoView({behavior:'smooth',block:'start'});}
 function savedToast(m){showToast((m||'저장됨')+' · 바로 반영');}
 function admVisSync(){const el=document.getElementById('adm-vis-now');if(el&&currentSite)el.textContent='현재: '+(VIS_KR[currentSite.visibility||'public']||'전체 공개');}
-// ── 이웃 신청(방문 중인 블로그) ──
+// ── 패밀리 신청(방문 중인 블로그) ──
 function nbLinkSync(){const a=document.getElementById('hub-nb'),m=document.getElementById('hub-my');const mine=(myAcct&&myAcct.sites)||[];const show=!!(currentUser&&myAcct&&mine.length&&currentSite&&!mine.some(x=>x.id===currentSite.id));if(a)a.hidden=!show;if(m)m.hidden=!show;}
 function myBlogGo(){const mine=(myAcct&&myAcct.sites)||[];if(!mine.length){navigate('hub');return;}const cur=hubSiteCur();const st=mine.find(x=>x.id===cur)||mine[0];siteGo(st.handle);}
 async function nbRequestHere(){
-  if(!myAcct||!(myAcct.sites||[]).length){showToast('먼저 내 블로그를 만들어야 이웃 신청을 할 수 있어요');return;}
+  if(!myAcct||!(myAcct.sites||[]).length){showToast('먼저 내 블로그를 만들어야 패밀리 신청을 할 수 있어요');return;}
   const from=hubSiteCur();
   try{const{data,error}=await palelyDBRaw.rpc('neighbor_request',{p_from:from,p_to:SITE_ID});if(error)throw error;
-    showToast(data==='accepted'?'서로 이웃이 되었어요':data==='already'?'이미 서로 이웃이에요':data==='pending'?'이웃 신청을 보냈어요':data==='blocked'?'신청할 수 없는 블로그예요':'이미 신청 중이에요');
+    showToast(data==='accepted'?'서로 패밀리가 되었어요':data==='already'?'이미 서로 패밀리예요':data==='pending'?'패밀리 신청을 보냈어요':data==='blocked'?'신청할 수 없는 블로그예요':'이미 신청 중이에요');
     if(data==='accepted')setTimeout(()=>location.reload(),600);
   }catch(e){showToast('실패: '+(e.message||e));}
 }
-// ── 허브: 디렉토리 · 이웃 · 타임라인 ──
+// ── 홈: 디렉토리 · 패밀리 · 타임라인 ──
 function hubDirSkeleton(){return '<div class="hub-sec"><div class="hub-h">블로그 둘러보기 <small id="hub-dir-n"></small></div><form class="hub-search" onsubmit="hubSearch();return false;"><input class="form-input" id="hub-q" maxlength="24" placeholder="@아이디 또는 블로그명 검색" autocomplete="off"><button type="submit" class="form-file-label"><span>검색</span></button><button type="button" class="hub-mini" id="hub-q-back" hidden onclick="hubDirectory()">목록으로</button></form><div class="hub-list" id="hub-dir"><p class="ob-hint">불러오는 중…</p></div></div>';}
 // 둘러보기 = 주인이 『둘러보기 노출 허용』을 켠 블로그만(서버 뷰도 걸러내지만 클라이언트도 discoverable===true만 — fail-closed, SQL 전엔 빈 목록)
 async function hubDirectory(){
@@ -5319,7 +5425,7 @@ async function hubDirectory(){
   const back=document.getElementById('hub-q-back');if(back)back.hidden=true;
   let rows=[];try{const{data}=await palelyDBRaw.from('site_directory').select('*').order('created_at',{ascending:true}).limit(200);rows=(data||[]).filter(r=>r&&r.discoverable===true);}catch(e){}
   const n=document.getElementById('hub-dir-n');if(n)n.textContent=rows.length;
-  if(!rows.length){box.innerHTML='<p class="ob-hint">노출을 허용한 블로그가 아직 없어요. 블로그 주인이 관리 › 공개 범위에서 「둘러보기 노출 허용」을 켜면 여기에 보여요. 아이디를 알면 위에서 검색할 수 있어요(검색 허용 블로그만).</p>';return;}
+  if(!rows.length){box.innerHTML='<p class="ob-hint">노출을 허용한 블로그가 아직 없어요. 블로그 주인이 마이페이지 › 공개 범위에서 「둘러보기 노출 허용」을 켜면 여기에 보여요. 아이디를 알면 위에서 검색할 수 있어요(검색 허용 블로그만).</p>';return;}
   box.innerHTML=hubDirRows(rows);
 }
 // 검색 = 주인이 『아이디·블로그명 검색 허용』을 켠 블로그만(site_search RPC, 2자 이상)
@@ -5335,11 +5441,11 @@ async function hubSearch(){
 }
 function hubDirRows(rows){
   const mine=new Set(((myAcct&&myAcct.sites)||[]).map(x=>x.id));const canReq=!!(myAcct&&mine.size);
-  return rows.map(r=>'<div class="hub-row"><div class="hub-rt">'+(r.owner_avatar?'<img class="hub-av" src="'+esc(r.owner_avatar)+'" alt="">':'<span class="hub-av hub-av-e"></span>')+'<b>'+esc(r.title)+'</b>'+(r.visibility!=='public'?'<span class="hub-tier">'+esc(VIS_KR[r.visibility]||r.visibility)+'</span>':'')+(mine.has(r.id)?'<span class="hub-tier hub-pri">내 블로그</span>':'')+'</div><div class="hub-rh">palely.me'+esc(hubSiteBase(r.handle))+(r.owner_nick?' · '+esc(r.owner_nick):'')+(r.tagline?' · '+esc(r.tagline):'')+'</div><div class="hub-ract">'+(canReq&&!mine.has(r.id)?'<button type="button" class="hub-mini" onclick="hubNbReq(\''+r.id+'\')">이웃 신청</button> ':'')+'<button type="button" class="form-file-label" onclick="siteGo(\''+esc(r.handle)+'\')"><span>이동 →</span></button></div></div>').join('');
+  return rows.map(r=>'<div class="hub-row"><div class="hub-rt">'+(r.owner_avatar?'<img class="hub-av" src="'+esc(r.owner_avatar)+'" alt="">':'<span class="hub-av hub-av-e"></span>')+'<b>'+esc(r.title)+'</b>'+(r.visibility!=='public'?'<span class="hub-tier">'+esc(VIS_KR[r.visibility]||r.visibility)+'</span>':'')+(mine.has(r.id)?'<span class="hub-tier hub-pri">내 블로그</span>':'')+'</div><div class="hub-rh">palely.me'+esc(hubSiteBase(r.handle))+(r.owner_nick?' · '+esc(r.owner_nick):'')+(r.tagline?' · '+esc(r.tagline):'')+'</div><div class="hub-ract">'+(canReq&&!mine.has(r.id)?'<button type="button" class="hub-mini" onclick="hubNbReq(\''+r.id+'\')">패밀리 신청</button> ':'')+'<button type="button" class="form-file-label" onclick="siteGo(\''+esc(r.handle)+'\')"><span>이동 →</span></button></div></div>').join('');
 }
 async function hubNbReq(toId){
   const from=hubSiteCur();if(!from){showToast('먼저 내 블로그를 만들어 주세요');return;}
-  try{const{data,error}=await palelyDBRaw.rpc('neighbor_request',{p_from:from,p_to:toId});if(error)throw error;showToast(data==='accepted'?'서로 이웃이 되었어요':data==='already'?'이미 서로 이웃이에요':data==='pending'?'이웃 신청을 보냈어요':'이미 처리된 신청이에요');hubNeighbors();}
+  try{const{data,error}=await palelyDBRaw.rpc('neighbor_request',{p_from:from,p_to:toId});if(error)throw error;showToast(data==='accepted'?'서로 패밀리가 되었어요':data==='already'?'이미 서로 패밀리예요':data==='pending'?'패밀리 신청을 보냈어요':'이미 처리된 신청이에요');hubNeighbors();}
   catch(e){showToast('실패: '+(e.message||e));}
 }
 async function hubNeighbors(){
@@ -5351,7 +5457,7 @@ async function hubNeighbors(){
   const row=(r,act)=>'<div class="hub-row"><div class="hub-rt"><b>'+esc(r.title)+'</b>'+(r.visibility!=='public'?'<span class="hub-tier">'+esc(VIS_KR[r.visibility]||'')+'</span>':'')+'</div><div class="hub-rh">palely.me'+esc(hubSiteBase(r.handle))+'</div><div class="hub-ract">'+act+'</div></div>';
   let h='';
   if(inq.length)h+='<div class="hub-sub">받은 신청</div><div class="hub-list">'+inq.map(r=>row(r,'<button type="button" class="hub-mini" onclick="hubNbRespond(\''+r.site_id+'\',true)">수락</button> <button type="button" class="hub-mini" onclick="hubNbRespond(\''+r.site_id+'\',false)">거절</button>')).join('')+'</div>';
-  h+='<div class="hub-sub">서로 이웃 '+people.length+'</div>'+(people.length?'<div class="hub-list">'+people.map(nbPersonRow).join('')+'</div>':'<p class="ob-hint">아직 이웃이 없어요. 블로그 둘러보기에서 신청해 보세요.</p>');
+  h+='<div class="hub-sub">서로 패밀리 '+people.length+'</div>'+(people.length?'<div class="hub-list">'+people.map(nbPersonRow).join('')+'</div>':'<p class="ob-hint">아직 패밀리가 없어요. 블로그 둘러보기에서 신청해 보세요.</p>');
   if(out.length)h+='<div class="hub-sub">보낸 신청</div><div class="hub-list">'+out.map(r=>row(r,'<button type="button" class="hub-mini" onclick="hubNbRemove(\''+r.site_id+'\')">취소</button>')).join('')+'</div>';
   box.innerHTML=h;
 }
@@ -5360,13 +5466,13 @@ function nbDedupe(rows){const rank=r=>r.status==='accepted'?0:r.status==='blocke
 function nbGroupPeople(rows){const m=new Map();(rows||[]).forEach(r=>{const k=r.owner_key||('site:'+r.site_id);if(!m.has(k))m.set(k,{key:k,nick:r.owner_nick||'',avatar:r.owner_avatar||'',blogs:[]});m.get(k).blogs.push(r);});return [...m.values()];}
 function nbPersonRow(p){
   const av=p.avatar?'<img class="hub-av" src="'+esc(p.avatar)+'" alt="">':'<span class="hub-av hub-av-e"></span>';
-  const name=p.nick||(p.blogs[0]&&p.blogs[0].title)||'이웃';
+  const name=p.nick||(p.blogs[0]&&p.blogs[0].title)||'패밀리';
   const blogs=p.blogs.map(b=>'<div class="nb-blog"><span class="nb-blog-t">'+esc(b.title)+(b.visibility!=='public'?'<span class="hub-tier">'+esc(VIS_KR[b.visibility]||'')+'</span>':'')+'<small>palely.me'+esc(hubSiteBase(b.handle))+'</small></span><span class="hub-ract"><button type="button" class="form-file-label" onclick="siteGo(\''+esc(b.handle)+'\')"><span>이동 →</span></button> <button type="button" class="hub-mini" onclick="hubNbRemove(\''+b.site_id+'\')">끊기</button></span></div>').join('');
   return '<div class="hub-row nb-person"><div class="hub-rt">'+av+'<b>'+esc(name)+'</b>'+(p.blogs.length>1?'<span class="hub-tier">블로그 '+p.blogs.length+'</span>':'')+'</div><div class="nb-blogs">'+blogs+'</div></div>';
 }
-async function hubNbRespond(fromId,accept){try{const{error}=await palelyDBRaw.rpc('neighbor_respond',{p_from:fromId,p_to:hubSiteCur(),p_accept:!!accept});if(error)throw error;showToast(accept?'이웃이 되었어요':'거절했어요');hubNeighbors();hubTimeline();}catch(e){showToast('실패: '+(e.message||e));}}
-async function hubNbRemove(otherId){try{const{error}=await palelyDBRaw.rpc('neighbor_remove',{p_a:hubSiteCur(),p_b:otherId});if(error)throw error;showToast('이웃을 끊었어요');hubNeighbors();hubTimeline();}catch(e){showToast('실패: '+(e.message||e));}}
-// 타임라인: 최신 10개부터, 끝까지 내리면 10개씩 더(서버 최대 100개) · 이웃(사람)별 탭
+async function hubNbRespond(fromId,accept){try{const{error}=await palelyDBRaw.rpc('neighbor_respond',{p_from:fromId,p_to:hubSiteCur(),p_accept:!!accept});if(error)throw error;showToast(accept?'패밀리가 되었어요':'거절했어요');hubNeighbors();hubTimeline();}catch(e){showToast('실패: '+(e.message||e));}}
+async function hubNbRemove(otherId){try{const{error}=await palelyDBRaw.rpc('neighbor_remove',{p_a:hubSiteCur(),p_b:otherId});if(error)throw error;showToast('패밀리를 끊었어요');hubNeighbors();hubTimeline();}catch(e){showToast('실패: '+(e.message||e));}}
+// 타임라인: 최신 10개부터, 끝까지 내리면 10개씩 더(서버 최대 100개) · 패밀리(사람)별 탭
 const TL_PAGE=10,TL_MAX=100;
 let tlRows=[],tlLimit=0,tlShown=TL_PAGE,tlWho='all',tlSite='',tlBusy=false,tlObs=null,hubNbPeople=[];
 async function tlFetch(limit){
@@ -5374,7 +5480,7 @@ async function tlFetch(limit){
   try{const{data}=await palelyDBRaw.rpc('timeline_feed',{p_site:cur,p_limit:limit});tlRows=(data||[]).filter((r,i,a)=>a.findIndex(x=>x.board===r.board&&x.id===r.id)===i);tlLimit=limit;tlSite=cur;}catch(e){}
   tlBusy=false;
 }
-// 이웃 새 글 알림: 받을 게시판(계정별·기기 기억)
+// 패밀리 새 글 알림: 받을 게시판(계정별·기기 기억)
 const NBA_BOARDS=[['diary','다이어리'],['logs','로그'],['assets','에셋'],['prompts','프롬프트'],['distributions','배포']];
 function nbAlarmKey(){return 'palely_nb_boards_'+((currentUser&&currentUser.id)||'anon');}
 function nbAlarmBoards(){try{const v=JSON.parse(localStorage.getItem(nbAlarmKey())||'null');if(Array.isArray(v))return v;}catch(e){}return NBA_BOARDS.map(b=>b[0]);}
@@ -5386,7 +5492,7 @@ function nbAlarmOpen(){
 function nbAlarmSave(){
   const sel=[...document.querySelectorAll('#nba-list input:checked')].map(i=>i.value);
   try{localStorage.setItem(nbAlarmKey(),JSON.stringify(sel));}catch(e){}
-  closeModal('nbalarm-modal');tlShown=TL_PAGE;tlRender();showToast(sel.length?'이웃 새 글 알림 저장됨':'이웃 새 글 알림을 모두 껐어요');
+  closeModal('nbalarm-modal');tlShown=TL_PAGE;tlRender();showToast(sel.length?'패밀리 새 글 알림 저장됨':'패밀리 새 글 알림을 모두 껐어요');
 }
 function tlFiltered(){
   const bs=new Set(nbAlarmBoards()),rows=tlRows.filter(r=>bs.has(r.board));
@@ -5394,11 +5500,11 @@ function tlFiltered(){
   const p=hubNbPeople.find(x=>x.key===tlWho);if(!p)return rows;
   const ids=new Set(p.blogs.map(b=>b.site_id));return rows.filter(r=>ids.has(r.site_id));
 }
-function tlPersonName(p){return p.nick||(p.blogs[0]&&p.blogs[0].title)||'이웃';}
-function tlTabsRender(){   // 이웃 검색(이름·블로그명·주소) → 고르면 그 이웃 글만
+function tlPersonName(p){return p.nick||(p.blogs[0]&&p.blogs[0].title)||'패밀리';}
+function tlTabsRender(){   // 패밀리 검색(이름·블로그명·주소) → 고르면 그 패밀리 글만
   const bar=document.getElementById('hub-tl-tabs');if(!bar)return;
   if(!hubNbPeople.length){bar.innerHTML='';return;}
-  if(!document.getElementById('hub-tl-q'))bar.innerHTML='<div class="hub-tl-find"><input class="form-input" id="hub-tl-q" placeholder="이웃 이름·블로그로 찾기" autocomplete="off" oninput="tlSearch(this.value)" onkeydown="if(event.key===\'Escape\'){this.value=\'\';tlSearch(\'\');}"><div class="hub-tl-sug" id="hub-tl-sug"></div></div><div class="hub-tl-cur" id="hub-tl-cur"></div>';
+  if(!document.getElementById('hub-tl-q'))bar.innerHTML='<div class="hub-tl-find"><input class="form-input" id="hub-tl-q" placeholder="패밀리 이름·블로그로 찾기" autocomplete="off" oninput="tlSearch(this.value)" onkeydown="if(event.key===\'Escape\'){this.value=\'\';tlSearch(\'\');}"><div class="hub-tl-sug" id="hub-tl-sug"></div></div><div class="hub-tl-cur" id="hub-tl-cur"></div>';
   const cur=document.getElementById('hub-tl-cur'),p=hubNbPeople.find(x=>x.key===tlWho);
   if(cur)cur.innerHTML=p?'<span class="hub-tl-chip"><svg width="7" height="7"><use href="#iss-ic-dia"/></svg>'+esc(tlPersonName(p))+'<small>'+p.blogs.length+'개 블로그</small></span><button type="button" class="hub-mini" onclick="tlGo(\'all\')">전체 보기</button>':'';
 }
@@ -5407,14 +5513,14 @@ function tlSearch(v){
   const q=String(v||'').trim().toLowerCase();
   if(!q){box.innerHTML='';return;}
   const hit=hubNbPeople.filter(p=>[p.nick].concat(p.blogs.map(b=>b.title),p.blogs.map(b=>b.handle)).some(t=>String(t||'').toLowerCase().includes(q))).slice(0,8);
-  box.innerHTML=hit.length?hit.map(p=>'<button type="button" onclick="tlPick(\''+p.key.replace(/[^\w:-]/g,'')+'\')"><b>'+esc(tlPersonName(p))+'</b><small>'+esc(p.blogs.map(b=>b.title).join(' · '))+'</small></button>').join(''):'<p class="ob-hint">찾는 이웃이 없어요</p>';
+  box.innerHTML=hit.length?hit.map(p=>'<button type="button" onclick="tlPick(\''+p.key.replace(/[^\w:-]/g,'')+'\')"><b>'+esc(tlPersonName(p))+'</b><small>'+esc(p.blogs.map(b=>b.title).join(' · '))+'</small></button>').join(''):'<p class="ob-hint">찾는 패밀리가 없어요</p>';
 }
 function tlPick(k){const q=document.getElementById('hub-tl-q');if(q)q.value='';tlSearch('');tlGo(k);}
 function tlGo(k){tlWho=hubNbPeople.some(p=>p.key===k)?k:'all';tlShown=TL_PAGE;tlTabsRender();tlRender();const box=document.getElementById('hub-timeline');if(box)try{box.scrollIntoView({block:'nearest'});}catch(e){}}
 function tlRender(){
   const box=document.getElementById('hub-timeline'),more=document.getElementById('hub-tl-more');if(!box)return;
   const list=tlFiltered(),vis=list.slice(0,tlShown);
-  if(!vis.length){box.innerHTML='<p class="ob-hint">'+(!nbAlarmBoards().length?'이웃 새 글 알림이 모두 꺼져 있어요 — 이웃 옆 설정에서 켤 수 있어요.':tlWho==='all'?'이웃의 새 글이 여기에 모여요.':'이 이웃의 최근 글이 아직 없어요.')+'</p>';}
+  if(!vis.length){box.innerHTML='<p class="ob-hint">'+(!nbAlarmBoards().length?'패밀리 새 글 알림이 모두 꺼져 있어요 — 패밀리 옆 설정에서 켤 수 있어요.':tlWho==='all'?'패밀리의 새 글이 여기에 모여요.':'이 패밀리의 최근 글이 아직 없어요.')+'</p>';}
   else box.innerHTML=vis.map(r=>'<a class="hub-row hub-link-row hub-tl" href="'+esc(heartHref({handle:r.handle,board:r.board,post_id:r.id}))+'">'+(r.thumb?'<img class="hub-tl-img" src="'+esc(thumbOf(r.thumb))+'" data-orig="'+esc(r.thumb)+'" onerror="thumbFail(this)" alt="" loading="lazy">':'')+'<div class="hub-rt"><b>'+esc(r.title||'(제목 없음)')+'</b></div><div class="hub-rh">'+esc(r.site_title||'')+' · '+esc(HUB_BOARD_KR[r.board]||r.board)+' · '+esc(String(r.created_at||'').slice(0,10))+'</div></a>').join('');
   const canMore=list.length>tlShown||(tlRows.length>=tlLimit&&tlLimit<TL_MAX);
   if(more)more.innerHTML=canMore?'<button type="button" class="hub-mini" onclick="tlMore()">더 보기</button>':(vis.length>TL_PAGE?'<span class="ob-hint">최근 글을 모두 봤어요</span>':'');
@@ -5551,8 +5657,8 @@ async function svcTermsSave(bump){
     showToast(bump?'약관 v'+svcSvc.terms_version+' — 전체 재동의 요구':'약관 문구 저장');svcSignupRender();svcSummary();
   }catch(e){svcErr(e.message||'실패');}
 }
-// ══ P4b: 이웃 잠금 카드 · vault 서명 URL 리졸버 ══
-function nbLockedToast(){showToast(currentUser?'이웃에게만 공개된 글이에요 — 허브에서 이웃을 신청해 보세요':'이웃에게만 공개된 글이에요 — 로그인 후 이웃 신청');}
+// ══ P4b: 패밀리 잠금 카드 · vault 서명 URL 리졸버 ══
+function nbLockedToast(){showToast(currentUser?'패밀리에게만 공개된 글이에요 — 홈에서 패밀리를 신청해 보세요':'패밀리에게만 공개된 글이에요 — 로그인 후 패밀리 신청');}
 async function nbLockedCheck(type,id){try{const{data}=await palelyDB.from(type+'_list').select('locked').eq('id',id).maybeSingle();if(data&&data.locked){nbLockedToast();return true;}}catch(e){}return false;}
 const VAULT_RE=/\/storage\/v1\/object\/public\/vault\/([^?#]+)/;const vaultCache=new Map();let vaultTimer=null;
 function vaultInit(){
@@ -6667,8 +6773,8 @@ function openPostLink(spec){
   const t=document.getElementById('page-'+page);document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));if(t)t.classList.add('active');
   openDetail(type,id);
 }
-// D3: 이웃공개 배지 — 잠기지 않은 이웃공개 글(주인·이웃 시점). kind='abs'면 이미지 카드 모서리 칩
-function nbBadge(x,kind){if(!x||x.visibility!=='neighbor'||x.locked)return '';return '<span class="nbg'+(kind==='abs'?' nbg-abs':'')+'" title="이웃에게만 공개된 글">NEIGHBOR</span>';}
+// D3: 패밀리 공개 배지 — 잠기지 않은 패밀리 공개 글(주인·패밀리 시점). kind='abs'면 이미지 카드 모서리 칩
+function nbBadge(x,kind){if(!x||x.visibility!=='neighbor'||x.locked)return '';return '<span class="nbg'+(kind==='abs'?' nbg-abs':'')+'" title="패밀리에게만 공개된 글">FAMILY</span>';}
 function routeHash(h){if(h&&h.indexOf('post=')===0)openPostLink(h.slice(5));else navigate(h||'home');}
 // 성인 콘텐츠 동의 게이트 (세션 1회 동의 시 이후 자동 통과)
 function consentOK(warn){return !warn||sessionStorage.getItem('adultConsent')==='1';}
@@ -6717,7 +6823,7 @@ function renderHomeSub(){
 }
 async function homeSubSet(){
   if(!isAdmin){showToast('Admin only');return;}
-  const v=await askModal('홈 서브문구','메인 상단에 번짐 효과로 표시될 문구 (비우면 숨김)','text');
+  const v=await askModal('메인 서브문구','메인 상단에 번짐 효과로 표시될 문구 (비우면 숨김)','text');
   if(v===null)return;
   homeSubText=(v||'').trim();
   try{await palelyDB.from('settings').upsert({key:'home_subtext',value:homeSubText},{onConflict:'key'});showToast(homeSubText?'저장됨':'숨김 처리됨');}catch(e){showToast('저장 실패');}
@@ -8046,7 +8152,7 @@ async function mybnSave(patch){
 function mybnOpen(){if(!isAdmin){showToast('Admin only');return;}const b=siteBanner||{};const g=id=>document.getElementById(id);g('mb-img').value=b.img||'';g('mb-mask').value=b.masktext||'';g('mb-link').value=b.link||'';g('mb-name').value=b.name||'';g('mb-intro').value=b.intro||'';g('mb-err').textContent='';mybnPrev();g('mb-img').oninput=mybnPrev;g('mybn-modal').classList.add('active');}
 function mybnPrev(){const v=(document.getElementById('mb-img').value||'').trim();const p=document.getElementById('mb-prev');p.hidden=!v;if(v)p.src=v;}
 async function mybnPick(){const u=await mybnUpload();if(u){document.getElementById('mb-img').value=u;mybnPrev();}}
-async function mybnModalSave(){const g=id=>document.getElementById(id);const btn=g('mb-save');btn.disabled=true;const patch={img:g('mb-img').value.trim(),masktext:g('mb-mask').value.trim()||'PALE BANNERS',link:g('mb-link').value.trim(),name:g('mb-name').value.trim(),intro:g('mb-intro').value.trim()};const ok=await mybnSave(patch);btn.disabled=false;if(ok){closeModal('mybn-modal');savedToast('홈 배너 저장됨');}else g('mb-err').textContent='저장 실패';}
+async function mybnModalSave(){const g=id=>document.getElementById(id);const btn=g('mb-save');btn.disabled=true;const patch={img:g('mb-img').value.trim(),masktext:g('mb-mask').value.trim()||'PALE BANNERS',link:g('mb-link').value.trim(),name:g('mb-name').value.trim(),intro:g('mb-intro').value.trim()};const ok=await mybnSave(patch);btn.disabled=false;if(ok){closeModal('mybn-modal');savedToast('메인 배너 저장됨');}else g('mb-err').textContent='저장 실패';}
 async function mybnSetImg(){
   if(!isAdmin){showToast('Admin only');return;}
   let img=await askModal('배너 이미지','이미지 URL 입력 · 비우고 확인하면 파일 업로드','text');
@@ -9791,7 +9897,7 @@ async function nbApplySubmit(){
     const{error}=await palelyDB.from('neighbor_requests').insert({from_url:from_url,from_name:from_name,from_rss:from_rss,from_banner:from_banner,message:message,status:'pending'});
     if(error)throw error;
     try{localStorage.setItem('nb_applied_'+nbNorm(from_url),'1');}catch(e){}
-    showToast('신청을 보냈어요 — 상대가 수락하면 이웃이 됩니다');
+    showToast('신청을 보냈어요 — 상대가 수락하면 패밀리가 됩니다');
     closeModal('nb-apply-modal');
   }catch(e){showToast('신청 실패 — 잠시 후 다시 시도해주세요');}
 }
@@ -9816,9 +9922,9 @@ async function nbLoadReqs(){
 async function nbLoadList(){
   const box=document.getElementById('nb-list-list');box.innerHTML='<div class="adm-empty">불러오는 중…</div>';
   await loadNeighbors();
-  if(!neighborsData.length){box.innerHTML='<div class="adm-empty">아직 이웃이 없습니다.</div>';return;}
+  if(!neighborsData.length){box.innerHTML='<div class="adm-empty">아직 패밀리가 없습니다.</div>';return;}
   box.innerHTML=neighborsData.map(function(n){
-    const nm=esc(n.name||n.url||'이웃'),url=esc(n.url||'');
+    const nm=esc(n.name||n.url||'패밀리'),url=esc(n.url||'');
     const thumb=n.banner_url?'<img class="nb-thumb" src="'+esc(n.banner_url)+'" draggable="false" onerror="this.style.display=\'none\'">':'';
     return '<div class="cm-row nb-lrow">'+thumb+'<span class="nb-linfo"><b>'+nm+'</b>'+(url?'<small>'+url+'</small>':'')+'</span><button class="adm-act" onclick="nbDelete('+n.id+')">삭제</button></div>';
   }).join('');
@@ -9833,7 +9939,7 @@ async function nbAccept(id){
     await palelyDB.from('neighbor_requests').update({status:'accepted'}).eq('id',id);
     if(r.from_rss){feedSubs.push({label:r.from_name||r.from_url,url:feedRssUrl(r.from_rss)});await feedSaveSubs();}
     await loadNeighbors();
-    showToast('이웃이 되었어요 ♥ 최신글을 구독에 추가했어요');
+    showToast('패밀리가 되었어요 ♥ 최신글을 구독에 추가했어요');
     nbLoadReqs();
   }catch(e){showToast('수락 실패 — 관리자 권한을 확인해주세요');}
 }
@@ -9842,7 +9948,7 @@ async function nbReject(id){
   catch(e){showToast('처리 실패');}
 }
 async function nbDelete(id){
-  try{const{error}=await palelyDB.from('neighbors').delete().eq('id',id);if(error)throw error;await loadNeighbors();showToast('이웃을 삭제했어요');nbLoadList();}
+  try{const{error}=await palelyDB.from('neighbors').delete().eq('id',id);if(error)throw error;await loadNeighbors();showToast('패밀리를 삭제했어요');nbLoadList();}
   catch(e){showToast('삭제 실패');}
 }
 let feedSubs=[],feedNew=[],feedAnim=null,feedMode='list',feedFilter='all',mainNewCfg=null;
@@ -9942,7 +10048,7 @@ async function feedInit(){
   try{const{data}=await palelyDB.from('settings').select('value').eq('key','feed_subs').single();feedSubs=data&&data.value?JSON.parse(data.value):[];}catch(e){feedSubs=[];}
   if(!Array.isArray(feedSubs))feedSubs=[];
   await mainNewLoadCfg();
-  astWordLoad();
+  astWordLoad();adMarkLoad();
   feedCheck();
 }
 async function feedSaveSubs(){try{await palelyDB.from('settings').upsert({key:'feed_subs',value:JSON.stringify(feedSubs)},{onConflict:'key'});}catch(e){showToast('구독 저장 실패');}}
@@ -10070,6 +10176,7 @@ const DIARY_PAGE_SIZE=6;
 const DIST_PAGE_SIZE=12;
 function issPagerClick(e){const d=e.target.closest('.iss-pager');if(!d)return;const b=e.target.closest('button');if(!b)return;issGoPage(d.getAttribute('data-tb'),parseInt(b.textContent));}
 function adminManage(page,tab){
+  if(page==='prompts'&&!tab){const ts=issTabs();tab=(typeof currentPromptTab!=='undefined'&&ts.some(t=>t.k===currentPromptTab))?currentPromptTab:(ts[0]&&ts[0].k);}
   navigate(page);
   if(tab&&typeof switchPromptTab==='function')switchPromptTab(tab);
   setTimeout(()=>toggleManage(tab||page),80);
@@ -10417,6 +10524,7 @@ async function openDetail(type,id,preData){
   let data=preData;
   if(!data){if(!palelyDB)return;const res=await palelyDB.from(type).select('*').eq('id',id).single();data=res.data;}
   if(!data){if(await nbLockedCheck(type,id))return;if(type==='diary')return openPrivateDiary(id);if(type==='logs')return openPrivateLog(id);return;}
+  if(data.warn&&!isAdmin&&!consentOK(true)){pendingConsent=()=>openDetail(type,id,data);showConsent();return;}   // 성인 표시 글: 열람 전 동의
   curDetail={type,id};
   try{history.replaceState(null,'','#post='+type+':'+id);}catch(e){}
   document.querySelectorAll('.page-section').forEach(s=>s.style.display='none');
@@ -10578,7 +10686,7 @@ function lgvSyncH(){
   window.addEventListener('resize',lgvSyncH);
   lgvSyncH();
 })();
-const BG_CLOSE_IDS=['nbalarm-modal','newpost-modal','draft-ask-modal','metascan-modal','dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal','nb-apply-modal','nb-manage-modal','board-name-modal','theme-color-modal','theme-font-modal','theme-logo-modal','theme-bg-modal','stk-crop-modal','version-modal','ai-model-modal','bgm-modal','mybn-modal'];
+const BG_CLOSE_IDS=['allposts-modal','admark-modal','nbalarm-modal','newpost-modal','draft-ask-modal','metascan-modal','dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal','nb-apply-modal','nb-manage-modal','board-name-modal','theme-color-modal','theme-font-modal','theme-logo-modal','theme-bg-modal','stk-crop-modal','version-modal','ai-model-modal','bgm-modal','mybn-modal'];
 const THEME_SAVE_FNS={'theme-color-modal':'themeColorSave','board-name-modal':'boardNameSave','theme-font-modal':'themeFontSave','theme-logo-modal':'themeLogoSave','theme-bg-modal':'themeBgSave'};
 document.addEventListener('click',e=>{
   const ov=e.target;
@@ -10645,7 +10753,7 @@ function renderContent(text){return esc(text).replace(/\n/g,'<br>');}
 let editorDistType=null,editorPromptTab='nai';
 async function openEditor(type,editId,distType,prefill,draftId){
   currentEditorType=type;currentEditId=editId||null;editorDistType=distType||null;
-  editorPrefill=prefill||null;editorDraftId=draftId||null;edBgmPending=null;
+  editorPrefill=prefill||null;editorDraftId=draftId||null;edBgmPending=null;window._edPwPlain=null;
   if(type==='distributions'&&!editorDistType&&!currentEditId){try{editorDistType=(distTabKeys()[0])||'utility';}catch(e){editorDistType='utility';}}   // USER 탭 펜 등 탭 키 없는 진입 → 첫 배포 탭
   mfFileMap={};mfSeq=0;sfCleanMap={};sfNaiFlag={};
   const titleEl=document.getElementById('editor-title'),fieldsEl=document.getElementById('editor-fields'),delBtn=document.getElementById('editor-delete-btn');
@@ -10664,7 +10772,7 @@ async function openEditor(type,editId,distType,prefill,draftId){
     if(f.type==='markdown')return `<div class="form-group"><label class="form-label" for="__x">${f.label} <span class="ai-mini-row"><button type="button" class="ai-mini-btn" onclick="aiSpell('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 맞춤법</button></span></label><div class="md-toolbar"><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','**','**')" title="Bold"><b>B</b></button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','*','*')" title="Italic"><i>I</i></button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','~~','~~')" title="Strikethrough"><s>S</s></button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','# ')" title="H1">H1</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','## ')" title="H2">H2</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','### ')" title="H3">H3</button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','- ')" title="List">☰</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','> ')" title="Quote">❝</button><button class="md-toolbar-btn" type="button" onclick="mdInsert('ef-${f.key}','[','](url)')" title="Link">🔗</button><button class="md-toolbar-btn" type="button" onclick="mdInsertTable('ef-${f.key}')" title="Table">⊞</button><button class="md-toolbar-btn" type="button" onclick="mdLine('ef-${f.key}','---\\n')" title="HR">―</button><div class="md-toolbar-sep"></div><button class="md-toolbar-btn md-preview-toggle" type="button" onclick="toggleMdPreview('ef-${f.key}')">PREVIEW</button></div><textarea class="form-textarea" id="ef-${f.key}" placeholder="${f.placeholder||''}" style="min-height:200px;font-family:'Pretendard',monospace;font-size:12px;">${esc(val)}</textarea><div class="md-preview-area md-content" id="ef-${f.key}-preview"></div></div>`;
     if(f.type==='file')return `<div class="form-group"><label class="form-label">${f.label}</label><label class="form-file-label"><span>+ 이미지 추가</span><input type="file" class="form-input-file" id="ef-${f.key}" accept="image/*" onchange="previewFile(this)"></label>${existingData&&existingData[f.key]?'<img class="form-file-preview" id="ef-preview" src="'+esc(existingData[f.key])+'">':'<img class="form-file-preview" id="ef-preview" style="display:none;">'}</div>`;
     if(f.type==='multifile'){const cur=existingData?promptImages(existingData):[];return `<div class="form-group mf-group" data-mf="ef-${f.key}" ondragover="mfDropOver(event)" ondragleave="mfDropLeave(event)" ondrop="mfDrop(event)"><label class="form-label">${f.label}</label><div class="mf-hint">이미지 파일을 여기로 끌어다 놓으면 추가 · 드래그로 순서 변경 · 맨 앞이 대표 썸네일 · 다른 이미지의 "대표로" 클릭 시 대표 지정</div><div class="mf-list" id="ef-${f.key}-list">${cur.map(u=>`<div class="mf-item" data-url="${esc(u)}" draggable="true" ondragstart="mfDragStart(event)" ondragover="mfDragOver(event)" ondragend="mfDragEnd(event)"><img src="${esc(u)}"><span class="mf-rep">대표</span><button type="button" class="mf-setrep" onclick="setRepImage(this)">대표로</button><button type="button" class="mf-del" onclick="this.parentElement.remove()">✕</button></div>`).join('')}</div><label class="form-file-label"><span>+ 이미지 추가 (여러 장 가능)</span><input type="file" class="form-input-file" id="ef-${f.key}" accept="image/*" multiple onchange="previewMultiFile(this)"></label></div>`;}
-    if(f.type==='visibility'){const cur=(existingData&&existingData.visibility)||'public';return `<div class="form-group ed-vis"><label class="form-label">${f.label}</label><div class="ed-vis-row">${[['public','전체 공개'],['neighbor','이웃 공개'],['private','비공개 (나만)']].map(([v,l])=>`<label class="form-check"><input type="radio" name="ef-visibility" value="${v}"${v===cur?' checked':''}><span>${l}</span></label>`).join('')}</div></div>`;}
+    if(f.type==='visibility'){const cur=(existingData&&existingData.visibility)||'public';return `<div class="form-group ed-vis"><label class="form-label">${f.label}</label><div class="ed-vis-row">${[['public','전체 공개'],['neighbor','패밀리 공개'],['private','비공개 (나만)']].map(([v,l])=>`<label class="form-check"><input type="radio" name="ef-visibility" value="${v}"${v===cur?' checked':''}><span>${l}</span></label>`).join('')}</div></div>`;}
     if(f.type==='naiblocks'){
       const blocks=naiBlocks({prompt_text:val});
       setTimeout(()=>{nbInit(blocks);},0);
@@ -10711,7 +10819,7 @@ async function openEditor(type,editId,distType,prefill,draftId){
 }
 
 const ED_VIS_TYPES=new Set(['prompts','distributions','diary','logs','assets']);const ED_BGM_TYPES=new Set(['prompts','distributions','diary','logs']);
-function getFieldsForType(type,distType){const f=getFieldsForTypeBase(type,distType);if(ED_VIS_TYPES.has(type))f.push({key:'visibility',label:'공개 범위',type:'visibility'});if(ED_BGM_TYPES.has(type))f.push({key:'bgm',label:'배경음악 (선택)',type:'bgm'});return f;}
+function getFieldsForType(type,distType){const f=getFieldsForTypeBase(type,distType);if((type==='diary'||type==='logs')&&warnColOK(type)&&!f.some(x=>x.key==='warn')){const i=f.findIndex(x=>x.key==='is_private');f.splice(i<0?f.length:i,0,{key:'warn',label:'성인 표시 (열람 전 동의 필요)',type:'checkbox'});}if(ED_VIS_TYPES.has(type))f.push({key:'visibility',label:'공개 범위',type:'visibility'});if(ED_BGM_TYPES.has(type))f.push({key:'bgm',label:'배경음악 (선택)',type:'bgm'});return f;}
 function getFieldsForTypeBase(type,distType){
   switch(type){
     case 'diary':return [{key:'title',label:'Title',type:'text',placeholder:'제목'},{key:'category',label:'Category',type:'catselect'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'is_private',label:'🔒 비밀글로 설정 (비밀번호 필요)',type:'checkbox'},{key:'secret',label:'비밀번호 (비밀글일 때 · 변경할 때만 입력)',type:'password'},{key:'content',label:'Content',type:'richedit',placeholder:'다이어리를 자유롭게 작성하세요… (이미지 삽입·붙여넣기·유튜브 지원)'},{key:'thumb',label:'대표 썸네일',type:'thumbpick'},{key:'thumb_stickers',label:'썸네일 스티커',type:'stickers'}];
@@ -11064,7 +11172,7 @@ function reInsertHTML(html){const b=reBody();if(!b)return;b.focus();reRestoreSel
 function attrEsc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;');}
 function figHtml(url){return '<figure class="re-fig re-al-center" data-align="center" contenteditable="false"><img class="re-img" src="'+url+'"><figcaption class="re-cap" contenteditable="true" data-ph="이미지 설명 (선택)"></figcaption></figure><p><br></p>';}
 // NAI 메타데이터 감지 → 감지 시 제거 여부 확인 (기존 detectNAI/stripImageMeta 재사용)
-// (naiPurgeAll 제거 2026-09-17 — 업로드 관문 stUpload가 모든 이미지를 자동 세척하므로 수동 일괄 제거 불필요. 잔존 검사는 관리 › 도구 › 메타데이터 추적)
+// (naiPurgeAll 제거 2026-09-17 — 업로드 관문 stUpload가 모든 이미지를 자동 세척하므로 수동 일괄 제거 불필요. 잔존 검사는 마이페이지 › 도구 › 메타데이터 추적)
 async function prepImageForInsert(file){
   // 감지 여부와 무관하게 항상 재인코딩(메타·스텔스 제거). 실패 시 삽입 취소.
   try{return await imgSanitize(file);}catch(e){showToast('이미지 처리 실패 — 삽입을 취소했습니다');throw e;}
@@ -11490,7 +11598,7 @@ async function editorCollect(forDraft){   // 에디터 칸 → 레코드(대기 
         record.bgm=await edBgmCollect();
       }else if(f.type==='password'){
         if(forDraft)continue;   // 비밀번호는 임시저장에 남기지 않음
-        const v=document.getElementById('ef-'+f.key)?.value||'';if(v)record[f.key]=await hashPw(v);
+        const v=document.getElementById('ef-'+f.key)?.value||'';if(v){record[f.key]=await hashPw(v);if(!forDraft)window._edPwPlain=v;}
       }else{
         let val=document.getElementById('ef-'+f.key)?.value?.trim()||'';
         if(f.key==='tags')record[f.key]=val?val.split(',').map(t=>t.trim()).filter(Boolean):[];
@@ -11529,11 +11637,15 @@ async function saveEntry(){
       const _hasBody=['content','prompt_text','description','html_raw','source','image','thumb','links'].some(_txt)||['images','files','stickers'].some(k=>Array.isArray(record[k])&&record[k].length);
       if(!_txt('title')&&!_hasBody){showToast('제목이나 내용을 입력해 주세요');btn.disabled=false;btn.innerHTML='SAVE';return;}
     }
+    let _sid=currentEditId;const _pwp=window._edPwPlain;window._edPwPlain=null;
     if(currentEditId){
       const{error}=await palelyDB.from(currentEditorType).update(record).eq('id',currentEditId);if(error)throw error;showToast('Updated');
+    }else if(_pwp){
+      const{data:_ins,error}=await palelyDB.from(currentEditorType).insert(record).select('id').single();if(error)throw error;_sid=_ins&&_ins.id;showToast('Created');
     }else{
       const{error}=await palelyDB.from(currentEditorType).insert(record);if(error)throw error;showToast('Created');
     }
+    if(_sid&&MG_TABLE_OPS[currentEditorType]&&'is_private' in record){try{if(record.is_private&&_pwp)await pwMapSet(currentEditorType,[_sid],_pwp);else if(!record.is_private)await pwMapSet(currentEditorType,[_sid],null);}catch(e){}}   // 비밀번호 보기용 원문(주인 전용)
     const _dft=editorDraftId;editorDraftId=null;if(_dft)draftDelete(_dft,true);   // 발행된 임시저장 글은 목록에서 제거
     closeModal('editor-modal');await loadBoardByType(currentEditorType);
   }catch(e){showToast('Error: '+(e.message||'Save failed'));console.error(e);}
@@ -11551,24 +11663,111 @@ async function loadBoardByType(t){
 }
 
 // ══ 글 관리 (일괄 삭제·수정·비공개·잠금 — 게시판별) ══
+// 글 관리 설정 — 테이블별 일괄 작업 · 전체 글 목록(rows) · Issuance 빌더 탭은 mgCfg가 자동 생성
+const MG_TABLE_OPS={
+  prompts:['del','edit','toPrivate','toPublic','visFamily','adultOn','adultOff','blurOn','blurOff'],
+  distributions:['del','edit','toPrivate','toPublic','visFamily','adultOn','adultOff'],
+  diary:['del','edit','toPrivate','toPublic','visFamily','adultOn','adultOff'],
+  logs:['del','edit','toPrivate','toPublic','visFamily','adultOn','adultOff'],
+  assets:['del','edit','toPrivate','toPublic','visFamily','adultOn','adultOff','blurOn','blurOff'],
+  banners:['del','edit']};
+const MG_BTN={del:'선택 삭제',edit:'선택 수정',toPrivate:'비밀글 전환',toPublic:'공개글 전환',visFamily:'패밀리 공개',adultOn:'성인 표시',adultOff:'성인 해제',blurOn:'블러 켜기',blurOff:'블러 끄기'};
+const MG_TABLE_KR={prompts:'프롬프트',distributions:'배포',diary:'다이어리',logs:'로그',assets:'에셋',banners:'배너'};
 const MG={
-  diary:{grid:'diary-grid',table:'diary',edit:'diary',reload:loadDiary,ops:['del','edit','private','public']},
-  nai:{grid:'nai-grid',table:'prompts',edit:'prompts',reload:loadPrompts,ops:['del','edit','blurOn','blurOff','warnOn','warnOff']},
-  ooc:{grid:'ooc-grid',table:'prompts',edit:'prompts',reload:loadPrompts,ops:['del','edit','blurOn','blurOff','warnOn','warnOff']},
-  caveduck:{grid:'caveduck-grid',table:'distributions',edit:'distributions',reload:loadDistributions,ops:['del','edit','warnOn','warnOff']},
-  utility:{grid:'utility-grid',table:'distributions',edit:'distributions',reload:loadDistributions,ops:['del','edit','warnOn','warnOff']},
-  assets:{grid:'assets-grid',table:'assets',edit:'assets',reload:loadAssets,ops:['del','edit','private','public','blurOn','blurOff','warnOn','warnOff']},
-  banners:{grid:'banners-grid',table:'banners',edit:'banners',reload:loadBanners,ops:['del','edit']},
-  logs:{grid:'logs-grid',table:'logs',edit:'logs',reload:loadLogs,ops:['del','edit']},
-  notices:{grid:'notices-list',table:'notices',edit:'notices',reload:loadNotices,ops:['del','edit']}
+  diary:{grid:'diary-grid',table:'diary',edit:'diary',reload:()=>loadDiary(),rows:()=>diaryData},
+  nai:{grid:'nai-grid',table:'prompts',edit:'prompts',reload:()=>loadPrompts(),rows:()=>(promptsData||[]).filter(p=>(p.tab||'nai')==='nai')},
+  ooc:{grid:'ooc-grid',table:'prompts',edit:'prompts',reload:()=>loadPrompts(),rows:()=>(promptsData||[]).filter(p=>p.tab==='ooc')},
+  assets:{grid:'assets-grid',table:'assets',edit:'assets',reload:()=>loadAssets(),rows:()=>assetsAllData},
+  banners:{grid:'banners-grid',table:'banners',edit:'banners',reload:()=>loadBanners(),rows:()=>(typeof bannersData!=='undefined'?bannersData:[])},
+  logs:{grid:'logs-grid',table:'logs',edit:'logs',reload:()=>loadLogs(),rows:()=>logsAllData}
 };
-const MG_BTN={del:'선택 삭제',edit:'선택 수정',private:'일괄 비공개',public:'일괄 공개',blurOn:'블러 켜기',blurOff:'블러 끄기',warnOn:'경고 켜기',warnOff:'경고 끄기'};
-let mgMode={},mgSel={};
-function mgGrid(key){return document.getElementById(MG[key].grid);}
+Object.values(MG).forEach(c=>{c.ops=MG_TABLE_OPS[c.table];});
+function mgCfg(key){
+  if(MG[key])return MG[key];
+  const t=(typeof issTabByKey==='function')?issTabByKey(key):null;
+  if(t&&t.table==='distributions')return MG[key]={grid:key+'-grid',table:'distributions',edit:'distributions',reload:()=>loadDistributions(),rows:()=>(distData&&distData[key])||[],ops:MG_TABLE_OPS.distributions};
+  if(t&&t.table==='prompts')return MG[key]={grid:key+'-grid',table:'prompts',edit:'prompts',reload:()=>loadPrompts(),rows:()=>(promptsData||[]).filter(p=>(p.tab||'nai')===key),ops:MG_TABLE_OPS.prompts};
+  return null;
+}
+let mgMode={},mgSel={},mgList={},mgCond={};
+function mgGrid(key){const c=mgCfg(key);return c?document.getElementById(c.grid):null;}
+function mgRows(key){const c=mgCfg(key);let r=[];try{r=(c&&c.rows&&c.rows())||[];}catch(e){}return [...r].sort((x,y)=>new Date(y.created_at||0)-new Date(x.created_at||0));}
+// 조건 필터(목록 보기 · 전체 글 목록 공용)
+const MG_CONDS=[['all','전체'],['private','비밀글'],['family','패밀리 공개'],['me','나만 보기'],['adult','성인'],['public','공개글'],['blur','블러']];
+function mgCondOK(r,c){
+  if(!c||c==='all')return true;
+  if(c==='private')return !!r.is_private;
+  if(c==='family')return r.visibility==='neighbor';
+  if(c==='me')return r.visibility==='private';
+  if(c==='adult')return !!r.warn;
+  if(c==='public')return !r.is_private&&(r.visibility||'public')==='public';
+  if(c==='blur')return !!r.blur;
+  return true;
+}
+function mgCondChips(cur,fn){return MG_CONDS.map(([k,l])=>'<button type="button" class="hf-tab'+(cur===k?' on':'')+'" onclick="'+fn+'(\''+k+'\')">'+l+'</button>').join('');}
+// 글 한 줄(목록 보기 · 전체 글 목록 공용) — sk = 선택 키
+function mgRowHtml(r,sk,on,pick,table,showBoard){
+  const badge=(r.is_private?'<em>비밀</em>':'')+(r.visibility==='neighbor'?'<em>패밀리</em>':r.visibility==='private'?'<em>나만</em>':'')+(r.blur?'<em>블러</em>':'');
+  const pw=r.is_private?'<span class="mg-pw" data-k="'+esc(table+':'+r.id)+'"><span class="mg-pwv">••••</span><button type="button" class="hub-mini" onclick="mgPwShow(event,this)">비밀번호 보기</button></span>':'';
+  return '<div class="mg-li'+(on?' on':'')+'" role="button" tabindex="0" data-id="'+esc(sk)+'" onclick="'+pick+'(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();'+pick+'(this);}"><i class="mg-dia"></i>'
+    +(showBoard?'<span class="mg-lbd">'+esc(MG_TABLE_KR[table]||table)+'</span>':'')
+    +'<span class="mg-lt">'+(r.warn?adMarkHtml('list'):'')+esc(r.title||r.name||'(제목 없음)')+'</span><span class="mg-lb">'+badge+pw+'</span><span class="mg-ld">'+(r.created_at?esc(String(r.created_at).slice(0,10)):'')+'</span></div>';
+}
+function mgListSet(key,on){
+  mgList[key]=!!on;const g=mgGrid(key);if(!g)return;
+  let L=document.getElementById('mg-list-'+key);
+  if(on&&!L){L=document.createElement('div');L.id='mg-list-'+key;L.className='mg-list';g.parentElement.insertBefore(L,g);}
+  if(L)L.hidden=!on;
+  g.classList.toggle('mg-hide',!!on);g.parentElement.classList.toggle('mg-listing',!!on);
+  const b=document.getElementById('mg-lbtn-'+key);if(b)b.textContent=on?'카드 보기':'목록 보기';
+  if(on)mgListRender(key);
+}
+function mgListToggle(key){mgListSet(key,!mgList[key]);}
+function mgListCond(key,c){mgCond[key]=c;mgListRender(key);}
+function mgListRender(key){
+  const L=document.getElementById('mg-list-'+key);if(!L)return;
+  const cfg=mgCfg(key),c=mgCond[key]||'all',all=mgRows(key),rows=all.filter(r=>mgCondOK(r,c)),sel=mgSel[key]||new Set();
+  L.innerHTML='<div class="mg-lhead"><span>'+rows.length+' / 전체 '+all.length+'개 · 눌러서 선택</span></div><div class="hub-fold mg-conds">'+mgCondChips(c,'mgListCond.bind(null,\''+key+'\')')+'</div>'
+    +(rows.length?rows.map(r=>mgRowHtml(r,String(r.id),sel.has(String(r.id)),'mgListPick.bind(null,\''+key+'\')',cfg.table,false)).join(''):'<p class="ob-hint">조건에 맞는 글이 없어요</p>');
+}
+function mgListPick(key,b){const id=b.dataset.id;const S=mgSel[key]||(mgSel[key]=new Set());S.has(id)?S.delete(id):S.add(id);mgApplySel(key);}
+// 비밀번호 보기: 주인 전용 비밀 저장소(site_secrets 'post_pw')에 보관된 원문. 해시만 있던 이전 비밀번호는 확인 불가
+let pwMap=null;
+async function pwMapLoad(force){if(pwMap&&!force)return pwMap;try{const{data}=await palelyDB.from('admin_secrets').select('value').eq('key','post_pw').maybeSingle();pwMap=data&&data.value?JSON.parse(data.value):{};}catch(e){pwMap={};}if(!pwMap||typeof pwMap!=='object')pwMap={};return pwMap;}
+async function pwMapSet(table,ids,pw){await pwMapLoad(true);ids.forEach(id=>{const k=table+':'+id;if(pw)pwMap[k]=pw;else delete pwMap[k];});try{const{error}=await palelyDB.from('admin_secrets').upsert({key:'post_pw',value:JSON.stringify(pwMap)},{onConflict:'key'});if(error)throw error;}catch(e){showToast('비밀번호 보관 실패: '+(e.message||''));}}
+async function mgPwShow(ev,btn){
+  ev.preventDefault();ev.stopPropagation();
+  const w=btn.closest('.mg-pw'),v=w.querySelector('.mg-pwv');
+  if(w.classList.contains('open')){w.classList.remove('open');v.textContent='••••';btn.textContent='비밀번호 보기';return;}
+  const m=await pwMapLoad();const pw=m[w.dataset.k];
+  w.classList.add('open');v.textContent=pw||'확인 불가(이전에 설정한 비밀번호)';btn.textContent='숨기기';
+}
+function warnColOK(table){
+  if(table==='prompts'||table==='distributions'||table==='assets')return true;
+  const rows=table==='diary'?diaryData:table==='logs'?logsAllData:null;
+  return !!(rows&&rows.length&&('warn' in rows[0]));
+}
+// 일괄 작업 실행(테이블 단위) — 게시판 관리·전체 글 목록 공용
+async function mgApply(table,ids,op,pwPlain){
+  const T=palelyDB.from(table);
+  if(op==='del'){const{error}=await T.delete().in('id',ids);if(error)throw error;await pwMapSet(table,ids,null);return ids.length+'개 삭제됨';}
+  if(op==='toPrivate'){const hash=await hashPw(pwPlain);const{error}=await T.update({is_private:true,secret:hash}).in('id',ids);if(error)throw error;await pwMapSet(table,ids,pwPlain);return ids.length+'개 비밀글로 전환';}
+  if(op==='toPublic'){const{error}=await T.update({is_private:false,secret:null,visibility:'public'}).in('id',ids);if(error)throw error;await pwMapSet(table,ids,null);return ids.length+'개 공개글로 전환 (비밀번호 삭제)';}
+  if(op==='visFamily'){const{error}=await T.update({visibility:'neighbor'}).in('id',ids);if(error)throw error;return ids.length+'개 패밀리 공개';}
+  if(op==='adultOn'||op==='adultOff'){if(!warnColOK(table))throw new Error(MG_TABLE_KR[table]+' 게시판은 DB 업데이트(성인 표시 칸) 후 쓸 수 있어요');const{error}=await T.update({warn:op==='adultOn'}).in('id',ids);if(error)throw error;return ids.length+'개 성인 '+(op==='adultOn'?'표시':'해제');}
+  if(op==='blurOn'||op==='blurOff'){const{error}=await T.update({blur:op==='blurOn'}).in('id',ids);if(error)throw error;return '블러 '+(op==='blurOn'?'켜기':'끄기')+' ('+ids.length+'개)';}
+  throw new Error('알 수 없는 작업');
+}
+async function mgPrepare(op,n){
+  if(op==='del')return confirm('선택한 '+n+'개 글을 삭제할까요? (되돌릴 수 없음)')?'':null;
+  if(op==='toPrivate'){const pw=await askModal('비밀글 전환','이 글들에 걸 비밀번호를 입력하세요 (기존 비밀번호는 바뀝니다)','password');return pw?pw:null;}
+  return '';
+}
 function toggleManage(key){
   if(!isAdmin){showToast('Admin only');return;}
+  const cfg=mgCfg(key);if(!cfg){showToast('이 게시판은 글 관리를 지원하지 않아요');return;}
+  const g=mgGrid(key);if(!g){showToast('게시판을 먼저 열어 주세요');return;}
   const on=!mgMode[key];mgMode[key]=on;mgSel[key]=new Set();
-  const g=mgGrid(key);if(!g)return;
   g.classList.toggle('mg-mode',on);
   let bar=document.getElementById('mg-bar-'+key);
   if(on){
@@ -11576,15 +11775,17 @@ function toggleManage(key){
     bar.innerHTML='<span class="mg-count" id="mg-count-'+key+'">00 선택</span>'
       +'<button class="mg-btn" onclick="mgSelectAll(\''+key+'\',true)">전체선택</button>'
       +'<button class="mg-btn" onclick="mgSelectAll(\''+key+'\',false)">해제</button>'
-      +MG[key].ops.map(op=>'<button class="mg-btn'+(op==='del'?' mg-danger':'')+'" onclick="mgOp(\''+key+'\',\''+op+'\')">'+MG_BTN[op]+'</button>').join('')
+      +'<button class="mg-btn mg-lbtn" id="mg-lbtn-'+key+'" onclick="mgListToggle(\''+key+'\')">목록 보기</button>'
+      +cfg.ops.map(op=>'<button class="mg-btn'+(op==='del'?' mg-danger':'')+'" onclick="mgOp(\''+key+'\',\''+op+'\')">'+MG_BTN[op]+'</button>').join('')
       +'<button class="mg-btn mg-exit" onclick="toggleManage(\''+key+'\')"><svg width="9" height="9"><use href="#iss-ic-x"/></svg>관리 종료</button>';
     bar.style.display='flex';
     if(!g._mgClick){g._mgClick=true;g.addEventListener('click',e=>mgGridClick(key,e),true);}
     if(!g._mgObs){g._mgObs=new MutationObserver(()=>{if(mgMode[key])mgApplySel(key);});g._mgObs.observe(g,{childList:true});}
     mgApplySel(key);
-    showToast('관리 모드 — 카드를 클릭해 선택하세요');
+    showToast('관리 모드 — 카드를 누르거나 「목록 보기」에서 제목으로 선택하세요');
   }else{
     if(bar)bar.style.display='none';
+    mgListSet(key,false);
     mgApplySel(key);
   }
 }
@@ -11600,42 +11801,106 @@ function mgApplySel(key){
   const g=mgGrid(key);if(!g)return;
   const sel=mgSel[key]||new Set();
   g.querySelectorAll('[data-mid]').forEach(c=>c.classList.toggle('mg-sel',mgMode[key]&&sel.has(c.getAttribute('data-mid'))));
+  const L=document.getElementById('mg-list-'+key);if(L)L.querySelectorAll('.mg-li').forEach(b=>b.classList.toggle('on',sel.has(b.dataset.id)));
   const cnt=document.getElementById('mg-count-'+key);if(cnt)cnt.textContent=String(sel.size).padStart(2,'0')+' 선택';
 }
 function mgSelectAll(key,on){
   const g=mgGrid(key);if(!g)return;mgSel[key]=new Set();
-  if(on)g.querySelectorAll('[data-mid]').forEach(c=>mgSel[key].add(c.getAttribute('data-mid')));
+  if(on){if(mgList[key])mgRows(key).filter(r=>mgCondOK(r,mgCond[key]||'all')).forEach(r=>mgSel[key].add(String(r.id)));else g.querySelectorAll('[data-mid]').forEach(c=>mgSel[key].add(c.getAttribute('data-mid')));}
   mgApplySel(key);
 }
 async function mgOp(key,op){
-  const cfg=MG[key];const ids=[...(mgSel[key]||[])];
+  const cfg=mgCfg(key);if(!cfg)return;const ids=[...(mgSel[key]||[])];
   if(op==='edit'){if(ids.length!==1){showToast('수정은 1개만 선택하세요');return;}openEditor(cfg.edit,ids[0]);return;}
   if(!ids.length){showToast('선택된 글이 없습니다');return;}
+  const extra=await mgPrepare(op,ids.length);if(extra===null)return;
   try{
-    if(op==='del'){
-      if(!confirm('선택한 '+ids.length+'개 글을 삭제할까요? (되돌릴 수 없음)'))return;
-      const{error}=await palelyDB.from(cfg.table).delete().in('id',ids);if(error)throw error;
-      showToast(ids.length+'개 삭제됨');
-    }else if(op==='private'){
-      const pw=await askModal('PRIVATE','일괄 비공개 — 이 글들에 걸 비밀번호를 입력하세요','password');if(!pw)return;
-      const hash=await hashPw(pw);
-      const{error}=await palelyDB.from(cfg.table).update({is_private:true,secret:hash}).in('id',ids);if(error)throw error;
-      showToast(ids.length+'개 비공개 설정됨');
-    }else if(op==='public'){
-      const{error}=await palelyDB.from(cfg.table).update({is_private:false,secret:null}).in('id',ids);if(error)throw error;
-      showToast(ids.length+'개 공개 전환됨');
-    }else if(op==='blurOn'||op==='blurOff'){
-      const{error}=await palelyDB.from(cfg.table).update({blur:op==='blurOn'}).in('id',ids);if(error)throw error;
-      showToast('블러 '+(op==='blurOn'?'ON':'OFF')+' ('+ids.length+'개)');
-    }else if(op==='warnOn'||op==='warnOff'){
-      const{error}=await palelyDB.from(cfg.table).update({warn:op==='warnOn'}).in('id',ids);if(error)throw error;
-      showToast('성인 경고 '+(op==='warnOn'?'ON':'OFF')+' ('+ids.length+'개)');
-    }
+    showToast(await mgApply(cfg.table,ids,op,extra));
     mgSel[key]=new Set();
     await cfg.reload();
+    if(mgList[key])mgListRender(key);
     mgApplySel(key);
+    adDecorateAll();
   }catch(e){showToast('작업 실패: '+(e.message||''));}
 }
+// ── 전체 글 목록(마이페이지 › 게시판): 모든 게시판 · 조건 필터 · 일괄 작업 ──
+let apState={board:'all',cond:'all',q:''},apSel=new Set();
+const AP_BOARDS=[['all','전체'],['diary','다이어리'],['logs','로그'],['assets','에셋'],['prompts','프롬프트'],['distributions','배포'],['banners','배너']];
+function apRowsAll(){
+  const out=[];const add=(table,arr)=>(arr||[]).forEach(r=>{if(r&&r.id!=null)out.push({table,r});});
+  add('diary',diaryData);add('logs',logsAllData);add('assets',assetsAllData);add('prompts',promptsData);
+  try{add('distributions',distAll());}catch(e){}
+  add('banners',typeof bannersData!=='undefined'?bannersData:[]);
+  return out.sort((a,b)=>new Date(b.r.created_at||0)-new Date(a.r.created_at||0));
+}
+function apOpen(){if(!isAdmin){showToast('Admin only');return;}apSel=new Set();document.getElementById('ap-q').value=apState.q||'';apRender();document.getElementById('allposts-modal').classList.add('active');}
+function apBoard(k){apState.board=k;apRender();}
+function apCond(k){apState.cond=k;apRender();}
+function apFiltered(){const q=(apState.q||'').trim().toLowerCase();return apRowsAll().filter(x=>(apState.board==='all'||x.table===apState.board)&&mgCondOK(x.r,apState.cond)&&(!q||String(x.r.title||x.r.name||'').toLowerCase().includes(q)));}
+function apRender(){
+  apState.q=document.getElementById('ap-q').value;
+  document.getElementById('ap-boards').innerHTML=AP_BOARDS.map(([k,l])=>'<button type="button" class="hf-tab'+(apState.board===k?' on':'')+'" onclick="apBoard(\''+k+'\')">'+l+'</button>').join('');
+  document.getElementById('ap-conds').innerHTML=mgCondChips(apState.cond,'apCond');
+  const rows=apFiltered(),tables=new Set(rows.map(x=>x.table));
+  const ops=['toPrivate','toPublic','visFamily','adultOn','adultOff','del'].filter(op=>[...tables].some(t=>(MG_TABLE_OPS[t]||[]).includes(op))||!rows.length);
+  document.getElementById('ap-ops').innerHTML=ops.map(op=>'<button class="mg-btn'+(op==='del'?' mg-danger':'')+'" onclick="apOp(\''+op+'\')">'+MG_BTN[op]+'</button>').join('');
+  document.getElementById('ap-count').textContent=String(apSel.size).padStart(2,'0')+' 선택 · '+rows.length+'개';
+  document.getElementById('ap-list').innerHTML=rows.length?rows.map(x=>{const sk=x.table+':'+x.r.id;return mgRowHtml(x.r,sk,apSel.has(sk),'apPick',x.table,true);}).join(''):'<p class="ob-hint">조건에 맞는 글이 없어요</p>';
+}
+function apPick(b){const k=b.dataset.id;apSel.has(k)?apSel.delete(k):apSel.add(k);b.classList.toggle('on',apSel.has(k));document.getElementById('ap-count').textContent=String(apSel.size).padStart(2,'0')+' 선택 · '+apFiltered().length+'개';}
+function apSelAll(on){apSel=new Set();if(on)apFiltered().forEach(x=>apSel.add(x.table+':'+x.r.id));apRender();}
+async function apOp(op){
+  if(!apSel.size){showToast('선택된 글이 없습니다');return;}
+  const groups={};apSel.forEach(k=>{const i=k.indexOf(':');const t=k.slice(0,i),id=k.slice(i+1);(groups[t]=groups[t]||[]).push(id);});
+  const tables=Object.keys(groups).filter(t=>(MG_TABLE_OPS[t]||[]).includes(op));
+  const skipped=Object.keys(groups).filter(t=>!tables.includes(t));
+  if(!tables.length){showToast('선택한 게시판에는 이 작업이 없어요');return;}
+  const n=tables.reduce((a,t)=>a+groups[t].length,0);
+  const extra=await mgPrepare(op,n);if(extra===null)return;
+  const msgs=[];
+  for(const t of tables){try{msgs.push(MG_TABLE_KR[t]+' '+await mgApply(t,groups[t],op,extra));}catch(e){msgs.push(MG_TABLE_KR[t]+' 실패: '+(e.message||''));}}
+  if(skipped.length)msgs.push(skipped.map(t=>MG_TABLE_KR[t]).join('·')+'은(는) 이 작업 없음');
+  showToast(msgs.join(' / '));
+  apSel=new Set();
+  for(const t of tables){try{await loadBoardByType(t);}catch(e){}}
+  apRender();adDecorateAll();
+}
+// ── 성인 표시(19 마름모 + 말풍선) — 디자인 5종 · 문구 커스텀(settings adult_mark) ──
+const AD_STYLES=[[1,'라인'],[2,'레드'],[3,'골드 더블'],[4,'네온 핑크'],[5,'스탬프']];
+const AD_DEF_TEXT='쉿! 섹스중!';
+let adMark={style:1,text:AD_DEF_TEXT};
+function adAttr(t){return esc(String(t==null?'':t)).replace(/"/g,'&quot;');}
+function adMarkHtml(kind,st,tx){st=st||adMark.style;tx=(tx==null||tx==='')?(adMark.text||AD_DEF_TEXT):tx;return '<span class="ad19 ad19-s'+st+' ad19-'+kind+'" data-tip="'+adAttr(tx)+'" tabindex="0" role="note" aria-label="성인 글"><i class="ad19-d"></i><b>19</b></span>';}
+async function adMarkLoad(){try{const{data}=await palelyDB.from('settings').select('value').eq('key','adult_mark').maybeSingle();const v=data&&data.value?JSON.parse(data.value):null;if(v)adMark={style:[1,2,3,4,5].includes(+v.style)?+v.style:1,text:String(v.text||AD_DEF_TEXT).slice(0,24)};}catch(e){}adDecorateAll();}
+function adWarnSet(){const m=new Set();const add=arr=>(arr||[]).forEach(r=>{if(r&&r.warn)m.add(String(r.id));});add(promptsData);try{add(distAll());}catch(e){}add(assetsAllData);add(diaryData);add(logsAllData);return m;}
+function adDecorate(){
+  const m=adWarnSet();
+  document.querySelectorAll('#main-content [data-mid]').forEach(c=>{
+    const id=c.getAttribute('data-mid');const mk=[...c.children].find(x=>x.classList&&x.classList.contains('ad19'));
+    if(m.has(id)){
+      if(!mk){if(getComputedStyle(c).position==='static')c.style.position='relative';c.insertAdjacentHTML('afterbegin',adMarkHtml('card'));}
+      else if(!mk.classList.contains('ad19-s'+adMark.style)||mk.dataset.tip!==adMark.text)mk.outerHTML=adMarkHtml('card');
+    }else if(mk)mk.remove();
+  });
+}
+let adT=0;function adDecorateAll(){clearTimeout(adT);adT=setTimeout(adDecorate,80);}
+(function(){
+  const mc=document.getElementById('main-content');
+  if(mc&&window.MutationObserver)new MutationObserver(ms=>{if(ms.some(x=>[...x.addedNodes].some(n=>n.nodeType===1&&!(n.classList&&n.classList.contains('ad19'))&&(n.matches('[data-mid]')||n.querySelector('[data-mid]')))))adDecorateAll();}).observe(mc,{childList:true,subtree:true});
+  document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('.ad19');if(!t||t.closest('#admark-modal'))return;e.preventDefault();e.stopPropagation();document.querySelectorAll('.ad19.tip').forEach(x=>{if(x!==t)x.classList.remove('tip');});t.classList.toggle('tip');clearTimeout(t._tt);t._tt=setTimeout(()=>t.classList.remove('tip'),2200);},true);
+})();
+function admkOpen(){if(!isAdmin){showToast('Admin only');return;}document.getElementById('admk-text').value=adMark.text===AD_DEF_TEXT?'':adMark.text;admkRender(adMark.style);document.getElementById('admark-modal').classList.add('active');}
+function admkCur(){const r=document.querySelector('input[name="admk-style"]:checked');return r?+r.value:adMark.style;}
+function admkRender(sel){
+  const tx=document.getElementById('admk-text').value.trim()||AD_DEF_TEXT;sel=sel||admkCur();
+  document.getElementById('admk-styles').innerHTML=AD_STYLES.map(([k,n])=>'<label class="admk-opt'+(k===sel?' on':'')+'"><input type="radio" name="admk-style" value="'+k+'"'+(k===sel?' checked':'')+' onchange="admkRender()"><span class="admk-prev">'+adMarkHtml('card',k,tx).replace('class="ad19 ','class="ad19 tip ')+'</span><span class="admk-name">'+esc(n)+'</span></label>').join('');
+}
+async function admkSave(){
+  const v={style:admkCur(),text:document.getElementById('admk-text').value.trim().slice(0,24)||AD_DEF_TEXT};
+  try{const{error}=await palelyDB.from('settings').upsert({key:'adult_mark',value:JSON.stringify(v)},{onConflict:'key'});if(error)throw error;}catch(e){showToast('저장 실패');return;}
+  adMark=v;adDecorateAll();closeModal('admark-modal');showToast('성인 표시 저장됨');
+}
+function admkReset(){document.getElementById('admk-text').value='';admkRender(1);}
 
 // ══ UTILS ══
 let ivImgs=[],ivIdx=0;
@@ -11809,7 +12074,7 @@ function playerToggle(){
   if(!(ytPlayer&&ytPlayer.getPlayerState))return;
   if(pmbPlaying){bgmRemember('off');ytPlayer.pauseVideo();}else{bgmRemember('on');ytPlayer.playVideo();}
 }
-// ── 어드민: 배경음악 설정 모달 ──
+// ── 마이페이지: 배경음악 설정 모달 ──
 async function bgmOpen(){
   if(!isAdmin){showToast('Admin only');return;}
   const c=await bgmLoad();
@@ -12047,8 +12312,10 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.7.8';
+const APP_VERSION='1.8.0';
 const CHANGELOG=[
+  {v:'1.8.0',date:'2026-09-18',title:'글 관리 확장 · 전체 글 목록 · 성인 표시 · 메인 명칭',sql:true,items:['SQL `_sql_adult_warn.sql` — diary·logs에 warn(boolean, 기본 false) 추가 + _list_v1/_list 재생성(미실행 시 두 게시판만 성인 표시 비활성·버튼은 안내)','글 관리 작업 재편: 비밀글 전환(비밀번호 입력) · 공개글 전환(is_private false·secret null·visibility public) · 패밀리 공개 · 성인 표시/해제 · 블러 — mgApply(table,ids,op) 공용','목록 보기에 조건 필터(전체·비밀글·패밀리·나만·성인·공개·블러), 비밀글 행에 『비밀번호 보기』 — 원문은 site_secrets post_pw(주인 전용, table:id → 원문)에 저장(비밀글 전환·에디터 저장 시), 이전 비밀번호는 해시뿐이라 확인 불가 표시','마이페이지 › 게시판 『전체 글 목록』(#allposts-modal): 6개 게시판 합산 · 게시판/조건 칩 · 제목 검색 · 선택 후 게시판별로 나눠 일괄 작업','성인 표시: 19 마름모(adMarkHtml) — 카드 좌상단(MutationObserver로 data-mid 카드에 부착) · 목록 행, 호버/포커스/탭 시 말풍선(data-tip), 디자인 5종(라인·레드·골드 더블·네온 핑크·스탬프)·문구(기본 쉿! 섹스중!) → settings adult_mark, 마이페이지 › 꾸미기 『성인 표시』 미리보기 모달, 다이어리·로그 에디터에 성인 표시 체크(컬럼 있을 때) + 열람 전 동의','블로그 쪽 명칭 홈 → 메인(메인 배너·메인 서브문구·메인 로고·메인 위젯·네비 MAIN)']},
+  {v:'1.7.9',date:'2026-09-18',title:'글 관리 전면 점검 · 명칭 통일',sql:false,items:['글 관리 버그: 마이페이지 Issuance 『글 관리』가 없는 키 prompts로 toggleManage → MG[prompts] undefined 예외(현재 탭으로 해석하도록 수정), 게시판 빌더 탭(distributions/prompts)은 MG에 없어 불가 → mgCfg(key)가 자동 생성, 공지 행 『글 관리』(목록 요소 없음) → 『열기』','글 관리 『목록 보기』: 게시판 전체 글(페이지와 무관, 최신순) 제목 목록 · 눌러서 선택 · 전체선택도 목록 기준 · 카드/페이저 숨김','일괄 공개 범위: 패밀리 공개(visibility neighbor)·전체 공개(public) — prompts·distributions·diary·logs·assets, 비밀글 잠금/해제는 5종 모두(기존 일부만)','명칭 통일(보스 확정): 허브→홈(HUB→HOME) · 이웃→패밀리(NEIGHBOR→FAMILY, 조사 보정) · 어드민/관리 페이지→마이페이지(ADMIN·SETTINGS→MY PAGE) — 운영자용 과거 CHANGELOG 제외 전 표기']},
   {v:'1.7.8',date:'2026-09-17',title:'이웃 새 글 알림 설정',sql:false,items:['허브 › 이웃 제목 옆 설정 아이콘(iss-ic-set) → #nbalarm-modal 『이웃 새 글 알림』 — 받을 게시판 5종 체크(localStorage palely_nb_boards_<uid>, 기본 전체) → 허브 타임라인(tlFiltered)이 해당 게시판만, 전부 끄면 안내 문구','관리 › 꾸미기 『새 글 알림』 행 제거(홈 새 글 목록 설정은 알림 벨 설정 버튼에서 계속 가능)']},
   {v:'1.7.7',date:'2026-09-17',title:'스티커가 글을 덮던 문제',sql:false,items:['#site-stickers z-index 40 → 15(본문 .main-content z20 아래, 배경 스티커·파티클 z1 위) — 전경 스티커가 게시판·글 상세를 시각적으로 덮던 문제(클릭은 원래 통과). 스티커 간 순서는 각 항목 z 그대로, 편집 중(body.stk-editing)에만 z40']},
   {v:'1.7.6',date:'2026-09-17',title:'로그 HTML 펼침 잘림 · HTML 위치 선택',sql:false,items:['로그 상세 HTML 뷰어(iframe, scripts 제거·sandbox)가 로드 시 한 번만 높이를 재서 클릭형(details·:checked) HTML이 펼쳐지면 잘리던 버그 → dhMeasure(body 자식 bottom 최대) + 클릭·toggle·transitionend·animationend·load 캡처 시 연속 재측정 + ResizeObserver + 1초 주기','HTML 위치(본문 위/아래) 선택 — html_raw 앞 주석 <!--palely-html-pos:bottom-->(SQL 없음), 에디터 라디오, 상세에서 #detail-html을 본문 앞/뒤로 이동']},
@@ -12103,35 +12370,37 @@ const CHANGELOG=[
 // 정식 오픈 때 CL_USER_FROM을 정식 오픈 버전으로 → 그 버전부터만 유저에게 안내
 const CL_USER_FROM='1.4.0';
 const CHANGELOG_USER={
-  '1.7.8':['허브 › 이웃 옆 설정 아이콘에서 이웃 새 글 알림을 받을 게시판을 고를 수 있어요'],
+  '1.8.0':['글 관리에 비밀글 전환 · 공개글 전환 · 성인 표시가 생겼어요','목록 보기에서 비밀글 · 패밀리 공개 · 성인 글 등 조건별로 골라 볼 수 있어요','마이페이지 › 게시판 「전체 글 목록」에서 모든 게시판 글을 한꺼번에 관리해요','비밀글의 비밀번호를 목록에서 확인할 수 있어요 (이번 업데이트 이후 설정한 비밀번호)','성인 글에 19 마름모 표시와 말풍선이 붙고, 디자인 5가지와 문구를 고를 수 있어요','블로그 첫 화면 관련 이름이 「메인」으로 바뀌었어요 (메인 배너 · 메인 서브문구 · 메인 로고)'],
+  '1.7.9':['글 관리가 모든 게시판에서 제대로 동작하도록 고쳤어요','글 관리에서 「목록 보기」로 전체 글을 제목으로 빠르게 고를 수 있어요','여러 글을 한 번에 패밀리 공개 · 전체 공개로 바꿀 수 있어요','이름이 바뀌었어요 — 허브는 홈, 이웃은 패밀리, 관리 페이지는 마이페이지'],
+  '1.7.8':['홈 › 패밀리 옆 설정 아이콘에서 패밀리 새 글 알림을 받을 게시판을 고를 수 있어요'],
   '1.7.7':['꾸미기 스티커가 글과 게시판을 가리던 문제를 고쳤어요'],
   '1.7.6':['로그 글의 클릭해서 펼치는 HTML이 잘려 보이던 문제를 고쳤어요','로그 HTML을 본문 위 또는 아래에 놓을 수 있어요'],
-  '1.7.5':['타임라인에서 이웃 이름·블로그로 검색해 그 이웃의 새 글만 모아 볼 수 있어요','꾸미기 스티커를 원본 크기 그대로 넣거나 좌우반전할 수 있어요','에셋 게시판의 큰 제목 글씨를 켜고 끌 수 있어요','패치 안내를 보기 쉽게 정리했어요'],
-  '1.7.4':['허브 타임라인은 최신 글 10개부터 보여 주고, 아래로 내리면 더 불러와요'],
+  '1.7.5':['타임라인에서 패밀리 이름·블로그로 검색해 그 패밀리의 새 글만 모아 볼 수 있어요','꾸미기 스티커를 원본 크기 그대로 넣거나 좌우반전할 수 있어요','에셋 게시판의 큰 제목 글씨를 켜고 끌 수 있어요','패치 안내를 보기 쉽게 정리했어요'],
+  '1.7.4':['홈 타임라인은 최신 글 10개부터 보여 주고, 아래로 내리면 더 불러와요'],
   '1.7.3':['가입 첫 화면에 베타 테스트 안내가 추가됐어요'],
   '1.7.2':['공지 템플릿마다 구역별로 사진을 따로 넣을 수 있어요 (비워 두면 메인 사진)','공지의 큰 제목을 켜고 끌 수 있어요','모바일에서 검색 창이 화면 밖으로 잘리던 문제를 고쳤어요'],
   '1.7.1':['배경 효과가 다양해졌어요 — 유성우 · 비 · 벼락 · 눈송이 · 벚꽃 · 비눗방울 · 하트 비눗방울 · 물거품 · 파도 물결 · 수중 빛무리 · 불꽃 낙하 · 도트 하트 (VIP: 쌍두룡)','홈페이지 배경음악에 음원 파일을 여러 개 올려 플레이리스트를 만들 수 있어요','공지 편집창이 탭과 실시간 미리보기로 바뀌었어요'],
   '1.7.0':['공지 페이지 레이아웃 7종 — 기본 가로형 · 세로형 · 벤토 · 사이드 레일 · 프로필 · 에디토리얼 · 앨범','공지 색상 · 추가 항목 · 등장 애니메이션 설정','긴 내용은 「더 보기」 버튼 또는 칸 안 스크롤로 볼 수 있어요'],
   '1.6.14':['공지 ETC 말풍선이 틀 밖으로 넘치던 문제를 고쳤어요','비워 둔 LOVE · HATE · ETC 칸은 숨겨져요','모바일 가로 스크롤 문제를 고쳤어요'],
-  '1.6.13':['글쓰기 임시저장 — 창을 닫을 때 임시저장 / 저장 없이 닫기를 고를 수 있고, 임시저장 목록에서 불러올 수 있어요','글 배경음악에 음원 파일을 올릴 수 있고, 링크와 제목 칸이 나뉘었어요','이웃 목록에 같은 사람이 여러 번 보이던 문제를 고쳤어요'],
+  '1.6.13':['글쓰기 임시저장 — 창을 닫을 때 임시저장 / 저장 없이 닫기를 고를 수 있고, 임시저장 목록에서 불러올 수 있어요','글 배경음악에 음원 파일을 올릴 수 있고, 링크와 제목 칸이 나뉘었어요','패밀리 목록에 같은 사람이 여러 번 보이던 문제를 고쳤어요'],
   '1.6.12':['우상단 「Aa」에서 사이트 전체 글자 크기를 조절할 수 있어요 (기기에 기억)'],
-  '1.6.11':['올린 이미지의 메타데이터 자동 제거를 강화했어요','밝은 배색에서 글자 색과 배경 빛이 테마에 맞게 보이도록 고쳤어요','관리 › 도구에 이미지 메타데이터 확인 도구가 생겼어요'],
+  '1.6.11':['올린 이미지의 메타데이터 자동 제거를 강화했어요','밝은 배색에서 글자 색과 배경 빛이 테마에 맞게 보이도록 고쳤어요','마이페이지 › 도구에 이미지 메타데이터 확인 도구가 생겼어요'],
   '1.6.10':['모바일 발열과 버벅임을 줄였어요','모바일에서 글이 한 번에 올라가지 않던 문제를 고쳤어요'],
   '1.6.9':['블로그 둘러보기 노출 · 아이디 검색 허용을 직접 켜고 끌 수 있어요 (기본 꺼짐)','우상단 홈 아이콘과 MY BLOG 바로가기가 생겼어요','로그 배너에 마우스를 올리면 이미지가 늘어나던 문제를 고쳤어요'],
   '1.6.8':['VIP는 한 글자 닉네임을 쓸 수 있어요'],
-  '1.6.7':['홈 텍스트 로고가 게시판 위에 남던 문제를 고쳤어요'],
+  '1.6.7':['메인 텍스트 로고가 게시판 위에 남던 문제를 고쳤어요'],
   '1.6.6':['글 상세에 글쓴이 프로필이 표시돼요'],
   '1.6.5':['배경 글로우를 켜고 끌 수 있어요','AI 배색을 쓰면 배경 빛과 먼지 색도 함께 맞춰져요'],
   '1.6.4':['반짝임 효과가 흐려지던 문제를 고쳤어요'],
-  '1.6.3':['다이어리 · 에셋 모바일 화면을 다듬었어요','이웃 공개 글에 NEIGHBOR 표시가 붙어요','밝은 테마에서 아이콘 색이 자연스럽게 바뀌어요'],
+  '1.6.3':['다이어리 · 에셋 모바일 화면을 다듬었어요','패밀리 공개 글에 FAMILY 표시가 붙어요','밝은 테마에서 아이콘 색이 자연스럽게 바뀌어요'],
   '1.6.2':['글마다 배경음악(유튜브)을 지정할 수 있어요','읽기 모드(밝은 종이)로 전환할 수 있어요','마음함을 폴더로 정리할 수 있어요'],
   '1.6.1':['맨 위로 버튼이 생겼어요','모바일 로그 · 공지 화면을 다듬었어요'],
-  '1.6.0':['설정 메뉴 정리 — 허브는 계정 · 서비스, 관리는 이 블로그 설정'],
+  '1.6.0':['설정 메뉴 정리 — 홈은 계정 · 서비스, 관리는 이 블로그 설정'],
   '1.5.2':['모바일 게시판 제목이 흐리게 보이던 문제를 고쳤어요'],
   '1.5.0':['Issuance 탭을 직접 추가 · 이름 변경 · 순서 변경하고 카드 모양을 고를 수 있어요'],
   '1.4.2':['배너 이미지가 보이지 않던 문제를 고쳤어요'],
   '1.4.1':['페이지 로딩이 빨라졌어요','신고 · 문의 창구가 생겼어요'],
-  '1.4.0':['구글 계정으로 가입하고 블로그를 열 수 있어요','허브 — 내 블로그 · 마음함 · 이웃','블로그 공개 범위 설정']};
+  '1.4.0':['구글 계정으로 가입하고 블로그를 열 수 있어요','홈 — 내 블로그 · 마음함 · 패밀리','블로그 공개 범위 설정']};
 function clVerCmp(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){const d=(x[i]||0)-(y[i]||0);if(d)return d;}return 0;}
 let verView='';
 function versionView(v){verView=v;versionOpen();}
@@ -12190,9 +12459,9 @@ function renderDdayManageList(){
 function svgToScreen(sx,sy){const svg=document.querySelector('svg.base');if(!svg)return{x:0,y:0};const pt=svg.createSVGPoint();pt.x=sx;pt.y=sy;const p=pt.matrixTransform(svg.getScreenCTM());return{x:p.x,y:p.y};}
 
 // ══ NAV wiring: each item = glowing star + vertical English; hover reveals ring + line + Korean(+small star) ══
-const NAV_ENG={home:'HOME',notices:'NOTICE',diary:'DIARY',assets:'ASSETS',user:'USER',banners:'BANNER',logs:'LOG',prompts:'ISSUANCE',guestbook:'GUESTBOOK'};
-const NAV_KR={home:'홈',notices:'공지사항',diary:'일기장',assets:'에셋백업',user:'유저',banners:'배너',logs:'로그백업',prompts:'프롬프트',guestbook:'방명록'};
-const MNAV_BAR={home:'HOME',diary:'DIARY',assets:'ASSETS',logs:'LOG'};
+const NAV_ENG={home:'MAIN',notices:'NOTICE',diary:'DIARY',assets:'ASSETS',user:'USER',banners:'BANNER',logs:'LOG',prompts:'ISSUANCE',guestbook:'GUESTBOOK'};
+const NAV_KR={home:'메인',notices:'공지사항',diary:'일기장',assets:'에셋백업',user:'유저',banners:'배너',logs:'로그백업',prompts:'프롬프트',guestbook:'방명록'};
+const MNAV_BAR={home:'MAIN',diary:'DIARY',assets:'ASSETS',logs:'LOG'};
 function mnavToggle(){const s=document.getElementById('mnav-sheet');if(!s)return;const open=s.classList.toggle('open');const mb=document.getElementById('mnav-menu');if(mb)mb.classList.toggle('mnav-open',open);}
 function mnavClose(){const s=document.getElementById('mnav-sheet');if(s)s.classList.remove('open');const mb=document.getElementById('mnav-menu');if(mb)mb.classList.remove('mnav-open');}
 function mnavGo(p){navigate(p);mnavClose();}
@@ -12263,7 +12532,7 @@ function mnavInit(){
       it.onclick=()=>mnavGo(p);
       sheet.appendChild(it);
     });
-    [['hub','HUB',''],['admin','SETTINGS',' mnav-admin']].forEach(([p,l,c])=>{const it=document.createElement('button');it.className='mnav-sh-it mnav-item'+c;it.dataset.page=p;it.innerHTML='<img class="iss-tab-star" alt="" draggable="false"><span class="iss-tab-label"></span>';if(src)it.querySelector('img').src=src;it.querySelector('span').textContent=l;it.onclick=()=>mnavGo(p);sheet.appendChild(it);});
+    [['hub','HOME',''],['admin','MY PAGE',' mnav-admin']].forEach(([p,l,c])=>{const it=document.createElement('button');it.className='mnav-sh-it mnav-item'+c;it.dataset.page=p;it.innerHTML='<img class="iss-tab-star" alt="" draggable="false"><span class="iss-tab-label"></span>';if(src)it.querySelector('img').src=src;it.querySelector('span').textContent=l;it.onclick=()=>mnavGo(p);sheet.appendChild(it);});
     document.body.appendChild(sheet);
     document.addEventListener('click',(e)=>{
       const sh=document.getElementById('mnav-sheet');
