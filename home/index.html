@@ -395,7 +395,7 @@ body.perf-lite .bnc-bg::after{animation:none;}
 /* ═══════════ INGESTED FIGMA DESIGN (chrome) ═══════════ */
 html,body{overflow:hidden}
 #bg-layer{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
-#site-stickers{position:fixed;inset:0;pointer-events:none;z-index:40;overflow:hidden}
+#site-stickers{position:fixed;inset:0;pointer-events:none;z-index:15;overflow:hidden}   /* 본문(.main-content z20) 아래 — 글·카드를 덮지 않음, 스티커끼리 순서는 각 z로 */
 #site-stickers .ss-item{position:absolute;pointer-events:none;user-select:none;-webkit-user-drag:none;max-width:none}
 #site-stickers-bg{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
 #site-stickers-bg .ss-item{position:absolute;pointer-events:none;user-select:none;-webkit-user-drag:none;max-width:none}
@@ -403,13 +403,14 @@ html,body{overflow:hidden}
 .tsk-origopt{gap:7px;font-size:11px;white-space:nowrap;}
 .ed-htmlpos{margin-top:10px;gap:18px;flex-wrap:wrap;}
 .ed-htmlpos-l{font-family:var(--font-kr);font-weight:600;font-size:calc(11.5px*var(--fs,1));color:rgba(var(--t-fg-soft),.7);}
+.hub-h .hub-gear{margin:-8px -8px -8px auto;align-self:center;}   /* 허브 섹션 제목 오른쪽 끝(기존 .hub-gear 문법 재사용) */
 .np-list{display:flex;flex-direction:column;gap:12px;margin:0 0 22px;padding:0 6px;}
 body.ast-noword .ast-tabword{display:none!important;}
 @media(max-width:640px){body.ast-noword #assets-grid{padding-top:0;}}
 #tsk-page{background:none;border:none;border-bottom:1px solid rgba(var(--t-fg),.16);color:rgb(var(--t-snow));font-size:calc(11px*var(--fs,1));font-family:var(--font-kr);padding:6px 2px;cursor:pointer;outline:none}
 #tsk-page option{background:rgb(var(--t-surface));color:rgb(var(--t-snow))}
 /* 사이트 스티커 직접 배치 편집 (admin, Phase5: 모달 폐지 → 실사이트 위 편집) */
-body.stk-editing #site-stickers{pointer-events:auto;}
+body.stk-editing #site-stickers{pointer-events:auto;z-index:40;}
 #site-stickers .ss-item.ss-edit,#stk-mframe .ss-item.ss-edit{position:absolute;pointer-events:auto;cursor:move;user-select:none;-webkit-user-drag:none;max-width:none;touch-action:none;}
 .ss-item.ss-edit img{display:block;width:100%;height:auto;pointer-events:none;-webkit-user-drag:none;}
 .ss-item.ss-edit.sel{outline:1px dashed rgba(var(--t-accent),.9);outline-offset:2px;z-index:100000!important;}
@@ -4059,7 +4060,6 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
           <div class="adm-row"><span class="adm-row-name">배경음악<small>LP 플레이어 곡 · 자동재생 (방문자가 끄면 그 기기는 유지)</small></span><button class="adm-act" onclick="bgmOpen()">설정</button></div>
           <div class="adm-row"><span class="adm-row-name">홈 배너<small>방문자가 복사해가는 내 배너 — 이미지·문구·링크·이름·소개 한 화면</small></span><button class="adm-act" onclick="mybnOpen()">설정</button></div>
           <div class="adm-row"><span class="adm-row-name">홈 서브문구<small>메인 상단 · 텍스트 번짐 효과</small></span><button class="adm-act" onclick="homeSubSet()">설정</button></div>
-          <div class="adm-row"><span class="adm-row-name">새 글 알림<small>홈 새 글 목록에 띄울 게시판 고르기</small></span><button class="adm-act" onclick="newPostOpen()">설정</button></div>
           <div class="adm-row"><span class="adm-row-name">에셋 제목 글씨<small>에셋 게시판 사진 위 큰 탭 이름</small></span><button class="adm-act" id="adm-astword" onclick="astWordToggle()">켜짐</button></div>
           <div class="adm-row"><span class="adm-row-name">D-day 위젯<small>홈 위젯 항목 추가·삭제</small></span><button class="adm-act" onclick="openDdayModal()">관리</button></div>
         </div>
@@ -4139,6 +4139,15 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
     <div class="form-group"><label class="form-label">한줄소개</label><input class="form-input" id="mb-intro" placeholder="러버미 배너 복사법에서 사용"></div>
     <div class="form-actions"><button type="button" class="btn-primary" id="mb-save" onclick="mybnModalSave()">저장</button><button type="button" class="btn-secondary" onclick="closeModal('mybn-modal')">취소</button></div>
     <div class="ob-err" id="mb-err"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="nbalarm-modal">
+  <div class="modal-box" style="max-width:400px" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('nbalarm-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <div class="modal-title">이웃 새 글 알림</div>
+    <div class="adm-sec-sub" style="text-align:center;margin-bottom:16px;">허브 타임라인에 받을 이웃 새 글의 게시판을 골라요</div>
+    <div class="np-list" id="nba-list"></div>
+    <div class="form-actions"><button class="btn-primary" onclick="nbAlarmSave()">SAVE</button><button class="btn-secondary" onclick="closeModal('nbalarm-modal')">CANCEL</button></div>
   </div>
 </div>
 <div class="modal-overlay" id="newpost-modal">
@@ -5091,7 +5100,7 @@ function hubRender(){
   h+='<div class="hub-sec"><div class="hub-h">프로필 <small>'+profs.length+'</small></div><div class="hub-list">'+profs.map(p=>'<div class="hub-row"><div class="hub-rt">'+(p.avatar?'<img class="hub-av" src="'+esc(p.avatar)+'" alt="">':'<span class="hub-av hub-av-e"></span>')+'<b>'+esc(p.nickname)+'</b>'+(p.id===a.primary_profile_id?'<span class="hub-tier hub-pri">대표</span>':'<button type="button" class="hub-mini" onclick="hubPrimary(\''+p.id+'\')">대표로</button>')+'</div></div>').join('')+'</div><div class="form-actions hub-act"><button class="btn-secondary" onclick="obOpen(\'nick\')">+ 프로필 추가</button></div></div>';
   h+='<div class="hub-sec"><div class="hub-h">마음함 <small id="hub-heart-n"></small></div><div class="hub-fold" id="hub-fold"></div><div class="hub-list" id="hub-hearts"><p class="ob-hint">불러오는 중…</p></div></div>';
   if(sites.length){const cur=hubSiteCur();h+='<div class="hub-sec"><div class="hub-h">타임라인 <small>이웃 새 글</small>'+(sites.length>1?'<select class="form-input hub-sel" onchange="hubSiteSel=this.value;hubRender()">'+sites.map(x=>'<option value="'+x.id+'"'+(x.id===cur?' selected':'')+'>'+esc(x.title)+'</option>').join('')+'</select>':'')+'</div><div class="hub-fold" id="hub-tl-tabs"></div><div class="hub-list" id="hub-timeline"><p class="ob-hint">불러오는 중…</p></div><div class="hub-tl-more" id="hub-tl-more"></div></div>';
-    h+='<div class="hub-sec"><div class="hub-h">이웃 <small id="hub-nb-n"></small></div><div id="hub-neighbors"><p class="ob-hint">불러오는 중…</p></div></div>';}
+    h+='<div class="hub-sec"><div class="hub-h">이웃 <small id="hub-nb-n"></small><button type="button" class="hub-gear" title="이웃 새 글 알림 설정" aria-label="이웃 새 글 알림 설정" onclick="nbAlarmOpen()"><svg width="14" height="14"><use href="#iss-ic-set"/></svg></button></div><div id="hub-neighbors"><p class="ob-hint">불러오는 중…</p></div></div>';}
   h+=hubDirSkeleton();
   h+='<div class="hub-sec hub-foot"><span class="ob-hint">'+esc(currentUser.email||'')+'</span><span class="hub-foot-act"><button class="btn-secondary" onclick="reportOpen()">운영자에게 보내기</button><button class="btn-secondary" onclick="doLogout()">로그아웃</button></span></div>';
   H.innerHTML=h;hubHearts();hubDirectory();if(sites.length){hubTimeline();hubNeighbors();}if(isSuper){svcSummary();hubReportsBadge();}
@@ -5365,10 +5374,25 @@ async function tlFetch(limit){
   try{const{data}=await palelyDBRaw.rpc('timeline_feed',{p_site:cur,p_limit:limit});tlRows=(data||[]).filter((r,i,a)=>a.findIndex(x=>x.board===r.board&&x.id===r.id)===i);tlLimit=limit;tlSite=cur;}catch(e){}
   tlBusy=false;
 }
+// 이웃 새 글 알림: 받을 게시판(계정별·기기 기억)
+const NBA_BOARDS=[['diary','다이어리'],['logs','로그'],['assets','에셋'],['prompts','프롬프트'],['distributions','배포']];
+function nbAlarmKey(){return 'palely_nb_boards_'+((currentUser&&currentUser.id)||'anon');}
+function nbAlarmBoards(){try{const v=JSON.parse(localStorage.getItem(nbAlarmKey())||'null');if(Array.isArray(v))return v;}catch(e){}return NBA_BOARDS.map(b=>b[0]);}
+function nbAlarmOpen(){
+  const on=nbAlarmBoards(),box=document.getElementById('nba-list');if(!box)return;
+  box.innerHTML=NBA_BOARDS.map(([k,l])=>'<label class="form-check"><input type="checkbox" value="'+k+'"'+(on.includes(k)?' checked':'')+'><span>'+esc(l)+'</span></label>').join('');
+  document.getElementById('nbalarm-modal').classList.add('active');
+}
+function nbAlarmSave(){
+  const sel=[...document.querySelectorAll('#nba-list input:checked')].map(i=>i.value);
+  try{localStorage.setItem(nbAlarmKey(),JSON.stringify(sel));}catch(e){}
+  closeModal('nbalarm-modal');tlShown=TL_PAGE;tlRender();showToast(sel.length?'이웃 새 글 알림 저장됨':'이웃 새 글 알림을 모두 껐어요');
+}
 function tlFiltered(){
-  if(tlWho==='all')return tlRows;
-  const p=hubNbPeople.find(x=>x.key===tlWho);if(!p)return tlRows;
-  const ids=new Set(p.blogs.map(b=>b.site_id));return tlRows.filter(r=>ids.has(r.site_id));
+  const bs=new Set(nbAlarmBoards()),rows=tlRows.filter(r=>bs.has(r.board));
+  if(tlWho==='all')return rows;
+  const p=hubNbPeople.find(x=>x.key===tlWho);if(!p)return rows;
+  const ids=new Set(p.blogs.map(b=>b.site_id));return rows.filter(r=>ids.has(r.site_id));
 }
 function tlPersonName(p){return p.nick||(p.blogs[0]&&p.blogs[0].title)||'이웃';}
 function tlTabsRender(){   // 이웃 검색(이름·블로그명·주소) → 고르면 그 이웃 글만
@@ -5390,7 +5414,7 @@ function tlGo(k){tlWho=hubNbPeople.some(p=>p.key===k)?k:'all';tlShown=TL_PAGE;tl
 function tlRender(){
   const box=document.getElementById('hub-timeline'),more=document.getElementById('hub-tl-more');if(!box)return;
   const list=tlFiltered(),vis=list.slice(0,tlShown);
-  if(!vis.length){box.innerHTML='<p class="ob-hint">'+(tlWho==='all'?'이웃의 새 글이 여기에 모여요.':'이 이웃의 최근 글이 아직 없어요.')+'</p>';}
+  if(!vis.length){box.innerHTML='<p class="ob-hint">'+(!nbAlarmBoards().length?'이웃 새 글 알림이 모두 꺼져 있어요 — 이웃 옆 설정에서 켤 수 있어요.':tlWho==='all'?'이웃의 새 글이 여기에 모여요.':'이 이웃의 최근 글이 아직 없어요.')+'</p>';}
   else box.innerHTML=vis.map(r=>'<a class="hub-row hub-link-row hub-tl" href="'+esc(heartHref({handle:r.handle,board:r.board,post_id:r.id}))+'">'+(r.thumb?'<img class="hub-tl-img" src="'+esc(thumbOf(r.thumb))+'" data-orig="'+esc(r.thumb)+'" onerror="thumbFail(this)" alt="" loading="lazy">':'')+'<div class="hub-rt"><b>'+esc(r.title||'(제목 없음)')+'</b></div><div class="hub-rh">'+esc(r.site_title||'')+' · '+esc(HUB_BOARD_KR[r.board]||r.board)+' · '+esc(String(r.created_at||'').slice(0,10))+'</div></a>').join('');
   const canMore=list.length>tlShown||(tlRows.length>=tlLimit&&tlLimit<TL_MAX);
   if(more)more.innerHTML=canMore?'<button type="button" class="hub-mini" onclick="tlMore()">더 보기</button>':(vis.length>TL_PAGE?'<span class="ob-hint">최근 글을 모두 봤어요</span>':'');
@@ -10554,7 +10578,7 @@ function lgvSyncH(){
   window.addEventListener('resize',lgvSyncH);
   lgvSyncH();
 })();
-const BG_CLOSE_IDS=['newpost-modal','draft-ask-modal','metascan-modal','dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal','nb-apply-modal','nb-manage-modal','board-name-modal','theme-color-modal','theme-font-modal','theme-logo-modal','theme-bg-modal','stk-crop-modal','version-modal','ai-model-modal','bgm-modal','mybn-modal'];
+const BG_CLOSE_IDS=['nbalarm-modal','newpost-modal','draft-ask-modal','metascan-modal','dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal','nb-apply-modal','nb-manage-modal','board-name-modal','theme-color-modal','theme-font-modal','theme-logo-modal','theme-bg-modal','stk-crop-modal','version-modal','ai-model-modal','bgm-modal','mybn-modal'];
 const THEME_SAVE_FNS={'theme-color-modal':'themeColorSave','board-name-modal':'boardNameSave','theme-font-modal':'themeFontSave','theme-logo-modal':'themeLogoSave','theme-bg-modal':'themeBgSave'};
 document.addEventListener('click',e=>{
   const ov=e.target;
@@ -12023,8 +12047,10 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.7.6';
+const APP_VERSION='1.7.8';
 const CHANGELOG=[
+  {v:'1.7.8',date:'2026-09-17',title:'이웃 새 글 알림 설정',sql:false,items:['허브 › 이웃 제목 옆 설정 아이콘(iss-ic-set) → #nbalarm-modal 『이웃 새 글 알림』 — 받을 게시판 5종 체크(localStorage palely_nb_boards_<uid>, 기본 전체) → 허브 타임라인(tlFiltered)이 해당 게시판만, 전부 끄면 안내 문구','관리 › 꾸미기 『새 글 알림』 행 제거(홈 새 글 목록 설정은 알림 벨 설정 버튼에서 계속 가능)']},
+  {v:'1.7.7',date:'2026-09-17',title:'스티커가 글을 덮던 문제',sql:false,items:['#site-stickers z-index 40 → 15(본문 .main-content z20 아래, 배경 스티커·파티클 z1 위) — 전경 스티커가 게시판·글 상세를 시각적으로 덮던 문제(클릭은 원래 통과). 스티커 간 순서는 각 항목 z 그대로, 편집 중(body.stk-editing)에만 z40']},
   {v:'1.7.6',date:'2026-09-17',title:'로그 HTML 펼침 잘림 · HTML 위치 선택',sql:false,items:['로그 상세 HTML 뷰어(iframe, scripts 제거·sandbox)가 로드 시 한 번만 높이를 재서 클릭형(details·:checked) HTML이 펼쳐지면 잘리던 버그 → dhMeasure(body 자식 bottom 최대) + 클릭·toggle·transitionend·animationend·load 캡처 시 연속 재측정 + ResizeObserver + 1초 주기','HTML 위치(본문 위/아래) 선택 — html_raw 앞 주석 <!--palely-html-pos:bottom-->(SQL 없음), 에디터 라디오, 상세에서 #detail-html을 본문 앞/뒤로 이동']},
   {v:'1.7.5',date:'2026-09-17',title:'이웃 검색 · 패치 안내 분리 · 스티커 · 알림 게시판',sql:false,items:['관리 › 꾸미기 『새 글 알림』 모달(`newPostOpen/Save`, 게시판 체크 5종 → settings main_newposts, 전부면 all) — 구 askModal 텍스트 입력 대체(알림 설정의 버튼도 같은 모달)','관리 › 꾸미기 『에셋 제목 글씨』 켜짐/꺼짐 토글(settings assets_word, body.ast-noword로 .ast-tabword 숨김·모바일 상단 여백 제거)','사이트 스티커: 『원본 크기로 넣기』(체크 시 900px 축소 생략·가로 = 이미지 실제 폭, 화면 폭 초과 시 맞춤, 기기 기억) · 선택 스티커 『원본 크기』·『좌우반전』(sk.fx, 편집 중엔 이미지만 반전) / 글 썸네일 스티커: 『원본 크기』(레이어 폭 대비 %, 4~90)','하단 「운영자에게 문의하기」 삭제(어드민·허브에 있음) — 워터마크만','허브 타임라인: 이웃 이름 탭 → 이웃 검색(이름·블로그명·주소, 최대 8개 제안) + 선택된 이웃 칩·전체 보기','패치 내역 분리: 운영자(super)는 상세 CHANGELOG(유저용 미리보기 전환), 그 외는 CHANGELOG_USER(외부 공개 가능한 기능·버그 수정)만, CL_USER_FROM 이후 버전만']},
   {v:'1.7.4',date:'2026-09-17',title:'허브 타임라인 정리',sql:false,items:['타임라인은 최신 글 10개부터, 끝까지 내리면 10개씩 더 불러오기(최대 100개)','이웃(사람)별 탭으로 나눠 보기']},
@@ -12077,8 +12103,10 @@ const CHANGELOG=[
 // 정식 오픈 때 CL_USER_FROM을 정식 오픈 버전으로 → 그 버전부터만 유저에게 안내
 const CL_USER_FROM='1.4.0';
 const CHANGELOG_USER={
+  '1.7.8':['허브 › 이웃 옆 설정 아이콘에서 이웃 새 글 알림을 받을 게시판을 고를 수 있어요'],
+  '1.7.7':['꾸미기 스티커가 글과 게시판을 가리던 문제를 고쳤어요'],
   '1.7.6':['로그 글의 클릭해서 펼치는 HTML이 잘려 보이던 문제를 고쳤어요','로그 HTML을 본문 위 또는 아래에 놓을 수 있어요'],
-  '1.7.5':['타임라인에서 이웃 이름·블로그로 검색해 그 이웃의 새 글만 모아 볼 수 있어요','꾸미기 스티커를 원본 크기 그대로 넣거나 좌우반전할 수 있어요','관리 › 꾸미기에서 새 글 알림에 띄울 게시판을 고를 수 있어요','에셋 게시판의 큰 제목 글씨를 켜고 끌 수 있어요','패치 안내를 보기 쉽게 정리했어요'],
+  '1.7.5':['타임라인에서 이웃 이름·블로그로 검색해 그 이웃의 새 글만 모아 볼 수 있어요','꾸미기 스티커를 원본 크기 그대로 넣거나 좌우반전할 수 있어요','에셋 게시판의 큰 제목 글씨를 켜고 끌 수 있어요','패치 안내를 보기 쉽게 정리했어요'],
   '1.7.4':['허브 타임라인은 최신 글 10개부터 보여 주고, 아래로 내리면 더 불러와요'],
   '1.7.3':['가입 첫 화면에 베타 테스트 안내가 추가됐어요'],
   '1.7.2':['공지 템플릿마다 구역별로 사진을 따로 넣을 수 있어요 (비워 두면 메인 사진)','공지의 큰 제목을 켜고 끌 수 있어요','모바일에서 검색 창이 화면 밖으로 잘리던 문제를 고쳤어요'],
