@@ -401,6 +401,8 @@ html,body{overflow:hidden}
 #site-stickers-bg .ss-item{position:absolute;pointer-events:none;user-select:none;-webkit-user-drag:none;max-width:none}
 .ss-item.ss-edit.bgf{opacity:.55;}
 .tsk-origopt{gap:7px;font-size:11px;white-space:nowrap;}
+.ed-htmlpos{margin-top:10px;gap:18px;flex-wrap:wrap;}
+.ed-htmlpos-l{font-family:var(--font-kr);font-weight:600;font-size:calc(11.5px*var(--fs,1));color:rgba(var(--t-fg-soft),.7);}
 .np-list{display:flex;flex-direction:column;gap:12px;margin:0 0 22px;padding:0 6px;}
 body.ast-noword .ast-tabword{display:none!important;}
 @media(max-width:640px){body.ast-noword #assets-grid{padding-top:0;}}
@@ -2025,6 +2027,7 @@ body.is-admin #page-admin .adm-body{display:block;}
 #editor-modal.no-stk .dp-sticker-bar,#editor-modal.no-stk .dp-stickers,#editor-modal.no-stk [onclick="dpAddSticker()"]{display:none!important;}
 /* ── HTML 원본 뷰어 + 이미지 저장 ── */
 #detail-html{margin:6px 0 26px;display:none;}
+#detail-html.dh-bottom{margin:30px 0 6px;}
 #detail-html iframe{width:100%;border:none;background:transparent;display:block;}
 .dh-actions{display:flex;justify-content:flex-end;margin-top:10px;}
 .dh-save{position:relative;background:none;border:none;cursor:pointer;color:rgba(var(--t-fg-soft),.6);font-family:var(--font-kr);font-size:calc(11px*var(--fs,1));letter-spacing:.04em;padding:5px 2px;display:inline-flex;align-items:center;gap:8px;transition:color .3s;}
@@ -10404,11 +10407,14 @@ async function openDetail(type,id,preData){
   const dh=document.getElementById('detail-html');
   if(dh){
     if(type==='logs'&&data.html_raw){
-      dh.style.display='block';
+      const hp=htmlPosSplit(data.html_raw);
+      dh.style.display='block';dh.classList.toggle('dh-bottom',hp.pos==='bottom');
+      if(contentEl&&contentEl.parentNode){if(hp.pos==='bottom'){if(dh.previousElementSibling!==contentEl)contentEl.parentNode.insertBefore(dh,contentEl.nextSibling);}else if(dh.nextElementSibling!==contentEl)contentEl.parentNode.insertBefore(dh,contentEl);}   // 본문 위/아래
       const fr=document.getElementById('detail-html-frame');
-      fr.srcdoc='<style>html,body{background:transparent!important;margin:0;color:#e8ecf6;}</style>'+String(data.html_raw).replace(/<script[\s\S]*?<\/script>/gi,'');
-      fr.onload=()=>{try{const _d=fr.contentDocument;const _h=Math.max(_d.documentElement.scrollHeight,_d.body?_d.body.scrollHeight:0);fr.style.height=Math.min(200000,_h+20)+'px';}catch(e){}};
-    }else{dh.style.display='none';const fr=document.getElementById('detail-html-frame');if(fr)fr.srcdoc='';}
+      fr.style.height='60px';
+      fr.srcdoc='<style>html,body{background:transparent!important;margin:0;color:#e8ecf6;}</style>'+String(hp.html).replace(/<script[\s\S]*?<\/script>/gi,'');
+      fr.onload=()=>dhFitInit(fr);
+    }else{dh.style.display='none';const fr=document.getElementById('detail-html-frame');if(fr){fr.srcdoc='';clearInterval(fr._dhT);}}
   }
   const aa=document.getElementById('detail-admin-actions');
   aa.innerHTML='';
@@ -10416,6 +10422,24 @@ async function openDetail(type,id,preData){
   if(_de)_de.onclick=()=>openEditor(type,id);
   if(_dd)_dd.onclick=()=>confirmDelete(type,id);
   document.getElementById('main-content').scrollTop=0;
+}
+// HTML 위치 표시: html_raw 맨 앞 주석 <!--palely-html-pos:bottom--> (SQL 없이 저장, 없으면 본문 위)
+function htmlPosSplit(raw){const m=String(raw||'').match(/^\s*<!--palely-html-pos:(top|bottom)-->\s*/);return m?{pos:m[1],html:String(raw).slice(m[0].length)}:{pos:'top',html:String(raw||'')};}
+function htmlPosJoin(pos,html){html=htmlPosSplit(html).html;if(!String(html).trim())return '';return pos==='bottom'?'<!--palely-html-pos:bottom-->\n'+html:html;}
+// 뷰어 높이: 클릭·펼침·이미지 로딩마다 재측정(클릭형 HTML이 펼쳐질 때 잘리던 문제) + 1초 주기 확인
+function dhMeasure(fr){
+  try{const d=fr.contentDocument;if(!d||!d.body)return;const sy=(d.defaultView&&d.defaultView.scrollY)||0;
+    let h=d.body.scrollHeight;[...d.body.children].forEach(c=>{const r=c.getBoundingClientRect();if(r.height)h=Math.max(h,Math.ceil(r.bottom+sy));});
+    h=Math.min(200000,h+20);if(Math.abs((parseFloat(fr.style.height)||0)-h)>2)fr.style.height=h+'px';}catch(e){}
+}
+function dhFitInit(fr){
+  dhMeasure(fr);
+  const d=fr.contentDocument;if(!d)return;
+  const burst=()=>{[0,60,200,450,800,1300,2000].forEach(t=>setTimeout(()=>dhMeasure(fr),t));};
+  ['click','toggle','transitionend','animationend','load','change','input'].forEach(ev=>{try{d.addEventListener(ev,burst,true);}catch(e){}});
+  try{if(window.ResizeObserver&&d.body)new ResizeObserver(()=>dhMeasure(fr)).observe(d.body);}catch(e){}
+  clearInterval(fr._dhT);fr._dhT=setInterval(()=>{if(fr.isConnected&&fr.offsetParent!==null)dhMeasure(fr);},1000);
+  burst();
 }
 async function dhSaveImage(){
   const fr=document.getElementById('detail-html-frame');
@@ -10626,7 +10650,7 @@ async function openEditor(type,editId,distType,prefill,draftId){
       const arr=(function(){const t=val;if(typeof t==='string'&&t.trim().startsWith('[')){try{const a=JSON.parse(t);if(Array.isArray(a)&&a.length)return a;}catch(e){}}return t?[t]:[''];})();
       return `<div class="form-group" id="mp-wrap"><label class="form-label">${f.label} — 여러 개 가능 · 칸마다 개별 변수·개별 복사</label><div id="mp-list">${arr.map((tx,i)=>mpBlockHtml(i,tx)).join('')}</div><button type="button" class="form-file-label mp-add" onclick="mpAdd()"><span>+ 프롬프트 칸 추가</span></button></div>`;
     }
-    if(f.type==='htmlcode')return `<div class="form-group"><label class="form-label" for="__x">${f.label} <span class="ai-mini-row"><button type="button" class="ai-mini-btn" onclick="aiHtmlClean('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> HTML 정리</button></span></label><textarea class="form-textarea" id="ef-${f.key}" placeholder="<html>… 로그 원본 코드를 통째로 붙여넣기" spellcheck="false" style="min-height:120px;font-family:Consolas,monospace;font-size:11px;white-space:pre;">${esc(val)}</textarea></div>`;
+    if(f.type==='htmlcode')return `<div class="form-group"><label class="form-label" for="__x">${f.label} <span class="ai-mini-row"><button type="button" class="ai-mini-btn" onclick="aiHtmlClean('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> HTML 정리</button></span></label><textarea class="form-textarea" id="ef-${f.key}" placeholder="<html>… 로그 원본 코드를 통째로 붙여넣기" spellcheck="false" style="min-height:120px;font-family:Consolas,monospace;font-size:11px;white-space:pre;">${esc(htmlPosSplit(val).html)}</textarea><div class="ed-vis-row ed-htmlpos"><span class="ed-htmlpos-l">HTML 위치</span><label class="form-check"><input type="radio" name="ef-${f.key}-pos" value="top"${htmlPosSplit(val).pos!=='bottom'?' checked':''}><span>본문 위</span></label><label class="form-check"><input type="radio" name="ef-${f.key}-pos" value="bottom"${htmlPosSplit(val).pos==='bottom'?' checked':''}><span>본문 아래</span></label></div></div>`;
     if(f.type==='stickers'){
       const arr0=(existingData&&existingData[f.key])?existingData[f.key]:[];
       setTimeout(()=>{const h=document.getElementById('ef-'+f.key);if(h)h.value=JSON.stringify(Array.isArray(arr0)?arr0:[]);stkCount();},0);
@@ -11446,6 +11470,7 @@ async function editorCollect(forDraft){   // 에디터 칸 → 레코드(대기 
       }else{
         let val=document.getElementById('ef-'+f.key)?.value?.trim()||'';
         if(f.key==='tags')record[f.key]=val?val.split(',').map(t=>t.trim()).filter(Boolean):[];
+        else if(f.type==='htmlcode'){const pr=document.querySelector('input[name="ef-'+f.key+'-pos"]:checked');record[f.key]=htmlPosJoin(pr?pr.value:'top',val);}
         else record[f.key]=val;
       }
     }
@@ -11998,8 +12023,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.7.5';
+const APP_VERSION='1.7.6';
 const CHANGELOG=[
+  {v:'1.7.6',date:'2026-09-17',title:'로그 HTML 펼침 잘림 · HTML 위치 선택',sql:false,items:['로그 상세 HTML 뷰어(iframe, scripts 제거·sandbox)가 로드 시 한 번만 높이를 재서 클릭형(details·:checked) HTML이 펼쳐지면 잘리던 버그 → dhMeasure(body 자식 bottom 최대) + 클릭·toggle·transitionend·animationend·load 캡처 시 연속 재측정 + ResizeObserver + 1초 주기','HTML 위치(본문 위/아래) 선택 — html_raw 앞 주석 <!--palely-html-pos:bottom-->(SQL 없음), 에디터 라디오, 상세에서 #detail-html을 본문 앞/뒤로 이동']},
   {v:'1.7.5',date:'2026-09-17',title:'이웃 검색 · 패치 안내 분리 · 스티커 · 알림 게시판',sql:false,items:['관리 › 꾸미기 『새 글 알림』 모달(`newPostOpen/Save`, 게시판 체크 5종 → settings main_newposts, 전부면 all) — 구 askModal 텍스트 입력 대체(알림 설정의 버튼도 같은 모달)','관리 › 꾸미기 『에셋 제목 글씨』 켜짐/꺼짐 토글(settings assets_word, body.ast-noword로 .ast-tabword 숨김·모바일 상단 여백 제거)','사이트 스티커: 『원본 크기로 넣기』(체크 시 900px 축소 생략·가로 = 이미지 실제 폭, 화면 폭 초과 시 맞춤, 기기 기억) · 선택 스티커 『원본 크기』·『좌우반전』(sk.fx, 편집 중엔 이미지만 반전) / 글 썸네일 스티커: 『원본 크기』(레이어 폭 대비 %, 4~90)','하단 「운영자에게 문의하기」 삭제(어드민·허브에 있음) — 워터마크만','허브 타임라인: 이웃 이름 탭 → 이웃 검색(이름·블로그명·주소, 최대 8개 제안) + 선택된 이웃 칩·전체 보기','패치 내역 분리: 운영자(super)는 상세 CHANGELOG(유저용 미리보기 전환), 그 외는 CHANGELOG_USER(외부 공개 가능한 기능·버그 수정)만, CL_USER_FROM 이후 버전만']},
   {v:'1.7.4',date:'2026-09-17',title:'허브 타임라인 정리',sql:false,items:['타임라인은 최신 글 10개부터, 끝까지 내리면 10개씩 더 불러오기(최대 100개)','이웃(사람)별 탭으로 나눠 보기']},
   {v:'1.7.3',date:'2026-09-17',title:'베타 안내 · 하단 정리',sql:false,items:['가입 첫 화면에 베타 테스트 안내(「나는 테스터예요. 진행할게요」)','하단 워터마크 아래에 「운영자에게 문의하기」를 작게 2단 배치']},
@@ -12051,6 +12077,7 @@ const CHANGELOG=[
 // 정식 오픈 때 CL_USER_FROM을 정식 오픈 버전으로 → 그 버전부터만 유저에게 안내
 const CL_USER_FROM='1.4.0';
 const CHANGELOG_USER={
+  '1.7.6':['로그 글의 클릭해서 펼치는 HTML이 잘려 보이던 문제를 고쳤어요','로그 HTML을 본문 위 또는 아래에 놓을 수 있어요'],
   '1.7.5':['타임라인에서 이웃 이름·블로그로 검색해 그 이웃의 새 글만 모아 볼 수 있어요','꾸미기 스티커를 원본 크기 그대로 넣거나 좌우반전할 수 있어요','관리 › 꾸미기에서 새 글 알림에 띄울 게시판을 고를 수 있어요','에셋 게시판의 큰 제목 글씨를 켜고 끌 수 있어요','패치 안내를 보기 쉽게 정리했어요'],
   '1.7.4':['허브 타임라인은 최신 글 10개부터 보여 주고, 아래로 내리면 더 불러와요'],
   '1.7.3':['가입 첫 화면에 베타 테스트 안내가 추가됐어요'],
