@@ -2637,6 +2637,22 @@ body.is-admin #page-admin .adm-body{display:block;}
 .ntce-nums>span,.ntce-two>span{flex:1;min-width:0;}
 .ntce-two{display:flex;gap:10px;}
 .ntce-lead{margin:0 0 14px;}
+.ntce-lblrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;}
+.ntce-lblrow .form-label{margin:0;}
+.ntc-slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;}
+.ntc-slot{display:flex;flex-direction:column;gap:5px;padding:6px;border:1px solid rgba(var(--t-fg),.1);}
+.ntc-slot.has{border-color:rgba(var(--t-fg),.28);}
+.ntc-slot-img{display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;overflow:hidden;background:rgba(var(--t-fg),.04);}
+.ntc-slot-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.ntc-slot-img em{font-style:normal;font-family:var(--font-kr);font-size:calc(10px*var(--fs,1));color:rgba(var(--t-fg-soft),.45);}
+.ntc-slot-name{font-family:var(--font-kr);font-weight:600;font-size:calc(11px*var(--fs,1));color:rgb(var(--t-snow));}
+.ntc-slot-acts{display:flex;gap:10px;}
+.ntc-slot-acts label{cursor:pointer;}
+/* 큰 제목 끄기 */
+.ntx.notitle .ntx-bigt,.ntx.notitle .ntx-r-title h2,.ntx.notitle .ntx-e-num,.ntx.notitle .ntx-a-word,.ntx.notitle .ntx-a-wm,.ntx.notitle .ntx-a-lbl h3,.ntc-stage.notitle .ntc-from{display:none!important;}
+/* 모바일 검색창: 화면 안에 고정 */
+.iss-search-pop{scrollbar-width:none;}
+.iss-search-pop::-webkit-scrollbar{display:none;width:0;}
 .ntce-lay{position:relative;display:flex;flex-direction:column;gap:3px;padding:8px 8px 9px;border:1px solid rgba(var(--t-fg),.1);cursor:pointer;transition:border-color .3s,background .3s,box-shadow .3s,transform .45s cubic-bezier(.3,1.2,.35,1);}
 .ntce-lay input{position:absolute;opacity:0;width:0;height:0;margin:0;pointer-events:none;}
 .ntce-lay:focus-within{outline:1px solid rgba(var(--t-text),.5);outline-offset:2px;}
@@ -4157,11 +4173,12 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
         <div class="ntce-pane" data-p="photo" hidden>
           <div class="form-group"><label class="form-label">사진</label><div class="ntce-row"><label class="form-file-label"><span>+ 사진 올리기</span><input type="file" accept="image/*" style="display:none" onchange="ntcBgPick(this)"></label><button type="button" class="form-file-label" onclick="ntcBgDelete()"><span>사진 지우기</span></button></div><img id="ntc-bg-prev" class="form-file-preview" style="display:none;max-width:120px;" alt=""></div>
           <div class="form-group"><label class="form-label">보이는 부분 <small class="ob-st">드래그로 이동 · 휠로 확대</small></label><div class="ntc-pick" id="ntc-pick"><img id="ntc-pick-img" alt="" draggable="false"><span class="ntc-pick-val" id="ntc-pick-val"></span></div></div>
+          <div class="form-group"><label class="form-label">구역별 사진 <small class="ob-st" id="ntc-slots-lay"></small></label><div class="ntc-slots" id="ntc-slots"></div><p class="ob-hint">비워 둔 구역에는 위의 메인 사진이 들어가요. 사진 1장만 쓰면 지금처럼 보여요.</p></div>
           <div class="form-group ntce-nums"><span><label class="form-label">가로 %</label><input type="number" class="form-input" id="ntc-f-fx" min="0" max="100" oninput="ntcPickApply()"></span><span><label class="form-label">세로 %</label><input type="number" class="form-input" id="ntc-f-fy" min="0" max="100" oninput="ntcPickApply()"></span><span><label class="form-label">확대 %</label><input type="number" class="form-input" id="ntc-f-zoom" min="100" max="300" oninput="ntcPickApply()"></span></div>
         </div>
         <div class="ntce-pane" data-p="text" hidden>
           <div class="form-group"><label class="form-label">닉네임</label><input type="text" class="form-input" id="ntc-f-nick" maxlength="40" placeholder="NAME 칸에 보여요"></div>
-          <div class="form-group"><label class="form-label">큰 제목 <small class="ob-st">템플릿 5종 · 비우면 FROM HOME</small></label><input type="text" class="form-input" id="ntc-f-title" maxlength="40" placeholder="FROM HOME"></div>
+          <div class="form-group"><div class="ntce-lblrow"><label class="form-label">큰 제목 <small class="ob-st">비우면 FROM HOME</small></label><label class="form-check"><input type="checkbox" id="ntc-f-titleon"><span>표시</span></label></div><input type="text" class="form-input" id="ntc-f-title" maxlength="40" placeholder="FROM HOME"></div>
           <div class="form-group"><label class="form-label">한 줄 소개 <small class="ob-st">템플릿 5종</small></label><input type="text" class="form-input" id="ntc-f-intro" maxlength="80"></div>
           <div class="form-group"><label class="form-label">본문</label><textarea class="form-textarea" id="ntc-f-rich" style="min-height:160px" placeholder="공지·소개 글"></textarea></div>
         </div>
@@ -6585,11 +6602,11 @@ function ntcRender(){
   st.style.setProperty('--ntc-fx',(d.fx!=null?d.fx:50)+'%');
   st.style.setProperty('--ntc-fy',(d.fy!=null?d.fy:35)+'%');
   st.style.setProperty('--ntc-zoom',((d.zoom!=null?d.zoom:170)/100));
-  st.classList.toggle('nobg',!d.bg);
+  st.classList.toggle('nobg',!d.bg);st.classList.toggle('notitle',d.titleOn===false);
   const bg=document.getElementById('ntc-bg-img');
   if(bg){if(d.bg){bg.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';bg.dataset.src=d.bg;deferSchedule();}else{bg.removeAttribute('src');delete bg.dataset.src;}}
   const pnBox=document.getElementById('ntc-panel');
-  if(pnBox)pnBox.innerHTML=d.bg?[0,1,2].map(i=>'<div class="ntc-slice"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="'+esc(d.bg)+'" style="left:'+(-i*100)+'%" alt="" draggable="false"></div>').join(''):'';
+  if(pnBox)pnBox.innerHTML=ntcPanelUrl(d)?[0,1,2].map(i=>'<div class="ntc-slice"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="'+esc(ntcPanelUrl(d))+'" style="left:'+(-i*100)+'%" alt="" draggable="false"></div>').join(''):'';
   const nick=document.getElementById('ntc-nick');if(nick)nick.textContent=d.nick||'닉네임';
   const rich=document.getElementById('ntc-rich');if(rich)rich.innerHTML=esc(d.rich||'').replace(/\n/g,'<br>');
   const kws=(t)=>String(t||'').split(/\n/).map(x=>x.trim()).filter(Boolean).map(x=>'<span class="ntc-kw">'+esc(x)+'</span>').join('');
@@ -6633,15 +6650,25 @@ let ntxRM='more';   // 긴 내용: 'more'=더 보기 버튼 · 'scroll'=칸 안 
 function ntxClamp(html,max,pre,cls){const sc=ntxRM==='scroll';return '<div class="ntx-clamp'+(sc?' scroll':'')+(pre?' pre':'')+(cls?' '+cls:'')+'" style="--cl:'+max+'px"><div class="ntx-clamp-in"'+(sc?' tabindex="0"':'')+'>'+html+'</div>'+(sc?'':'<button type="button" class="ntx-more" onclick="ntxMore(this)" hidden>더 보기</button>')+'</div>';}
 document.addEventListener('scroll',e=>{const t=e.target;if(!t||!t.classList||!t.classList.contains('ntx-clamp-in'))return;const c=t.parentNode;if(!c||!c.classList.contains('scroll'))return;c.classList.toggle('up',t.scrollTop>2);c.classList.toggle('clip',t.scrollTop+t.clientHeight<t.scrollHeight-2);},true);
 function ntxMore(b){const c=b.closest('.ntx-clamp');if(!c)return;const open=!c.classList.contains('open');c.classList.toggle('open',open);c.classList.remove('clip');b.textContent=open?'접기':'더 보기';if(!open){ntxFit(c.closest('.ntx'));try{c.scrollIntoView({block:'nearest',behavior:'smooth'});}catch(e){}}}
-function ntxPh(d,cls,dx,dy,z,small){
-  if(!d.bg)return '<span class="ntx-ph'+(cls?' '+cls:'')+'"></span>';
-  const fx=Math.max(0,Math.min(100,(d.fx!=null?+d.fx:50)+(dx||0))),fy=Math.max(0,Math.min(100,(d.fy!=null?+d.fy:35)+(dy||0)));
-  const src=small&&typeof thumbOf==='function'?thumbOf(d.bg):d.bg;
-  return '<span class="ntx-ph'+(cls?' '+cls:'')+'"><img src="'+NTX_GIF+'" data-src="'+ntxA(src)+'"'+(src!==d.bg?' data-orig="'+ntxA(d.bg)+'" onerror="thumbFail(this)"':'')+' alt="" draggable="false" style="--px:'+fx+'%;--py:'+fy+'%;--z:'+(z||1)+'"></span>';
+function ntxPh(d,cls,dx,dy,z,small,slot){
+  const own=slot&&d._slots&&ntxSafeUrl(d._slots[slot]);   // 구역별 사진(없으면 메인 사진)
+  const u=own||d.bg;
+  if(!u)return '<span class="ntx-ph'+(cls?' '+cls:'')+'"></span>';
+  let fx=Math.max(0,Math.min(100,(d.fx!=null?+d.fx:50)+(dx||0))),fy=Math.max(0,Math.min(100,(d.fy!=null?+d.fy:35)+(dy||0)));
+  if(own){fx=50;fy=40;z=1;}   // 구역 전용 사진은 가운데 맞춤·확대 없음
+  const src=small&&typeof thumbOf==='function'?thumbOf(u):u;
+  return '<span class="ntx-ph'+(cls?' '+cls:'')+'"><img src="'+NTX_GIF+'" data-src="'+ntxA(src)+'"'+(src!==u?' data-orig="'+ntxA(u)+'" onerror="thumbFail(this)"':'')+' alt="" draggable="false" style="--px:'+fx+'%;--py:'+fy+'%;--z:'+(z||1)+'"></span>';
 }
+function ntxSafeUrl(u){u=String(u||'').trim();return /^https:\/\//i.test(u)?u:'';}
+function ntxSlotsOf(d,k){const o=d&&d.slots&&d.slots[k];return (o&&typeof o==='object')?o:{};}
+function ntcPanelUrl(d){return ntxSafeUrl(ntxSlotsOf(d,'classic').panel)||d.bg||'';}
+// 템플릿별 사진 구역(편집기 목록)
+const NTX_SLOTS={classic:[['panel','왼쪽 세로 패널']],bento:[['hero','메인 큰 사진'],['av','상단 작은 원'],['m1','Media 1'],['m2','Media 2'],['m3','Media 3']],rail:[['c1','콜라주 1'],['c2','콜라주 2'],['c3','콜라주 3'],['c4','콜라주 4'],['c5','콜라주 5'],['c6','콜라주 6'],['circle','원형 사진']],profile:[['banner','상단 배너'],['avatar','프로필 사진'],['thumb','about 사진'],['e','ETC 줄 사진']],editorial:[['s1','넓은 사진 띠'],['s3','좁은 사진 띠']],album:[['disc','디스크'],['sleeve','슬리브 커버']]};
 function ntxLum(h){h=String(h||'').replace('#','');if(h.length===3)h=h.split('').map(x=>x+x).join('');const n=parseInt(h,16);if(isNaN(n))return 1;const f=v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);};return .2126*f(n>>16&255)+.7152*f(n>>8&255)+.0722*f(n&255);}
 function ntxTextFor(t,b){const lb=ntxLum(b),lt=ntxLum(t);const cr=(Math.max(lb,lt)+.05)/(Math.min(lb,lt)+.05);if(t&&cr>=3.2)return t;return lb>.4?'#141418':'#f4f4f6';}   // 글자·바탕 대비가 낮으면 자동 보정(가독성)
 function ntxCtx(d,k){
+  d=Object.assign({},d);d._slots=ntxSlotsOf(d,k);
+  if(!d.bg){const f=Object.values(d._slots).map(ntxSafeUrl).find(Boolean);if(f)d.bg=f;}   // 메인 사진 없이 구역 사진만 있을 때
   const L=ntxLay(k);const bx=ntxHex(d.bcol,'#ffffff');const ac=ntxHex(d.accent,L.ac);const cv=ntxHex(d.canvas,'');
   const ground=k==='album'?(cv||L.cv):bx;
   const tx=ntxTextFor(ntxHex(d.tcol,''),ground);
@@ -6665,16 +6692,16 @@ function ntxBento(c){
   const cards=S.map(s=>'<div class="ntx-b-card" data-a data-sec="'+s.k+'"><div class="ntx-b-h">'+esc(s.label)+'<small>'+String(s.lines.length).padStart(2,'0')+'</small></div>'+ntxClamp(ntxItems(s),s.style==='chip'?118:170,false)+'</div>').join('');
   const cnt=ntxCounts(c).map(s=>'<div><small>'+esc(s.label)+'</small><b>'+s.lines.length+'</b></div>').join('');
   return '<div class="ntx ntx-bento" '+c.style+'>'
-   +'<nav class="ntx-b-nav" data-a data-jump><span class="ntx-b-tile">'+ntxI('dia')+'</span><div class="ntx-b-tabs">'+tabs+'</div><div class="ntx-b-navr">'+ntxPh(d,'ntx-b-av',0,-4,2.4,true)+'<span class="ntx-b-icn">'+ntxI('heart')+'</span><button type="button" class="ntx-b-fab" title="맨 위로" onclick="ntxTop(this)">'+ntxI('copyspark')+'</button></div></nav>'
+   +'<nav class="ntx-b-nav" data-a data-jump><span class="ntx-b-tile">'+ntxI('dia')+'</span><div class="ntx-b-tabs">'+tabs+'</div><div class="ntx-b-navr">'+ntxPh(d,'ntx-b-av',0,-4,2.4,true,'av')+'<span class="ntx-b-icn">'+ntxI('heart')+'</span><button type="button" class="ntx-b-fab" title="맨 위로" onclick="ntxTop(this)">'+ntxI('copyspark')+'</button></div></nav>'
    +'<div class="ntx-b-grid">'
    +'<div class="ntx-b-card ntx-b-name" data-a><div class="ntx-b-lab">Name</div><div class="ntx-b-big">'+esc(c.nick)+'</div><div><span class="ntx-chip">'+esc(c.title)+'</span>'+(c.handle?'<span class="ntx-chip">@'+esc(c.handle)+'</span>':'')+'</div>'+(c.intro?'<div class="ntx-b-intro">'+esc(c.intro)+'</div>':'')+'<div class="ntx-b-barw"><div class="ntx-b-bar"><i></i></div><button type="button" class="ntx-b-go" data-k="about" onclick="ntxJump(this)" title="자기소개로">'+ntxI('dia')+'</button></div></div>'
-   +'<div class="ntx-b-hero" data-a>'+ntxPh(d,'',0,0,1)+'<div class="ntx-b-hero-t">'+ntxWords(c.title)+'<br><span class="ntx-b-pill">'+esc(c.nick)+'</span></div>'
+   +'<div class="ntx-b-hero" data-a>'+ntxPh(d,'',0,0,1,false,'hero')+'<div class="ntx-b-hero-t"><span class="ntx-bigt">'+ntxWords(c.title)+'<br></span><span class="ntx-b-pill">'+esc(c.nick)+'</span></div>'
      +'<span class="ntx-b-spk" style="left:46%;top:28px;font-size:22px">'+ntxI('copyspark')+'</span><span class="ntx-b-spk" style="left:36%;bottom:34%;font-size:14px">'+ntxI('copyspark')+'</span><span class="ntx-b-dots" style="left:30%;top:36px"></span><span class="ntx-b-dots" style="right:70px;bottom:40px"></span>'
      +'<div class="ntx-b-acts"><button type="button" data-k="'+(S[0]?S[0].k:'about')+'" onclick="ntxJump(this)" title="항목 보기">'+ntxI('heart')+'</button><button type="button" data-k="about" onclick="ntxJump(this)" title="자기소개 보기">'+ntxI('copyspark')+'</button></div></div>'
    +'<div class="ntx-b-rcol"><div class="ntx-b-vtab" data-a><b>01.</b><span>My Profile</span>'+ntxI('heart')+'</div><div class="ntx-b-card ntx-b-about" data-a data-sec="about"><div class="ntx-b-h">About Me</div>'+ntxClamp(esc(c.rich),300,true)+'</div></div>'
    +'</div>'
    +'<div class="ntx-b-secs"><div class="ntx-b-mini" data-a data-jump><button type="button" class="on" data-k="about" onclick="ntxJump(this)" title="자기소개">'+ntxI('dia')+'</button>'+S.slice(0,3).map(s=>'<button type="button" data-k="'+s.k+'" onclick="ntxJump(this)" title="'+ntxA(s.label)+'">'+ntxI(s.k==='etc'?'copyspark':'heart')+'</button>').join('')+'</div><div class="ntx-b-cards">'
-     +cards+(d.bg?'<div class="ntx-b-card" data-a><div class="ntx-b-h">Media<small>'+ntxI('dia')+'</small></div><div class="ntx-b-media">'+ntxPh(d,'',-40,0,2.2,true)+ntxPh(d,'',0,-10,1.8,true)+ntxPh(d,'',40,0,2.2,true)+'</div></div>':'')+'</div></div>'
+     +cards+(d.bg?'<div class="ntx-b-card" data-a><div class="ntx-b-h">Media<small>'+ntxI('dia')+'</small></div><div class="ntx-b-media">'+ntxPh(d,'',-40,0,2.2,true,'m1')+ntxPh(d,'',0,-10,1.8,true,'m2')+ntxPh(d,'',40,0,2.2,true,'m3')+'</div></div>':'')+'</div></div>'
    +'<div class="ntx-b-status" data-a><div class="ntx-b-who"><span class="ntx-b-dot"><i></i></span><div><b>'+esc(c.nick)+'</b><small>'+(c.handle?'@'+esc(c.handle):esc(c.title))+'</small></div></div>'+(cnt?'<span class="ntx-b-sep"></span><div class="ntx-b-cnt">'+cnt+'</div>':'')+'<div class="ntx-b-pillr"><span>'+esc(c.intro||c.title)+'</span><button type="button" title="맨 위로" onclick="ntxTop(this)">'+ntxI('copyspark')+'</button></div></div>'
    +'</div>';
 }
@@ -6695,7 +6722,7 @@ function ntxRail(c){
      +'<div class="ntx-r-top" data-a><div class="ntx-r-sbox">'+ntxI('dia')+esc(c.title)+'</div><span class="ntx-r-ob">'+esc(c.nick)+'</span>'+lt+'</div>'
      +'<div class="ntx-r-title" data-a><h2>'+ntxWords(c.title)+'</h2><span class="ntx-r-vr"></span><span class="ntx-r-hi">hello, '+esc(c.nick)+'</span>'+(c.intro?'<span class="ntx-r-tag"><span>'+esc(c.intro)+'</span></span>':'')+'</div>'
      +'<div class="ntx-r-sheet" data-a>'
-       +'<div class="ntx-r-collage">'+ntxPh(d,'',-45,-15,2.6)+ntxPh(d,'',0,-25,1.8)+ntxPh(d,'',45,-15,3)+ntxPh(d,'',-40,45,2.5)+ntxPh(d,'',5,55,2)+ntxPh(d,'',45,45,2.6)+ntxPh(d,'ntx-r-circle',0,-5,1.9)+'</div>'
+       +'<div class="ntx-r-collage">'+ntxPh(d,'',-45,-15,2.6,false,'c1')+ntxPh(d,'',0,-25,1.8,false,'c2')+ntxPh(d,'',45,-15,3,false,'c3')+ntxPh(d,'',-40,45,2.5,false,'c4')+ntxPh(d,'',5,55,2,false,'c5')+ntxPh(d,'',45,45,2.6,false,'c6')+ntxPh(d,'ntx-r-circle',0,-5,1.9,false,'circle')+'</div>'
        +'<div class="ntx-r-stat"><div class="ntx-r-me"><i></i><b>'+esc(c.nick)+'</b></div>'+(cnt?'<div class="ntx-r-dl">'+cnt+'</div>':'')+'<button type="button" class="ntx-r-wish" data-k="about" onclick="ntxJump(this)">'+ntxI('heart')+'NOTICE</button></div>'
        +'<div class="ntx-r-body" data-sec="about"><div class="ntx-r-visit"><b>'+esc(c.title)+'</b><small>'+esc(c.nick).toUpperCase()+'</small><div class="ntx-r-cnt">'+S.slice(0,3).map(s=>'<span>'+ntxI(s.k==='love'?'heart':'dia')+' '+s.lines.length+'</span>').join('')+'</div></div>'
        +'<div class="ntx-r-rich"><b>@'+esc(c.handle||c.nick)+'</b>'+ntxClamp(esc(c.rich),190,true)+'</div></div>'
@@ -6708,19 +6735,19 @@ function ntxProfile(c){
   const nav=S.map(s=>'<button type="button" data-k="'+s.k+'" onclick="ntxJump(this)">'+ntxI(s.k==='love'?'heart':(s.k==='etc'?'copyspark':'dia'))+esc(s.label)+'</button>').join('');
   const tabs='<button type="button" class="on" data-k="about" onclick="ntxJump(this)">Profile</button>'+S.map(s=>'<button type="button" data-k="'+s.k+'" onclick="ntxJump(this)">'+esc(s.label)+'</button>').join('');
   const boxes=side.map(s=>'<div class="ntx-p-box" data-a data-sec="'+s.k+'"><h4>'+esc(s.label)+'<small>'+String(s.lines.length).padStart(2,'0')+'</small></h4>'+ntxClamp(ntxItems(s,s.style==='chip'?'row':s.style),190,false)+'</div>').join('');
-  const entries=etc?etc.lines.map((x,i)=>'<div class="ntx-p-entry" data-a>'+ntxPh(d,'',(i%3-1)*30,-8,2.6,true)+'<div class="ntx-p-tbl"><div class="hd">'+esc(etc.label)+' '+String(i+1).padStart(2,'0')+'</div><div class="hd2">NOTE</div><div class="cell">'+esc(x)+'</div><div class="cell">'+ntxI('heart')+esc(c.nick)+'</div></div></div>').join(''):'';
+  const entries=etc?etc.lines.map((x,i)=>'<div class="ntx-p-entry" data-a>'+ntxPh(d,'',(i%3-1)*30,-8,2.6,true,'e')+'<div class="ntx-p-tbl"><div class="hd">'+esc(etc.label)+' '+String(i+1).padStart(2,'0')+'</div><div class="hd2">NOTE</div><div class="cell">'+esc(x)+'</div><div class="cell">'+ntxI('heart')+esc(c.nick)+'</div></div></div>').join(''):'';
   return '<div class="ntx ntx-prof" '+c.style+'>'
    +'<nav class="ntx-p-top" data-a data-jump><button type="button" data-k="about" onclick="ntxJump(this)">'+ntxI('dia')+'Home</button>'+nav+'<span class="ntx-p-pill">'+esc(c.title)+'</span></nav>'
-   +ntxPh(d,'ntx-p-banner',0,-8,1)
+   +ntxPh(d,'ntx-p-banner',0,-8,1,false,'banner')
    +'<div class="ntx-p-row"><div class="ntx-p-left">'
-     +ntxPh(d,'ntx-p-avatar',0,-6,2.4)
+     +ntxPh(d,'ntx-p-avatar',0,-6,2.4,false,'avatar')
      +'<div class="ntx-p-name">'+esc(c.nick)+'</div><div class="ntx-p-handle">'+(c.handle?'@'+esc(c.handle)+' · ':'')+'palely.me</div>'
      +(c.intro?'<div class="ntx-p-bio">'+esc(c.intro)+'</div>':'')
      +'<div class="ntx-p-joined">'+ntxI('dia')+esc(c.title)+' · '+c.year+'</div>'+boxes
    +'</div><div style="min-width:0">'
      +'<div class="ntx-p-tabs" data-jump>'+tabs+'</div>'
      +'<div class="ntx-p-panel" data-a data-sec="about"><div class="ntx-p-ptabs"><span>PROFILE</span><span>'+esc(c.title)+'</span></div>'
-       +'<div class="ntx-p-about"><div style="min-width:0"><h3>:: about me</h3>'+ntxClamp(esc(c.rich),280,true)+'</div><div class="ntx-p-thumbw"><span class="ntx-p-mark"></span>'+ntxPh(d,'ntx-p-thumb',-6,-6,2.6)+'</div></div>'
+       +'<div class="ntx-p-about"><div style="min-width:0"><h3>:: about me</h3>'+ntxClamp(esc(c.rich),280,true)+'</div><div class="ntx-p-thumbw"><span class="ntx-p-mark"></span>'+ntxPh(d,'ntx-p-thumb',-6,-6,2.6,false,'thumb')+'</div></div>'
        +(etc?'<div class="ntx-p-posted" data-sec="etc"><b>POSTED</b><span>'+(c.date||c.year)+' · '+esc(c.title)+'</span><span>'+ntxI('heart')+' '+esc(etc.label)+' '+etc.lines.length+'</span></div>'+entries:'')
      +'</div>'
    +'</div></div>'
@@ -6731,9 +6758,9 @@ function ntxEditorial(c){
   const foot=S.map(s=>'<div data-sec="'+s.k+'"><b>'+esc(s.label)+'</b>'+ntxClamp(s.lines.map(esc).join('<br>'),92,false)+'</div>').join('');
   const words=esc(c.title).split(/\s+/);const num=words.length>1?words[0]+'<em>·</em>'+words.slice(1).join(' '):esc(c.title);
   return '<div class="ntx ntx-edit" '+c.style+'>'
-   +ntxPh(d,'ntx-e-s1',-6,-5,1.35)
+   +ntxPh(d,'ntx-e-s1',-6,-5,1.35,false,'s1')
    +'<div class="ntx-e-s2" data-a><div class="ntx-e-num">'+num+'</div><div class="ntx-e-vt">'+esc(c.nick)+' · '+esc(c.title)+'</div><div class="ntx-e-fine">palely.me · notice profile · '+c.year+'</div></div>'
-   +'<div class="ntx-e-s3">'+ntxPh(d,'',16,-17,2.1)+'<span class="ntx-e-spk">'+ntxI('copyspark')+'</span></div>'
+   +'<div class="ntx-e-s3">'+ntxPh(d,'',16,-17,2.1,false,'s3')+'<span class="ntx-e-spk">'+ntxI('copyspark')+'</span></div>'
    +'<div class="ntx-e-s4" data-a data-sec="about"><div class="ntx-e-emb">'+ntxI('copyspark')+'</div><div class="ntx-e-ttl">Chez<br>'+esc(c.nick)+'<small>'+esc(c.title)+'</small></div>'
      +(c.intro?'<div class="ntx-e-intro">'+esc(c.intro)+'</div>':'')
      +'<div class="ntx-e-body">'+ntxClamp(esc(c.rich),336,true)+'</div>'
@@ -6751,10 +6778,10 @@ function ntxAlbum(c){
   const panes=list.map((s,i)=>'<div data-pane="a" data-k="'+s.k+'"'+(i?' hidden':'')+'>'+ntxClamp(ntxItems(s,'li'),140,false)+'</div>').join('');
   return '<div class="ntx ntx-album" '+c.style+'>'
    +'<div class="ntx-a-wm">'+esc(c.title)+'</div>'
-   +ntxPh(d,'ntx-a-disc',6,-4,1.3)
+   +ntxPh(d,'ntx-a-disc',6,-4,1.3,false,'disc')
    +'<div class="ntx-a-deco"><i></i><i></i><i></i><em>'+esc(c.title).toLowerCase()+'</em></div><span class="ntx-a-corner"></span>'
    +'<div class="ntx-a-lbl" data-a><h3>'+lbl+'</h3>'+(c.intro?'<p>'+esc(c.intro)+'</p>':'')+'<div class="ntx-a-scr">'+esc(c.nick)+'</div><div class="ntx-a-dots"></div><div class="ntx-a-fat">'+c.year+'<small>notice profile</small></div></div>'
-   +(list.length?'<div class="ntx-a-sleeve" data-a data-sec="'+list[0].k+'"><div class="ntx-a-artw">'+ntxPh(d,'',-10,-5,4,true)+'<span class="ntx-a-mini"></span></div><div class="ntx-a-stabs" data-tabs="a">'+stabs+'</div>'+panes+'</div>':'')
+   +(list.length?'<div class="ntx-a-sleeve" data-a data-sec="'+list[0].k+'"><div class="ntx-a-artw">'+ntxPh(d,'',-10,-5,4,true,'sleeve')+'<span class="ntx-a-mini"></span></div><div class="ntx-a-stabs" data-tabs="a">'+stabs+'</div>'+panes+'</div>':'')
    +'<span class="ntx-a-bspk">'+ntxI('copyspark')+'</span><span class="ntx-a-spk2">'+ntxI('copyspark')+'</span><span class="ntx-a-spk3">'+ntxI('copyspark')+'</span>'
    +'<div class="ntx-a-rt" data-a><h2>'+esc(c.nick)+'</h2><b>'+c.year+'</b><small>'+esc(c.title)+'</small><span class="ntx-a-blk"></span></div>'
    +'<div class="ntx-a-rich" data-a data-sec="about"><b>'+esc(c.title)+'</b>'+ntxClamp(esc(c.rich),190,true)+'</div>'
@@ -6798,6 +6825,7 @@ function ntxRender(d){
   const r=root.firstElementChild;
   r.querySelectorAll('[data-a]').forEach((el,i)=>el.style.setProperty('--i',i));
   r.classList.toggle('anim',d.anim!==false);
+  r.classList.toggle('notitle',d.titleOn===false);
   if(typeof deferSchedule==='function')deferSchedule();
   const pg=document.getElementById('page-notices');
   if(pg&&pg.classList.contains('active'))ntxPlay();
@@ -6848,13 +6876,31 @@ function ntceTab(t){
   if(t==='photo')ntcPickApply();
   const f=document.querySelector('#ntc-modal .ntce-form');if(f)f.scrollTop=0;
 }
+let ntcSlotsDraft={};
+function ntcSlotsRender(){
+  const box=document.getElementById('ntc-slots');if(!box)return;
+  const k=ntcLayCur(),defs=NTX_SLOTS[k]||[],cur=ntcSlotsDraft[k]||{};
+  const lb=document.getElementById('ntc-slots-lay');if(lb)lb.textContent=(ntxLay(k).name||'')+(defs.length?' · '+defs.length+'곳':'');
+  if(!defs.length){box.innerHTML='<p class="ob-hint">이 레이아웃은 메인 사진 1장만 써요.</p>';return;}
+  box.innerHTML=defs.map(([key,name])=>{const u=ntxSafeUrl(cur[key]);
+    return '<div class="ntc-slot'+(u?' has':'')+'"><span class="ntc-slot-img">'+(u?'<img src="'+ntxA(typeof thumbOf==='function'?thumbOf(u):u)+'" data-orig="'+ntxA(u)+'" onerror="thumbFail(this)" alt="">':'<em>메인 사진</em>')+'</span><span class="ntc-slot-name">'+esc(name)+'</span>'
+      +'<span class="ntc-slot-acts"><label class="hub-mini">올리기<input type="file" accept="image/*" style="display:none" onchange="ntcSlotPick(this,\''+key+'\')"></label>'+(u?'<button type="button" class="hub-mini" onclick="ntcSlotClear(\''+key+'\')">비우기</button>':'')+'</span></div>';}).join('');
+}
+async function ntcSlotPick(inp,key){
+  const f=inp.files&&inp.files[0];inp.value='';if(!f)return;
+  const k=ntcLayCur();
+  try{showToast('업로드 중…');const url=await uploadImage(f,'notices');if(!ntxSafeUrl(url))throw new Error('주소 없음');
+    (ntcSlotsDraft[k]=ntcSlotsDraft[k]||{})[key]=url;ntcSlotsRender();ntcePvSoon();showToast('사진 준비됨 · SAVE를 눌러야 반영돼요');}
+  catch(e){showToast('업로드 실패');}
+}
+function ntcSlotClear(key){const k=ntcLayCur();if(ntcSlotsDraft[k])delete ntcSlotsDraft[k][key];ntcSlotsRender();ntcePvSoon();}
 function ntceSwSync(){document.querySelectorAll('#ntc-modal .ntc-sw').forEach(l=>{const i=l.querySelector('input');if(!i)return;l.style.setProperty('--sw',i.value);const h=l.parentNode.querySelector('.ntce-hex');if(h)h.textContent=String(i.value).toUpperCase();});}
 function ntceInit(){
   const box=document.querySelector('#ntc-modal .modal-box');if(!box||box._ntce)return;box._ntce=1;
   const on=e=>{const t=e.target;if(!t||!t.closest)return;
     if(t.id==='ntc-f-accent'){const c=document.getElementById('ntc-f-acdef');if(c)c.checked=false;}
     if(t.id==='ntc-f-canvas'){const c=document.getElementById('ntc-f-cvdef');if(c)c.checked=false;}
-    if(t.name==='ntc-lay'){box.querySelectorAll('.ntce-lay').forEach(l=>{const i=l.querySelector('input');l.classList.toggle('on',!!(i&&i.checked));});ntcColorUI();}
+    if(t.name==='ntc-lay'){ntcSlotsRender();box.querySelectorAll('.ntce-lay').forEach(l=>{const i=l.querySelector('input');l.classList.toggle('on',!!(i&&i.checked));});ntcColorUI();}
     if(t.type==='color')ntceSwSync();
     if(t.closest('.ntce-form'))ntcePvSoon();};
   box.addEventListener('input',on);box.addEventListener('change',on);
@@ -6876,6 +6922,8 @@ function ntcFormData(){
   d.accent=g('ntc-f-acdef').checked?'':ntxHex(g('ntc-f-accent').value,'');
   d.canvas=g('ntc-f-cvdef').checked?'':ntxHex(g('ntc-f-canvas').value,'');
   d.anim=g('ntc-f-anim').checked;
+  d.titleOn=g('ntc-f-titleon').checked;
+  const sl={};Object.keys(ntcSlotsDraft||{}).forEach(k=>{const o={};Object.entries(ntcSlotsDraft[k]||{}).forEach(([a,b])=>{if(ntxSafeUrl(b))o[a]=b;});if(Object.keys(o).length)sl[k]=o;});d.slots=sl;
   const rm=document.querySelector('input[name="ntc-rm"]:checked');d.readmode=rm&&rm.value==='scroll'?'scroll':'more';
   d.extra=ntcExtraCollect();
   return d;
@@ -6902,11 +6950,11 @@ function ntcePvClassic(d,vert){
   st.style.setProperty('--ntc-box45',ntcHexRgba(B,.45));st.style.setProperty('--ntc-box04',ntcHexRgba(B,.05));
   st.style.setProperty('--ntc-boxsolid',B);st.style.setProperty('--ntc-box72',ntcHexRgba(B,.72));st.style.setProperty('--ntc-glow',ntcHexRgba(B,.17));
   st.style.setProperty('--ntc-fx',(d.fx!=null?d.fx:50)+'%');st.style.setProperty('--ntc-fy',(d.fy!=null?d.fy:35)+'%');st.style.setProperty('--ntc-zoom',((d.zoom!=null?d.zoom:170)/100));
-  st.classList.toggle('nobg',!d.bg);
+  st.classList.toggle('nobg',!d.bg);st.classList.toggle('notitle',d.titleOn===false);
   const G='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
   const q=c=>st.querySelector(c);
   const bg=q('.ntc-bg img');if(bg){delete bg.dataset.src;if(d.bg){bg.src=G;bg.dataset.src=d.bg;}else bg.removeAttribute('src');}
-  const pn=q('.ntc-panel');if(pn)pn.innerHTML=d.bg?[0,1,2].map(i=>'<div class="ntc-slice"><img src="'+G+'" data-src="'+esc(d.bg)+'" style="left:'+(-i*100)+'%" alt="" draggable="false"></div>').join(''):'';
+  const pn=q('.ntc-panel');if(pn)pn.innerHTML=ntcPanelUrl(d)?[0,1,2].map(i=>'<div class="ntc-slice"><img src="'+G+'" data-src="'+esc(ntcPanelUrl(d))+'" style="left:'+(-i*100)+'%" alt="" draggable="false"></div>').join(''):'';
   const nk=q('.ntc-nick');if(nk)nk.textContent=d.nick||'닉네임';
   const rc=q('.ntc-rich');if(rc)rc.innerHTML=esc(d.rich||'').replace(/\n/g,'<br>');
   const kws=t=>String(t||'').split(/\n/).map(x=>x.trim()).filter(Boolean).map(x=>'<span class="ntc-kw">'+esc(x)+'</span>').join('');
@@ -6935,6 +6983,7 @@ function ntcePvRender(){
     sc.innerHTML='<div class="ntce-pv-root">'+fn(ntxCtx(d,lay))+'</div>';
     const r=sc.querySelector('.ntx');
     if(r){
+      r.classList.toggle('notitle',d.titleOn===false);
       r.querySelectorAll('[data-a]').forEach((el,i)=>el.style.setProperty('--i',i));
       if(d.anim!==false&&replay){r.classList.add('anim');setTimeout(()=>r.classList.add('play'),40);}
       ntxFit(r);setTimeout(()=>{ntxFit(r);ntcePvFit();},180);
@@ -7036,6 +7085,8 @@ function ntcEdit(){
   const _xl=document.getElementById('ntc-extra-list');if(_xl){_xl.innerHTML='';(Array.isArray(d.extra)?d.extra:[]).forEach(x=>ntcExtraAdd(x));}
   const _rm=document.querySelector('input[name="ntc-rm"][value="'+(d.readmode==='scroll'?'scroll':'more')+'"]');if(_rm)_rm.checked=true;
   ntceInit();ntceTab('design');ntcePvKey='';
+  ntcSlotsDraft=JSON.parse(JSON.stringify((d.slots&&typeof d.slots==='object')?d.slots:{}));ntcSlotsRender();
+  document.getElementById('ntc-f-titleon').checked=d.titleOn!==false;
   ntcColorUI();
   const pv=document.getElementById('ntc-bg-prev');if(pv){if(d.bg){pv.src=d.bg;pv.style.display='block';}else pv.style.display='none';}
   const pim=document.getElementById('ntc-pick-img');if(pim)pim.src=(d.bg||'');
@@ -7431,6 +7482,16 @@ function bspToggle(b){
   if(p.classList.contains('open')){p.classList.add('closing');setTimeout(()=>p.classList.remove('open','closing'),240);}
   else{p.classList.add('open');bspRender(b);setTimeout(()=>{const i=document.getElementById('bsp-input-'+b);if(i)i.focus();},80);}
 }
+// 모바일(≤640): 검색 팝업을 버튼 아래 화면 안에 고정 배치(가운데 버튼 기준 오른쪽 정렬로 잘리던 문제)
+function spFit(p){
+  if(!p||!p.classList.contains('open')||p.classList.contains('closing'))return;
+  if(innerWidth>640){if(p.style.left)p.removeAttribute('style');return;}
+  const cb=p.offsetParent||p.parentElement;if(!cb)return;
+  const L=cb.getBoundingClientRect().left;   // 기준 상자(위치 지정된 부모)의 화면 x — 세로 이동 애니메이션과 무관
+  p.style.cssText='left:'+Math.round(14-L)+'px;right:auto;width:'+(innerWidth-28)+'px;';
+}
+function spFitInit(){document.querySelectorAll('.iss-search-pop').forEach(p=>{if(p._spf)return;p._spf=1;new MutationObserver(()=>spFit(p)).observe(p,{attributes:true,attributeFilter:['class']});});addEventListener('resize',()=>document.querySelectorAll('.iss-search-pop.open').forEach(spFit));}
+setTimeout(spFitInit,0);
 function bspInput(b,v){
   if(b==='diary'){const src=document.getElementById('diary-search');if(src)src.value=v;}
   else bspSt(b).q=v;
@@ -11783,8 +11844,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.7.1';
+const APP_VERSION='1.7.2';
 const CHANGELOG=[
+  {v:'1.7.2',date:'2026-09-17',title:'공지 구역별 사진 · 큰 제목 켜기/끄기',sql:false,items:['공지 편집 › 사진: 레이아웃마다 구역별 사진(기본 가로형 패널·벤토 5곳·레일 7곳·프로필 4곳·에디토리얼 2곳·앨범 2곳) — 비운 구역은 메인 사진','공지 편집 › 글: 큰 제목 표시 켜기/끄기','모바일: 검색 창이 화면 밖으로 잘리던 문제']},
   {v:'1.7.1',date:'2026-09-17',title:'배경 효과 · 하단 문의',sql:false,items:['관리 › 꾸미기 › 배경 › 배경 효과: 별무리 · 유성우 · 비 · 벼락 · 눈송이 · 벚꽃 · 비눗방울 · 하트 비눗방울 · 물거품 · 파도 물결 · 수중 빛무리 · 불꽃 낙하 · 쌍두룡(VIP) · 도트 하트 — 감상을 해치지 않게 작고 옅게(색은 먼지 색)','홈페이지 배경음악 플레이리스트 편집기 — 음원 파일 여러 개 올리기(끌어다 놓기)·유튜브 링크 추가·제목 수정·순서 변경·삭제·미리 듣기','페이지 하단에 옅은 워터마크와 「운영자 문의」 버튼']},
   {v:'1.7.0',date:'2026-09-17',title:'공지 자기소개표 템플릿',sql:false,items:['공지 편집 › 레이아웃: 기본 가로형 · 세로형(PC에서도) · 벤토 · 사이드 레일 · 프로필 페이지 · 에디토리얼 · 앨범','템플릿 색상 4종(글자·박스·포인트·바탕) — 포인트·바탕은 템플릿 기본색 또는 직접 지정, 글자와 배경 대비가 낮으면 자동 보정','추가 항목을 원하는 만큼(이름·칩/말풍선/글 방식), 비운 항목은 숨김','큰 제목·한 줄 소개 칸','긴 내용은 「더 보기」로 펼치기, 탭·이동 버튼으로 항목 확인, 등장 애니메이션(켜기/끄기)과 포인트별 호버 애니메이션','템플릿마다 모바일 전용 배치','공지 편집창 개편 — 디자인·사진·글·항목·색 탭, 실시간 미리보기(PC·모바일), 구도가 보이는 레이아웃 카드, 작은 마름모 색 선택','긴 내용 보기 방식 선택: 「더 보기」 버튼 또는 칸 안 스크롤(스크롤바 없이, 더 있을 때만 끝이 흐려짐)']},
   {v:'1.6.14',date:'2026-09-17',title:'공지·모바일 다듬기',sql:false,items:['공지: ETC 말풍선이 길거나 많으면 틀 밖으로 넘치던 문제 — 틀 안에서 스크롤(넘칠 때 아래 흐림)','공지: LOVE·HATE·ETC를 비워 두면 해당 칸을 숨김','모바일: 다이어리 카드 등장 애니메이션·프롬프트 페이지 번호가 화면 밖으로 넘쳐 가로 스크롤이 생기던 문제']},
