@@ -535,6 +535,20 @@ body.is-admin .admin-fab{display:grid}
 
 /* LP MUSIC PLAYER (right, persists) */
 .lp-player{position:fixed;right:44px;top:38%;z-index:50;display:flex;flex-direction:column;align-items:center;gap:10px;width:150px}
+/* 하단 워터마크 · 운영자 문의 (옅게) */
+.site-foot{display:flex;align-items:center;justify-content:center;gap:12px;font-family:var(--font-num);font-size:9px;letter-spacing:.3em;color:rgba(var(--t-fg-soft),.24);pointer-events:none;user-select:none;-webkit-user-select:none;}
+.site-foot .sf-dot{width:3px;height:3px;background:currentColor;transform:rotate(45deg);flex:none;}
+.site-foot .sf-ask{position:relative;pointer-events:auto;background:none;border:0;padding:5px 0;font-family:var(--font-kr);font-size:10px;letter-spacing:.08em;color:inherit;cursor:pointer;transition:color .35s;}
+.site-foot .sf-ask::after{content:'';position:absolute;left:0;right:100%;bottom:3px;height:1px;background:currentColor;transition:right .45s cubic-bezier(.3,1.2,.35,1);}
+.site-foot .sf-ask:hover,.site-foot .sf-ask:focus-visible{color:rgba(var(--t-fg-mid),.72);outline:none;}
+.site-foot .sf-ask:hover::after,.site-foot .sf-ask:focus-visible::after{right:0;}
+.home-foot{position:fixed;left:0;right:0;bottom:16px;z-index:6;}
+body.board-open .home-foot{display:none;}
+#board-foot{margin:64px 0 6px;}
+#main-content:has(#page-hub.active) #board-foot{display:none;}
+.tbg-fxs{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0 4px;}
+@media(max-width:920px){.home-foot{bottom:calc(74px + env(safe-area-inset-bottom));}}
+@media(hover:none){.site-foot .sf-ask{padding:12px 6px;margin:-7px -6px;}}
 /* elliptical waves radiating out from the record (emphasized) */
 .lp-player::before,.lp-player::after{content:'';position:absolute;left:75px;top:53px;width:110px;height:110px;border-radius:50%;border:1.6px solid rgba(var(--t-accent),.6);box-shadow:0 0 8px rgba(var(--t-accent),.35);transform:translate(-50%,-50%) scale(.4);opacity:0;pointer-events:none;z-index:0}
 .lp-player::before{animation:lpRipple 3.2s ease-out infinite}
@@ -1528,6 +1542,26 @@ body.is-admin .fs-pop{right:126px;}
 .dft-del:hover{color:rgb(var(--t-danger-c));}
 .ed-bgm-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:8px;}
 .ed-bgm-row{align-items:center;flex-wrap:wrap;row-gap:6px;}
+/* 홈페이지 배경음악 플레이리스트 */
+#bgm-modal .modal-box.bgm-box{max-width:600px;}
+.bgm-drop{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 12px;border:1px dashed rgba(var(--t-fg),.22);cursor:pointer;text-align:center;transition:border-color .3s,background .3s;}
+.bgm-drop:hover,.bgm-drop.over{border-color:rgba(var(--t-text),.6);background:rgba(var(--t-fg),.04);}
+.bgm-drop-t{font-family:var(--font-kr);font-weight:600;font-size:calc(12.5px*var(--fs,1));color:rgb(var(--t-snow));}
+.bgm-drop-s{font-family:var(--font-kr);font-size:calc(10.5px*var(--fs,1));color:rgba(var(--t-fg-soft),.55);}
+.bgm-list{margin:10px 0 4px;max-height:300px;overflow-y:auto;scrollbar-width:none;}
+.bgm-list::-webkit-scrollbar{display:none;width:0;}
+.bgm-empty{padding:14px 0;text-align:center;}
+.bgm-row{display:grid;grid-template-columns:24px 62px minmax(0,1fr) auto;gap:10px;align-items:center;padding:7px 0;border-top:1px solid rgba(var(--t-fg),.07);}
+.bgm-row.playing .bgm-no{color:rgb(var(--t-text));text-shadow:0 0 8px rgba(var(--t-glow),.7);}
+.bgm-no{font-family:var(--font-num);font-size:calc(10px*var(--fs,1));letter-spacing:.1em;color:rgba(var(--t-fg-soft),.5);}
+.bgm-kind{font-family:var(--font-num);font-size:8px;letter-spacing:.18em;color:rgba(var(--t-fg-soft),.6);border:1px solid rgba(var(--t-fg),.14);padding:3px 0;text-align:center;}
+.bgm-ti{font-size:calc(12px*var(--fs,1));padding:5px 8px;}
+.bgm-acts{display:flex;gap:9px;align-items:center;white-space:nowrap;}
+.bgm-acts .hub-mini:disabled{opacity:.25;cursor:default;}
+.bgm-del{line-height:0;}
+.bgm-yt{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) auto;gap:8px;align-items:center;margin-top:10px;}
+.bgm-yt .form-input{font-size:calc(12px*var(--fs,1));padding:6px 8px;}
+@media(max-width:640px){.bgm-row{grid-template-columns:22px minmax(0,1fr) auto;row-gap:4px;}.bgm-kind{display:none;}.bgm-yt{grid-template-columns:minmax(0,1fr);}}
 .ed-bgm-row .mf-hint{margin:0;}
 #ef-bgm-url:disabled{opacity:.55;}
 .pbgm-groove{position:absolute;inset:4px;border-radius:50%;background:repeating-radial-gradient(circle,rgba(var(--t-fg),.07) 0 1px,transparent 1px 4px);}
@@ -3653,6 +3687,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
 <div class="home-sub" id="home-sub"></div>
 <div class="home-newposts" id="main-newposts" style="display:none"></div>
 <button class="dday-admin-btn" id="dday-admin-btn" onclick="openDdayModal()">+ D-DAY</button>
+<div class="site-foot home-foot" id="home-foot"><span class="sf-mark">&copy; 2026 PALELY.ME</span><i class="sf-dot" aria-hidden="true"></i><button type="button" class="sf-ask" onclick="siteContact()">운영자 문의</button></div>
 <button class="totop" id="totop" type="button" aria-label="맨 위로" title="맨 위로" onclick="toTop()"><svg viewBox="0 0 18 10" width="18" height="10" fill="none" stroke="currentColor" stroke-width="1"><path d="M1 9l8-8 8 8"/></svg><span class="totop-tx">TOP</span></button>
 <div class="feed-bell" id="feed-bell" title="이웃 새글 알림" onclick="feedBellClick()"><span class="bell-lot" id="bell-lot"></span><span class="feed-dot" id="feed-dot"></span></div>
 <div class="feed-panel" id="feed-panel">
@@ -4029,6 +4064,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
   <div class="detail-content" id="detail-content"></div>
   <div style="margin-top:40px;" id="detail-admin-actions"></div>
 </div>
+<footer class="site-foot" id="board-foot"><span class="sf-mark">&copy; 2026 PALELY.ME</span><i class="sf-dot" aria-hidden="true"></i><button type="button" class="sf-ask" onclick="siteContact()">운영자 문의</button></footer>
 
 </main>
 
@@ -4057,19 +4093,25 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
   </div>
 </div>
 <div class="modal-overlay" id="bgm-modal">
-  <div class="modal-box" style="max-width:520px" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeModal('bgm-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+  <div class="modal-box bgm-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="bgmPrevStop();closeModal('bgm-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
     <div class="modal-title">배경음악 설정</div>
-    <div class="adm-sec-sub" style="text-align:center;margin-bottom:14px;">LP 플레이어에 흐르는 곡을 정합니다 · 저장 즉시 반영</div>
+    <div class="adm-sec-sub" style="text-align:center;margin-bottom:14px;">홈페이지 LP 플레이어에 흐르는 곡 · 저장 즉시 반영</div>
     <div class="form-group"><label class="form-label">소스</label>
-      <label class="form-check" style="margin-bottom:6px"><input type="radio" name="bgm-src" value="pmb" onchange="bgmSrcUI()"><span>Pair Music Box 플레이리스트 연동</span></label>
-      <label class="form-check"><input type="radio" name="bgm-src" value="custom" onchange="bgmSrcUI()"><span>직접 지정 — 유튜브 · 음원 파일</span></label>
+      <label class="form-check" style="margin-bottom:6px"><input type="radio" name="bgm-src" value="custom" onchange="bgmSrcUI()"><span>내 플레이리스트 — 음원 파일 · 유튜브</span></label>
+      <label class="form-check"><input type="radio" name="bgm-src" value="pmb" onchange="bgmSrcUI()"><span>Pair Music Box 플레이리스트 연동</span></label>
     </div>
     <div id="bgm-pmb-box"><div class="form-group"><label class="form-label">플레이리스트 ID (비우면 기본)</label><input class="form-input" id="bgm-pid" placeholder="a261625f-…"></div></div>
-    <div id="bgm-custom-box"><div class="form-group"><label class="form-label">트랙 목록 — 한 줄에 하나 · <code>유튜브 주소(또는 음원 파일 주소) | 제목</code></label><textarea class="form-textarea" id="bgm-tracks" placeholder="https://youtu.be/xxxxxxxxxxx | 곡 제목&#10;dQw4w9WgXcQ | 다른 곡" style="min-height:120px;font-family:'Pretendard',monospace;font-size:12px;"></textarea><div class="dl-btnrow ed-bgm-row"><label class="form-file-label"><span>+ 음원 파일 올리기 (여러 개)</span><input type="file" multiple accept="audio/*,.mp3,.m4a,.aac,.ogg,.oga,.opus,.wav,.flac" style="display:none" onchange="bgmUploadFiles(this)"></label><span class="mf-hint" id="bgm-up-st">올린 파일은 목록에 한 줄씩 추가돼요 · mp3·m4a·ogg·wav·flac</span></div></div></div>
+    <div id="bgm-custom-box">
+      <div class="form-group"><label class="form-label">플레이리스트 <small class="ob-st" id="bgm-count"></small></label>
+        <label class="bgm-drop" id="bgm-drop" ondragover="bgmDropOver(event)" ondragleave="this.classList.remove('over')" ondrop="bgmDrop(event)"><input type="file" multiple accept="audio/*,.mp3,.m4a,.aac,.ogg,.oga,.opus,.wav,.flac" style="display:none" onchange="bgmUploadFiles(this)"><span class="bgm-drop-t">+ 음원 파일 올리기</span><span class="bgm-drop-s" id="bgm-up-st">여러 개 선택 · 끌어다 놓기 가능 · mp3 · m4a · ogg · wav · flac</span></label>
+        <div class="bgm-list" id="bgm-list"></div>
+        <div class="bgm-yt"><input class="form-input" id="bgm-yt-url" placeholder="유튜브 링크"><input class="form-input" id="bgm-yt-title" placeholder="곡 제목 (선택)"><button type="button" class="form-file-label" onclick="bgmYtAdd()"><span>+ 추가</span></button></div>
+      </div>
+    </div>
     <div class="form-group"><label class="form-label">플레이어에 표시할 이름 (선택)</label><input class="form-input" id="bgm-name" placeholder="비우면 플레이리스트 이름"></div>
     <div class="form-group"><label class="form-check"><input type="checkbox" id="bgm-autoplay"><span>접속 시 자동재생 (방문자가 끄면 그 기기는 예외)</span></label></div>
-    <div class="form-actions"><button class="btn-primary" onclick="bgmSave()">SAVE</button><button class="btn-secondary" onclick="closeModal('bgm-modal')">CANCEL</button></div>
+    <div class="form-actions"><button class="btn-primary" onclick="bgmSave()">SAVE</button><button class="btn-secondary" onclick="bgmPrevStop();closeModal('bgm-modal')">CANCEL</button></div>
   </div>
 </div>
 <!-- 버전 · 변경내역 (Admin) -->
@@ -4285,8 +4327,10 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
     <div class="tf-row"><label class="form-label">상세글 읽기 배경 <span style="opacity:.6;font-weight:400">— 방문자가 상세 화면에서 직접 바꿀 수도 있어요</span></label>
       <div class="adm-sg-opt"><label class="form-check"><input type="radio" name="tbg-read" value="dark" onchange="themeReadSet(this.value)"><span>테마 그대로</span></label><label class="form-check"><input type="radio" name="tbg-read" value="paper" onchange="themeReadSet(this.value)"><span>종이(밝은 배경·어두운 글자) — 색은 색상 테마 › 읽기 종이</span></label></div>
     </div>
-    <div class="tf-row"><label class="form-label">우주 먼지</label>
-      <label class="form-check"><input type="checkbox" id="tbg-particles" onchange="themeBgParticlesSet(this.checked)"><span>배경에 떠다니는 먼지 입자 표시</span></label>
+    <div class="tf-row"><label class="form-label">배경 효과</label>
+      <label class="form-check"><input type="checkbox" id="tbg-particles" onchange="themeBgParticlesSet(this.checked)"><span>배경 효과 표시</span></label>
+      <div class="tbg-fxs" id="tbg-fxs"></div>
+      <p class="ob-hint">색은 색상 테마의 먼지 색을 따라가요. 눈송이·깃털은 흰색, 벚꽃은 분홍, 불꽃은 주황이에요.</p>
       <label class="form-check"><input type="checkbox" id="tbg-glow" onchange="themeBgGlowSet(this.checked)"><span>배경 글로우 — 구석에 은은하게 깔리는 빛덩이 3개 (색은 색상 테마 › 배경 글로우)</span></label>
     </div>
     <div class="form-actions"><button class="btn-primary" onclick="themeBgSave()">SAVE</button><button class="btn-secondary" onclick="themeBgResetDefault()">기본으로 초기화</button><button class="btn-secondary" onclick="closeModal('theme-bg-modal')">CANCEL</button></div>
@@ -5470,6 +5514,7 @@ function applyTheme(t){
   const fxAuto=_deriveBgFx(t&&t.colors);   // 기본 회색/기본 먼지색은 '자동' — 팔레트(accent·bg 명도)에서 파생 (밝은 배색에 회색 글로우가 남던 문제)
   root.setProperty('--t-bg-glow',(bg.glowColor&&bg.glowColor!=='69,69,80')?bg.glowColor:fxAuto.glow);
   window.PARTICLE_COLOR=(bg.particleColor&&bg.particleColor!=='200,208,232')?bg.particleColor:fxAuto.particle;
+  window.PARTICLE_FX=bgFxResolve(bg.fx);
   const pcv=document.getElementById('particle-canvas');if(pcv)pcv.style.display=(bg.particles===false)?'none':'';
   const bgl=document.querySelector('.bg-glow');if(bgl)bgl.style.display=(bg.glow===false)?'none':'';
   const bgi=document.getElementById('bg-image'),bgd=document.getElementById('bg-dim');
@@ -5833,7 +5878,7 @@ function themeLogoSet(k,url){
 function themeLogoDefault(k){themeLogoSet(k,'');}
 async function themeLogoSave(){const ok=await saveTheme();if(ok){themeEditCommit();showToast('로고 저장됨');}}
 // ── 배경 UI (Phase3): themeData.bg 채우고 applyTheme/saveTheme 호출만 — 코어 미변경 ──
-const THEME_BG_DEF={mode:'default',image:'',fit:'cover',dim:0.4,particles:true,glow:true,particleColor:'200,208,232',glowColor:'69,69,80'};
+const THEME_BG_DEF={mode:'default',image:'',fit:'cover',dim:0.4,particles:true,fx:'stars',glow:true,particleColor:'200,208,232',glowColor:'69,69,80'};
 // ── 읽기 모드(종이): 주인 기본값 themeData.read('dark'|'paper') + 독자 기기 선택 localStorage.palely_read ──
 function readMode(t){let u='';try{u=localStorage.getItem('palely_read')||'';}catch(e){}if(u==='paper'||u==='dark')return u;const th=t||themeData;return (th&&th.read==='paper')?'paper':'dark';}
 // 독자 글자 크기(전 블로그 공통 · 기기 기억): --fs 배율을 본문 컨테이너 font-size가 곱함
@@ -5862,7 +5907,7 @@ function themeBgOpen(){
   const dim=(b.dim!=null)?b.dim:0.4;
   const ds=document.getElementById('tbg-dim');if(ds)ds.value=dim;
   const dv=document.getElementById('tbg-dim-val');if(dv)dv.textContent=(+dim).toFixed(2);
-  const pc=document.getElementById('tbg-particles');if(pc)pc.checked=(b.particles!==false);
+  const pc=document.getElementById('tbg-particles');if(pc)pc.checked=(b.particles!==false);tbgFxRender(b.fx);
   const gw=document.getElementById('tbg-glow');if(gw)gw.checked=(b.glow!==false);
   const rd=(themeData.read==='paper')?'paper':'dark';document.querySelectorAll('input[name="tbg-read"]').forEach(r=>{r.checked=(r.value===rd);});
   const bl=(b.blur!=null)?+b.blur:0;
@@ -5922,6 +5967,14 @@ function themeBgBlurSet(v){
   const bv=document.getElementById('tbg-blur-val');if(bv)bv.textContent=b?b+'px':'없음';
   applyTheme(themeData);
 }
+// 배경 효과 종류 (bg.fx) — 흰 깃털은 보스 블로그 전용
+const BG_FX=[{k:'stars',n:'별무리'},{k:'meteor',n:'유성우'},{k:'rain',n:'비'},{k:'lightning',n:'벼락'},{k:'snow',n:'눈송이'},{k:'sakura',n:'벚꽃'},{k:'bubble',n:'비눗방울'},{k:'heartbubble',n:'하트 비눗방울'},{k:'foam',n:'물거품'},{k:'wave',n:'파도 물결'},{k:'underwater',n:'수중 빛무리'},{k:'fire',n:'불꽃 낙하'},{k:'dragon',n:'쌍두룡',vip:1},{k:'pixelheart',n:'도트 하트'},{k:'feather',n:'천사 깃털',boss:1}];
+function bgFxIsBoss(){try{return SITE_ID===BOSS_SITE_ID;}catch(e){return false;}}
+function bgFxIsVip(){try{return bgFxIsBoss()||(typeof siteFree==='function'&&siteFree());}catch(e){return false;}}   // VIP 전용 효과: boss·vip 등급 블로그
+function bgFxOk(f){return (!f.boss||bgFxIsBoss())&&(!f.vip||bgFxIsVip());}
+function bgFxResolve(k){const f=BG_FX.find(v=>v.k===k);if(!f||!bgFxOk(f))return 'stars';return f.k;}
+function tbgFxRender(cur){const box=document.getElementById('tbg-fxs');if(!box)return;const v=bgFxResolve(cur);box.innerHTML=BG_FX.filter(bgFxOk).map(f=>'<label class="form-check"><input type="radio" name="tbg-fx" value="'+f.k+'"'+(f.k===v?' checked':'')+' onchange="themeBgFxSet(this.value)"><span>'+esc(f.n)+(f.vip?' <small class="ob-st">VIP</small>':'')+'</span></label>').join('');}
+function themeBgFxSet(v){if(!themeData)themeData={};if(!themeData.bg)themeData.bg={};themeData.bg.fx=bgFxResolve(v);if(themeData.bg.particles===false){themeData.bg.particles=true;const pc=document.getElementById('tbg-particles');if(pc)pc.checked=true;}applyTheme(themeData);}
 function themeBgGlowSet(on){if(!themeData)themeData={};if(!themeData.bg)themeData.bg={};themeData.bg.glow=!!on;applyTheme(themeData);}
 function themeBgParticlesSet(on){
   if(!themeData)themeData={};if(!themeData.bg)themeData.bg={};
@@ -11496,31 +11549,67 @@ function playerToggle(){
 async function bgmOpen(){
   if(!isAdmin){showToast('Admin only');return;}
   const c=await bgmLoad();
-  document.querySelector('#bgm-modal input[name=bgm-src][value="'+(c.src==='custom'?'custom':'pmb')+'"]').checked=true;
+  document.querySelector('#bgm-modal input[name=bgm-src][value="'+((c.src==='custom'||c.src==='none')?'custom':'pmb')+'"]').checked=true;
   document.getElementById('bgm-pid').value=c.playlistId||'';
   document.getElementById('bgm-name').value=c.name||'';
-  document.getElementById('bgm-tracks').value=(c.tracks||[]).map(t=>(t.vid||t.url||'')+(t.title?' | '+t.title:'')).join('\n');
-  const _us=document.getElementById('bgm-up-st');if(_us)_us.textContent='올린 파일은 목록에 한 줄씩 추가돼요 · mp3·m4a·ogg·wav·flac';
+  bgmPrevStop();bgmList=(c.tracks||[]).filter(t=>t&&(t.vid||t.url)).map(t=>({vid:t.vid||'',url:t.url||'',title:t.title||''}));bgmListRender();
+  const _us=document.getElementById('bgm-up-st');if(_us)_us.textContent='여러 개 선택 · 끌어다 놓기 가능 · mp3 · m4a · ogg · wav · flac';
+  ['bgm-yt-url','bgm-yt-title'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
   document.getElementById('bgm-autoplay').checked=c.autoplay!==false;
   bgmSrcUI();
   document.getElementById('bgm-modal').classList.add('active');
 }
+// 플레이리스트 편집(홈페이지 배경음악)
+let bgmList=[],bgmPrev=null,bgmPrevI=-1,bgmPrevT=0;
+function bgmListRender(){
+  const box=document.getElementById('bgm-list');if(!box)return;
+  const cnt=document.getElementById('bgm-count');if(cnt)cnt.textContent=bgmList.length?bgmList.length+'곡':'';
+  if(!bgmList.length){box.innerHTML='<p class="ob-hint bgm-empty">아직 곡이 없어요 — 음원 파일을 올리거나 유튜브 링크를 추가하세요</p>';return;}
+  box.innerHTML=bgmList.map((t,i)=>'<div class="bgm-row'+(i===bgmPrevI?' playing':'')+'"><span class="bgm-no">'+String(i+1).padStart(2,'0')+'</span><span class="bgm-kind">'+(t.url?'FILE':'YOUTUBE')+'</span>'
+    +'<input class="form-input bgm-ti" maxlength="80" placeholder="곡 제목" oninput="bgmList['+i+'].title=this.value">'
+    +'<span class="bgm-acts">'+(t.url?'<button type="button" class="hub-mini" onclick="bgmPrevToggle('+i+')">'+(i===bgmPrevI?'정지':'듣기')+'</button>':'')
+    +'<button type="button" class="hub-mini" onclick="bgmMove('+i+',-1)"'+(i?'':' disabled')+' aria-label="위로">▲</button><button type="button" class="hub-mini" onclick="bgmMove('+i+',1)"'+(i<bgmList.length-1?'':' disabled')+' aria-label="아래로">▼</button>'
+    +'<button type="button" class="hub-mini bgm-del" onclick="bgmDel('+i+')" aria-label="삭제"><svg width="9" height="9"><use href="#iss-ic-x"/></svg></button></span></div>').join('');
+  box.querySelectorAll('.bgm-ti').forEach((e,i)=>{e.value=bgmList[i].title||'';});
+}
+function bgmMove(i,d){const j=i+d;if(j<0||j>=bgmList.length)return;const t=bgmList[i];bgmList[i]=bgmList[j];bgmList[j]=t;if(bgmPrevI===i)bgmPrevI=j;else if(bgmPrevI===j)bgmPrevI=i;bgmListRender();}
+function bgmDel(i){if(bgmPrevI===i)bgmPrevStop();else if(bgmPrevI>i)bgmPrevI--;bgmList.splice(i,1);bgmListRender();}
+function bgmPrevStop(){if(bgmPrev){try{bgmPrev.pause();}catch(e){}bgmPrev.removeAttribute('src');}clearInterval(bgmPrevT);const was=bgmPrevI;bgmPrevI=-1;if(was>=0)bgmListRender();}
+function bgmPrevToggle(i){
+  if(bgmPrevI===i){bgmPrevStop();return;}
+  bgmPrevStop();const t=bgmList[i];if(!t||!t.url)return;
+  if(!bgmPrev){bgmPrev=new Audio();bgmPrev.preload='none';bgmPrev.addEventListener('ended',bgmPrevStop);}
+  try{if(typeof lpIsPlaying==='function'&&lpIsPlaying())lpPause();}catch(e){}
+  bgmPrev.src=t.url;bgmPrev.volume=.6;bgmPrev.play().catch(()=>{showToast('재생할 수 없는 파일이에요');bgmPrevStop();});
+  bgmPrevI=i;bgmListRender();
+  bgmPrevT=setInterval(()=>{const m=document.getElementById('bgm-modal');if(!m||!m.classList.contains('active'))bgmPrevStop();},800);
+}
+function bgmYtAdd(){
+  const u=document.getElementById('bgm-yt-url'),tt=document.getElementById('bgm-yt-title');
+  const vid=ytIdOf((u.value||'').trim());
+  if(!vid){if(bgmIsAudio((u.value||'').trim())){bgmList.push({vid:'',url:u.value.trim(),title:(tt.value||'').trim().replace(/\|/g,'／')});}else{showToast('유튜브 링크를 못 읽었어요');return;}}
+  else bgmList.push({vid,url:'',title:(tt.value||'').trim().replace(/\|/g,'／')});
+  u.value='';tt.value='';bgmSrcPick();bgmListRender();
+}
+function bgmSrcPick(){const r=document.querySelector('#bgm-modal input[name=bgm-src][value="custom"]');if(r&&!r.checked){r.checked=true;bgmSrcUI();}}
+function bgmDropOver(e){if(e.dataTransfer&&[...(e.dataTransfer.types||[])].includes('Files')){e.preventDefault();e.currentTarget.classList.add('over');}}
+function bgmDrop(e){e.preventDefault();e.currentTarget.classList.remove('over');const fs=e.dataTransfer&&e.dataTransfer.files;if(fs&&fs.length)bgmUploadFiles({files:fs,value:''});}
 async function bgmUploadFiles(inp){
-  const files=[...(inp.files||[])];inp.value='';if(!files.length)return;
-  const st=document.getElementById('bgm-up-st'),ta=document.getElementById('bgm-tracks');let ok=0;
+  const files=[...(inp.files||[])];try{inp.value='';}catch(e){}if(!files.length)return;
+  const st=document.getElementById('bgm-up-st');let ok=0;
   for(let i=0;i<files.length;i++){const f=files[i];if(st)st.textContent='올리는 중 '+(i+1)+' / '+files.length+' · '+f.name;
     if(!bgmFileOk(f)){showToast('음원 파일이 아니에요: '+f.name);continue;}
     if(f.size>bgmFileCap()){showToast('파일이 너무 커요(최대 '+Math.round(bgmFileCap()/1048576)+'MB): '+f.name);continue;}
-    try{const url=await bgmUploadOne(f);const title=f.name.replace(/\.[^.]+$/,'').replace(/\|/g,'／');ta.value=(ta.value.trim()?ta.value.replace(/\s*$/,'')+'\n':'')+url+' | '+title;ok++;}
+    try{const url=await bgmUploadOne(f);bgmList.push({vid:'',url,title:f.name.replace(/\.[^.]+$/,'').replace(/\|/g,'／')});ok++;bgmListRender();}
     catch(e){showToast('업로드 실패: '+((e&&e.message)||e));}}
-  if(st)st.textContent=ok?ok+'개 추가됨 · SAVE를 눌러야 반영돼요':'추가된 파일이 없어요';
-  if(ok){const r=document.querySelector('#bgm-modal input[name=bgm-src][value="custom"]');if(r){r.checked=true;bgmSrcUI();}}
+  if(st)st.textContent=ok?ok+'곡 추가됨 · SAVE를 눌러야 반영돼요':'추가된 파일이 없어요';
+  if(ok)bgmSrcPick();
 }
 function bgmSrcUI(){const src=(document.querySelector('#bgm-modal input[name=bgm-src]:checked')||{}).value||'pmb';document.getElementById('bgm-pmb-box').style.display=src==='pmb'?'':'none';document.getElementById('bgm-custom-box').style.display=src==='custom'?'':'none';}
 async function bgmSave(){
   const src=(document.querySelector('#bgm-modal input[name=bgm-src]:checked')||{}).value||'pmb';
   const tracks=[];const bad=[];
-  document.getElementById('bgm-tracks').value.split('\n').map(l=>l.trim()).filter(Boolean).forEach(l=>{const parts=l.split('|');const u0=parts[0].trim();const title=parts.slice(1).join('|').trim();const vid=ytIdOf(u0);if(vid)tracks.push({vid,title});else if(bgmIsAudio(u0))tracks.push({url:u0,title});else bad.push(u0);});
+  bgmList.forEach(t=>{const title=String(t.title||'').trim().replace(/\|/g,'／');if(t.vid)tracks.push({vid:t.vid,title});else if(t.url&&bgmIsAudio(t.url))tracks.push({url:t.url,title});else if(t.url)bad.push(t.url);});bgmPrevStop();
   if(bad.length){showToast('유튜브 주소나 음원 파일 주소를 못 읽었어요: '+bad[0]);return;}
   if(src==='custom'&&!tracks.length){showToast('직접 지정엔 트랙이 1개 이상 필요해요');return;}
   const cfg={src,playlistId:document.getElementById('bgm-pid').value.trim(),name:document.getElementById('bgm-name').value.trim(),tracks,autoplay:document.getElementById('bgm-autoplay').checked};
@@ -11694,8 +11783,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.7.0';
+const APP_VERSION='1.7.1';
 const CHANGELOG=[
+  {v:'1.7.1',date:'2026-09-17',title:'배경 효과 · 하단 문의',sql:false,items:['관리 › 꾸미기 › 배경 › 배경 효과: 별무리 · 유성우 · 비 · 벼락 · 눈송이 · 벚꽃 · 비눗방울 · 하트 비눗방울 · 물거품 · 파도 물결 · 수중 빛무리 · 불꽃 낙하 · 쌍두룡(VIP) · 도트 하트 — 감상을 해치지 않게 작고 옅게(색은 먼지 색)','홈페이지 배경음악 플레이리스트 편집기 — 음원 파일 여러 개 올리기(끌어다 놓기)·유튜브 링크 추가·제목 수정·순서 변경·삭제·미리 듣기','페이지 하단에 옅은 워터마크와 「운영자 문의」 버튼']},
   {v:'1.7.0',date:'2026-09-17',title:'공지 자기소개표 템플릿',sql:false,items:['공지 편집 › 레이아웃: 기본 가로형 · 세로형(PC에서도) · 벤토 · 사이드 레일 · 프로필 페이지 · 에디토리얼 · 앨범','템플릿 색상 4종(글자·박스·포인트·바탕) — 포인트·바탕은 템플릿 기본색 또는 직접 지정, 글자와 배경 대비가 낮으면 자동 보정','추가 항목을 원하는 만큼(이름·칩/말풍선/글 방식), 비운 항목은 숨김','큰 제목·한 줄 소개 칸','긴 내용은 「더 보기」로 펼치기, 탭·이동 버튼으로 항목 확인, 등장 애니메이션(켜기/끄기)과 포인트별 호버 애니메이션','템플릿마다 모바일 전용 배치','공지 편집창 개편 — 디자인·사진·글·항목·색 탭, 실시간 미리보기(PC·모바일), 구도가 보이는 레이아웃 카드, 작은 마름모 색 선택','긴 내용 보기 방식 선택: 「더 보기」 버튼 또는 칸 안 스크롤(스크롤바 없이, 더 있을 때만 끝이 흐려짐)']},
   {v:'1.6.14',date:'2026-09-17',title:'공지·모바일 다듬기',sql:false,items:['공지: ETC 말풍선이 길거나 많으면 틀 밖으로 넘치던 문제 — 틀 안에서 스크롤(넘칠 때 아래 흐림)','공지: LOVE·HATE·ETC를 비워 두면 해당 칸을 숨김','모바일: 다이어리 카드 등장 애니메이션·프롬프트 페이지 번호가 화면 밖으로 넘쳐 가로 스크롤이 생기던 문제']},
   {v:'1.6.13',date:'2026-09-17',title:'글 임시저장 · 음원 배경음악 · 이웃 목록 정리',sql:true,items:['글 임시저장(모든 게시판) — 쓰다가 닫으면 「임시저장 / 저장 없이 닫기 / 취소」 선택, 에디터 하단 「임시저장」 버튼, 에디터 위 「임시저장 목록」 토글에서 불러오기·삭제. 로그인 계정에 저장(블로그별)','글 배경음악 칸을 「유튜브 링크」와 「곡 제목」 두 칸으로 분리 + 음원 파일(mp3·m4a·ogg·wav·flac) 올리기','블로그 배경음악(LP 플레이어)에 음원 파일 트랙 추가 — 관리 › 배경음악 › 직접 지정에서 여러 개 올리기','이웃 목록: 블로그를 여러 개 가진 이웃이 여러 줄로 나오던 것을 사람 한 줄로 묶음, 이미 이웃인데 다시 신청하면 중복 행이 생기던 문제 수정','BGM을 설정하지 않은 블로그에서 글 배경음악(유튜브)이 재생되지 않던 문제 수정','DB: _sql_drafts_neighbors.sql 실행 필요']},
@@ -11812,6 +11902,7 @@ function postBgmToggle(){const b=postBgmCur;if(!b)return;if(b.audio){const a=pos
 function postBgmState(e){if(postBgmCur&&postBgmCur.audio)return;postBgmUI(e.data===1);
   if(e.data===0&&postBgmCur){try{postPlayer.seekTo(0,true);postPlayer.playVideo();}catch(er){}}}   // 끝나면 반복
 function postBgmInit(){['prompt-detail-modal','dist-detail-modal'].forEach(id=>{const m=document.getElementById(id);if(!m)return;new MutationObserver(()=>{if(!m.classList.contains('active')&&postBgmCur&&(document.getElementById('pd-bgm')&&m.contains(document.getElementById('pd-bgm'))||document.getElementById('dd-bgm')&&m.contains(document.getElementById('dd-bgm'))))postBgmStop();}).observe(m,{attributes:true,attributeFilter:['class']});});}
+function siteContact(){if(typeof currentUser!=='undefined'&&currentUser&&typeof myAcct!=='undefined'&&myAcct){reportOpen('ask');return;}location.href='mailto:isuxusi589@gmail.com?subject='+encodeURIComponent('[palely.me] 운영자 문의');}
 function toTopInit(){const mc=document.getElementById('main-content'),b=document.getElementById('totop');if(!mc||!b||mc._totop)return;mc._totop=true;const sync=()=>{b.classList.toggle('show',mc.scrollTop>360&&document.body.classList.contains('board-open'));};mc.addEventListener('scroll',sync,{passive:true});const mo=new MutationObserver(sync);mo.observe(document.body,{attributes:true,attributeFilter:['class']});sync();}
 function toTop(){const mc=document.getElementById('main-content');if(!mc)return;mc.scrollTo({top:0,behavior:'smooth'});}
 function mnavInit(){
@@ -11927,61 +12018,470 @@ document.addEventListener('contextmenu',e=>{const t=e.target.tagName;if(t==='IMG
 
 /* intro dust */
 try{if(matchMedia('(max-width:920px)').matches||matchMedia('(hover:none)').matches)document.body.classList.add('perf-lite');}catch(e){}   // P8 라이트 모드 판정(터치·모바일)
-!function(){var c=document.getElementById('particle-canvas'),x=c.getContext("2d"),W,H,P=[];
+!function(){var c=document.getElementById('particle-canvas'),x=c.getContext("2d"),W,H,P=[],E=[];
 function r(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener("resize",r);r();
 var lite=document.body.classList.contains('perf-lite');
-var N=lite?60:150,K=lite?2:1,fr=0;   // 라이트: 입자 60개·30fps(이동·반짝임 속도는 K배로 보정)
-for(var i=0;i<N;i++){
-  var bright=Math.random()<0.12; // ~12% bright stars (fewer)
-  P.push({
-    x:Math.random()*W,y:Math.random()*H,
-    r:bright?(Math.random()*1.0+0.6):(Math.random()*0.8+0.2),
-    dx:(Math.random()-.5)*.12,dy:(Math.random()-.5)*.08,
-    a:bright?(Math.random()*.4+.3):(Math.random()*.3+.06),
-    p:Math.random()*6.28,
-    s:bright?(Math.random()*.025+.012):(Math.random()*.01+.004),
-    bright:bright
-  });
+var K=lite?2:1,fr=0,MODE='',R=Math.random,SPC='',SP={},M=[],LT=0,DT=0;   // 라이트: 입자 수 절반·30fps(속도는 K배로 보정)
+function rnd(a,b){return a+R()*(b-a);}
+function cv(w,h){var e=document.createElement('canvas');e.width=w;e.height=h;return e;}
+function glow(src,blur,al){var o=cv(src.width,src.height),g=o.getContext('2d');g.shadowColor='rgba(255,255,255,'+al+')';g.shadowBlur=blur;g.drawImage(src,0,0);g.shadowBlur=0;g.drawImage(src,0,0);return o;}
+// 배경 효과 — 꾸밈 요소: 작고 옅게, 느릿하게. 색은 PARTICLE_COLOR(먼지 색), 깃털·눈은 흰색
+var CNT={stars:[150,60],rain:[150,70],snow:[72,34],bubble:[20,11],heartbubble:[18,10],foam:[80,40],wave:[4,3],underwater:[7,4],pixelheart:[18,10],feather:[12,8],sakura:[34,18],lightning:[0,0],dragon:[0,0],fire:[14,8],meteor:[110,50]};
+var PXH=['0110110','1111111','1111111','0111110','0011100','0001000'];
+var RL=[{l:18,w:.7,v:[5,6.5],a:[.1,.16]},{l:28,w:.9,v:[7.5,9.5],a:[.14,.22]},{l:42,w:1.2,v:[11,13],a:[.18,.28]}];
+// ── 스프라이트 ──
+function sprites(PC){
+  if(SPC===PC)return;SPC=PC;SP={};
+  SP.rain=RL.map(function(L){var e=cv(6,L.l),g=e.getContext('2d'),gr=g.createLinearGradient(0,0,0,L.l);gr.addColorStop(0,'rgba('+PC+',0)');gr.addColorStop(.7,'rgba('+PC+',.55)');gr.addColorStop(1,'rgba('+PC+',1)');g.fillStyle=gr;g.fillRect(3-L.w/2,0,L.w,L.l);return e;});
+  var Rb=48;
+  // 비눗방울: 막(색 번짐 테두리 — 회전) + 반사광(고정)
+  var m=cv(Rb*2+8,Rb*2+8),g=m.getContext('2d');g.translate(Rb+4,Rb+4);
+  var rg=g.createRadialGradient(0,0,0,0,0,Rb);rg.addColorStop(0,'rgba('+PC+',0)');rg.addColorStop(.7,'rgba('+PC+',.025)');rg.addColorStop(.92,'rgba('+PC+',.12)');rg.addColorStop(1,'rgba(255,255,255,.3)');
+  g.fillStyle=rg;g.beginPath();g.arc(0,0,Rb,0,6.283);g.fill();
+  var HU=[330,200,55,285,170,20,300,190,45,260];
+  g.lineWidth=3.2;for(var i=0;i<HU.length;i++){g.strokeStyle='hsla('+HU[i]+',95%,78%,.26)';g.beginPath();g.arc(0,0,Rb*.93,i*6.283/HU.length,(i+1.15)*6.283/HU.length);g.stroke();}
+  g.lineWidth=1;g.strokeStyle='rgba(255,255,255,.35)';g.beginPath();g.arc(0,0,Rb*.99,0,6.283);g.stroke();
+  SP.bub=m;
+  var h=cv(Rb*2+8,Rb*2+8),q=h.getContext('2d');q.translate(Rb+4,Rb+4);q.lineCap='round';
+  q.strokeStyle='rgba(255,255,255,.6)';q.lineWidth=Rb*.1;q.beginPath();q.arc(0,0,Rb*.72,3.65,4.5);q.stroke();
+  q.strokeStyle='rgba(255,255,255,.22)';q.lineWidth=Rb*.06;q.beginPath();q.arc(0,0,Rb*.74,.35,1.05);q.stroke();
+  q.fillStyle='rgba(255,255,255,.9)';q.beginPath();q.arc(-Rb*.42,-Rb*.5,Rb*.075,0,6.283);q.fill();
+  SP.bubHi=h;
+  // 하트 비눗방울
+  var hm=cv(Rb*2+12,Rb*2+12),hg=hm.getContext('2d');hg.translate(Rb+6,Rb+6);
+  function hp(c2,s2){c2.beginPath();c2.moveTo(0,s2*.9);c2.bezierCurveTo(-s2*1.3,s2*.1,-s2*.72,-s2*1.02,0,-s2*.36);c2.bezierCurveTo(s2*.72,-s2*1.02,s2*1.3,s2*.1,0,s2*.9);c2.closePath();}
+  var hr=Rb*.85;hp(hg,hr);var hrg=hg.createRadialGradient(0,-hr*.1,0,0,-hr*.1,hr*1.05);hrg.addColorStop(0,'rgba('+PC+',0)');hrg.addColorStop(.7,'rgba('+PC+',.04)');hrg.addColorStop(1,'rgba(255,255,255,.22)');hg.fillStyle=hrg;hg.fill();
+  var lg=hg.createLinearGradient(-hr,-hr,hr,hr);[330,200,55,285,170,20].forEach(function(u,k){lg.addColorStop(k/5,'hsla('+u+',95%,80%,.42)');});
+  hp(hg,hr*.96);hg.strokeStyle=lg;hg.lineWidth=2.8;hg.stroke();
+  hp(hg,hr);hg.strokeStyle='rgba(255,255,255,.4)';hg.lineWidth=.9;hg.stroke();
+  hg.lineCap='round';hg.strokeStyle='rgba(255,255,255,.62)';hg.lineWidth=hr*.09;hg.beginPath();hg.arc(-hr*.44,-hr*.36,hr*.24,3.3,4.7);hg.stroke();
+  hg.fillStyle='rgba(255,255,255,.9)';hg.beginPath();hg.arc(hr*.36,-hr*.5,hr*.06,0,6.283);hg.fill();
+  SP.heart=hm;
+  // 수중 광선: 가로로 부드럽게 퍼지고 아래로 사라지는 빛기둥(층 없음)
+  var ry=cv(64,256),rc=ry.getContext('2d'),hz=rc.createLinearGradient(0,0,64,0);
+  [[0,0],[.14,.04],[.26,.16],[.38,.46],[.5,.8],[.62,.46],[.74,.16],[.86,.04],[1,0]].forEach(function(st){hz.addColorStop(st[0],'rgba('+PC+','+st[1]+')');});
+  rc.fillStyle=hz;rc.fillRect(0,0,64,256);
+  rc.globalCompositeOperation='destination-in';var vt=rc.createLinearGradient(0,0,0,256);
+  vt.addColorStop(0,'rgba(0,0,0,.35)');vt.addColorStop(.1,'rgba(0,0,0,1)');vt.addColorStop(.45,'rgba(0,0,0,.55)');vt.addColorStop(1,'rgba(0,0,0,0)');
+  rc.fillStyle=vt;rc.fillRect(0,0,64,256);SP.ray=ry;
+  var sf=cv(256,128),sc2=sf.getContext('2d'),sg=sc2.createRadialGradient(128,0,4,128,0,126);sg.addColorStop(0,'rgba('+PC+',.42)');sg.addColorStop(.55,'rgba('+PC+',.12)');sg.addColorStop(1,'rgba('+PC+',0)');sc2.fillStyle=sg;sc2.fillRect(0,0,256,128);SP.surf=sf;
 }
-!function d(){
-  if(document.hidden){setTimeout(function(){requestAnimationFrame(d)},400);return;}   // 백그라운드 탭·화면 꺼짐 → 정지
-  if(lite&&(fr++&1)){requestAnimationFrame(d);return;}                                // 라이트: 2프레임에 1번만 그림
-  x.clearRect(0,0,W,H);
-  var PC=window.PARTICLE_COLOR||'200,208,232';
+function featherSprite(seed){
+  var S=2,FW=200,FH=90,e=cv(FW*S,FH*S),g=e.getContext('2d');g.scale(S,S);g.lineCap='round';
+  var rs=seed*977+13;function sr(){rs=(rs*9301+49297)%233280;return rs/233280;}
+  var A=[14,56],C=[104,44],B=[190,20];
+  function pt(t){var u=1-t;return[u*u*A[0]+2*u*t*C[0]+t*t*B[0],u*u*A[1]+2*u*t*C[1]+t*t*B[1]];}
+  function tg(t){var u=1-t,dx=2*u*(C[0]-A[0])+2*t*(B[0]-C[0]),dy=2*u*(C[1]-A[1])+2*t*(B[1]-C[1]),l=Math.hypot(dx,dy);return[dx/l,dy/l];}
+  function prof(t){return Math.pow(Math.sin(Math.PI*Math.min(1,Math.pow(t,.62))),.62)*(1-.18*t);}
+  var gaps=[.34+sr()*.2,.6+sr()*.22];
+  [-1,1].forEach(function(side){
+    var wmax=side<0?30:21,edge=[];
+    for(var i=0;i<=40;i++){var t=.16+i/40*.83,p=pt(t),d=tg(t),nx=d[1]*side,ny=-d[0]*side,l=wmax*prof(t);edge.push([p[0]+(nx+d[0]*.5)*l,p[1]+(ny+d[1]*.5)*l]);}
+    // 깃판 바탕(부드러운 막)
+    g.beginPath();var q0=pt(.16);g.moveTo(q0[0],q0[1]);edge.forEach(function(q){g.lineTo(q[0],q[1]);});var q1=pt(.995);g.lineTo(q1[0],q1[1]);g.closePath();
+    var p5=pt(.5),gr=g.createRadialGradient(p5[0],p5[1],2,p5[0],p5[1],90);gr.addColorStop(0,'rgba(255,255,255,.16)');gr.addColorStop(1,'rgba(255,255,255,.04)');g.fillStyle=gr;g.fill();
+    // 깃가지
+    var n=170;
+    for(var k=0;k<n;k++){
+      var t=.03+k/n*.96,p=pt(t),d=tg(t),nx=d[1]*side,ny=-d[0]*side;
+      var down=t<.18,len=wmax*(down?(.55+.45*t/.18)*1.15:prof(t))*(.9+sr()*.2);
+      var lean=down?(sr()-.3)*.9:.5+sr()*.08,gp=false;
+      if(Math.abs(t-gaps[side<0?0:1])<.016){lean+=.6;gp=true;}
+      var ex=p[0]+(nx+d[0]*lean)*len,ey=p[1]+(ny+d[1]*lean)*len;
+      var bend=down?(sr()-.5)*10:len*.18;
+      var mx=p[0]+nx*len*.6+d[0]*bend*.2,my=p[1]+ny*len*.6+d[1]*bend*.2;
+      g.strokeStyle='rgba(255,255,255,'+(down?.14+sr()*.16:(gp?.16:.24)+sr()*.2)+')';g.lineWidth=down?.4:.55;
+      g.beginPath();g.moveTo(p[0],p[1]);g.quadraticCurveTo(mx,my,ex,ey);g.stroke();
+    }
+  });
+  // 깃대(밑동 굵고 끝으로 가늘게)
+  for(var j=0;j<30;j++){var t1=j/30,t2=(j+1)/30,a1=pt(t1),a2=pt(t2);g.strokeStyle='rgba(255,255,255,'+(.95-.3*t1)+')';g.lineWidth=1.9-1.5*t1;g.beginPath();g.moveTo(a1[0],a1[1]);g.lineTo(a2[0],a2[1]);g.stroke();}
+  var o=glow(e,10*S,.5);o.fw=FW;o.fh=FH;return o;
+}
+function snowSprites(){
+  if(SP.snowDot)return;
+  var d=cv(32,32),g=d.getContext('2d'),rg=g.createRadialGradient(16,16,0,16,16,16);rg.addColorStop(0,'rgba(255,255,255,1)');rg.addColorStop(.35,'rgba(255,255,255,.7)');rg.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=rg;g.fillRect(0,0,32,32);SP.snowDot=d;
+  SP.cry=[0,1].map(function(v){var e=cv(64,64),q=e.getContext('2d');q.translate(32,32);q.strokeStyle='rgba(255,255,255,.95)';q.lineCap='round';
+    for(var i=0;i<6;i++){q.save();q.rotate(i*Math.PI/3);q.lineWidth=1.3;q.beginPath();q.moveTo(0,0);q.lineTo(0,-24);q.stroke();q.lineWidth=1;
+      [[.42,7],[.7,5]].forEach(function(bb){var y=-24*bb[0],l=bb[1]*(v?1.2:.8);q.beginPath();q.moveTo(0,y);q.lineTo(-l*.8,y-l);q.moveTo(0,y);q.lineTo(l*.8,y-l);q.stroke();});
+      if(v){q.beginPath();q.arc(0,-24,1.4,0,6.283);q.fillStyle='#fff';q.fill();}
+      q.restore();}
+    q.beginPath();q.arc(0,0,2.2,0,6.283);q.fillStyle='rgba(255,255,255,.9)';q.fill();
+    return glow(e,6,.6);});
+}
+function gust(){var T=fr*16;return .5+.28*Math.sin(T*.00045)+.18*Math.sin(T*.0013+1.7)+.08*Math.sin(T*.0041);}
+var MK={
+  stars:function(){var bright=R()<0.12;return{x:R()*W,y:R()*H,r:bright?(R()*1.0+0.6):(R()*0.8+0.2),dx:(R()-.5)*.12,dy:(R()-.5)*.08,a:bright?(R()*.4+.3):(R()*.3+.06),p:R()*6.28,s:bright?(R()*.025+.012):(R()*.01+.004),bright:bright};},
+  rain:function(re){var z=R(),L=z<.55?0:(z<.88?1:2),D=RL[L];return{L:L,x:rnd(-80,W+40),y:re?rnd(-H*.3,-D.l):R()*H,v:rnd(D.v[0],D.v[1]),a:rnd(D.a[0],D.a[1]),f:L===2?rnd(H*.8,H*1.02):H+60};},
+  snow:function(re){var z=R(),cr=z>.82&&R()<.6;return{x:rnd(-30,W+30),y:re?rnd(-40,-10):R()*H,s:cr?4.5+z*5:.9+z*2.4,v:(cr?.3:.22)+z*.5,ph:R()*6.28,ps:rnd(.006,.016),sw:rnd(.15,.5),rot:R()*6.28,rs:rnd(-.006,.006),a:cr?.22+z*.18:.14+z*.26,cr:cr,cv:R()<.5?0:1};},
+  bubble:function(re){var z=R();return{x:R()*W,y:re?H+rnd(20,H*.5):R()*H,r:4+z*13,v:.13+z*.22,p:R()*6.28,ps:rnd(.006,.013),amp:rnd(.15,.45),a:.55+z*.35,rot:R()*6.28,rs:rnd(.002,.006)*(R()<.5?-1:1)};},
+  heartbubble:function(re){var z=R();return{x:R()*W,y:re?H+rnd(20,H*.5):R()*H,r:5+z*10,v:.12+z*.2,p:R()*6.28,ps:rnd(.006,.012),amp:rnd(.15,.4),a:.55+z*.35,rot:rnd(-.25,.25)};},
+  foam:function(re){var z=R(),cx=E.length?E[(R()*E.length)|0]:R()*W;return{x:cx+rnd(-50,50),y:re?H+rnd(0,40):rnd(H*.5,H),r:.5+z*1.2,v:.06+z*.18,p:R()*6.28,ps:rnd(.01,.03),amp:rnd(.1,.35),a:.32+z*.36};},
+  pixelheart:function(re){var z=R();return{x:R()*W,y:re?H+rnd(10,H*.4):R()*H,c:z<.6?1:2,v:.1+z*.16,acc:0,a:.2+z*.28,pop:re?0:4,pt:0};},
+  feather:function(re){var z=R(),top=R()<.5;return{x:re?(top?rnd(-W*.15,W*.75):rnd(-120,-40)):R()*W,y:re?(top?rnd(-90,-40):rnd(-H*.1,H*.6)):R()*H,len:13+z*13,dep:.55+z*.45,fall:.18+z*.16,ph:R()*6.28,ps:rnd(.009,.016),sw:rnd(.35,.7),base:rnd(-.5,.3),fo:R()*6.28,a:.34+z*.34,sp:(R()*3)|0};},
+  sakura:function(re){var z=R(),top=R()<.6;return{x:re?(top?rnd(-W*.1,W*.85):rnd(-40,-12)):R()*W,y:re?(top?rnd(-40,-12):rnd(0,H*.5)):R()*H,s:4.5+z*4.5,fall:.32+z*.4,sw:rnd(.3,.8),ph:R()*6.28,ps:rnd(.01,.022),rot:R()*6.28,rs:rnd(-.02,.02),fo:R()*6.28,a:.38+z*.3,sp:(R()*3)|0};},
+  fire:function(re){var z=R();return{x:rnd(-W*.05,W*1.05),y:re?rnd(-H*.4,-20):R()*H*.8,vy:.9+z*1.4,vx:rnd(-.25,.25),r:2+z*2.6,ph:R()*6.28,ps:rnd(.05,.12),a:.5+z*.4};},
+  meteor:function(re){var sx=R()*W,sy=R()*H,px=W*.82,py=-H*.4,dx=sx-px,dy=sy-py,br=R()<.12;return{r:Math.hypot(dx,dy),an:Math.atan2(dy,dx),s:br?rnd(.7,1.4):rnd(.25,.9),a:br?rnd(.35,.7):rnd(.08,.34),p:R()*6.28,ps:rnd(.006,.02),br:br,fi:re?0:1};},
+  lightning:function(){return null;},
+  dragon:function(){return null;},
+  wave:function(i){return{i:i,base:.8+i*.048,A:5+i*2.6,k:.0062-i*.0009,sp:.010+i*.0035,ph:R()*6.28,a:.012+i*.008};},
+  underwater:function(i,n){return{x:((i+rnd(.15,.85))/n*1.15-.2)*W,w:rnd(70,190),ang:rnd(.12,.24),ph:R()*6.28,ps:rnd(.002,.005),ph2:R()*6.28,a:rnd(.2,.34)};}
+};
+function init(m){MODE=m;P=[];E=[];M=[];
+  if(m==='foam'){for(var j=0;j<5;j++)E.push(R()*W);}
+  var n=(CNT[m]||CNT.stars)[lite?1:0];
+  for(var i=0;i<n;i++)P.push(m==='wave'?MK.wave(i):m==='underwater'?MK.underwater(i,n):MK[m](false));
+  if(m==='underwater'){for(var k=0;k<(lite?18:36);k++)E.push({x:R()*W,y:R()*H,r:rnd(.4,1.3),v:rnd(.04,.16),ph:R()*6.28,ps:rnd(.01,.03),a:rnd(.12,.34)});}
+  if(m==='feather')haloSprite();
+  if(m==='feather'&&!SP.fea){SP.fea=[0,1,2].map(featherSprite);var hl=cv(64,64),hg2=hl.getContext('2d'),rg2=hg2.createRadialGradient(32,32,0,32,32,32);rg2.addColorStop(0,'rgba(255,255,255,.55)');rg2.addColorStop(.4,'rgba(236,240,255,.18)');rg2.addColorStop(1,'rgba(236,240,255,0)');hg2.fillStyle=rg2;hg2.fillRect(0,0,64,64);SP.halo=hl;}
+  if(m==='snow')snowSprites();
+  if(m==='sakura')sakuraSprites();if(m==='meteor')haloSprite();if(m==='fire')fireSprites();
+  LT=fr+90;DT=fr+60;
+}
+function drawStars(PC){
   for(var i=0;i<P.length;i++){
     var q=P[i];q.x+=q.dx*K;q.y+=q.dy*K;q.p+=q.s*K;
     if(q.x<-10)q.x=W+10;if(q.x>W+10)q.x=-10;if(q.y<-10)q.y=H+10;if(q.y>H+10)q.y=-10;
-    var tw=q.a*(0.45+0.55*Math.sin(q.p)); // stronger twinkle range
+    var tw=q.a*(0.45+0.55*Math.sin(q.p));
     if(q.bright&&lite){
-      // 라이트: 그라데이션 대신 반투명 원 1개(할로) + 심
       x.fillStyle="rgba("+PC+","+(tw*0.28)+")";x.beginPath();x.arc(q.x,q.y,q.r*2.4,0,6.28);x.fill();
       x.fillStyle="rgba("+PC+","+tw+")";x.beginPath();x.arc(q.x,q.y,q.r,0,6.28);x.fill();
     }else if(q.bright){
-      // glow halo
       var g=x.createRadialGradient(q.x,q.y,0,q.x,q.y,q.r*2.8);
-      g.addColorStop(0,"rgba("+PC+","+(tw*0.9)+")");
-      g.addColorStop(0.4,"rgba("+PC+","+(tw*0.35)+")");
-      g.addColorStop(1,"rgba("+PC+",0)");
-      x.fillStyle=g;
-      x.beginPath();x.arc(q.x,q.y,q.r*2.8,0,6.28);x.fill();
-      // bright core
-      x.fillStyle="rgba("+PC+","+tw+")";
-      x.beginPath();x.arc(q.x,q.y,q.r,0,6.28);x.fill();
-      // sparkle cross for brightest moments
-      if(tw>0.72){
-        x.strokeStyle="rgba("+PC+","+((tw-0.72)*1.0)+")";
-        x.lineWidth=0.6;
-        var L=q.r*3.2;
-        x.beginPath();
-        x.moveTo(q.x-L,q.y);x.lineTo(q.x+L,q.y);
-        x.moveTo(q.x,q.y-L);x.lineTo(q.x,q.y+L);
-        x.stroke();
-      }
-    }else{
-      x.fillStyle="rgba("+PC+","+tw+")";
-      x.beginPath();x.arc(q.x,q.y,q.r,0,6.28);x.fill();
-    }
+      g.addColorStop(0,"rgba("+PC+","+(tw*0.9)+")");g.addColorStop(0.4,"rgba("+PC+","+(tw*0.35)+")");g.addColorStop(1,"rgba("+PC+",0)");
+      x.fillStyle=g;x.beginPath();x.arc(q.x,q.y,q.r*2.8,0,6.28);x.fill();
+      x.fillStyle="rgba("+PC+","+tw+")";x.beginPath();x.arc(q.x,q.y,q.r,0,6.28);x.fill();
+      if(tw>0.72){x.strokeStyle="rgba("+PC+","+((tw-0.72)*1.0)+")";x.lineWidth=0.6;var L=q.r*3.2;x.beginPath();x.moveTo(q.x-L,q.y);x.lineTo(q.x+L,q.y);x.moveTo(q.x,q.y-L);x.lineTo(q.x,q.y+L);x.stroke();}
+    }else{x.fillStyle="rgba("+PC+","+tw+")";x.beginPath();x.arc(q.x,q.y,q.r,0,6.28);x.fill();}
   }
+}
+function drawRain(PC){
+  var ang=.13+.05*Math.sin(fr*.004),sa=Math.sin(ang),ca=Math.cos(ang);
+  for(var i=0;i<P.length;i++){
+    var q=P[i],D=RL[q.L];q.x+=q.v*sa*K;q.y+=q.v*ca*K;
+    if(q.y>q.f){if(q.L===2&&E.length<(lite?8:18))E.push({x:q.x,y:q.f,t:0});P[i]=MK.rain(true);continue;}
+    x.globalAlpha=q.a;x.setTransform(ca,-sa,sa,ca,q.x,q.y);x.drawImage(SP.rain[q.L],-3,-D.l);
+  }
+  x.setTransform(1,0,0,1,0,0);
+  for(var j=E.length-1;j>=0;j--){var e=E[j];e.t+=K;var k=e.t/34;if(k>=1){E.splice(j,1);continue;}
+    x.globalAlpha=(1-k)*.22;x.strokeStyle="rgba("+PC+",1)";x.lineWidth=.5;x.beginPath();x.ellipse(e.x,e.y,1.5+k*7,.5+k*1.6,0,0,6.283);x.stroke();
+    if(k<.5){x.fillStyle="rgba("+PC+",1)";var hy=e.y-Math.sin(k*6.283)*5;x.fillRect(e.x-3-k*6,hy,.9,.9);x.fillRect(e.x+2+k*6,hy+1,.9,.9);}}
+}
+function drawSnow(){
+  var wd=gust()-.5;
+  for(var i=0;i<P.length;i++){
+    var q=P[i];q.ph+=q.ps*K;q.rot+=q.rs*K;
+    q.y+=q.v*K;q.x+=(Math.sin(q.ph)*q.sw+wd*.6*(q.cr?1:.7)+.08)*K;
+    if(q.y>H+20||q.x>W+40||q.x<-40){P[i]=MK.snow(true);if(q.x>W+40)P[i].x=rnd(-30,W*.6);continue;}
+    x.globalAlpha=q.a;
+    if(q.cr){var cs=Math.cos(q.rot),sn=Math.sin(q.rot),k=q.s/24;x.setTransform(cs*k,sn*k,-sn*k,cs*k,q.x,q.y);x.drawImage(SP.cry[q.cv],-32,-32);x.setTransform(1,0,0,1,0,0);}
+    else x.drawImage(SP.snowDot,q.x-q.s*2,q.y-q.s*2,q.s*4,q.s*4);
+  }
+}
+function drawBubbles(hearts){
+  for(var i=0;i<P.length;i++){
+    var q=P[i];q.y-=q.v*K;q.p+=q.ps*K;var bx=q.x+Math.sin(q.p)*q.amp*14;
+    if(q.y<-q.r*2-10){P[i]=MK[hearts?'heartbubble':'bubble'](true);continue;}
+    var fade=Math.max(0,Math.min(1,(q.y+q.r)/(H*.18),(H+q.r*2-q.y)/(H*.08)));
+    x.globalAlpha=q.a*fade;
+    var wob=Math.sin(q.p*2.3)*.035,sx=1+wob,sy=1-wob;
+    if(hearts){var k=q.r/48,an=q.rot+Math.sin(q.p*.8)*.16,cs=Math.cos(an),sn=Math.sin(an);x.setTransform(cs*k*sx,sn*k*sx,-sn*k*sy,cs*k*sy,bx,q.y);x.drawImage(SP.heart,-54,-54);}
+    else{q.rot+=q.rs*K;var k2=q.r/48,c2=Math.cos(q.rot),s2=Math.sin(q.rot);
+      x.setTransform(c2*k2*sx,s2*k2*sx,-s2*k2*sy,c2*k2*sy,bx,q.y);x.drawImage(SP.bub,-52,-52);
+      x.setTransform(k2*sx,0,0,k2*sy,bx,q.y);x.drawImage(SP.bubHi,-52,-52);}
+  }
+  x.setTransform(1,0,0,1,0,0);
+}
+function drawFoam(PC){
+  for(var j=0;j<E.length;j++){E[j]+=Math.sin(fr*.002+j)*.05*K;}
+  x.fillStyle="rgba(255,255,255,1)";x.lineWidth=.5;
+  for(var i=0;i<P.length;i++){
+    var q=P[i];q.y-=q.v*K;q.p+=q.ps*K;var bx=q.x+Math.sin(q.p)*q.amp*7;
+    var h=(H-q.y)/H;if(h>.5||q.y<-10){P[i]=MK.foam(true);continue;}
+    var a=q.a*Math.max(0,Math.min(1,(.5-h)/.3))*Math.min(1,(H+40-q.y)/40);
+    x.globalAlpha=a;x.strokeStyle="rgba("+PC+",1)";x.beginPath();x.arc(bx,q.y,q.r,0,6.283);x.stroke();
+    if(q.r>1){x.globalAlpha=a*.9;x.fillRect(bx-q.r*.45,q.y-q.r*.45,.7,.7);}
+  }
+}
+function drawWave(PC){
+  var T=fr,st=lite?18:10;
+  for(var li=0;li<P.length;li++){
+    var L=P[li],y0=H*L.base,top=y0-L.A*1.5;
+    x.beginPath();x.moveTo(0,H);
+    for(var X=0;X<=W+st;X+=st){var y=y0+L.A*Math.sin(X*L.k+T*L.sp+L.ph)+L.A*.42*Math.sin(X*L.k*2.3-T*L.sp*1.55+L.ph*2);x.lineTo(X,y);}
+    x.lineTo(W+st,H);x.closePath();
+    var gr=x.createLinearGradient(0,top,0,H);gr.addColorStop(0,"rgba("+PC+","+L.a+")");gr.addColorStop(1,"rgba("+PC+","+(L.a*.25)+")");
+    x.globalAlpha=1;x.fillStyle=gr;x.fill();
+    x.beginPath();
+    for(var X2=0;X2<=W+st;X2+=st){var y2=y0+L.A*Math.sin(X2*L.k+T*L.sp+L.ph)+L.A*.42*Math.sin(X2*L.k*2.3-T*L.sp*1.55+L.ph*2);if(X2===0)x.moveTo(X2,y2);else x.lineTo(X2,y2);}
+    x.strokeStyle="rgba("+PC+","+(.12+L.i*.06)+")";x.lineWidth=.8;x.stroke();
+    if(li===P.length-1&&R()<(lite?.06:.1)&&E.length<14){var gx=R()*W;E.push({X:gx,li:li,t:0,life:rnd(50,110),s:rnd(1.2,2.6)});}
+  }
+  for(var j=E.length-1;j>=0;j--){var e=E[j];e.t+=K;if(e.t>=e.life){E.splice(j,1);continue;}
+    var Lf=P[e.li];var yy=H*Lf.base+Lf.A*Math.sin(e.X*Lf.k+T*Lf.sp+Lf.ph)+Lf.A*.42*Math.sin(e.X*Lf.k*2.3-T*Lf.sp*1.55+Lf.ph*2)-1;
+    var al=Math.sin(Math.PI*e.t/e.life)*.55,s2=e.s*(.6+.4*Math.sin(Math.PI*e.t/e.life));
+    x.globalAlpha=al;x.strokeStyle="rgba(255,255,255,1)";x.lineWidth=.6;x.beginPath();x.moveTo(e.X-s2*2,yy);x.lineTo(e.X+s2*2,yy);x.moveTo(e.X,yy-s2*2);x.lineTo(e.X,yy+s2*2);x.stroke();
+    x.fillStyle="rgba(255,255,255,1)";x.beginPath();x.arc(e.X,yy,.8,0,6.283);x.fill();}
+}
+function drawUnder(PC){
+  x.globalCompositeOperation='lighter';
+  // 수면 쪽 은은한 빛
+  x.globalAlpha=.55+.15*Math.sin(fr*.006);x.drawImage(SP.surf,-W*.15,-H*.04,W*1.3,H*.6);
+  for(var i=0;i<P.length;i++){
+    var q=P[i];q.ph+=q.ps*K;q.ph2+=q.ps*.63*K;
+    var tx=q.x+Math.sin(q.ph)*34,br=.55+.3*Math.sin(q.ph*1.7+q.x*.01)+.15*Math.sin(q.ph2*2.3);
+    var w=q.w*(.8+.2*Math.sin(q.ph2*1.3)),an=-(q.ang+Math.sin(q.ph2)*.03),ca=Math.cos(an),sa=Math.sin(an),sx=w/64,sy=H*1.08/256;
+    x.globalAlpha=q.a*br;x.setTransform(ca*sx,sa*sx,-sa*sy,ca*sy,tx,-H*.04);x.drawImage(SP.ray,-32,0);
+    x.globalAlpha=q.a*br*.5;x.setTransform(ca*sx*.45,sa*sx*.45,-sa*sy*.8,ca*sy*.8,tx+Math.sin(q.ph2)*10,-H*.04);x.drawImage(SP.ray,-32,0);
+  }
+  x.setTransform(1,0,0,1,0,0);x.globalAlpha=1;x.lineWidth=1;
+  for(var s3=0;s3<3;s3++){x.strokeStyle="rgba("+PC+","+(.045-s3*.012)+")";x.beginPath();
+    for(var X=0;X<=W+20;X+=20){var y=12+s3*15+4*Math.sin(X*.012+fr*.012*(1+s3*.3)+s3)+2.5*Math.sin(X*.031-fr*.02);if(X===0)x.moveTo(X,y);else x.lineTo(X,y);}x.stroke();}
+  x.globalCompositeOperation='source-over';
+  x.fillStyle="rgba("+PC+",1)";
+  for(var j=0;j<E.length;j++){var m=E[j];m.y-=m.v*K;m.ph+=m.ps*K;m.x+=Math.sin(m.ph*.7)*.12*K;if(m.y<-4){m.y=H+4;m.x=R()*W;}
+    x.globalAlpha=m.a*(.45+.55*Math.sin(m.ph));x.beginPath();x.arc(m.x,m.y,m.r,0,6.283);x.fill();}
+}
+// ── 벚꽃 ──
+function sakuraSprites(){
+  if(SP.sak)return;
+  SP.sak=[['255,246,249','250,218,229'],['255,250,252','247,226,235'],['255,243,247','244,210,223']].map(function(c){
+    var S=2,e=cv(48*S,48*S),g=e.getContext('2d');g.scale(S,S);g.translate(24,24);
+    g.beginPath();g.moveTo(0,15);g.bezierCurveTo(-13,9,-12,-9,-3.5,-14);g.lineTo(0,-10.5);g.lineTo(3.5,-14);g.bezierCurveTo(12,-9,13,9,0,15);g.closePath();
+    var rg=g.createRadialGradient(0,10,1,0,0,18);rg.addColorStop(0,'rgba('+c[0]+',.98)');rg.addColorStop(1,'rgba('+c[1]+',.92)');g.fillStyle=rg;g.fill();
+    g.strokeStyle='rgba(255,255,255,.4)';g.lineWidth=.5;g.beginPath();g.moveTo(0,13);g.quadraticCurveTo(-1,2,0,-8);g.stroke();
+    return glow(e,4*S,.3);});
+}
+function drawSakura(){
+  var wd=gust();
+  for(var i=0;i<P.length;i++){
+    var q=P[i];q.ph+=q.ps*K;q.rot+=q.rs*K;
+    q.x+=(wd*.9+Math.cos(q.ph)*q.sw)*K;q.y+=q.fall*(.6+.4*Math.abs(Math.sin(q.ph)))*K;
+    if(q.y>H+30||q.x>W+30){P[i]=MK.sakura(true);continue;}
+    var fl=Math.cos(q.ph*.7+q.fo);fl=(fl<0?-1:1)*(.25+.75*Math.abs(fl));
+    var k=q.s/24,cs=Math.cos(q.rot),sn=Math.sin(q.rot);
+    x.globalAlpha=q.a;x.setTransform(cs*k,sn*k,-sn*k*fl,cs*k*fl,q.x,q.y);x.drawImage(SP.sak[q.sp],-24,-24,48,48);
+  }
+  x.setTransform(1,0,0,1,0,0);
+}
+// ── 벼락 ──
+function boltPts(x1,y1,x2,y2,disp,out){
+  if(disp<3){out.push([x2,y2]);return;}
+  var mx=(x1+x2)/2+(R()-.5)*disp,my=(y1+y2)/2+(R()-.5)*disp*.3;
+  boltPts(x1,y1,mx,my,disp/2,out);boltPts(mx,my,x2,y2,disp/2,out);
+}
+function mkBolt(){
+  var x0=rnd(W*.1,W*.9),y1=H*rnd(.45,.9),x1=x0+rnd(-W*.15,W*.15),main=[[x0,-10]];
+  boltPts(x0,-10,x1,y1,Math.min(220,H*.35),main);
+  var br=[],nb=2+((R()*3)|0);
+  for(var b=0;b<nb;b++){var p=main[(main.length*rnd(.15,.7))|0],L=rnd(60,180),an=Math.atan2(y1+10,x1-x0)+rnd(-.9,.9),pts=[[p[0],p[1]]];boltPts(p[0],p[1],p[0]+Math.cos(an)*L,p[1]+Math.abs(Math.sin(an))*L,L*.5,pts);br.push(pts);}
+  return{main:main,br:br,t:0,life:rnd(40,60),x:x0};
+}
+function strokePts(pts,w,a,col){x.globalAlpha=a;x.strokeStyle='rgba('+col+',1)';x.lineWidth=w;x.beginPath();x.moveTo(pts[0][0],pts[0][1]);for(var i=1;i<pts.length;i++)x.lineTo(pts[i][0],pts[i][1]);x.stroke();}
+function drawLightning(PC){
+  if(fr>=LT){P.push(mkBolt());if(R()<.3)LT=fr+rnd(14,30);else LT=fr+rnd(240,520);}
+  x.globalCompositeOperation='lighter';x.lineCap='round';x.lineJoin='round';
+  var FL=[1,.3,.9,.2,.75,.55];
+  for(var i=P.length-1;i>=0;i--){
+    var b=P[i];b.t+=K;if(b.t>=b.life){P.splice(i,1);continue;}
+    var f=(b.t/3)|0,I=f<FL.length?FL[f]:Math.max(0,.55*(1-(b.t-18)/(b.life-18)));
+    var fg=x.createRadialGradient(b.x,0,0,b.x,0,Math.max(W,H)*.8);fg.addColorStop(0,'rgba('+PC+','+(.07*I)+')');fg.addColorStop(1,'rgba('+PC+',0)');
+    x.globalAlpha=1;x.fillStyle=fg;x.fillRect(0,0,W,H);
+    strokePts(b.main,9,.06*I,PC);strokePts(b.main,3.4,.22*I,PC);strokePts(b.main,1.2,.9*I,'255,255,255');
+    for(var j=0;j<b.br.length;j++){strokePts(b.br[j],5,.04*I,PC);strokePts(b.br[j],1.8,.14*I,PC);strokePts(b.br[j],.7,.6*I,'255,255,255');}
+  }
+  x.globalCompositeOperation='source-over';
+}
+// ── 쌍두룡 ──
+function mkDragons(){
+  var fromL=R()<.5,xa=fromL?rnd(-.15,.25)*W:rnd(.75,1.15)*W,xb=fromL?rnd(.6,1.1)*W:rnd(-.1,.4)*W;
+  var o={xa:xa,xb:xb,A:rnd(70,130),f:rnd(.8,1.3),A2:rnd(34,58),f2:rnd(2.2,3.2),D:rnd(108,128),BL:Math.max(800,H)};
+  // 속도선
+  for(var k=0;k<(lite?6:12);k++)E.push({t:-rnd(0,30),life:rnd(34,56),o:rnd(-.35,.35),L:rnd(180,480),sp:rnd(1.2,1.8),a:rnd(.05,.11),u0:rnd(-.2,.3)});
+  return[0,1].map(function(i){return{g:o,t:0,u:0,tr:[],ph:i*Math.PI,hue:i};});
+}
+function dragonPos(d,u){var g=d.g,e=u*1.38+.05*Math.sin(u*Math.PI*2),py=-340+e*(H+680);   // 머리가 약 1초 동안 화면을 가로지름(끝에서 꼬리까지 빠져나감)
+  var bx=g.xa+(g.xb-g.xa)*e,px=bx+Math.sin(e*Math.PI*g.f)*g.A*.6+Math.sin(e*Math.PI*2*g.f2+d.ph)*g.A2;return[px,py];}
+function dragonCol(t,PCa,warm){ // 머리(금빛/은빛) → 몸통(테마색) → 꼬리(청보라)
+  var h=warm?[255,226,160]:[235,242,255],tl=[160,176,255],c0,c1,k;
+  if(t<.35){c0=h;c1=PCa;k=t/.35;}else{c0=PCa;c1=tl;k=(t-.35)/.65;}
+  return Math.round(c0[0]+(c1[0]-c0[0])*k)+','+Math.round(c0[1]+(c1[1]-c0[1])*k)+','+Math.round(c0[2]+(c1[2]-c0[2])*k);
+}
+function drawDragon(PC){
+  if(!P.length&&fr>=DT)P=mkDragons();
+  var PCa=PC.split(',').map(Number);
+  x.globalCompositeOperation='lighter';x.lineCap='round';x.lineJoin='round';
+  // 속도선
+  if(P.length){var g0=P[0].g,dx=g0.xb-g0.xa,dy=H+680,dl=Math.hypot(dx,dy),ux=dx/dl,uy=dy/dl;
+    for(var j=E.length-1;j>=0;j--){var e=E[j];e.t+=K;if(e.t>=e.life){E.splice(j,1);continue;}if(e.t<0)continue;
+      var kk=e.t/e.life,cx=g0.xa+dx*(e.u0+kk*e.sp)+(-uy)*e.o*W*.5,cy=-340+(H+680)*(e.u0+kk*e.sp)+ux*e.o*W*.5;
+      var lg=x.createLinearGradient(cx,cy,cx-ux*e.L,cy-uy*e.L);lg.addColorStop(0,'rgba(255,255,255,'+(e.a*Math.sin(Math.PI*kk))+')');lg.addColorStop(1,'rgba(255,255,255,0)');
+      x.globalAlpha=1;x.strokeStyle=lg;x.lineWidth=1;x.beginPath();x.moveTo(cx,cy);x.lineTo(cx-ux*e.L,cy-uy*e.L);x.stroke();}}
+  var TL=lite?64:96,WM=lite?20:25,HS=2.9,SUB=lite?2:3;
+    function bw(t){return WM*(t<.08?.55+t*5.6:Math.pow(Math.max(0,1-(t-.08)/.92),.55));}
+  for(var n=0;n<P.length;n++){
+    var d=P[n];d.t+=K;var u1=Math.min(1,d.t/d.g.D);
+    for(var sb=1;sb<=SUB;sb++){d.tr.unshift(dragonPos(d,d.u+(u1-d.u)*sb/SUB));}
+    d.u=u1;while(d.tr.length>TL)d.tr.pop();
+    var tr=d.tr,L=tr.length;if(L<3)continue;
+    // 몸통: 오라 → 몸 → 심(머리 금빛 → 꼬리 청보라)
+    [[2.6,.045],[1,.15],[.32,.5]].forEach(function(ps,pi){
+      for(var i=0;i<L-1;i++){var tt=i/L,w=bw(tt);
+        x.strokeStyle='rgba('+(pi===2?'255,255,255':dragonCol(tt,PCa,d.hue===0))+',1)';
+        x.globalAlpha=ps[1]*(1-tt*.6);x.lineWidth=Math.max(.3,w*ps[0]);x.beginPath();x.moveTo(tr[i][0],tr[i][1]);x.lineTo(tr[i+1][0],tr[i+1][1]);x.stroke();}
+    });
+    // 비늘 V · 등지느러미
+    x.lineWidth=.8;
+    for(var i2=5;i2<L-3;i2+=3){var p=tr[i2],q=tr[i2+3],an=Math.atan2(q[1]-p[1],q[0]-p[0]),w2=bw(i2/L);
+      x.strokeStyle='rgba(255,255,255,1)';x.globalAlpha=.3*(1-i2/L);x.beginPath();x.moveTo(p[0]+Math.cos(an+2.4)*w2,p[1]+Math.sin(an+2.4)*w2);x.lineTo(p[0],p[1]);x.lineTo(p[0]+Math.cos(an-2.4)*w2,p[1]+Math.sin(an-2.4)*w2);x.stroke();
+      if(i2%10===6){x.strokeStyle='rgba('+dragonCol(i2/L,PCa,d.hue===0)+',1)';x.globalAlpha=.35*(1-i2/L);x.beginPath();x.moveTo(p[0],p[1]);x.quadraticCurveTo(p[0]+Math.cos(an+1.9)*w2*2.2,p[1]+Math.sin(an+1.9)*w2*2.2,p[0]+Math.cos(an+2.6)*w2*3,p[1]+Math.sin(an+2.6)*w2*3);x.stroke();}}
+    // 발톱 2쌍
+    [.22,.5].forEach(function(fp){var ii=(L*fp)|0;if(ii<2||ii>=L-3)return;var p=tr[ii],q=tr[ii+3],an=Math.atan2(q[1]-p[1],q[0]-p[0]),w3=bw(ii/L);
+      [-1,1].forEach(function(sd){var bx=p[0]+Math.cos(an+sd*1.57)*w3,by=p[1]+Math.sin(an+sd*1.57)*w3,kx=bx+Math.cos(an+sd*2.4)*w3*1.6,ky=by+Math.sin(an+sd*2.4)*w3*1.6;
+        x.strokeStyle='rgba(255,236,190,1)';x.globalAlpha=.42;x.lineWidth=1.1;x.beginPath();x.moveTo(bx,by);x.lineTo(kx,ky);for(var c=-1;c<=1;c++){x.moveTo(kx,ky);x.lineTo(kx+Math.cos(an+sd*2.4+c*.5)*8,ky+Math.sin(an+sd*2.4+c*.5)*8);}x.stroke();});});
+    // 갈기: 머리에서 몸통 따라 휘날리는 4가닥
+    for(var mn=0;mn<4;mn++){x.strokeStyle='rgba('+(d.hue===0?'255,230,170':'220,232,255')+',1)';x.globalAlpha=.22;x.lineWidth=.9;x.beginPath();
+      var lim=Math.min(L-2,22+mn*5);
+      for(var i3=1;i3<lim;i3+=2){var p3=tr[i3],q3=tr[i3+1],an3=Math.atan2(q3[1]-p3[1],q3[0]-p3[0]),off=(mn-1.5)*9+Math.sin(i3*.35+d.t*.5+mn)*9*(i3/lim),ox=p3[0]+Math.cos(an3+1.57)*off,oy=p3[1]+Math.sin(an3+1.57)*off;if(i3===1)x.moveTo(ox,oy);else x.lineTo(ox,oy);}
+      x.stroke();}
+    // 반짝이 가루 방출
+    for(var sp=0;sp<(lite?3:7);sp++){if(M.length>=(lite?140:320))break;var pi2=(R()*Math.min(L,70))|0,pp=tr[pi2];M.push({x:pp[0]+rnd(-8,8),y:pp[1]+rnd(-8,8),vx:rnd(-1.2,1.2),vy:rnd(-1.4,.4),t:0,life:rnd(30,70),s:rnd(.6,1.8),st:R()<.25,c:dragonCol(pi2/L,PCa,d.hue===0)});}
+    // 머리
+    var h0=tr[0];
+    if(h0[1]<H+120&&h0[1]>-120){
+      var h3=tr[Math.min(5,L-1)],ha=Math.atan2(h0[1]-h3[1],h0[0]-h3[0]),ca=Math.cos(ha)*HS,sa=Math.sin(ha)*HS,wv=Math.sin(d.t*.6)*3;
+      var fg=x.createRadialGradient(h0[0],h0[1],0,h0[0],h0[1],220);fg.addColorStop(0,'rgba('+dragonCol(0,PCa,d.hue===0)+',.1)');fg.addColorStop(1,'rgba('+PC+',0)');x.globalAlpha=1;x.fillStyle=fg;x.fillRect(h0[0]-220,h0[1]-220,440,440);
+      x.setTransform(ca,sa,-sa,ca,h0[0],h0[1]);
+      x.globalAlpha=.7;x.fillStyle='rgba('+dragonCol(0,PCa,d.hue===0)+',1)';x.beginPath();x.moveTo(16,0);x.quadraticCurveTo(9,-5,-2,-7.5);x.lineTo(1.5,0);x.lineTo(-2,7.5);x.quadraticCurveTo(9,5,16,0);x.fill();
+      x.globalAlpha=.6;x.strokeStyle='rgba(255,255,255,1)';x.lineWidth=.6;
+      x.beginPath();x.moveTo(-1,-5.5);x.quadraticCurveTo(-13,-16,-26,-14);x.moveTo(-7,-13.5);x.lineTo(-9,-19);x.moveTo(-15,-15);x.lineTo(-18,-20);x.moveTo(-1,5.5);x.quadraticCurveTo(-13,16,-26,14);x.moveTo(-7,13.5);x.lineTo(-9,19);x.moveTo(-15,15);x.lineTo(-18,20);x.stroke();
+      x.globalAlpha=.35;x.lineWidth=.45;x.beginPath();x.moveTo(13,2);x.quadraticCurveTo(-10,20+wv,-60,12-wv);x.moveTo(13,-2);x.quadraticCurveTo(-10,-20-wv,-60,-12+wv);x.stroke();
+      x.globalAlpha=1;x.fillStyle='rgba(255,255,255,1)';x.beginPath();x.arc(7,-2.6,.9,0,6.283);x.arc(7,2.6,.9,0,6.283);x.fill();
+      x.setTransform(1,0,0,1,0,0);
+    }
+    // 전류
+    for(var c2=0;c2<(lite?4:9);c2++){var pc=tr[(R()*L*.8)|0],ang=R()*6.283,ll=rnd(18,70),pts=[[pc[0],pc[1]]];boltPts(pc[0],pc[1],pc[0]+Math.cos(ang)*ll,pc[1]+Math.sin(ang)*ll,ll*.7,pts);
+      strokePts(pts,3,.1,PC);strokePts(pts,.8,rnd(.35,.85),'255,255,255');}
+  }
+  // 반짝이 가루(용이 지나간 뒤에도 잠시 남음)
+  for(var m=M.length-1;m>=0;m--){var z=M[m];z.t+=K;var km=z.t/z.life;if(km>=1){M.splice(m,1);continue;}z.x+=z.vx*K;z.y+=z.vy*K;z.vx*=.97;z.vy=z.vy*.97+.01*K;
+    var al=Math.sin(Math.PI*km)*.8;x.globalAlpha=al;x.fillStyle='rgba('+z.c+',1)';x.beginPath();x.arc(z.x,z.y,z.s,0,6.283);x.fill();
+    if(z.st){x.strokeStyle='rgba(255,255,255,1)';x.globalAlpha=al*.7;x.lineWidth=.5;var ls=z.s*4;x.beginPath();x.moveTo(z.x-ls,z.y);x.lineTo(z.x+ls,z.y);x.moveTo(z.x,z.y-ls);x.lineTo(z.x,z.y+ls);x.stroke();}}
+  if(P.length&&P[0].u>=1){P=[];DT=fr+rnd(360,660);}
+  x.globalCompositeOperation='source-over';
+}
+// ── 불꽃 낙하 ──
+function fireSprites(){
+  if(SP.fire)return;
+  SP.fire=[['255,250,228','255,222,130'],['255,214,120','255,146,48'],['255,140,60','205,60,24']].map(function(c){var e=cv(32,32),g=e.getContext('2d'),rg=g.createRadialGradient(16,16,0,16,16,16);rg.addColorStop(0,'rgba('+c[0]+',1)');rg.addColorStop(.35,'rgba('+c[1]+',.6)');rg.addColorStop(1,'rgba('+c[1]+',0)');g.fillStyle=rg;g.fillRect(0,0,32,32);return e;});
+}
+function drawFire(){
+  x.globalCompositeOperation='lighter';
+  var cap=lite?200:420;
+  for(var j=E.length-1;j>=0;j--){var e=E[j];e.t+=K;var k=e.t/e.life;if(k>=1){E.splice(j,1);continue;}
+    e.x+=e.vx*K;e.y+=e.vy*K;var sz=e.r*4*(1-k*.35);
+    x.globalAlpha=e.a*(1-k)*.8;x.drawImage(SP.fire[k<.25?0:(k<.6?1:2)],e.x-sz/2,e.y-sz/2,sz,sz);}
+  x.fillStyle='rgba(255,222,160,1)';
+  for(var m=M.length-1;m>=0;m--){var sp=M[m];sp.t+=K;var km=sp.t/sp.life;if(km>=1){M.splice(m,1);continue;}sp.vy+=.03*K;sp.x+=sp.vx*K;sp.y+=sp.vy*K;x.globalAlpha=(1-km)*.8;x.fillRect(sp.x,sp.y,1.2,1.2);}
+  for(var i=0;i<P.length;i++){
+    var q=P[i];q.ph+=q.ps*K;q.x+=(q.vx+Math.sin(q.ph)*.35)*K;q.y+=q.vy*K;
+    if(q.y>H+40){P[i]=MK.fire(true);continue;}
+    for(var em=0;em<(lite?1:2);em++)if(E.length<cap)E.push({x:q.x+rnd(-q.r*.6,q.r*.6),y:q.y-rnd(0,q.r),vx:rnd(-.3,.3)-q.vx*.3,vy:rnd(-.6,-.1),t:0,life:rnd(22,44),r:q.r*rnd(.9,1.6),a:q.a});
+    if(R()<.04*K&&M.length<60)M.push({x:q.x,y:q.y,vx:rnd(-1.2,1.2),vy:rnd(-1.5,.3),t:0,life:rnd(30,60)});
+    var hs=q.r*6*(1+Math.sin(q.ph*3)*.08);
+    x.globalAlpha=q.a;x.drawImage(SP.fire[0],q.x-hs/2,q.y-hs/2,hs,hs);
+  }
+  x.globalCompositeOperation='source-over';
+}
+// ── 유성우: 별이 천구처럼 천천히 돌고, 복사점에서 빛무리 유성이 느릿하게 흐름 ──
+function haloSprite(){if(SP.halo)return;var hl=cv(64,64),g=hl.getContext('2d'),rg=g.createRadialGradient(32,32,0,32,32,32);rg.addColorStop(0,'rgba(255,255,255,.55)');rg.addColorStop(.4,'rgba(236,240,255,.18)');rg.addColorStop(1,'rgba(236,240,255,0)');g.fillStyle=rg;g.fillRect(0,0,64,64);SP.halo=hl;}
+function drawMeteor(PC){
+  var px=W*.82,py=-H*.4;
+  x.fillStyle="rgba("+PC+",1)";
+  for(var i=0;i<P.length;i++){
+    var q=P[i];q.an+=.00011*K;q.p+=q.ps*K;if(q.fi<1)q.fi=Math.min(1,q.fi+.01*K);
+    var sx=px+Math.cos(q.an)*q.r,sy=py+Math.sin(q.an)*q.r;
+    if(sx<-20||sx>W+20||sy<-20||sy>H+20){P[i]=MK.meteor(true);continue;}
+    var tw=q.a*q.fi*(.5+.5*Math.sin(q.p));
+    if(q.br){x.globalAlpha=tw*.3;x.beginPath();x.arc(sx,sy,q.s*2.6,0,6.283);x.fill();}
+    x.globalAlpha=tw;x.beginPath();x.arc(sx,sy,q.s,0,6.283);x.fill();
+  }
+  if(E.length<(lite?3:5)&&R()<.016*K){
+    var tx=rnd(W*.05,W*.9),ty=rnd(H*.02,H*.6),dx=tx-px,dy=ty-py,dl=Math.hypot(dx,dy);
+    E.push({x:tx,y:ty,dx:dx/dl,dy:dy/dl,sp:rnd(2.2,4.2),L:rnd(150,300),w:rnd(.9,1.7),t:0,life:rnd(120,210),a:rnd(.45,.85)});
+  }
+  x.globalCompositeOperation='lighter';x.lineCap='round';
+  for(var j=E.length-1;j>=0;j--){
+    var m=E[j];m.t+=K;m.x+=m.dx*m.sp*K;m.y+=m.dy*m.sp*K;var k=m.t/m.life;
+    if(k>=1){E.splice(j,1);continue;}
+    var I=Math.sin(Math.PI*Math.min(1,k*1.15))*(k>.85?(1-k)/.15:1),ex=m.x-m.dx*m.L*(.4+.6*I),ey=m.y-m.dy*m.L*(.4+.6*I);
+    var g=x.createLinearGradient(m.x,m.y,ex,ey);g.addColorStop(0,'rgba(255,255,255,'+(m.a*I)+')');g.addColorStop(.25,'rgba('+PC+','+(m.a*I*.55)+')');g.addColorStop(1,'rgba('+PC+',0)');
+    x.strokeStyle=g;
+    x.globalAlpha=.1;x.lineWidth=m.w*8;x.beginPath();x.moveTo(m.x,m.y);x.lineTo(ex,ey);x.stroke();
+    x.globalAlpha=.3;x.lineWidth=m.w*2.6;x.stroke();
+    x.globalAlpha=1;x.lineWidth=m.w;x.stroke();
+    var hs=m.w*26;x.globalAlpha=m.a*I*.9;x.drawImage(SP.halo,m.x-hs/2,m.y-hs/2,hs,hs);
+    x.fillStyle='rgba(255,255,255,1)';x.globalAlpha=m.a*I;x.beginPath();x.arc(m.x,m.y,m.w*1.1,0,6.283);x.fill();
+  }
+  x.globalCompositeOperation='source-over';
+}
+function drawPixelHearts(PC){
+  for(var i=0;i<P.length;i++){
+    var q=P[i],c=q.c;
+    if(q.pop<4){q.pt+=K;if(q.pt>=7){q.pt=0;q.pop++;}}
+    q.acc+=q.v*K;var hop=c*4;if(q.acc>=hop){q.acc-=hop;q.y-=hop;}   // 뿅: 칸 단위로 폴짝
+    if(q.y<-c*8){P[i]=MK.pixelheart(true);continue;}
+    var sc=q.pop<4?[0,.5,.75,1.2][q.pop]:1;if(!sc)continue;
+    var cell=Math.max(1,Math.round(c*sc));
+    var gx=Math.round(q.x),gy=Math.round(q.y);
+    var a=q.a*Math.min(1,q.y/(H*.22))*(q.pop<4?.8:1);if(a<=0)continue;
+    x.globalAlpha=a;x.fillStyle="rgba("+PC+",1)";
+    var ox=gx-Math.round(cell*3.5),oy=gy-cell*3;
+    for(var rr=0;rr<6;rr++)for(var cc=0;cc<7;cc++)if(PXH[rr].charAt(cc)==='1')x.fillRect(ox+cc*cell,oy+rr*cell,cell,cell);
+    x.fillStyle="rgba(255,255,255,1)";x.globalAlpha=a*.85;x.fillRect(ox+cell,oy+cell,cell,cell);
+  }
+}
+function drawFeathers(){
+  var wd=gust();
+  // 바람 빛줄기: 가늘고 긴 선 + 머리 쪽 은은한 빛
+  if(E.length<(lite?3:5)&&R()<.016*K)E.push({x:rnd(-W*.35,W*.5),y:rnd(H*.05,H*.9),L:rnd(W*.45,W*.9),cv:rnd(-40,40),h:0,sp:rnd(.003,.0055),a:rnd(.1,.18)});
+  x.lineCap='round';x.strokeStyle='rgba(255,255,255,1)';
+  for(var j=E.length-1;j>=0;j--){var e=E[j];e.h+=e.sp*K*(.6+wd);if(e.h>=1.6){E.splice(j,1);continue;}
+    var t0=Math.max(0,e.h-.6),t1=Math.min(1,e.h),fade=Math.sin(Math.min(1,e.h/1.6)*Math.PI);if(t1<=t0)continue;
+    var hx=0,hy=0;x.beginPath();for(var s4=0;s4<=16;s4++){var tt=t0+(t1-t0)*s4/16;hx=e.x+tt*e.L;hy=e.y+Math.sin(tt*Math.PI)*e.cv-tt*e.L*.1;if(s4)x.lineTo(hx,hy);else x.moveTo(hx,hy);}
+    x.globalAlpha=e.a*fade*.22;x.lineWidth=2.6;x.stroke();x.globalAlpha=e.a*fade;x.lineWidth=.45;x.stroke();
+    if(e.h<1){x.globalAlpha=e.a*fade*1.6;x.drawImage(SP.halo,hx-9,hy-9,18,18);}}
+  // 빛 가루
+  x.fillStyle='rgba(255,255,255,1)';
+  for(var k2=M.length-1;k2>=0;k2--){var mo=M[k2];mo.t+=K;if(mo.t>=mo.life){M.splice(k2,1);continue;}mo.x+=(wd*.5+mo.vx)*K;mo.y+=mo.vy*K;
+    x.globalAlpha=Math.sin(Math.PI*mo.t/mo.life)*mo.a;x.beginPath();x.arc(mo.x,mo.y,mo.r,0,6.283);x.fill();}
+  for(var i=0;i<P.length;i++){
+    var q=P[i];q.ph+=q.ps*K;
+    var sw=Math.cos(q.ph);
+    q.x+=(wd*q.dep*.8+sw*q.sw*.8)*K;
+    q.y+=(q.fall*q.dep*(.45+.55*Math.abs(sw))+Math.sin(q.ph*2)*.04)*K;
+    if(q.x>W+70||q.y>H+70){P[i]=MK.feather(true);continue;}
+    if(M.length<(lite?18:36)&&R()<.03*K)M.push({x:q.x+rnd(-4,4),y:q.y+rnd(-3,3),vx:rnd(-.15,.05),vy:rnd(-.05,.12),r:rnd(.4,1),a:rnd(.25,.55),t:0,life:rnd(50,110)});
+    var al=q.a*Math.min(1,(q.y+60)/80);
+    x.setTransform(1,0,0,1,0,0);x.globalAlpha=al*.7;var hs=q.len*1.7;x.drawImage(SP.halo,q.x-hs/2,q.y-hs/2,hs,hs);
+    var an=q.base+Math.sin(q.ph)*.6+(wd-.5)*.5,fl=Math.cos(q.ph*.35+q.fo);fl=(fl<0?-1:1)*(.45+.55*Math.abs(fl));
+    var sp=SP.fea[q.sp],k=q.len/sp.fw,cs=Math.cos(an),sn=Math.sin(an);
+    x.globalAlpha=al;x.setTransform(cs*k,sn*k,-sn*k*fl,cs*k*fl,q.x,q.y);x.drawImage(sp,-sp.fw/2,-sp.fh/2,sp.fw,sp.fh);
+  }
+  x.setTransform(1,0,0,1,0,0);
+}
+!function d(){
+  if(document.hidden||c.style.display==='none'){setTimeout(function(){requestAnimationFrame(d)},400);return;}   // 백그라운드·효과 끔 → 정지
+  fr++;
+  if(lite&&(fr&1)){requestAnimationFrame(d);return;}                                // 라이트: 2프레임에 1번만 그림
+  var PC=window.PARTICLE_COLOR||'200,208,232';sprites(PC);
+  var m=window.PARTICLE_FX||'stars';if(!MK[m])m='stars';if(m!==MODE)init(m);
+  x.setTransform(1,0,0,1,0,0);x.globalAlpha=1;x.globalCompositeOperation='source-over';x.imageSmoothingQuality='high';
+  x.clearRect(0,0,W,H);
+  if(m==='rain')drawRain(PC);else if(m==='snow')drawSnow();else if(m==='bubble')drawBubbles(false);else if(m==='heartbubble')drawBubbles(true);
+  else if(m==='foam')drawFoam(PC);else if(m==='wave')drawWave(PC);else if(m==='underwater')drawUnder(PC);
+  else if(m==='pixelheart')drawPixelHearts(PC);else if(m==='sakura')drawSakura();else if(m==='lightning')drawLightning(PC);else if(m==='dragon')drawDragon(PC);else if(m==='fire')drawFire();else if(m==='meteor')drawMeteor(PC);else if(m==='feather')drawFeathers();else drawStars(PC);
+  x.globalAlpha=1;
   requestAnimationFrame(d);
 }();
 }();
