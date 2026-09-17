@@ -1505,6 +1505,38 @@ body.is-admin .fs-pop{right:126px;}
 .ed-vis-row input[type=radio]:checked{background:rgb(var(--t-snow));border-color:rgb(var(--t-snow));box-shadow:0 0 7px rgba(var(--t-glow),.55);}
 .hub-sub{font-family:var(--font-kr);font-size:calc(11px*var(--fs,1));letter-spacing:-.02em;color:rgba(var(--t-fg-soft),.55);margin:10px 0 4px;}
 .hub-sel{margin-left:auto;width:auto;max-width:180px;font-size:calc(11px*var(--fs,1));padding:3px 8px;}
+#draft-ask-modal{z-index:940;}
+.dft-ask-msg{font-family:var(--font-kr);font-size:calc(13px*var(--fs,1));line-height:1.7;letter-spacing:-.01em;color:rgb(var(--t-fg-mid));text-align:center;margin:4px 0 6px;}
+.dft-ask-acts{justify-content:center;flex-wrap:wrap;}
+.dft-bar{margin:-8px 0 16px;padding-bottom:8px;border-bottom:1px solid rgba(var(--t-fg),.08);}
+.dft-bar[hidden],.dft-list[hidden]{display:none;}
+.dft-toggle{display:inline-flex;align-items:center;gap:7px;background:none;border:none;cursor:pointer;padding:4px 0;font-family:var(--font-kr);font-size:calc(12px*var(--fs,1));font-weight:600;letter-spacing:-.02em;color:rgba(var(--t-fg-soft),.85);transition:color .3s;}
+.dft-toggle b{font-family:var(--font-num);font-weight:400;font-size:calc(10px*var(--fs,1));letter-spacing:.08em;color:rgba(var(--t-fg-soft),.6);}
+.dft-toggle:hover,.dft-toggle.on{color:rgb(var(--t-text));}
+.dft-toggle .pdx-dia{transition:transform .35s cubic-bezier(.3,1.2,.35,1);}
+.dft-toggle.on .pdx-dia{transform:rotate(45deg);}
+.dft-list{margin-top:6px;max-height:240px;overflow-y:auto;scrollbar-width:none;}
+.dft-list::-webkit-scrollbar{display:none;}
+.dft-empty{font-family:var(--font-kr);font-size:calc(11.5px*var(--fs,1));line-height:1.7;color:rgba(var(--t-fg-soft),.65);margin:6px 0;}
+.dft-row{display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(var(--t-fg),.06);}
+.dft-row.on{background:rgba(var(--t-fg),.04);}
+.dft-open{flex:1;min-width:0;display:flex;align-items:baseline;gap:10px;background:none;border:none;cursor:pointer;text-align:left;padding:9px 4px;font-family:var(--font-kr);color:rgb(var(--t-text));}
+.dft-open b{flex:1;min-width:0;font-weight:500;font-size:calc(12.5px*var(--fs,1));overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:color .3s;}
+.dft-open:hover b{color:rgb(var(--t-glow));}
+.dft-board,.dft-date{flex:none;font-size:calc(10.5px*var(--fs,1));color:rgba(var(--t-fg-soft),.65);}
+.dft-del{flex:none;background:none;border:none;cursor:pointer;line-height:0;padding:8px;color:rgba(var(--t-fg-soft),.5);transition:color .3s;}
+.dft-del:hover{color:rgb(var(--t-danger-c));}
+.ed-bgm-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:8px;}
+.ed-bgm-row{align-items:center;flex-wrap:wrap;row-gap:6px;}
+.ed-bgm-row .mf-hint{margin:0;}
+#ef-bgm-url:disabled{opacity:.55;}
+.pbgm-groove{position:absolute;inset:4px;border-radius:50%;background:repeating-radial-gradient(circle,rgba(var(--t-fg),.07) 0 1px,transparent 1px 4px);}
+.nb-person .hub-rt{align-items:center;}
+.nb-blogs{grid-column:1/-1;display:flex;flex-direction:column;gap:2px;margin-top:6px;}
+.nb-blog{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:5px 0 5px 12px;border-left:1px solid rgba(var(--t-fg),.12);}
+.nb-blog-t{min-width:0;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;font-family:var(--font-kr);font-size:calc(12px*var(--fs,1));color:rgb(var(--t-fg-mid));}
+.nb-blog-t small{font-family:var(--font-num);font-size:calc(10px*var(--fs,1));letter-spacing:.08em;color:rgba(var(--t-fg-soft),.55);}
+@media(max-width:640px){.ed-bgm-grid{grid-template-columns:minmax(0,1fr);}.dft-open{flex-wrap:wrap;row-gap:2px;}.dft-open b{flex-basis:100%;order:-1;}.nb-blog{flex-wrap:wrap;}}
 .ms-list{max-height:46vh;overflow-y:auto;scrollbar-width:none;margin-top:6px;}.ms-list::-webkit-scrollbar{display:none;}
 .ms-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(var(--t-fg),.08);font-family:var(--font-kr);font-size:calc(11.5px*var(--fs,1));color:rgba(var(--t-fg-soft),.85);}
 .ms-row b{font-weight:600;color:rgb(var(--t-text));overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;}
@@ -3489,10 +3521,10 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
     <div class="adm-sec-sub" style="text-align:center;margin-bottom:14px;">LP 플레이어에 흐르는 곡을 정합니다 · 저장 즉시 반영</div>
     <div class="form-group"><label class="form-label">소스</label>
       <label class="form-check" style="margin-bottom:6px"><input type="radio" name="bgm-src" value="pmb" onchange="bgmSrcUI()"><span>Pair Music Box 플레이리스트 연동</span></label>
-      <label class="form-check"><input type="radio" name="bgm-src" value="custom" onchange="bgmSrcUI()"><span>유튜브 직접 지정</span></label>
+      <label class="form-check"><input type="radio" name="bgm-src" value="custom" onchange="bgmSrcUI()"><span>직접 지정 — 유튜브 · 음원 파일</span></label>
     </div>
     <div id="bgm-pmb-box"><div class="form-group"><label class="form-label">플레이리스트 ID (비우면 기본)</label><input class="form-input" id="bgm-pid" placeholder="a261625f-…"></div></div>
-    <div id="bgm-custom-box"><div class="form-group"><label class="form-label">트랙 목록 — 한 줄에 하나 · <code>유튜브 주소 또는 ID | 제목</code></label><textarea class="form-textarea" id="bgm-tracks" placeholder="https://youtu.be/xxxxxxxxxxx | 곡 제목&#10;dQw4w9WgXcQ | 다른 곡" style="min-height:120px;font-family:'Pretendard',monospace;font-size:12px;"></textarea></div></div>
+    <div id="bgm-custom-box"><div class="form-group"><label class="form-label">트랙 목록 — 한 줄에 하나 · <code>유튜브 주소(또는 음원 파일 주소) | 제목</code></label><textarea class="form-textarea" id="bgm-tracks" placeholder="https://youtu.be/xxxxxxxxxxx | 곡 제목&#10;dQw4w9WgXcQ | 다른 곡" style="min-height:120px;font-family:'Pretendard',monospace;font-size:12px;"></textarea><div class="dl-btnrow ed-bgm-row"><label class="form-file-label"><span>+ 음원 파일 올리기 (여러 개)</span><input type="file" multiple accept="audio/*,.mp3,.m4a,.aac,.ogg,.oga,.opus,.wav,.flac" style="display:none" onchange="bgmUploadFiles(this)"></label><span class="mf-hint" id="bgm-up-st">올린 파일은 목록에 한 줄씩 추가돼요 · mp3·m4a·ogg·wav·flac</span></div></div></div>
     <div class="form-group"><label class="form-label">플레이어에 표시할 이름 (선택)</label><input class="form-input" id="bgm-name" placeholder="비우면 플레이리스트 이름"></div>
     <div class="form-group"><label class="form-check"><input type="checkbox" id="bgm-autoplay"><span>접속 시 자동재생 (방문자가 끄면 그 기기는 예외)</span></label></div>
     <div class="form-actions"><button class="btn-primary" onclick="bgmSave()">SAVE</button><button class="btn-secondary" onclick="closeModal('bgm-modal')">CANCEL</button></div>
@@ -3752,6 +3784,13 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
     <div class="ob-err" id="btab-err"></div>
   </div>
 </div>
+<div class="modal-overlay" id="draft-ask-modal">
+  <div class="modal-box" style="max-width:420px;">
+    <div class="modal-title">작성 중인 글</div>
+    <p class="dft-ask-msg">글을 작성 중입니다. 임시저장하거나 저장 없이 닫을 수 있어요.</p>
+    <div class="form-actions dft-ask-acts"><button class="btn-primary" id="dft-ask-save" onclick="draftAsk('save')">임시저장</button><button class="btn-secondary" onclick="draftAsk('discard')">저장 없이 닫기</button><button class="btn-secondary" onclick="draftAsk('cancel')">취소</button></div>
+  </div>
+</div>
 <div class="modal-overlay" id="metascan-modal">
   <div class="modal-box" style="max-width:640px;">
     <button class="modal-close" onclick="closeModal('metascan-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
@@ -3843,12 +3882,14 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
 <!-- Editor Modal -->
 <div class="modal-overlay" id="editor-modal">
   <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('editor-modal')"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
+    <button class="modal-close" onclick="editorTryClose()"><svg width="13" height="13"><use href="#iss-ic-x"/></svg></button>
     <div class="modal-title" id="editor-title">New Entry</div>
+    <div class="dft-bar" id="dft-bar" hidden><button type="button" class="dft-toggle" id="dft-toggle" onclick="draftToggle()" aria-expanded="false"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg><span>임시저장 목록</span><b id="dft-n">0</b></button><div class="dft-list" id="dft-list" hidden></div></div>
     <div id="editor-fields"></div>
     <div class="form-actions">
       <button class="btn-primary" id="editor-save-btn" onclick="saveEntry()">SAVE</button>
-      <button class="btn-secondary" onclick="closeModal('editor-modal')">CANCEL</button>
+      <button class="btn-secondary" onclick="editorTryClose()">CANCEL</button>
+      <button class="btn-secondary" id="editor-draft-btn" onclick="draftSave(false)" hidden>임시저장</button>
       <button class="btn-danger" id="editor-delete-btn" onclick="deleteEntry()" style="display:none;margin-left:auto;">DELETE</button>
     </div>
   </div>
@@ -4116,7 +4157,8 @@ window.addEventListener('DOMContentLoaded',async()=>{
   try{document.fonts.load('400 1em "BookkMyungjo"','가');document.fonts.load('700 1em "BookkMyungjo"','가');}catch(e){}
   try{palelyDB=window.supabase.createClient(PALELY_URL,PALELY_KEY);pmbClient=window.supabase.createClient(PMB_URL,PMB_KEY);}catch(e){}
   palelyDBRaw=palelyDB;if(palelyDB){await siteBoot();palelyDB=dbShim(palelyDBRaw);siteBrandApply();}
-  if(!(currentSite&&currentSite.handle!==BOSS_HANDLE&&!siteSettingsCache.has('bgm')))loadYTAPI();else document.body.classList.add('no-bgm');   // P8: BGM 없는 블로그는 유튜브 iframe 자체를 만들지 않음(bgmLoad의 none 판정과 동일 조건)
+  if(currentSite&&currentSite.handle!==BOSS_HANDLE&&!siteSettingsCache.has('bgm'))document.body.classList.add('no-bgm');
+  else{let _bc=null;try{_bc=JSON.parse(siteSettingsCache.get('bgm')||'null');}catch(e){}if(!_bc||bgmNeedsYT(_bc))loadYTAPI();if(_bc&&_bc.src==='custom'&&!bgmNeedsYT(_bc))setTimeout(()=>initPMB(),0);}   // 음원 파일만 쓰는 블로그는 유튜브 없이 시작   // P8: BGM 없는 블로그는 유튜브 iframe 자체를 만들지 않음(bgmLoad의 none 판정과 동일 조건)
   edDropInit();vaultInit();
   await Promise.all([loadTheme(),checkAuth()]);   // 테마·세션 병렬
   await siteGate();await loadBoards();heartBoot();deferPrefetchLater();
@@ -4545,7 +4587,7 @@ async function nbRequestHere(){
   if(!myAcct||!(myAcct.sites||[]).length){showToast('먼저 내 블로그를 만들어야 이웃 신청을 할 수 있어요');return;}
   const from=hubSiteCur();
   try{const{data,error}=await palelyDBRaw.rpc('neighbor_request',{p_from:from,p_to:SITE_ID});if(error)throw error;
-    showToast(data==='accepted'?'서로 이웃이 되었어요':data==='pending'?'이웃 신청을 보냈어요':data==='blocked'?'신청할 수 없는 블로그예요':'이미 신청 중이에요');
+    showToast(data==='accepted'?'서로 이웃이 되었어요':data==='already'?'이미 서로 이웃이에요':data==='pending'?'이웃 신청을 보냈어요':data==='blocked'?'신청할 수 없는 블로그예요':'이미 신청 중이에요');
     if(data==='accepted')setTimeout(()=>location.reload(),600);
   }catch(e){showToast('실패: '+(e.message||e));}
 }
@@ -4577,26 +4619,36 @@ function hubDirRows(rows){
 }
 async function hubNbReq(toId){
   const from=hubSiteCur();if(!from){showToast('먼저 내 블로그를 만들어 주세요');return;}
-  try{const{data,error}=await palelyDBRaw.rpc('neighbor_request',{p_from:from,p_to:toId});if(error)throw error;showToast(data==='accepted'?'서로 이웃이 되었어요':data==='pending'?'이웃 신청을 보냈어요':'이미 처리된 신청이에요');hubNeighbors();}
+  try{const{data,error}=await palelyDBRaw.rpc('neighbor_request',{p_from:from,p_to:toId});if(error)throw error;showToast(data==='accepted'?'서로 이웃이 되었어요':data==='already'?'이미 서로 이웃이에요':data==='pending'?'이웃 신청을 보냈어요':'이미 처리된 신청이에요');hubNeighbors();}
   catch(e){showToast('실패: '+(e.message||e));}
 }
 async function hubNeighbors(){
   const box=document.getElementById('hub-neighbors');if(!box)return;const cur=hubSiteCur();if(!cur)return;
-  let rows=[];try{const{data}=await palelyDBRaw.rpc('my_neighbors',{p_site:cur});rows=data||[];}catch(e){}
+  let rows=[];try{const{data}=await palelyDBRaw.rpc('my_neighbors',{p_site:cur});rows=nbDedupe(data||[]);}catch(e){}
   const acc=rows.filter(r=>r.status==='accepted'),inq=rows.filter(r=>r.status==='pending'&&r.direction==='in'),out=rows.filter(r=>r.status==='pending'&&r.direction==='out');
-  const n=document.getElementById('hub-nb-n');if(n)n.textContent=acc.length+(inq.length?' · 받은 신청 '+inq.length:'');
+  const people=nbGroupPeople(acc);
+  const n=document.getElementById('hub-nb-n');if(n)n.textContent=people.length+(inq.length?' · 받은 신청 '+inq.length:'');
   const row=(r,act)=>'<div class="hub-row"><div class="hub-rt"><b>'+esc(r.title)+'</b>'+(r.visibility!=='public'?'<span class="hub-tier">'+esc(VIS_KR[r.visibility]||'')+'</span>':'')+'</div><div class="hub-rh">palely.me'+esc(hubSiteBase(r.handle))+'</div><div class="hub-ract">'+act+'</div></div>';
   let h='';
   if(inq.length)h+='<div class="hub-sub">받은 신청</div><div class="hub-list">'+inq.map(r=>row(r,'<button type="button" class="hub-mini" onclick="hubNbRespond(\''+r.site_id+'\',true)">수락</button> <button type="button" class="hub-mini" onclick="hubNbRespond(\''+r.site_id+'\',false)">거절</button>')).join('')+'</div>';
-  h+='<div class="hub-sub">서로 이웃 '+acc.length+'</div>'+(acc.length?'<div class="hub-list">'+acc.map(r=>row(r,'<button type="button" class="form-file-label" onclick="siteGo(\''+esc(r.handle)+'\')"><span>이동 →</span></button> <button type="button" class="hub-mini" onclick="hubNbRemove(\''+r.site_id+'\')">끊기</button>')).join('')+'</div>':'<p class="ob-hint">아직 이웃이 없어요. 블로그 둘러보기에서 신청해 보세요.</p>');
+  h+='<div class="hub-sub">서로 이웃 '+people.length+'</div>'+(people.length?'<div class="hub-list">'+people.map(nbPersonRow).join('')+'</div>':'<p class="ob-hint">아직 이웃이 없어요. 블로그 둘러보기에서 신청해 보세요.</p>');
   if(out.length)h+='<div class="hub-sub">보낸 신청</div><div class="hub-list">'+out.map(r=>row(r,'<button type="button" class="hub-mini" onclick="hubNbRemove(\''+r.site_id+'\')">취소</button>')).join('')+'</div>';
   box.innerHTML=h;
+}
+// 같은 블로그는 1건(수락 > 차단 > 받은 신청 > 보낸 신청), 같은 사람(owner_key)의 여러 블로그는 한 줄로
+function nbDedupe(rows){const rank=r=>r.status==='accepted'?0:r.status==='blocked'?1:(r.direction==='in'?2:3);const m=new Map();(rows||[]).forEach(r=>{if(!r||!r.site_id)return;const o=m.get(r.site_id);if(!o||rank(r)<rank(o))m.set(r.site_id,r);});return [...m.values()];}
+function nbGroupPeople(rows){const m=new Map();(rows||[]).forEach(r=>{const k=r.owner_key||('site:'+r.site_id);if(!m.has(k))m.set(k,{key:k,nick:r.owner_nick||'',avatar:r.owner_avatar||'',blogs:[]});m.get(k).blogs.push(r);});return [...m.values()];}
+function nbPersonRow(p){
+  const av=p.avatar?'<img class="hub-av" src="'+esc(p.avatar)+'" alt="">':'<span class="hub-av hub-av-e"></span>';
+  const name=p.nick||(p.blogs[0]&&p.blogs[0].title)||'이웃';
+  const blogs=p.blogs.map(b=>'<div class="nb-blog"><span class="nb-blog-t">'+esc(b.title)+(b.visibility!=='public'?'<span class="hub-tier">'+esc(VIS_KR[b.visibility]||'')+'</span>':'')+'<small>palely.me'+esc(hubSiteBase(b.handle))+'</small></span><span class="hub-ract"><button type="button" class="form-file-label" onclick="siteGo(\''+esc(b.handle)+'\')"><span>이동 →</span></button> <button type="button" class="hub-mini" onclick="hubNbRemove(\''+b.site_id+'\')">끊기</button></span></div>').join('');
+  return '<div class="hub-row nb-person"><div class="hub-rt">'+av+'<b>'+esc(name)+'</b>'+(p.blogs.length>1?'<span class="hub-tier">블로그 '+p.blogs.length+'</span>':'')+'</div><div class="nb-blogs">'+blogs+'</div></div>';
 }
 async function hubNbRespond(fromId,accept){try{const{error}=await palelyDBRaw.rpc('neighbor_respond',{p_from:fromId,p_to:hubSiteCur(),p_accept:!!accept});if(error)throw error;showToast(accept?'이웃이 되었어요':'거절했어요');hubNeighbors();hubTimeline();}catch(e){showToast('실패: '+(e.message||e));}}
 async function hubNbRemove(otherId){try{const{error}=await palelyDBRaw.rpc('neighbor_remove',{p_a:hubSiteCur(),p_b:otherId});if(error)throw error;showToast('이웃을 끊었어요');hubNeighbors();hubTimeline();}catch(e){showToast('실패: '+(e.message||e));}}
 async function hubTimeline(){
   const box=document.getElementById('hub-timeline');if(!box)return;const cur=hubSiteCur();if(!cur)return;
-  let rows=[];try{const{data}=await palelyDBRaw.rpc('timeline_feed',{p_site:cur,p_limit:30});rows=data||[];}catch(e){}
+  let rows=[];try{const{data}=await palelyDBRaw.rpc('timeline_feed',{p_site:cur,p_limit:30});rows=(data||[]).filter((r,i,a)=>a.findIndex(x=>x.board===r.board&&x.id===r.id)===i);}catch(e){}
   if(!rows.length){box.innerHTML='<p class="ob-hint">이웃의 새 글이 여기에 모여요.</p>';return;}
   box.innerHTML=rows.map(r=>'<a class="hub-row hub-link-row hub-tl" href="'+esc(heartHref({handle:r.handle,board:r.board,post_id:r.id}))+'">'+(r.thumb?'<img class="hub-tl-img" src="'+esc(thumbOf(r.thumb))+'" data-orig="'+esc(r.thumb)+'" onerror="thumbFail(this)" alt="">':'')+'<div class="hub-rt"><b>'+esc(r.title||'(제목 없음)')+'</b></div><div class="hub-rh">'+esc(r.site_title||'')+' · '+esc(HUB_BOARD_KR[r.board]||r.board)+' · '+esc(String(r.created_at||'').slice(0,10))+'</div></a>').join('');
 }
@@ -9282,7 +9334,7 @@ function lgvSyncH(){
   window.addEventListener('resize',lgvSyncH);
   lgvSyncH();
 })();
-const BG_CLOSE_IDS=['metascan-modal','dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal','nb-apply-modal','nb-manage-modal','board-name-modal','theme-color-modal','theme-font-modal','theme-logo-modal','theme-bg-modal','stk-crop-modal','version-modal','ai-model-modal','bgm-modal','mybn-modal'];
+const BG_CLOSE_IDS=['draft-ask-modal','metascan-modal','dday-modal','login-modal','editor-modal','prompts-pw-modal','gb-delete-modal','airule-modal','cat-manage-modal','ask-modal','iss-settings-modal','adult-consent-modal','diary-tab-modal','logs-tab-modal','assets-tab-modal','adm-members-modal','adm-perms-modal','adm-signup-modal','nb-apply-modal','nb-manage-modal','board-name-modal','theme-color-modal','theme-font-modal','theme-logo-modal','theme-bg-modal','stk-crop-modal','version-modal','ai-model-modal','bgm-modal','mybn-modal'];
 const THEME_SAVE_FNS={'theme-color-modal':'themeColorSave','board-name-modal':'boardNameSave','theme-font-modal':'themeFontSave','theme-logo-modal':'themeLogoSave','theme-bg-modal':'themeBgSave'};
 document.addEventListener('click',e=>{
   const ov=e.target;
@@ -9292,8 +9344,7 @@ document.addEventListener('click',e=>{
   if(ov.id==='stk-crop-modal'){stkCropCancel();return;}
   if(ov.id==='editor-modal'){
     if(document.body.classList.contains('perf-lite')&&window._edLastBlur&&performance.now()-window._edLastBlur<450)return;   // 터치: 키보드 닫으려고 바깥을 탭한 것 → 닫기 확인 안 띄움
-    if(editorStateStr()!==editorSnap&&!confirm('수정된 내용이 있습니다. 저장하지 않고 닫으시겠습니까?'))return;
-    ov.classList.remove('active');return;
+    editorTryClose();return;
   }
   if(THEME_MODAL_IDS.includes(ov.id)){
     const dirty=themeBase&&JSON.stringify(themeData)!==JSON.stringify(themeBase);
@@ -9348,8 +9399,9 @@ function renderContent(text){return esc(text).replace(/\n/g,'<br>');}
 
 // ══ EDITOR ══
 let editorDistType=null,editorPromptTab='nai';
-async function openEditor(type,editId,distType){
+async function openEditor(type,editId,distType,prefill,draftId){
   currentEditorType=type;currentEditId=editId||null;editorDistType=distType||null;
+  editorPrefill=prefill||null;editorDraftId=draftId||null;edBgmPending=null;
   if(type==='distributions'&&!editorDistType&&!currentEditId){try{editorDistType=(distTabKeys()[0])||'utility';}catch(e){editorDistType='utility';}}   // USER 탭 펜 등 탭 키 없는 진입 → 첫 배포 탭
   mfFileMap={};mfSeq=0;sfCleanMap={};sfNaiFlag={};
   const titleEl=document.getElementById('editor-title'),fieldsEl=document.getElementById('editor-fields'),delBtn=document.getElementById('editor-delete-btn');
@@ -9357,9 +9409,11 @@ async function openEditor(type,editId,distType){
   document.getElementById('editor-modal').classList.toggle('no-stk',type==='logs');
   let existingData=null;
   if(editId){const{data}=await palelyDB.from(type).select('*').eq('id',editId).single();existingData=data;if(type==='distributions'&&existingData)editorDistType=existingData.type;}
+  if(editId&&!existingData&&prefill){currentEditId=null;editId=null;}   // 수정하던 원글이 사라진 임시저장 → 새 글로
+  if(prefill)existingData=Object.assign({},existingData||{},prefill);   // 임시저장 불러오기: 저장 당시 값으로 덮어 렌더
   if(type==='prompts')editorPromptTab=(existingData&&existingData.tab)||editorDistType||'nai';
   const fields=getFieldsForType(type,editorDistType);
-  titleEl.textContent=(editId?'Edit':'New')+' '+typeLabel(type,editorDistType);
+  titleEl.textContent=(editId?'Edit':'New')+' '+typeLabel(type,editorDistType)+(draftId?' · 임시저장':'');
   fieldsEl.innerHTML=fields.map(f=>{
     const val=existingData?(existingData[f.key]||''):'';
     if(f.type==='textarea')return `<div class="form-group"><label class="form-label" for="__x">${f.label} <span class="ai-mini-row"><button type="button" class="ai-mini-btn" onclick="aiSpell('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 맞춤법</button>${(currentEditorType==='distributions'&&f.key==='description')?`<button type="button" class="ai-mini-btn" onclick="wrapQuote('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 인용구</button>`:''}${f.key==='content'?`<button type="button" class="ai-mini-btn" onclick="aiLogClean('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 로그 정리</button><button type="button" class="ai-mini-btn" onclick="aiLogSum('ef-${f.key}')"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg> 요약</button>`:''}</span></label><textarea class="form-textarea" id="ef-${f.key}" placeholder="${f.placeholder||''}">${esc(Array.isArray(val)?val.join(', '):val)}</textarea></div>`;
@@ -9398,6 +9452,7 @@ async function openEditor(type,editId,distType){
       return `<div class="form-group"><label class="form-label">${f.label}</label><div id="ef-links-container">${links.map((l,i)=>`<div class="link-entry"><input type="text" class="form-input" placeholder="이름 (예: 참고 트윗)" value="${esc(l.label||'')}" data-link-label="${i}"><input type="url" class="form-input" placeholder="https://…" value="${esc(l.url||'')}" data-link-url="${i}"><button type="button" class="link-remove-btn" onclick="this.parentElement.remove()">✕</button></div>`).join('')}</div><button type="button" class="form-file-label link-add-btn" onclick="addLinkEntry()"><span>+ 링크 추가</span></button></div>`;
     }
     if(f.type==='catselect'){const _ck=currentEditorType==='distributions'?editorDistType:(currentEditorType==='prompts'?(editorPromptTab==='ooc'?'ooc':'prompts'):currentEditorType);const cats=getCats(_ck);const cur=catArr(val);return `<div class="form-group"><label class="form-label">${f.label} (다중 선택 가능)</label><input type="hidden" id="ef-${f.key}" value="${JSON.stringify(cur).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}"><div class="cat-select" onclick="onCatSelectClick(event)">${cats.length?cats.map(c=>`<button type="button" class="cat-chip${cur.includes(c)?' active':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join(''):'<span class="cat-empty">카테고리 없음 — 게시판 상단 ⚙카테고리 관리에서 추가</span>'}</div></div>`;}
+    if(f.type==='bgm'){const b=postBgmSplit(val);return `<div class="form-group ed-bgm"><label class="form-label">${f.label} <small class="ob-st">유튜브 링크 또는 음원 파일 · 글을 열면 재생바가 떠요</small></label><div class="ed-bgm-grid"><input type="url" class="form-input" id="ef-bgm-url" value="${esc(b.url)}" placeholder="유튜브 링크 · https://youtu.be/…" oninput="edBgmSync()"><input type="text" class="form-input" id="ef-bgm-title" value="${esc(b.title)}" placeholder="곡 제목 (선택)" maxlength="80"></div><div class="dl-btnrow ed-bgm-row"><label class="form-file-label"><span>+ 음원 파일 올리기</span><input type="file" id="ef-bgm-file" accept="audio/*,.mp3,.m4a,.aac,.ogg,.oga,.opus,.wav,.flac" style="display:none" onchange="edBgmFile(this)"></label><button type="button" class="hub-mini" id="ef-bgm-clear" onclick="edBgmClear()"${b.url?'':' hidden'}>음악 지우기</button><span class="mf-hint" id="ef-bgm-st">${esc(bgmKindLabel(b.url))}</span></div></div>`;}
     if(f.type==='checkbox')return `<div class="form-group"><label class="form-check"><input type="checkbox" id="ef-${f.key}" ${val?'checked':''}><span>${f.label}</span></label></div>`;
     if(f.type==='password')return `<div class="form-group"><label class="form-label">${f.label}</label><input type="password" class="form-input" id="ef-${f.key}" placeholder="${f.placeholder||'비밀번호'}" autocomplete="new-password">${existingData&&existingData.secret?'<div class="mf-hint">이미 비밀번호가 설정됨 — 비우면 유지, 입력하면 변경</div>':''}</div>`;
     return `<div class="form-group"><label class="form-label">${f.label}</label><input type="text" class="form-input" id="ef-${f.key}" value="${esc(Array.isArray(val)?val.join(', '):val)}" placeholder="${f.placeholder||''}"></div>`;
@@ -9408,10 +9463,11 @@ async function openEditor(type,editId,distType){
   document.getElementById('editor-modal').classList.add('active');
   document.getElementById('editor-modal').scrollTop=0;
   setTimeout(()=>{editorSnap=editorStateStr();},120);
+  draftToggle(false);draftBarInit();
 }
 
 const ED_VIS_TYPES=new Set(['prompts','distributions','diary','logs','assets']);const ED_BGM_TYPES=new Set(['prompts','distributions','diary','logs']);
-function getFieldsForType(type,distType){const f=getFieldsForTypeBase(type,distType);if(ED_VIS_TYPES.has(type))f.push({key:'visibility',label:'공개 범위',type:'visibility'});if(ED_BGM_TYPES.has(type))f.push({key:'bgm',label:'배경음악 — 유튜브 링크 (선택) · 「링크 | 곡 제목」으로 쓰면 제목이 표시돼요',type:'text',placeholder:'https://youtu.be/… | 곡 제목'});return f;}
+function getFieldsForType(type,distType){const f=getFieldsForTypeBase(type,distType);if(ED_VIS_TYPES.has(type))f.push({key:'visibility',label:'공개 범위',type:'visibility'});if(ED_BGM_TYPES.has(type))f.push({key:'bgm',label:'배경음악 (선택)',type:'bgm'});return f;}
 function getFieldsForTypeBase(type,distType){
   switch(type){
     case 'diary':return [{key:'title',label:'Title',type:'text',placeholder:'제목'},{key:'category',label:'Category',type:'catselect'},{key:'tags',label:'Tags',type:'text',placeholder:'태그1, 태그2'},{key:'is_private',label:'🔒 비밀글로 설정 (비밀번호 필요)',type:'checkbox'},{key:'secret',label:'비밀번호 (비밀글일 때 · 변경할 때만 입력)',type:'password'},{key:'content',label:'Content',type:'richedit',placeholder:'다이어리를 자유롭게 작성하세요… (이미지 삽입·붙여넣기·유튜브 지원)'},{key:'thumb',label:'대표 썸네일',type:'thumbpick'},{key:'thumb_stickers',label:'썸네일 스티커',type:'stickers'}];
@@ -10015,11 +10071,112 @@ async function fetchOG(){
 }
 
 document.addEventListener('focusout',e=>{try{if(e.target&&e.target.closest&&e.target.closest('#editor-modal .modal-box'))window._edLastBlur=performance.now();}catch(x){}},true);   // 에디터 입력창 포커스 해제 시각(배경 탭 가드용)
-async function saveEntry(){
-  if(!palelyDB||(!isAdmin&&currentEditorType!=='guestbook')){showToast('Admin login required');return;}
-  const btn=document.getElementById('editor-save-btn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';
+// ── 글 임시저장(계정별 post_drafts) ──
+let editorPrefill=null,editorDraftId=null,draftRows=null;
+function editorDirty(){return editorStateStr()!==editorSnap;}
+function editorTryClose(){
+  const m=document.getElementById('editor-modal');if(!m||!m.classList.contains('active'))return;
+  if(!editorDirty()){closeModal('editor-modal');return;}
+  const sv=document.getElementById('dft-ask-save');if(sv){sv.disabled=false;sv.hidden=!draftAvailable();}
+  document.getElementById('draft-ask-modal').classList.add('active');
+}
+function draftAvailable(){return !!(currentUser&&!currentUser.is_anonymous&&SITE_ID&&SITE_ID!==NULL_SITE_ID);}
+async function draftAsk(act){
+  const a=document.getElementById('draft-ask-modal');
+  if(act==='cancel'){a.classList.remove('active');return;}
+  if(act==='discard'){a.classList.remove('active');closeModal('editor-modal');return;}
+  const b=document.getElementById('dft-ask-save');b.disabled=true;const ok=await draftSave(true);b.disabled=false;if(ok)a.classList.remove('active');
+}
+function draftGuessTitle(d){const t=['content','prompt_text','description','source','link_url'].map(k=>typeof d[k]==='string'?d[k]:'').find(Boolean)||'';let x=t;if(/^\s*[\[{]/.test(x)){try{const j=JSON.parse(x);x=Array.isArray(j)?(j[0]||''):((j.blocks&&j.blocks[0]&&j.blocks[0].text)||'');}catch(e){}}x=String(x).replace(/<[^>]*>|&nbsp;/g,' ').replace(/\s+/g,' ').trim();return x?x.slice(0,40):'(제목 없음)';}
+async function draftSave(closeAfter){
+  if(!draftAvailable()){showToast('로그인한 계정에만 임시저장할 수 있어요');return false;}
+  const btn=document.getElementById('editor-draft-btn');if(btn){btn.disabled=true;btn.textContent='저장 중…';}
   try{
-    const _ae=document.activeElement;if(_ae&&_ae!==document.body&&document.getElementById('editor-modal').contains(_ae)){try{_ae.blur();}catch(e){}await new Promise(r=>setTimeout(r,30));}   // 모바일 IME: 조합 중 글자를 확정한 뒤 값 읽기
+    const _ae=document.activeElement;if(_ae&&_ae!==document.body&&document.getElementById('editor-modal').contains(_ae)){try{_ae.blur();}catch(e){}await new Promise(r=>setTimeout(r,30));}
+    const data=await editorCollect(true);
+    if(currentEditorType==='prompts')data.tab=editorPromptTab;
+    else if(!data.tab){const t=currentEditorType==='diary'?currentDiaryTab:currentEditorType==='logs'?currentLogsTab:currentEditorType==='assets'?currentAssetsTab:'';if(t)data.tab=t;}
+    if(currentEditorType==='diary')data.stickers=dpStickers;
+    const row={site_id:SITE_ID,board:currentEditorType,dist_type:editorDistType||null,edit_id:currentEditId||null,title:(String(data.title||'').trim()||draftGuessTitle(data)).slice(0,120),data};
+    let id=editorDraftId;
+    if(id){const{data:u,error}=await palelyDBRaw.from('post_drafts').update(row).eq('id',id).select('id');if(error)throw error;if(!u||!u.length)id=null;}
+    if(!id){const{data:ins,error}=await palelyDBRaw.from('post_drafts').insert(row).select('id').single();if(error)throw error;id=ins.id;}
+    editorDraftId=id;editorPrefill=Object.assign({},editorPrefill||{},data);
+    showToast('임시저장했어요');
+    if(closeAfter)closeModal('editor-modal');
+    else{editorSnap=editorStateStr();const t=document.getElementById('editor-title');if(t&&!/임시저장$/.test(t.textContent))t.textContent+=' · 임시저장';draftBarInit();}
+    return true;
+  }catch(e){const m=String((e&&e.message)||e);showToast(/post_drafts|schema cache|does not exist/i.test(m)?'임시저장은 DB 업데이트 후 사용할 수 있어요':'임시저장 실패: '+m);return false;}
+  finally{if(btn){btn.disabled=false;btn.textContent='임시저장';}}
+}
+async function draftBarInit(){
+  const bar=document.getElementById('dft-bar'),db=document.getElementById('editor-draft-btn');
+  const on=draftAvailable();if(db)db.hidden=!on;if(!bar)return;if(!on){bar.hidden=true;return;}
+  let rows=[];
+  try{const{data,error}=await palelyDBRaw.from('post_drafts').select('id,board,dist_type,edit_id,title,updated_at').eq('site_id',SITE_ID).order('updated_at',{ascending:false}).limit(100);if(error)throw error;rows=data||[];}
+  catch(e){bar.hidden=true;if(db)db.hidden=true;return;}   // 테이블 없음(SQL 전) → 기능 숨김
+  draftRows=rows;bar.hidden=false;const n=document.getElementById('dft-n');if(n)n.textContent=rows.length;draftListRender();
+}
+function draftWhen(t){const d=new Date(t);if(isNaN(d))return '';const s=(Date.now()-d.getTime())/1000;if(s<60)return '방금';if(s<3600)return Math.floor(s/60)+'분 전';if(s<86400)return Math.floor(s/3600)+'시간 전';if(s<86400*7)return Math.floor(s/86400)+'일 전';return (d.getMonth()+1)+'.'+d.getDate();}
+function draftBoardLabel(r){try{return typeLabel(r.board,r.dist_type)||r.board;}catch(e){return r.board;}}
+function draftListRender(){
+  const box=document.getElementById('dft-list');if(!box)return;const rows=draftRows||[];
+  if(!rows.length){box.innerHTML='<p class="dft-empty">임시저장한 글이 없어요. 쓰다가 닫을 때 「임시저장」을 고르거나 아래 「임시저장」 버튼을 누르면 여기에 모여요.</p>';return;}
+  box.innerHTML=rows.map(r=>'<div class="dft-row'+(r.id===editorDraftId?' on':'')+'"><button type="button" class="dft-open" onclick="draftOpen(\''+r.id+'\')"><span class="dft-board">'+esc(draftBoardLabel(r))+(r.edit_id?' · 수정':'')+'</span><b>'+esc(r.title||'(제목 없음)')+'</b><span class="dft-date">'+esc(draftWhen(r.updated_at))+'</span></button><button type="button" class="dft-del" title="임시저장 삭제" onclick="draftDelete(\''+r.id+'\')"><svg width="10" height="10"><use href="#iss-ic-x"/></svg></button></div>').join('');
+}
+function draftToggle(force){const box=document.getElementById('dft-list'),t=document.getElementById('dft-toggle');if(!box||!t)return;const open=typeof force==='boolean'?force:box.hidden;box.hidden=!open;t.setAttribute('aria-expanded',open?'true':'false');t.classList.toggle('on',open);}
+async function draftOpen(id){
+  if(id===editorDraftId){draftToggle(false);return;}
+  if(editorDirty()&&!confirm('지금 쓰던 내용은 저장되지 않아요. 임시저장 글을 불러올까요?'))return;
+  try{const{data,error}=await palelyDBRaw.from('post_drafts').select('*').eq('id',id).single();if(error)throw error;
+    await openEditor(data.board,data.edit_id||null,data.dist_type||null,data.data||{},data.id);showToast('임시저장 글을 불러왔어요');}
+  catch(e){showToast('불러오기 실패: '+((e&&e.message)||e));}
+}
+async function draftDelete(id,silent){
+  if(!silent&&!confirm('이 임시저장 글을 지울까요?'))return;
+  try{const{error}=await palelyDBRaw.from('post_drafts').delete().eq('id',id);if(error)throw error;
+    if(id===editorDraftId)editorDraftId=null;if(draftRows)draftRows=draftRows.filter(r=>r.id!==id);
+    const n=document.getElementById('dft-n');if(n&&draftRows)n.textContent=draftRows.length;draftListRender();if(!silent)showToast('임시저장 글을 지웠어요');}
+  catch(e){if(!silent)showToast('삭제 실패: '+((e&&e.message)||e));}
+}
+// ── 글별 배경음악 칸: 링크 / 제목 분리 + 음원 파일 ──
+let edBgmPending=null;
+const BGM_AUDIO_RE=/^https?:\/\/[^\s|]+\.(mp3|m4a|aac|ogg|oga|opus|wav|flac)(?:[?#][^\s|]*)?$/i;
+function bgmIsAudio(u){return BGM_AUDIO_RE.test(String(u||'').trim());}
+function bgmFileOk(f){return !!f&&(/^audio\//.test(f.type||'')||/\.(mp3|m4a|aac|ogg|oga|opus|wav|flac)$/i.test(f.name||''));}
+function bgmMime(ext){return ({mp3:'audio/mpeg',m4a:'audio/mp4',aac:'audio/aac',ogg:'audio/ogg',oga:'audio/ogg',opus:'audio/ogg',wav:'audio/wav',flac:'audio/flac'})[ext]||'audio/mpeg';}
+function bgmFileCap(){return (typeof siteFree==='function'&&siteFree())?52428800:20971520;}
+async function bgmUploadOne(f){
+  const ext=((String(f.name||'').split('.').pop()||'mp3').toLowerCase().replace(/[^a-z0-9]/g,''))||'mp3';
+  const fn='bgm/'+Date.now()+'_'+Math.random().toString(36).slice(2,8)+'.'+ext;
+  const{error}=await stUpload(fn,f,{contentType:(/^audio\//.test(f.type||'')?f.type:bgmMime(ext))});if(error)throw error;
+  return palelyDB.storage.from('images').getPublicUrl(fn).data.publicUrl;
+}
+function postBgmSplit(v){v=String(v||'').trim();const i=v.indexOf('|');return {url:(i>=0?v.slice(0,i):v).trim(),title:(i>=0?v.slice(i+1):'').trim()};}
+function bgmKindLabel(u){u=String(u||'').trim();if(!u)return '';if(typeof ytIdOf==='function'&&ytIdOf(u))return '유튜브 음악';if(bgmIsAudio(u))return '음원 파일';return '인식할 수 없는 주소예요 — 유튜브 링크나 음원 파일만 가능해요';}
+function edBgmSync(){const u=document.getElementById('ef-bgm-url'),st=document.getElementById('ef-bgm-st'),cl=document.getElementById('ef-bgm-clear');if(!u)return;if(edBgmPending)return;if(st)st.textContent=bgmKindLabel(u.value);if(cl)cl.hidden=!u.value.trim();}
+function edBgmFile(inp){
+  const f=inp.files&&inp.files[0];if(!f)return;
+  if(!bgmFileOk(f)){showToast('음원 파일만 올릴 수 있어요 (mp3·m4a·ogg·wav·flac)');inp.value='';return;}
+  if(f.size>bgmFileCap()){showToast('파일이 너무 커요 — 최대 '+Math.round(bgmFileCap()/1048576)+'MB');inp.value='';return;}
+  edBgmPending=f;const u=document.getElementById('ef-bgm-url'),t=document.getElementById('ef-bgm-title'),st=document.getElementById('ef-bgm-st'),cl=document.getElementById('ef-bgm-clear');
+  if(u){u.value='';u.disabled=true;u.placeholder='음원 파일: '+f.name;}
+  if(t&&!t.value.trim())t.value=f.name.replace(/\.[^.]+$/,'').slice(0,80);
+  if(st)st.textContent='음원 파일 · '+(f.size/1048576).toFixed(1)+'MB · 저장할 때 올라가요';if(cl)cl.hidden=false;
+}
+function edBgmClear(){
+  edBgmPending=null;const u=document.getElementById('ef-bgm-url'),t=document.getElementById('ef-bgm-title'),fi=document.getElementById('ef-bgm-file'),st=document.getElementById('ef-bgm-st'),cl=document.getElementById('ef-bgm-clear');
+  if(u){u.value='';u.disabled=false;u.placeholder='유튜브 링크 · https://youtu.be/…';}if(t)t.value='';if(fi)fi.value='';if(st)st.textContent='';if(cl)cl.hidden=true;
+}
+async function edBgmCollect(){
+  const u=document.getElementById('ef-bgm-url'),t=document.getElementById('ef-bgm-title');if(!u)return '';
+  const title=((t&&t.value)||'').trim().replace(/\|/g,'／');let url=(u.value||'').trim();
+  if(edBgmPending){const st=document.getElementById('ef-bgm-st');if(st)st.textContent='음원 올리는 중…';url=await bgmUploadOne(edBgmPending);edBgmPending=null;u.disabled=false;u.value=url;u.placeholder='유튜브 링크 · https://youtu.be/…';const fi=document.getElementById('ef-bgm-file');if(fi)fi.value='';if(st)st.textContent='음원 파일';}
+  if(!url)return '';
+  if(!(typeof ytIdOf==='function'&&ytIdOf(url))&&!bgmIsAudio(url))throw new Error('배경음악 주소를 읽지 못했어요 — 유튜브 링크나 음원 파일만 가능해요');
+  return title?url+' | '+title:url;
+}
+async function editorCollect(forDraft){   // 에디터 칸 → 레코드(대기 중인 파일은 업로드). saveEntry·임시저장 공용
     const fields=getFieldsForType(currentEditorType,editorDistType);const record={};
     for(const f of fields){
       if(f.type==='file'){
@@ -10031,12 +10188,14 @@ async function saveEntry(){
           const fn=`${currentEditorType}/${Date.now()}_${Math.random().toString(36).slice(2,8)}.${ext}`;
           const{error:ue}=await stUpload(fn,file,{contentType:file.type});if(ue)throw ue;
           const{data:ud}=palelyDB.storage.from('images').getPublicUrl(fn);record[f.key]=ud.publicUrl;
+          fi.value='';delete sfCleanMap[fi.id];delete sfNaiFlag[fi.id];editorPrefill=Object.assign({},editorPrefill||{},{[f.key]:ud.publicUrl});
+        }else if(editorPrefill&&editorPrefill[f.key]){record[f.key]=editorPrefill[f.key];
         }else if(currentEditId)continue;
       }else if(f.type==='multifile'){
         const items=[...document.querySelectorAll('#ef-'+f.key+'-list .mf-item')];const all=[];
         for(const it of items){
           if(it.dataset.url){all.push(it.dataset.url);}
-          else if(it.dataset.tmp&&mfFileMap[it.dataset.tmp]){const file=mfFileMap[it.dataset.tmp];const ext=(file.name.split('.').pop()||'png');const fn=`${currentEditorType}/${Date.now()}_${Math.random().toString(36).slice(2,8)}.${ext}`;const{error:ue}=await stUpload(fn,file,{contentType:file.type});if(ue)throw ue;const{data:ud}=palelyDB.storage.from('images').getPublicUrl(fn);all.push(ud.publicUrl);}
+          else if(it.dataset.tmp&&mfFileMap[it.dataset.tmp]){const file=mfFileMap[it.dataset.tmp];const ext=(file.name.split('.').pop()||'png');const fn=`${currentEditorType}/${Date.now()}_${Math.random().toString(36).slice(2,8)}.${ext}`;const{error:ue}=await stUpload(fn,file,{contentType:file.type});if(ue)throw ue;const{data:ud}=palelyDB.storage.from('images').getPublicUrl(fn);all.push(ud.publicUrl);it.dataset.url=ud.publicUrl;delete mfFileMap[it.dataset.tmp];delete it.dataset.tmp;}
         }
         record.images=all;record.image_url=all[0]||'';
       }else if(f.type==='url-og'){
@@ -10055,6 +10214,7 @@ async function saveEntry(){
             if(ue)throw ue;
             const{data:pu}=palelyDB.storage.from('images').getPublicUrl(fn);
             out.push({name:it.name,url:pu.publicUrl,size:it._file.size});
+            it.size=it._file.size;it.url=pu.publicUrl;it.kind='file';delete it._file;
           }
         }
         document.querySelectorAll('#ef-dl-links .dl-link-entry').forEach(e=>{
@@ -10082,7 +10242,10 @@ async function saveEntry(){
         record[f.key]=arr.length>1?JSON.stringify(arr):(arr[0]||'');
       }else if(f.type==='stickers'){
         try{record[f.key]=JSON.parse(document.getElementById('ef-'+f.key)?.value||'[]')||[];}catch(e){record[f.key]=[];}
+      }else if(f.type==='bgm'){
+        record.bgm=await edBgmCollect();
       }else if(f.type==='password'){
+        if(forDraft)continue;   // 비밀번호는 임시저장에 남기지 않음
         const v=document.getElementById('ef-'+f.key)?.value||'';if(v)record[f.key]=await hashPw(v);
       }else{
         let val=document.getElementById('ef-'+f.key)?.value?.trim()||'';
@@ -10090,6 +10253,14 @@ async function saveEntry(){
         else record[f.key]=val;
       }
     }
+  return record;
+}
+async function saveEntry(){
+  if(!palelyDB||(!isAdmin&&currentEditorType!=='guestbook')){showToast('Admin login required');return;}
+  const btn=document.getElementById('editor-save-btn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';
+  try{
+    const _ae=document.activeElement;if(_ae&&_ae!==document.body&&document.getElementById('editor-modal').contains(_ae)){try{_ae.blur();}catch(e){}await new Promise(r=>setTimeout(r,30));}   // 모바일 IME: 조합 중 글자를 확정한 뒤 값 읽기
+    const record=await editorCollect(false);
     if(currentEditorType==='diary'){
       record.stickers=dpStickers;
       if(!record.thumb){const fi=dpFirstImage({content:record.content,stickers:record.stickers});if(fi)record.thumb=fi;}
@@ -10105,6 +10276,7 @@ async function saveEntry(){
       if(!record.thumb){const fi=dpFirstImage({content:record.content,stickers:[]});if(fi)record.thumb=fi;}
       if(record.html_raw)record.html_raw=String(record.html_raw).replace(/<script[\s\S]*?<\/script>/gi,'');
     }
+    if(!currentEditId&&editorPrefill&&editorPrefill.tab&&currentEditorType!=='prompts'&&currentEditorType!=='distributions')record.tab=editorPrefill.tab;   // 임시저장 당시 탭
     if('is_private' in record&&!record.is_private)record.secret=null;
     if(record.is_private&&!record.secret&&!currentEditId){showToast('비밀글 비밀번호를 입력하세요');btn.disabled=false;btn.innerHTML='SAVE';return;}
     if(!currentEditId){   // 빈 글 가드: 제목·본문·이미지·첨부가 전부 비면 저장하지 않음(조용히 빈 글이 올라가던 것)
@@ -10117,6 +10289,7 @@ async function saveEntry(){
     }else{
       const{error}=await palelyDB.from(currentEditorType).insert(record);if(error)throw error;showToast('Created');
     }
+    const _dft=editorDraftId;editorDraftId=null;if(_dft)draftDelete(_dft,true);   // 발행된 임시저장 글은 목록에서 제거
     closeModal('editor-modal');await loadBoardByType(currentEditorType);
   }catch(e){showToast('Error: '+(e.message||'Save failed'));console.error(e);}
   btn.disabled=false;btn.textContent='SAVE';
@@ -10321,8 +10494,27 @@ function emptyHtml(type){
 let ytPlayer=null,pmbTracks=[],pmbIdx=-1,pmbPlaying=false,pmbShuffle=false,pmbPlayed={},pmbPI=null;
 function loadYTAPI(){if(window._ytReq)return;window._ytReq=1;const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);}   // P8: 부트 즉시 로드 → INIT(siteBoot 뒤)에서 BGM 있는 블로그만
 window.onYouTubeIframeAPIReady=function(){ytPlayer=new YT.Player('yt-player-container',{height:'0',width:'0',playerVars:{playsinline:1},events:{onReady:function(){try{playerVol=Math.max(0,Math.min(100,parseInt(localStorage.getItem('palely_vol')||'70')||70));}catch(e){}if(ytPlayer&&ytPlayer.setVolume)ytPlayer.setVolume(playerVol);playerVolUI();initPMB();},onStateChange:onYTS}});};
-function onYTS(e){const a=document.getElementById('player-art'),iP=document.getElementById('p-icon-play'),iPa=document.getElementById('p-icon-pause');if(e.data===YT.PlayerState.PLAYING){pmbPlaying=true;a.classList.add('spinning');iP.style.display='none';iPa.style.display='block';startProg();}else{pmbPlaying=false;a.classList.remove('spinning');iP.style.display='block';iPa.style.display='none';clearInterval(pmbPI);}if(e.data===YT.PlayerState.ENDED)playerNext();}
-function startProg(){clearInterval(pmbPI);pmbPI=setInterval(()=>{if(ytPlayer&&pmbPlaying&&ytPlayer.getCurrentTime){try{const c=ytPlayer.getCurrentTime(),d=ytPlayer.getDuration();if(d>0){document.getElementById('player-progress-fill').style.width=(c/d*100)+'%';document.getElementById('player-time-cur').textContent=fT(c);document.getElementById('player-time-dur').textContent=fT(d);}}catch(e){}}},250);}
+function onYTS(e){if(lpKind==='audio')return;const a=document.getElementById('player-art'),iP=document.getElementById('p-icon-play'),iPa=document.getElementById('p-icon-pause');if(e.data===YT.PlayerState.PLAYING){pmbPlaying=true;a.classList.add('spinning');iP.style.display='none';iPa.style.display='block';startProg();}else{pmbPlaying=false;a.classList.remove('spinning');iP.style.display='block';iPa.style.display='none';clearInterval(pmbPI);}if(e.data===YT.PlayerState.ENDED)playerNext();}
+function startProg(){clearInterval(pmbPI);pmbPI=setInterval(()=>{if(pmbPlaying){try{const [c,d]=lpTimes();if(d>0){document.getElementById('player-progress-fill').style.width=(c/d*100)+'%';document.getElementById('player-time-cur').textContent=fT(c);document.getElementById('player-time-dur').textContent=fT(d);}}catch(e){}}},250);}
+// ── LP 플레이어 음원 파일 경로(유튜브와 공존): lpKind='yt'|'audio' ──
+let lpAudio=null,lpKind='yt';
+function lpAudioEl(){if(lpAudio)return lpAudio;lpAudio=new Audio();lpAudio.preload='auto';
+  lpAudio.addEventListener('play',()=>{if(lpKind==='audio')lpUI(true);});
+  lpAudio.addEventListener('pause',()=>{if(lpKind==='audio')lpUI(false);});
+  lpAudio.addEventListener('ended',()=>{if(lpKind==='audio')playerNext();});
+  lpAudio.addEventListener('error',()=>{if(lpKind==='audio'&&lpAudio.getAttribute('src')){lpUI(false);showToast('음원 파일을 재생할 수 없어요');}});
+  return lpAudio;}
+function lpUI(playing){const a=document.getElementById('player-art'),iP=document.getElementById('p-icon-play'),iPa=document.getElementById('p-icon-pause');pmbPlaying=playing;if(a)a.classList.toggle('spinning',playing);if(iP)iP.style.display=playing?'none':'block';if(iPa)iPa.style.display=playing?'block':'none';if(playing)startProg();else clearInterval(pmbPI);}
+function lpVol01(){return playerMuted?0:Math.max(0,Math.min(1,(typeof playerVol==='number'?playerVol:70)/100));}
+function lpIsPlaying(){return !!pmbPlaying;}
+function lpPause(){if(lpKind==='audio'){if(lpAudio)lpAudio.pause();}else if(ytPlayer&&ytPlayer.pauseVideo){try{ytPlayer.pauseVideo();}catch(e){}}}
+function lpPlay(){if(lpKind==='audio'){if(lpAudio)lpAudio.play().catch(()=>{});}else if(ytPlayer&&ytPlayer.playVideo){try{ytPlayer.playVideo();}catch(e){}}}
+function lpStop(){if(lpAudio&&lpAudio.getAttribute('src')){try{lpAudio.pause();lpAudio.removeAttribute('src');lpAudio.load();}catch(e){}}if(ytPlayer&&ytPlayer.stopVideo){try{ytPlayer.stopVideo();}catch(e){}}}
+function lpTimes(){if(lpKind==='audio'&&lpAudio)return [lpAudio.currentTime||0,isFinite(lpAudio.duration)?lpAudio.duration:0];if(ytPlayer&&ytPlayer.getCurrentTime)return [ytPlayer.getCurrentTime(),ytPlayer.getDuration()];return [0,0];}
+function lpSeekRatio(p){const d=lpTimes()[1];if(!(d>0))return;if(lpKind==='audio'&&lpAudio)lpAudio.currentTime=d*p;else if(ytPlayer&&ytPlayer.seekTo)ytPlayer.seekTo(d*p,true);}
+function lpApplyVol(){const v=lpVol01();if(lpAudio)lpAudio.volume=v;if(postAudio)postAudio.volume=v;}
+function bgmNeedsYT(cfg){if(!cfg||cfg.src==='none')return false;if(cfg.src!=='custom')return true;return (cfg.tracks||[]).some(t=>!t.url);}
+function bgmKeyOf(cfg){try{return JSON.stringify([cfg.src,cfg.playlistId||'',cfg.tracks||[]]);}catch(e){return String(Math.random());}}
 function fT(s){if(!s)return'0:00';const m=Math.floor(s/60),ss=Math.floor(s%60);return m+':'+(ss<10?'0':'')+ss;}
 const PMB_PLAYLIST_ID='a261625f-8f24-4e6d-a88e-204b476500b1';
 // ── 배경음악 설정(settings.bgm): {src:'pmb'|'custom', playlistId, name, tracks:[{vid,title}], autoplay} ──
@@ -10341,12 +10533,15 @@ function bgmShouldAutoplay(cfg){return cfg.autoplay!==false&&bgmPref()!=='off';}
 function ytIdOf(x){x=String(x||'').trim();const m=x.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([A-Za-z0-9_-]{11})/);if(m)return m[1];return /^[A-Za-z0-9_-]{11}$/.test(x)?x:'';}
 async function initPMB(){
   if(bgmCfg&&bgmCfg.src==='none'){document.body.classList.add('no-bgm');return;}
-  if(!ytPlayer){document.body.classList.remove('no-bgm');loadYTAPI();return;}   // P8: API 미로드(BGM을 지금 설정한 블로그) → 로드 후 onReady가 initPMB 재호출
   let cfg={src:'pmb',autoplay:true,tracks:[]};try{cfg=await bgmLoad();}catch(e){}
+  if(cfg.src==='none'){document.body.classList.add('no-bgm');return;}
+  if(bgmNeedsYT(cfg)&&!ytPlayer){document.body.classList.remove('no-bgm');loadYTAPI();return;}   // P8: 유튜브가 필요한데 API 미로드 → 로드 후 onReady가 initPMB 재호출
+  const _k=bgmKeyOf(cfg);if(window._pmbInitKey===_k&&pmbTracks.length)return;window._pmbInitKey=_k;   // 부트 직접 호출 + YT onReady 중복 방지
+  document.body.classList.remove('no-bgm');
   const auto=bgmShouldAutoplay(cfg);
   try{
     if(cfg.src==='custom'&&cfg.tracks.length){
-      pmbTracks=cfg.tracks.map((x,i)=>({id:'c'+i,vid:x.vid,title:x.title||('Track '+(i+1)),img:null})).filter(x=>x.vid);
+      pmbTracks=cfg.tracks.map((x,i)=>({id:'c'+i,vid:x.vid||'',url:x.url||'',title:x.title||('Track '+(i+1)),img:null})).filter(x=>x.vid||x.url);
       document.getElementById('player-playlist-name').textContent=cfg.name||'BGM';
       if(pmbTracks.length)pmbPlay(0,!auto);
       return;
@@ -10359,9 +10554,13 @@ async function initPMB(){
   }catch(e){}
 }
 // cue=true: 트랙 정보만 올리고 재생은 안 함(끈 상태 기억 시)
-function pmbPlay(i,cue){if(i<0||i>=pmbTracks.length)return;pmbIdx=i;const t=pmbTracks[i];if(ytPlayer){if(cue&&ytPlayer.cueVideoById)ytPlayer.cueVideoById(t.vid);else if(ytPlayer.loadVideoById)ytPlayer.loadVideoById(t.vid);}document.getElementById('player-track-name').textContent=t.title;const img=t.img||(t.vid?'https://img.youtube.com/vi/'+t.vid+'/mqdefault.jpg':'');if(img)document.getElementById('player-art').innerHTML='<img class="player-album-img" src="'+img+'" draggable="false">';}
+function pmbPlay(i,cue){if(i<0||i>=pmbTracks.length)return;pmbIdx=i;const t=pmbTracks[i];
+  if(t.url){lpKind='audio';if(ytPlayer&&ytPlayer.stopVideo){try{ytPlayer.stopVideo();}catch(e){}}const a=lpAudioEl();a.volume=lpVol01();a.src=t.url;if(cue)lpUI(false);else a.play().catch(()=>lpUI(false));}
+  else{lpKind='yt';if(lpAudio&&lpAudio.getAttribute('src')){try{lpAudio.pause();lpAudio.removeAttribute('src');lpAudio.load();}catch(e){}}if(ytPlayer){if(cue&&ytPlayer.cueVideoById)ytPlayer.cueVideoById(t.vid);else if(ytPlayer.loadVideoById)ytPlayer.loadVideoById(t.vid);}else loadYTAPI();}
+  document.getElementById('player-track-name').textContent=t.title;const img=t.img||(t.vid?'https://img.youtube.com/vi/'+t.vid+'/mqdefault.jpg':'');document.getElementById('player-art').innerHTML=img?'<img class="player-album-img" src="'+img+'" draggable="false">':'';}
 function playerToggle(){
   if(pmbIdx===-1&&pmbTracks.length){bgmRemember('on');pmbPlay(0);return;}
+  if(lpKind==='audio'){if(!lpAudio)return;if(pmbPlaying){bgmRemember('off');lpAudio.pause();}else{bgmRemember('on');lpAudio.play().catch(()=>{});}return;}
   if(!(ytPlayer&&ytPlayer.getPlayerState))return;
   if(pmbPlaying){bgmRemember('off');ytPlayer.pauseVideo();}else{bgmRemember('on');ytPlayer.playVideo();}
 }
@@ -10372,24 +10571,36 @@ async function bgmOpen(){
   document.querySelector('#bgm-modal input[name=bgm-src][value="'+(c.src==='custom'?'custom':'pmb')+'"]').checked=true;
   document.getElementById('bgm-pid').value=c.playlistId||'';
   document.getElementById('bgm-name').value=c.name||'';
-  document.getElementById('bgm-tracks').value=(c.tracks||[]).map(t=>t.vid+(t.title?' | '+t.title:'')).join('\n');
+  document.getElementById('bgm-tracks').value=(c.tracks||[]).map(t=>(t.vid||t.url||'')+(t.title?' | '+t.title:'')).join('\n');
+  const _us=document.getElementById('bgm-up-st');if(_us)_us.textContent='올린 파일은 목록에 한 줄씩 추가돼요 · mp3·m4a·ogg·wav·flac';
   document.getElementById('bgm-autoplay').checked=c.autoplay!==false;
   bgmSrcUI();
   document.getElementById('bgm-modal').classList.add('active');
+}
+async function bgmUploadFiles(inp){
+  const files=[...(inp.files||[])];inp.value='';if(!files.length)return;
+  const st=document.getElementById('bgm-up-st'),ta=document.getElementById('bgm-tracks');let ok=0;
+  for(let i=0;i<files.length;i++){const f=files[i];if(st)st.textContent='올리는 중 '+(i+1)+' / '+files.length+' · '+f.name;
+    if(!bgmFileOk(f)){showToast('음원 파일이 아니에요: '+f.name);continue;}
+    if(f.size>bgmFileCap()){showToast('파일이 너무 커요(최대 '+Math.round(bgmFileCap()/1048576)+'MB): '+f.name);continue;}
+    try{const url=await bgmUploadOne(f);const title=f.name.replace(/\.[^.]+$/,'').replace(/\|/g,'／');ta.value=(ta.value.trim()?ta.value.replace(/\s*$/,'')+'\n':'')+url+' | '+title;ok++;}
+    catch(e){showToast('업로드 실패: '+((e&&e.message)||e));}}
+  if(st)st.textContent=ok?ok+'개 추가됨 · SAVE를 눌러야 반영돼요':'추가된 파일이 없어요';
+  if(ok){const r=document.querySelector('#bgm-modal input[name=bgm-src][value="custom"]');if(r){r.checked=true;bgmSrcUI();}}
 }
 function bgmSrcUI(){const src=(document.querySelector('#bgm-modal input[name=bgm-src]:checked')||{}).value||'pmb';document.getElementById('bgm-pmb-box').style.display=src==='pmb'?'':'none';document.getElementById('bgm-custom-box').style.display=src==='custom'?'':'none';}
 async function bgmSave(){
   const src=(document.querySelector('#bgm-modal input[name=bgm-src]:checked')||{}).value||'pmb';
   const tracks=[];const bad=[];
-  document.getElementById('bgm-tracks').value.split('\n').map(l=>l.trim()).filter(Boolean).forEach(l=>{const parts=l.split('|');const vid=ytIdOf(parts[0]);if(!vid){bad.push(parts[0].trim());return;}tracks.push({vid,title:(parts[1]||'').trim()});});
-  if(bad.length){showToast('유튜브 주소/ID를 못 읽었어요: '+bad[0]);return;}
+  document.getElementById('bgm-tracks').value.split('\n').map(l=>l.trim()).filter(Boolean).forEach(l=>{const parts=l.split('|');const u0=parts[0].trim();const title=parts.slice(1).join('|').trim();const vid=ytIdOf(u0);if(vid)tracks.push({vid,title});else if(bgmIsAudio(u0))tracks.push({url:u0,title});else bad.push(u0);});
+  if(bad.length){showToast('유튜브 주소나 음원 파일 주소를 못 읽었어요: '+bad[0]);return;}
   if(src==='custom'&&!tracks.length){showToast('직접 지정엔 트랙이 1개 이상 필요해요');return;}
   const cfg={src,playlistId:document.getElementById('bgm-pid').value.trim(),name:document.getElementById('bgm-name').value.trim(),tracks,autoplay:document.getElementById('bgm-autoplay').checked};
   try{
     const{error}=await palelyDB.from('settings').upsert({key:'bgm',value:JSON.stringify(cfg)},{onConflict:'key'});if(error)throw error;
     bgmCfg=cfg;closeModal('bgm-modal');showToast('배경음악 설정 저장됨');
     // 즉시 반영
-    pmbTracks=[];pmbIdx=-1;pmbPlayed={};if(ytPlayer&&ytPlayer.stopVideo)try{ytPlayer.stopVideo();}catch(e){}
+    pmbTracks=[];pmbIdx=-1;pmbPlayed={};window._pmbInitKey=null;lpStop();lpUI(false);lpKind='yt';
     document.getElementById('player-track-name').textContent='No Track';
     initPMB();
   }catch(e){showToast('저장 실패: '+(e.message||''));}
@@ -10402,6 +10613,7 @@ function playerSetVolume(v){
   playerVol=Math.max(0,Math.min(100,parseInt(v)||0));
   if(playerMuted&&playerVol>0){playerMuted=false;if(ytPlayer&&ytPlayer.unMute)ytPlayer.unMute();}
   if(ytPlayer&&ytPlayer.setVolume)ytPlayer.setVolume(playerMuted?0:playerVol);
+  lpApplyVol();
   playerVolUI();
   try{localStorage.setItem('palely_vol',String(playerVol));}catch(e){}
 }
@@ -10411,6 +10623,7 @@ function playerToggleMute(){
     if(playerMuted&&ytPlayer.mute)ytPlayer.mute();
     else if(!playerMuted){if(ytPlayer.unMute)ytPlayer.unMute();if(ytPlayer.setVolume)ytPlayer.setVolume(playerVol);}
   }
+  lpApplyVol();
   playerVolUI();
 }
 function playerVolUI(){
@@ -10422,7 +10635,7 @@ function playerVolUI(){
   if(s&&String(playerVol)!==s.value)s.value=playerVol;
 }
 document.getElementById('player-progress-bar').addEventListener('mousedown',function(e){sk(e);const mv=ev=>sk(ev),up=()=>{removeEventListener('mousemove',mv);removeEventListener('mouseup',up);};addEventListener('mousemove',mv);addEventListener('mouseup',up);});
-function sk(e){const b=document.getElementById('player-progress-bar').getBoundingClientRect();let p=(e.clientX-b.left)/b.width;p=Math.max(0,Math.min(1,p));document.getElementById('player-progress-fill').style.width=(p*100)+'%';if(ytPlayer&&ytPlayer.getDuration)ytPlayer.seekTo(ytPlayer.getDuration()*p,true);}
+function sk(e){const b=document.getElementById('player-progress-bar').getBoundingClientRect();let p=(e.clientX-b.left)/b.width;p=Math.max(0,Math.min(1,p));document.getElementById('player-progress-fill').style.width=(p*100)+'%';lpSeekRatio(p);}
 
 
 // ══ USER BOARD (temp: distributions type='user') ══
@@ -10553,8 +10766,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.6.12';
+const APP_VERSION='1.6.13';
 const CHANGELOG=[
+  {v:'1.6.13',date:'2026-09-17',title:'글 임시저장 · 음원 배경음악 · 이웃 목록 정리',sql:true,items:['글 임시저장(모든 게시판) — 쓰다가 닫으면 「임시저장 / 저장 없이 닫기 / 취소」 선택, 에디터 하단 「임시저장」 버튼, 에디터 위 「임시저장 목록」 토글에서 불러오기·삭제. 로그인 계정에 저장(블로그별)','글 배경음악 칸을 「유튜브 링크」와 「곡 제목」 두 칸으로 분리 + 음원 파일(mp3·m4a·ogg·wav·flac) 올리기','블로그 배경음악(LP 플레이어)에 음원 파일 트랙 추가 — 관리 › 배경음악 › 직접 지정에서 여러 개 올리기','이웃 목록: 블로그를 여러 개 가진 이웃이 여러 줄로 나오던 것을 사람 한 줄로 묶음, 이미 이웃인데 다시 신청하면 중복 행이 생기던 문제 수정','BGM을 설정하지 않은 블로그에서 글 배경음악(유튜브)이 재생되지 않던 문제 수정','DB: _sql_drafts_neighbors.sql 실행 필요']},
   {v:'1.6.12',date:'2026-09-17',title:'글자 크기 — 사이트 전체 적용',sql:false,items:['우상단 「Aa」 버튼 → 글자 크기 85·100·115·130·145% 선택(이 기기에 기억, 모든 블로그 공통)','장식 타이포(브랜드·게시판 제목·탭·네비·LP·D-Day 등)를 제외한 사이트 전체 글자(카드·상세·팝업·허브·관리·입력창) 359개 규칙이 배율을 따름','상세·팝업의 A−/A+도 같은 값을 조정']},
   {v:'1.6.11',date:'2026-09-17',title:'메타데이터 추적 · 자동 세척 재점검',sql:false,items:['관리 › 도구 『메타데이터 추적』 — 이 블로그 저장소 이미지의 NAI 텍스트·EXIF·XMP·알파 스텔스 잔존을 빠른/정밀 검사, 잔존 항목은 『세척』으로 재인코딩 후 같은 주소에 덮어쓰기(썸네일 자동 갱신)','에디터 『NAI 일괄 제거』 버튼 제거 — 업로드 시 전부 자동 세척되므로 불필요','감지 보강: PNG eXIf 청크, JPEG·WebP의 EXIF/XMP','GIF도 세척: 재인코딩 없이 주석·XMP 확장 블록만 제거(애니메이션 유지)','AI 배색 후 남던 회색 배경 글로우·먼지색: 기본 회색이면 팔레트에서 자동 파생(모바일 포함)','본문·라벨 글자색을 텍스트 토큰으로 통일 — 밝은 배색에서 글이 안 보이던 문제(상세 본문·배포 설명·프롬프트 텍스트·날짜 등 40곳)','글자 크기 조절 A−/A+ (상세·팝업 아이콘 줄) — 85~150%, 이 기기에 기억, 어느 블로그에서나 동일 적용','모바일: 대형 이미지(약 1,677만 px 초과)에서 세척 재인코딩이 기기 한계로 실패하면 한계 안으로 축소해 재시도(이전엔 업로드 취소)']},
   {v:'1.6.10',date:'2026-09-17',title:'성능·발열 최적화 · 모바일 글쓰기 버그',sql:false,items:['성능·발열: 게시판을 열면 홈 애니메이션 정지, 모바일은 글자별 흐림·글로우 회전·물결 필터 등 매 프레임 페인트 애니 정지 + 배경 입자 60개·30fps, 백그라운드 탭 정지, BGM 없는 블로그는 유튜브 플레이어 미생성','모바일 글쓰기: 첫 글자 조합 중 본문 안내문(placeholder)이 사라지며 입력이 취소되던 문제(안드로이드 IME) 수정, 저장 직전 조합 확정, 빈 글은 저장 거부(제목·내용 안내), 키보드 닫으려 바깥을 탭했을 때 닫기 확인창이 뜨던 것 방지, 방명록 코멘트 입력 중 텍스트 보존']},
@@ -10643,19 +10857,29 @@ let _siteProfileP=null;
 function siteProfileLoad(){if(_siteProfileP)return _siteProfileP;_siteProfileP=(async()=>{try{const pid=currentSite&&currentSite.profile_id;if(pid){const{data}=await palelyDBRaw.from('user_profiles').select('nickname,avatar').eq('id',pid).maybeSingle();if(data&&data.nickname)return {nickname:data.nickname,avatar:data.avatar||''};}}catch(e){}return {nickname:(currentSite&&currentSite.title)||'',avatar:''};})();return _siteProfileP;}
 function authorChip(p){if(!p||!p.nickname)return '';return '<div class="au-chip" title="글쓴이"><span class="au-dia">'+(p.avatar?'<img src="'+esc(p.avatar)+'" alt="" draggable="false">':'<svg width="8" height="8"><use href="#iss-ic-dia2"/></svg>')+'</span><span class="au-nick">'+esc(p.nickname)+'</span></div>';}
 function authorMount(slotId){const slot=document.getElementById(slotId);if(!slot)return;slot.innerHTML='';siteProfileLoad().then(p=>{const el=document.getElementById(slotId);if(el)el.innerHTML=authorChip(p);});}
-function postBgmParse(v){v=String(v||'').trim();if(!v)return null;const i=v.indexOf('|');const u=(i>=0?v.slice(0,i):v).trim(),title=(i>=0?v.slice(i+1):'').trim();const vid=(typeof ytIdOf==='function')?ytIdOf(u):'';return vid?{vid,title}:null;}
-function postBgmBar(b){return '<div class="pbgm" id="pbgm"><button type="button" class="pbgm-disc" onclick="postBgmToggle()" title="재생 / 일시정지"><img src="https://img.youtube.com/vi/'+esc(b.vid)+'/mqdefault.jpg" alt="" draggable="false"><span class="pbgm-hole"></span></button><div class="pbgm-meta"><span class="pbgm-label">POST BGM</span><span class="pbgm-title">'+esc(b.title||'이 글의 배경음악')+'</span><span class="pbgm-bar"><i id="pbgm-prog"></i></span></div><button type="button" class="pbgm-btn" onclick="postBgmToggle()"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg><span id="pbgm-btn-t">PLAY</span></button></div>';}
+function postBgmParse(v){const sp=postBgmSplit(v);if(!sp.url)return null;const vid=(typeof ytIdOf==='function')?ytIdOf(sp.url):'';if(vid)return {vid,title:sp.title,key:'yt:'+vid};if(bgmIsAudio(sp.url))return {audio:sp.url,title:sp.title,key:'au:'+sp.url};return null;}
+function postBgmBar(b){return '<div class="pbgm" id="pbgm"><button type="button" class="pbgm-disc" onclick="postBgmToggle()" title="재생 / 일시정지">'+(b.vid?'<img src="https://img.youtube.com/vi/'+esc(b.vid)+'/mqdefault.jpg" alt="" draggable="false">':'<span class="pbgm-groove"></span>')+'<span class="pbgm-hole"></span></button><div class="pbgm-meta"><span class="pbgm-label">POST BGM</span><span class="pbgm-title">'+esc(b.title||'이 글의 배경음악')+'</span><span class="pbgm-bar"><i id="pbgm-prog"></i></span></div><button type="button" class="pbgm-btn" onclick="postBgmToggle()"><svg class="pdx-dia" width="7" height="7"><use href="#iss-ic-dia"/></svg><span id="pbgm-btn-t">PLAY</span></button></div>';}
 function postBgmMount(slotId,raw){const slot=document.getElementById(slotId);const b=postBgmParse(raw);if(slot)slot.innerHTML=b?postBgmBar(b):'';if(b)postBgmStart(b);else postBgmStop();}
-function postBgmEnsure(cb){if(postPlayer&&postBgmReady){cb();return;}if(!window.YT||!YT.Player){setTimeout(()=>postBgmEnsure(cb),300);return;}if(postPlayer)return;let host=document.getElementById('post-yt');if(!host){host=document.createElement('div');host.id='post-yt';host.style.cssText='position:fixed;left:-9999px;top:0;width:0;height:0;overflow:hidden;';document.body.appendChild(host);}
+let postAudio=null;
+function postAudioEl(){if(postAudio)return postAudio;postAudio=new Audio();postAudio.preload='auto';postAudio.loop=true;
+  postAudio.addEventListener('play',()=>postBgmUI(true));postAudio.addEventListener('pause',()=>postBgmUI(false));
+  postAudio.addEventListener('error',()=>{if(postAudio.getAttribute('src')){postBgmUI(false);showToast('배경음악 파일을 재생할 수 없어요');}});
+  return postAudio;}
+function postBgmUI(playing){const bar=document.getElementById('pbgm');if(bar)bar.classList.toggle('playing',playing);const t=document.getElementById('pbgm-btn-t');if(t)t.textContent=playing?'PAUSE':'PLAY';clearInterval(postBgmPI);
+  if(playing)postBgmPI=setInterval(()=>{try{let c=0,d=0;if(postBgmCur&&postBgmCur.audio&&postAudio){c=postAudio.currentTime;d=postAudio.duration;}else if(postPlayer&&postPlayer.getCurrentTime){c=postPlayer.getCurrentTime();d=postPlayer.getDuration();}const p=document.getElementById('pbgm-prog');if(p&&d>0&&isFinite(d))p.style.width=(c/d*100)+'%';}catch(e){}},400);}
+function postBgmEnsure(cb){if(postPlayer&&postBgmReady){cb();return;}if(!window.YT||!YT.Player){if(typeof loadYTAPI==='function')loadYTAPI();setTimeout(()=>postBgmEnsure(cb),300);return;}if(postPlayer)return;let host=document.getElementById('post-yt');if(!host){host=document.createElement('div');host.id='post-yt';host.style.cssText='position:fixed;left:-9999px;top:0;width:0;height:0;overflow:hidden;';document.body.appendChild(host);}
   postPlayer=new YT.Player('post-yt',{height:'0',width:'0',playerVars:{playsinline:1},events:{onReady:()=>{postBgmReady=true;try{postPlayer.setVolume(typeof playerVol==='number'?playerVol:70);}catch(e){}cb();},onStateChange:postBgmState}});}
-function postBgmStart(b){if(postBgmCur&&postBgmCur.vid===b.vid&&postPlayer&&postBgmReady){try{if(postPlayer.getPlayerState()!==1)postPlayer.playVideo();}catch(e){}return;}postBgmStop(false);postBgmCur=b;
-  if(typeof pmbPlaying!=='undefined'&&pmbPlaying&&ytPlayer&&ytPlayer.pauseVideo){postBgmSuspended=true;try{ytPlayer.pauseVideo();}catch(e){}}
-  postBgmEnsure(()=>{if(postBgmCur&&postBgmCur.vid===b.vid){try{postPlayer.loadVideoById(b.vid);}catch(e){}}});}
-function postBgmStop(resume){if(resume===undefined)resume=true;if(postPlayer&&postBgmReady){try{postPlayer.stopVideo();}catch(e){}}clearInterval(postBgmPI);postBgmCur=null;const bar=document.getElementById('pbgm');if(bar)bar.classList.remove('playing');
-  if(resume){if(postBgmSuspended&&ytPlayer&&ytPlayer.playVideo){try{ytPlayer.playVideo();}catch(e){}}postBgmSuspended=false;}}
-function postBgmToggle(){if(!postPlayer||!postBgmReady){if(postBgmCur)postBgmStart(postBgmCur);return;}try{if(postPlayer.getPlayerState()===1)postPlayer.pauseVideo();else postPlayer.playVideo();}catch(e){}}
-function postBgmState(e){const playing=e.data===1;const bar=document.getElementById('pbgm');if(bar)bar.classList.toggle('playing',playing);const t=document.getElementById('pbgm-btn-t');if(t)t.textContent=playing?'PAUSE':'PLAY';clearInterval(postBgmPI);
-  if(playing){postBgmPI=setInterval(()=>{try{const c=postPlayer.getCurrentTime(),d=postPlayer.getDuration();const p=document.getElementById('pbgm-prog');if(p&&d>0)p.style.width=(c/d*100)+'%';}catch(e){}},400);}
+function postBgmStart(b){
+  if(postBgmCur&&postBgmCur.key===b.key){postBgmResume();return;}
+  postBgmStop(false);postBgmCur=b;
+  if(lpIsPlaying()){postBgmSuspended=true;lpPause();}
+  if(b.audio){const a=postAudioEl();a.volume=lpVol01();a.src=b.audio;a.play().catch(()=>postBgmUI(false));return;}
+  postBgmEnsure(()=>{if(postBgmCur&&postBgmCur.key===b.key){try{postPlayer.loadVideoById(b.vid);}catch(e){}}});}
+function postBgmResume(){const b=postBgmCur;if(!b)return;if(b.audio){if(postAudio&&postAudio.paused)postAudio.play().catch(()=>{});return;}if(postPlayer&&postBgmReady){try{if(postPlayer.getPlayerState()!==1)postPlayer.playVideo();}catch(e){}}}
+function postBgmStop(resume){if(resume===undefined)resume=true;if(postPlayer&&postBgmReady){try{postPlayer.stopVideo();}catch(e){}}if(postAudio&&postAudio.getAttribute('src')){try{postAudio.pause();postAudio.removeAttribute('src');postAudio.load();}catch(e){}}clearInterval(postBgmPI);postBgmCur=null;const bar=document.getElementById('pbgm');if(bar)bar.classList.remove('playing');
+  if(resume){if(postBgmSuspended)lpPlay();postBgmSuspended=false;}}
+function postBgmToggle(){const b=postBgmCur;if(!b)return;if(b.audio){const a=postAudioEl();if(a.paused)a.play().catch(()=>{});else a.pause();return;}if(!postPlayer||!postBgmReady)return;try{if(postPlayer.getPlayerState()===1)postPlayer.pauseVideo();else postPlayer.playVideo();}catch(e){}}
+function postBgmState(e){if(postBgmCur&&postBgmCur.audio)return;postBgmUI(e.data===1);
   if(e.data===0&&postBgmCur){try{postPlayer.seekTo(0,true);postPlayer.playVideo();}catch(er){}}}   // 끝나면 반복
 function postBgmInit(){['prompt-detail-modal','dist-detail-modal'].forEach(id=>{const m=document.getElementById(id);if(!m)return;new MutationObserver(()=>{if(!m.classList.contains('active')&&postBgmCur&&(document.getElementById('pd-bgm')&&m.contains(document.getElementById('pd-bgm'))||document.getElementById('dd-bgm')&&m.contains(document.getElementById('dd-bgm'))))postBgmStop();}).observe(m,{attributes:true,attributeFilter:['class']});});}
 function toTopInit(){const mc=document.getElementById('main-content'),b=document.getElementById('totop');if(!mc||!b||mc._totop)return;mc._totop=true;const sync=()=>{b.classList.toggle('show',mc.scrollTop>360&&document.body.classList.contains('board-open'));};mc.addEventListener('scroll',sync,{passive:true});const mo=new MutationObserver(sync);mo.observe(document.body,{attributes:true,attributeFilter:['class']});sync();}
