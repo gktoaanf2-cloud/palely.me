@@ -423,59 +423,59 @@ html,body{overflow:hidden}
 .mg-li:not(:has(.mg-lbd)){grid-template-columns:14px minmax(0,1fr) auto auto;}
 @media(max-width:640px){.mg-li,.mg-li:not(:has(.mg-lbd)){grid-template-columns:12px minmax(0,1fr) auto;}.mg-lbd{display:none;}.mg-lb{grid-column:2/-1;flex-wrap:wrap;}}
 /* 성인 표시 19 마름모 + 말풍선 */
-.ad19{position:relative;display:inline-block;width:26px;height:26px;flex:none;cursor:pointer;vertical-align:middle;-webkit-tap-highlight-color:transparent;outline:none;user-select:none;-webkit-user-select:none;}
-.ad19-in{position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;transform-origin:50% 90%;}
-.ad19-d{position:absolute;left:4px;top:4px;width:18px;height:18px;box-sizing:border-box;transform:rotate(45deg);transition:transform .45s cubic-bezier(.3,1.2,.35,1),box-shadow .3s;}
-.ad19 b{position:relative;display:block;font-family:var(--font-num);font-weight:700;font-size:9.5px;line-height:1;letter-spacing:-.03em;}
-.ad19-list{width:18px;height:18px;}.ad19-list .ad19-d{left:3px;top:3px;width:12px;height:12px;}.ad19-list b{font-size:7px;}
-.ad19-card{position:absolute;top:8px;left:8px;z-index:7;}
-.ad19:hover .ad19-d,.ad19:focus-visible .ad19-d,.ad19.tip .ad19-d{transform:rotate(45deg) scale(1.12);}
-.ad19-bub{position:absolute;left:50%;top:calc(100% + 8px);transform:translate(-50%,-4px);display:block;white-space:nowrap;padding:5px 10px;border-radius:10px;font-style:normal;font-family:var(--font-kr);font-weight:600;font-size:11px;line-height:1.25;letter-spacing:-.01em;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,transform .3s cubic-bezier(.3,1.2,.35,1),visibility 0s .2s;z-index:31;}
-.ad19-bub::before{content:'';position:absolute;left:50%;top:-5px;width:8px;height:8px;margin-left:-4px;transform:rotate(45deg);box-sizing:border-box;}
-.ad19-card .ad19-bub{left:-2px;transform:translate(0,-4px);}
-.ad19-card .ad19-bub::before{left:15px;}
-.ad19:hover .ad19-bub,.ad19:focus-visible .ad19-bub,.ad19.tip .ad19-bub,[data-mid]:hover>.ad19-card .ad19-bub{opacity:1;visibility:visible;transform:translate(-50%,0);transition:opacity .2s,transform .3s cubic-bezier(.3,1.2,.35,1),visibility 0s;}
-.ad19-card:hover .ad19-bub,.ad19-card:focus-visible .ad19-bub,.ad19-card.tip .ad19-bub,[data-mid]:hover>.ad19-card .ad19-bub{transform:translate(0,0);}
-.ad19.boing .ad19-in{animation:ad19Boing .62s cubic-bezier(.3,1.4,.4,1);}
-.ad19.boing .ad19-bub{animation:ad19Pop .5s cubic-bezier(.3,1.6,.4,1);}
-@keyframes ad19Boing{0%{transform:none}16%{transform:translateY(-8px) scale(.92,1.1)}34%{transform:translateY(0) scale(1.16,.84)}50%{transform:translateY(-4px) scale(.96,1.05)}66%{transform:translateY(0) scale(1.06,.94)}82%{transform:translateY(-1px) scale(.99,1.01)}100%{transform:none}}
-@keyframes ad19Pop{0%{scale:.6}55%{scale:1.1}100%{scale:1}}
+.mk19{position:relative;display:inline-block;width:26px;height:26px;flex:none;cursor:pointer;vertical-align:middle;-webkit-tap-highlight-color:transparent;outline:none;user-select:none;-webkit-user-select:none;}
+.mk19-in{position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;transform-origin:50% 90%;}
+.mk19-d{position:absolute;left:4px;top:4px;width:18px;height:18px;box-sizing:border-box;transform:rotate(45deg);transition:transform .45s cubic-bezier(.3,1.2,.35,1),box-shadow .3s;}
+.mk19 b{position:relative;display:block;font-family:var(--font-num);font-weight:700;font-size:9.5px;line-height:1;letter-spacing:-.03em;}
+.mk19-list{width:18px;height:18px;}.mk19-list .mk19-d{left:3px;top:3px;width:12px;height:12px;}.mk19-list b{font-size:7px;}
+.mk19-card{position:absolute;top:8px;left:8px;z-index:7;}
+.mk19:hover .mk19-d,.mk19:focus-visible .mk19-d,.mk19.tip .mk19-d{transform:rotate(45deg) scale(1.12);}
+.mk19-bub{position:absolute;left:50%;top:calc(100% + 8px);transform:translate(-50%,-4px);display:block;white-space:nowrap;padding:5px 10px;border-radius:10px;font-style:normal;font-family:var(--font-kr);font-weight:600;font-size:11px;line-height:1.25;letter-spacing:-.01em;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,transform .3s cubic-bezier(.3,1.2,.35,1),visibility 0s .2s;z-index:31;}
+.mk19-bub::before{content:'';position:absolute;left:50%;top:-5px;width:8px;height:8px;margin-left:-4px;transform:rotate(45deg);box-sizing:border-box;}
+.mk19-card .mk19-bub{left:-2px;transform:translate(0,-4px);}
+.mk19-card .mk19-bub::before{left:15px;}
+.mk19:hover .mk19-bub,.mk19:focus-visible .mk19-bub,.mk19.tip .mk19-bub,[data-mid]:hover>.mk19-card .mk19-bub{opacity:1;visibility:visible;transform:translate(-50%,0);transition:opacity .2s,transform .3s cubic-bezier(.3,1.2,.35,1),visibility 0s;}
+.mk19-card:hover .mk19-bub,.mk19-card:focus-visible .mk19-bub,.mk19-card.tip .mk19-bub,[data-mid]:hover>.mk19-card .mk19-bub{transform:translate(0,0);}
+.mk19.boing .mk19-in{animation:mk19Boing .62s cubic-bezier(.3,1.4,.4,1);}
+.mk19.boing .mk19-bub{animation:mk19Pop .5s cubic-bezier(.3,1.6,.4,1);}
+@keyframes mk19Boing{0%{transform:none}16%{transform:translateY(-8px) scale(.92,1.1)}34%{transform:translateY(0) scale(1.16,.84)}50%{transform:translateY(-4px) scale(.96,1.05)}66%{transform:translateY(0) scale(1.06,.94)}82%{transform:translateY(-1px) scale(.99,1.01)}100%{transform:none}}
+@keyframes mk19Pop{0%{scale:.6}55%{scale:1.1}100%{scale:1}}
 
-.ad19-s1 .ad19-d{border:1px solid rgba(var(--t-snow),.9);background:rgba(var(--t-surface),.85);}
-.ad19-s1 b{color:rgb(var(--t-snow));}
-.ad19-s1 .ad19-bub{background:rgba(var(--t-surface),.96);color:rgb(var(--t-snow));border:1px solid rgba(var(--t-snow),.35);}
-.ad19-s1 .ad19-bub::before{background:rgba(var(--t-surface),.96);border-left:1px solid rgba(var(--t-snow),.35);border-top:1px solid rgba(var(--t-snow),.35);}
+.mk19-s1 .mk19-d{border:1px solid rgba(var(--t-snow),.9);background:rgba(var(--t-surface),.85);}
+.mk19-s1 b{color:rgb(var(--t-snow));}
+.mk19-s1 .mk19-bub{background:rgba(var(--t-surface),.96);color:rgb(var(--t-snow));border:1px solid rgba(var(--t-snow),.35);}
+.mk19-s1 .mk19-bub::before{background:rgba(var(--t-surface),.96);border-left:1px solid rgba(var(--t-snow),.35);border-top:1px solid rgba(var(--t-snow),.35);}
 
-.ad19-s2 .ad19-d{background:rgb(var(--t-danger-c));box-shadow:0 2px 8px rgba(0,0,0,.35);}
-.ad19-s2 b{color:#fff;}
-.ad19-s2 .ad19-bub,.ad19-s2 .ad19-bub::before{background:rgb(var(--t-danger-c));color:#fff;}
+.mk19-s2 .mk19-d{background:rgb(var(--t-danger-c));box-shadow:0 2px 8px rgba(0,0,0,.35);}
+.mk19-s2 b{color:#fff;}
+.mk19-s2 .mk19-bub,.mk19-s2 .mk19-bub::before{background:rgb(var(--t-danger-c));color:#fff;}
 
-.ad19-s3 .ad19-d{border:1px solid rgb(var(--t-warm));background:rgba(var(--t-surface),.85);box-shadow:inset 0 0 0 2px rgba(var(--t-surface),.85),inset 0 0 0 3px rgba(var(--t-warm),.75);}
-.ad19-s3 b{color:rgb(var(--t-warm));}
-.ad19-s3 .ad19-bub{background:rgba(var(--t-surface),.96);color:rgb(var(--t-warm));border:1px solid rgba(var(--t-warm),.7);box-shadow:inset 0 0 0 2px rgba(var(--t-surface),.96),inset 0 0 0 3px rgba(var(--t-warm),.35);}
-.ad19-s3 .ad19-bub::before{background:rgba(var(--t-surface),.96);border-left:1px solid rgba(var(--t-warm),.7);border-top:1px solid rgba(var(--t-warm),.7);}
+.mk19-s3 .mk19-d{border:1px solid rgb(var(--t-warm));background:rgba(var(--t-surface),.85);box-shadow:inset 0 0 0 2px rgba(var(--t-surface),.85),inset 0 0 0 3px rgba(var(--t-warm),.75);}
+.mk19-s3 b{color:rgb(var(--t-warm));}
+.mk19-s3 .mk19-bub{background:rgba(var(--t-surface),.96);color:rgb(var(--t-warm));border:1px solid rgba(var(--t-warm),.7);box-shadow:inset 0 0 0 2px rgba(var(--t-surface),.96),inset 0 0 0 3px rgba(var(--t-warm),.35);}
+.mk19-s3 .mk19-bub::before{background:rgba(var(--t-surface),.96);border-left:1px solid rgba(var(--t-warm),.7);border-top:1px solid rgba(var(--t-warm),.7);}
 
-.ad19-s4 .ad19-d{border:1.5px solid #ff6fae;background:rgba(40,0,22,.75);box-shadow:0 0 8px rgba(255,111,174,.85),inset 0 0 6px rgba(255,111,174,.55);}
-.ad19-s4 b{color:#ffd4e8;text-shadow:0 0 6px #ff6fae;}
-.ad19-s4 .ad19-bub{background:rgba(30,0,16,.94);color:#ffd4e8;border:1px solid #ff6fae;box-shadow:0 0 12px rgba(255,111,174,.55);text-shadow:0 0 6px rgba(255,111,174,.8);}
-.ad19-s4 .ad19-bub::before{background:rgba(30,0,16,.94);border-left:1px solid #ff6fae;border-top:1px solid #ff6fae;}
+.mk19-s4 .mk19-d{border:1.5px solid #ff6fae;background:rgba(40,0,22,.75);box-shadow:0 0 8px rgba(255,111,174,.85),inset 0 0 6px rgba(255,111,174,.55);}
+.mk19-s4 b{color:#ffd4e8;text-shadow:0 0 6px #ff6fae;}
+.mk19-s4 .mk19-bub{background:rgba(30,0,16,.94);color:#ffd4e8;border:1px solid #ff6fae;box-shadow:0 0 12px rgba(255,111,174,.55);text-shadow:0 0 6px rgba(255,111,174,.8);}
+.mk19-s4 .mk19-bub::before{background:rgba(30,0,16,.94);border-left:1px solid #ff6fae;border-top:1px solid #ff6fae;}
 
-.ad19-s5 .ad19-in{rotate:-8deg;}
-.ad19-s5 .ad19-d{border:1.5px dashed #c8413c;background:rgba(255,244,234,.95);}
-.ad19-s5 b{color:#c8413c;font-family:'Bodoni Moda','Playfair Display',serif;font-size:10.5px;}
-.ad19-list.ad19-s5 b{font-size:7.5px;}
-.ad19-s5 .ad19-bub{background:#fff4ea;color:#b23a35;border:1px dashed #c8413c;}
-.ad19-s5 .ad19-bub::before{background:#fff4ea;border-left:1px dashed #c8413c;border-top:1px dashed #c8413c;}
-@media(prefers-reduced-motion:reduce){.ad19-d,.ad19-bub{transition:none;}.ad19.boing .ad19-in,.ad19.boing .ad19-bub{animation:none;}}
+.mk19-s5 .mk19-in{rotate:-8deg;}
+.mk19-s5 .mk19-d{border:1.5px dashed #c8413c;background:rgba(255,244,234,.95);}
+.mk19-s5 b{color:#c8413c;font-family:'Bodoni Moda','Playfair Display',serif;font-size:10.5px;}
+.mk19-list.mk19-s5 b{font-size:7.5px;}
+.mk19-s5 .mk19-bub{background:#fff4ea;color:#b23a35;border:1px dashed #c8413c;}
+.mk19-s5 .mk19-bub::before{background:#fff4ea;border-left:1px dashed #c8413c;border-top:1px dashed #c8413c;}
+@media(prefers-reduced-motion:reduce){.mk19-d,.mk19-bub{transition:none;}.mk19.boing .mk19-in,.mk19.boing .mk19-bub{animation:none;}}
 .admk-box{max-width:520px!important;}
 .admk-styles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:0 0 54px;}
 .admk-opt{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 4px 10px;border:1px solid rgba(var(--t-fg),.1);cursor:pointer;transition:border-color .25s,background .25s;}
 .admk-opt input{position:absolute;opacity:0;pointer-events:none;}
 .admk-opt.on{border-color:rgba(var(--t-text),.7);background:rgba(var(--t-fg),.05);}
 .admk-prev{position:relative;height:30px;display:flex;align-items:center;}
-.admk-prev .ad19{position:relative;top:auto;left:auto;}
-.admk-prev .ad19.ad19-card .ad19-bub{left:50%;transform:translate(-50%,0);}
-.admk-prev .ad19.ad19-card .ad19-bub::before{left:50%;}
+.admk-prev .mk19{position:relative;top:auto;left:auto;}
+.admk-prev .mk19.mk19-card .mk19-bub{left:50%;transform:translate(-50%,0);}
+.admk-prev .mk19.mk19-card .mk19-bub::before{left:50%;}
 .admk-name{font-family:var(--font-kr);font-size:calc(11px*var(--fs,1));color:rgb(var(--t-snow));margin-top:40px;}
 @media(max-width:520px){.admk-styles{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:14px;}}
 .mg-listing .iss-pager{display:none!important;}
@@ -11875,25 +11875,25 @@ const AD_STYLES=[[1,'라인'],[2,'레드'],[3,'골드 더블'],[4,'네온 핑크
 const AD_DEF_TEXT='쉿! 섹스중!';
 let adMark={style:1,text:AD_DEF_TEXT};
 function adAttr(t){return esc(String(t==null?'':t)).replace(/"/g,'&quot;');}
-function adMarkHtml(kind,st,tx){st=st||adMark.style;tx=(tx==null||tx==='')?(adMark.text||AD_DEF_TEXT):tx;return '<span class="ad19 ad19-s'+st+' ad19-'+kind+'" data-tip="'+adAttr(tx)+'" tabindex="0" role="note" aria-label="성인 글"><span class="ad19-in"><i class="ad19-d"></i><b>19</b></span><em class="ad19-bub">'+esc(String(tx))+'</em></span>';}
+function adMarkHtml(kind,st,tx){st=st||adMark.style;tx=(tx==null||tx==='')?(adMark.text||AD_DEF_TEXT):tx;return '<span class="mk19 mk19-s'+st+' mk19-'+kind+'" data-tip="'+adAttr(tx)+'" tabindex="0" role="note" aria-label="성인 글"><span class="mk19-in"><i class="mk19-d"></i><b>19</b></span><em class="mk19-bub">'+esc(String(tx))+'</em></span>';}
 function adBoing(t){t.classList.remove('boing');void t.offsetWidth;t.classList.add('boing');clearTimeout(t._bt);t._bt=setTimeout(()=>t.classList.remove('boing'),700);}
 async function adMarkLoad(){try{const{data}=await palelyDB.from('settings').select('value').eq('key','adult_mark').maybeSingle();const v=data&&data.value?JSON.parse(data.value):null;if(v)adMark={style:[1,2,3,4,5].includes(+v.style)?+v.style:1,text:String(v.text||AD_DEF_TEXT).slice(0,24)};}catch(e){}adDecorateAll();}
 function adWarnSet(){const m=new Set();const add=arr=>(arr||[]).forEach(r=>{if(r&&r.warn)m.add(String(r.id));});add(promptsData);try{add(distAll());}catch(e){}add(assetsAllData);add(diaryData);add(logsAllData);return m;}
 function adDecorate(){
   const m=adWarnSet();
   document.querySelectorAll('#main-content [data-mid]').forEach(c=>{
-    const id=c.getAttribute('data-mid');const mk=[...c.children].find(x=>x.classList&&x.classList.contains('ad19'));
+    const id=c.getAttribute('data-mid');const mk=[...c.children].find(x=>x.classList&&x.classList.contains('mk19'));
     if(m.has(id)){
       if(!mk){if(getComputedStyle(c).position==='static')c.style.position='relative';c.insertAdjacentHTML('afterbegin',adMarkHtml('card'));}
-      else if(!mk.classList.contains('ad19-s'+adMark.style)||mk.dataset.tip!==adMark.text)mk.outerHTML=adMarkHtml('card');
+      else if(!mk.classList.contains('mk19-s'+adMark.style)||mk.dataset.tip!==adMark.text)mk.outerHTML=adMarkHtml('card');
     }else if(mk)mk.remove();
   });
 }
 let adT=0;function adDecorateAll(){clearTimeout(adT);adT=setTimeout(adDecorate,80);}
 (function(){
   const mc=document.getElementById('main-content');
-  if(mc&&window.MutationObserver)new MutationObserver(ms=>{if(ms.some(x=>[...x.addedNodes].some(n=>n.nodeType===1&&!(n.classList&&n.classList.contains('ad19'))&&(n.matches('[data-mid]')||n.querySelector('[data-mid]')))))adDecorateAll();}).observe(mc,{childList:true,subtree:true});
-  document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('.ad19');if(!t)return;adBoing(t);if(t.closest('#admark-modal'))return;e.preventDefault();e.stopPropagation();document.querySelectorAll('.ad19.tip').forEach(x=>{if(x!==t)x.classList.remove('tip');});t.classList.toggle('tip');clearTimeout(t._tt);t._tt=setTimeout(()=>t.classList.remove('tip'),2200);},true);
+  if(mc&&window.MutationObserver)new MutationObserver(ms=>{if(ms.some(x=>[...x.addedNodes].some(n=>n.nodeType===1&&!(n.classList&&n.classList.contains('mk19'))&&(n.matches('[data-mid]')||n.querySelector('[data-mid]')))))adDecorateAll();}).observe(mc,{childList:true,subtree:true});
+  document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('.mk19');if(!t)return;adBoing(t);if(t.closest('#admark-modal'))return;e.preventDefault();e.stopPropagation();document.querySelectorAll('.mk19.tip').forEach(x=>{if(x!==t)x.classList.remove('tip');});t.classList.toggle('tip');clearTimeout(t._tt);t._tt=setTimeout(()=>t.classList.remove('tip'),2200);},true);
 })();
 function admkOpen(){if(!isAdmin){showToast('Admin only');return;}document.getElementById('admk-text').value=adMark.text===AD_DEF_TEXT?'':adMark.text;document.getElementById('admk-styles').innerHTML='';admkRender(adMark.style);document.getElementById('admark-modal').classList.add('active');}
 function admkCur(){const r=document.querySelector('input[name="admk-style"]:checked');return r?+r.value:adMark.style;}
@@ -11901,9 +11901,9 @@ function admkRender(sel){
   const tx=document.getElementById('admk-text').value.trim()||AD_DEF_TEXT;sel=sel||admkCur();
   const box=document.getElementById('admk-styles');
   if(box.children.length!==AD_STYLES.length||sel===-1){
-    box.innerHTML=AD_STYLES.map(([k,n])=>'<label class="admk-opt"><input type="radio" name="admk-style" value="'+k+'" onchange="admkRender()"><span class="admk-prev">'+adMarkHtml('card',k,tx).replace('class="ad19 ','class="ad19 tip ')+'</span><span class="admk-name">'+esc(n)+'</span></label>').join('');
+    box.innerHTML=AD_STYLES.map(([k,n])=>'<label class="admk-opt"><input type="radio" name="admk-style" value="'+k+'" onchange="admkRender()"><span class="admk-prev">'+adMarkHtml('card',k,tx).replace('class="mk19 ','class="mk19 tip ')+'</span><span class="admk-name">'+esc(n)+'</span></label>').join('');
   }
-  box.querySelectorAll('.admk-opt').forEach(o=>{const inp=o.querySelector('input');const on=+inp.value===sel;inp.checked=on;o.classList.toggle('on',on);const m=o.querySelector('.ad19');if(m){m.dataset.tip=tx;const bu=m.querySelector('.ad19-bub');if(bu)bu.textContent=tx;if(on&&m._sel!==true)adBoing(m);m._sel=on;}});
+  box.querySelectorAll('.admk-opt').forEach(o=>{const inp=o.querySelector('input');const on=+inp.value===sel;inp.checked=on;o.classList.toggle('on',on);const m=o.querySelector('.mk19');if(m){m.dataset.tip=tx;const bu=m.querySelector('.mk19-bub');if(bu)bu.textContent=tx;if(on&&m._sel!==true)adBoing(m);m._sel=on;}});
 }
 async function admkSave(){
   const v={style:admkCur(),text:document.getElementById('admk-text').value.trim().slice(0,24)||AD_DEF_TEXT};
@@ -12322,9 +12322,10 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.8.1';
+const APP_VERSION='1.8.2';
 const CHANGELOG=[
-  {v:'1.8.1',date:'2026-09-18',title:'성인 표시 마크 렌더 보강 · 통통 애니',sql:false,items:['보스 신고: 실서버 『성인 표시』 모달 미리보기 5칸이 비어 보임(제 쪽 크롬에선 재현 안 됨) → 브라우저 차이 여지를 줄이려 말풍선을 ::after/::before 가상요소에서 실제 요소 em.ad19-bub로, 마름모 크기를 inset 대신 left/top/width/height로, backdrop-filter 제거(중첩 블러 회피·불투명도 .85)','마크 구조 .ad19 > .ad19-in(마름모+19) + .ad19-bub — 스탬프 기울기는 .ad19-in rotate','카드에 마우스를 올리면 말풍선 자동 표시([data-mid]:hover>.ad19-card)','마크 클릭/탭 시 통통 튀는 애니(adBoing → .boing, ad19Boing 스쿼시·스트레치 + 말풍선 ad19Pop), 모달 미리보기도 선택 시 튐','admkRender: 5칸을 한 번만 만들고 선택·문구만 갱신(다시 그리면 애니가 끊김)']},
+  {v:'1.8.2',date:'2026-09-18',title:'성인 마크 광고 차단 회피',sql:false,items:['원인 추정: 웨일 내장 광고 차단(필터 목록)이 ad로 시작하는 클래스(.ad19*)를 광고로 보고 숨김 — localhost는 차단기 예외라 로컬에선 보였음','클래스·키프레임 ad19* → mk19* 일괄 개명(120곳), 설정 키 adult_mark는 그대로']},
+  {v:'1.8.1',date:'2026-09-18',title:'성인 표시 마크 렌더 보강 · 통통 애니',sql:false,items:['보스 신고: 실서버 『성인 표시』 모달 미리보기 5칸이 비어 보임(제 쪽 크롬에선 재현 안 됨) → 브라우저 차이 여지를 줄이려 말풍선을 ::after/::before 가상요소에서 실제 요소 em.mk19-bub로, 마름모 크기를 inset 대신 left/top/width/height로, backdrop-filter 제거(중첩 블러 회피·불투명도 .85)','마크 구조 .mk19 > .mk19-in(마름모+19) + .mk19-bub — 스탬프 기울기는 .mk19-in rotate','카드에 마우스를 올리면 말풍선 자동 표시([data-mid]:hover>.mk19-card)','마크 클릭/탭 시 통통 튀는 애니(adBoing → .boing, mk19Boing 스쿼시·스트레치 + 말풍선 mk19Pop), 모달 미리보기도 선택 시 튐','admkRender: 5칸을 한 번만 만들고 선택·문구만 갱신(다시 그리면 애니가 끊김)']},
   {v:'1.8.0',date:'2026-09-18',title:'글 관리 확장 · 전체 글 목록 · 성인 표시 · 메인 명칭',sql:true,items:['SQL `_sql_adult_warn.sql` — diary·logs에 warn(boolean, 기본 false) 추가 + _list_v1/_list 재생성(미실행 시 두 게시판만 성인 표시 비활성·버튼은 안내)','글 관리 작업 재편: 비밀글 전환(비밀번호 입력) · 공개글 전환(is_private false·secret null·visibility public) · 패밀리 공개 · 성인 표시/해제 · 블러 — mgApply(table,ids,op) 공용','목록 보기에 조건 필터(전체·비밀글·패밀리·나만·성인·공개·블러), 비밀글 행에 『비밀번호 보기』 — 원문은 site_secrets post_pw(주인 전용, table:id → 원문)에 저장(비밀글 전환·에디터 저장 시), 이전 비밀번호는 해시뿐이라 확인 불가 표시','마이페이지 › 게시판 『전체 글 목록』(#allposts-modal): 6개 게시판 합산 · 게시판/조건 칩 · 제목 검색 · 선택 후 게시판별로 나눠 일괄 작업','성인 표시: 19 마름모(adMarkHtml) — 카드 좌상단(MutationObserver로 data-mid 카드에 부착) · 목록 행, 호버/포커스/탭 시 말풍선(data-tip), 디자인 5종(라인·레드·골드 더블·네온 핑크·스탬프)·문구(기본 쉿! 섹스중!) → settings adult_mark, 마이페이지 › 꾸미기 『성인 표시』 미리보기 모달, 다이어리·로그 에디터에 성인 표시 체크(컬럼 있을 때) + 열람 전 동의','블로그 쪽 명칭 홈 → 메인(메인 배너·메인 서브문구·메인 로고·메인 위젯·네비 MAIN)']},
   {v:'1.7.9',date:'2026-09-18',title:'글 관리 전면 점검 · 명칭 통일',sql:false,items:['글 관리 버그: 마이페이지 Issuance 『글 관리』가 없는 키 prompts로 toggleManage → MG[prompts] undefined 예외(현재 탭으로 해석하도록 수정), 게시판 빌더 탭(distributions/prompts)은 MG에 없어 불가 → mgCfg(key)가 자동 생성, 공지 행 『글 관리』(목록 요소 없음) → 『열기』','글 관리 『목록 보기』: 게시판 전체 글(페이지와 무관, 최신순) 제목 목록 · 눌러서 선택 · 전체선택도 목록 기준 · 카드/페이저 숨김','일괄 공개 범위: 패밀리 공개(visibility neighbor)·전체 공개(public) — prompts·distributions·diary·logs·assets, 비밀글 잠금/해제는 5종 모두(기존 일부만)','명칭 통일(보스 확정): 허브→홈(HUB→HOME) · 이웃→패밀리(NEIGHBOR→FAMILY, 조사 보정) · 어드민/관리 페이지→마이페이지(ADMIN·SETTINGS→MY PAGE) — 운영자용 과거 CHANGELOG 제외 전 표기']},
   {v:'1.7.8',date:'2026-09-17',title:'이웃 새 글 알림 설정',sql:false,items:['허브 › 이웃 제목 옆 설정 아이콘(iss-ic-set) → #nbalarm-modal 『이웃 새 글 알림』 — 받을 게시판 5종 체크(localStorage palely_nb_boards_<uid>, 기본 전체) → 허브 타임라인(tlFiltered)이 해당 게시판만, 전부 끄면 안내 문구','관리 › 꾸미기 『새 글 알림』 행 제거(홈 새 글 목록 설정은 알림 벨 설정 버튼에서 계속 가능)']},
@@ -12381,6 +12382,7 @@ const CHANGELOG=[
 // 정식 오픈 때 CL_USER_FROM을 정식 오픈 버전으로 → 그 버전부터만 유저에게 안내
 const CL_USER_FROM='1.4.0';
 const CHANGELOG_USER={
+  '1.8.2':['일부 브라우저에서 성인 글 19 마크가 보이지 않던 문제를 고쳤어요'],
   '1.8.1':['성인 표시 설정 화면에서 디자인 미리보기가 보이지 않던 문제를 고쳤어요','성인 글 카드에 마우스를 올리면 말풍선이 떠요','19 마크를 누르면 통통 튀어요'],
   '1.8.0':['글 관리에 비밀글 전환 · 공개글 전환 · 성인 표시가 생겼어요','목록 보기에서 비밀글 · 패밀리 공개 · 성인 글 등 조건별로 골라 볼 수 있어요','마이페이지 › 게시판 「전체 글 목록」에서 모든 게시판 글을 한꺼번에 관리해요','비밀글의 비밀번호를 목록에서 확인할 수 있어요 (이번 업데이트 이후 설정한 비밀번호)','성인 글에 19 마름모 표시와 말풍선이 붙고, 디자인 5가지와 문구를 고를 수 있어요','블로그 첫 화면 관련 이름이 「메인」으로 바뀌었어요 (메인 배너 · 메인 서브문구 · 메인 로고)'],
   '1.7.9':['글 관리가 모든 게시판에서 제대로 동작하도록 고쳤어요','글 관리에서 「목록 보기」로 전체 글을 제목으로 빠르게 고를 수 있어요','여러 글을 한 번에 패밀리 공개 · 전체 공개로 바꿀 수 있어요','이름이 바뀌었어요 — 허브는 홈, 이웃은 패밀리, 관리 페이지는 마이페이지'],
