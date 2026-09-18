@@ -1843,6 +1843,7 @@ body.is-super .adm-super{display:block;}
 .lgw svg.o{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 .lgw svg.o :where(path,line,ellipse,circle,rect){fill:none}
 .lgw.en .nm,.lgw .cap{font-style:var(--fen-st)}
+.lgw .nm span,.lgw .nm .ch,.lgw .lw,.lgw .lay .nm{font-family:inherit;font-style:inherit;font-weight:inherit}   /* 전역 :lang(ko){font-family:var(--font-kr)} 가 글자 span에 걸리는 것 차단 */
 .lgw.still *{animation-iteration-count:1!important;animation-fill-mode:both!important}
 .lgw.nohov{pointer-events:none}
 /* 타이포 */
@@ -1942,7 +1943,7 @@ body.is-super .adm-super{display:block;}
 
 /* ══ 재정리 18종 ══ */
 .lgw .nm.g{font-family:'Pretendard',sans-serif;font-weight:600;letter-spacing:.1em}
-.lgw.en .nm.g{font-family:'Barlow Condensed',sans-serif;font-weight:500;letter-spacing:.16em;font-size:calc(42px*var(--t))}
+.lgw.en .nm.g{font-family:'Pretendard Variable','Pretendard',sans-serif;font-weight:600;letter-spacing:.14em;font-size:calc(42px*var(--t))}
 /* 성운 */
 @property --mx{syntax:'<percentage>';inherits:false;initial-value:30%}
 @property --my{syntax:'<percentage>';inherits:false;initial-value:45%}
@@ -2062,7 +2063,7 @@ body.is-super .adm-super{display:block;}
 /* 대비 조판 */
 .lgw.sk-stack .nm{font-size:calc(40px*var(--t))}
 .lgw.sk-stack .sub{margin-top:calc(8px*var(--t));font-family:'Pretendard',sans-serif;font-weight:500;font-size:calc(9.5px*var(--t));letter-spacing:.5em;color:rgba(var(--soft),.6);opacity:0;animation:lg-fadeIn .9s ease-out .6s both}
-.lgw.en .sk-stack .sub,.lgw.sk-stack.en .sub{font-family:'Barlow Condensed',sans-serif;letter-spacing:.42em;font-size:calc(10.5px*var(--t))}
+.lgw.en .sk-stack .sub,.lgw.sk-stack.en .sub{font-family:'Pretendard Variable','Pretendard',sans-serif;font-weight:500;letter-spacing:.42em;font-size:calc(10.5px*var(--t))}
 .lgw.sk-stack .hz{height:1px;width:var(--w,200px);background:linear-gradient(90deg,transparent,rgba(var(--orn),.6),transparent);transform:scaleX(.1);opacity:0;animation:lg-hzIn 1s cubic-bezier(.2,1,.3,1) .5s both}
 .lgw.sk-stack .hz.t{margin-bottom:calc(12px*var(--t))}.lgw.sk-stack .hz.b{margin-top:calc(12px*var(--t));animation-delay:.7s}
 /* 관통 */
@@ -13311,8 +13312,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.8.8';
+const APP_VERSION='1.8.9';
 const CHANGELOG=[
+  {v:'1.8.9',date:'2026-09-18',title:'핫픽스 — 메인 로고 서체가 실제로는 적용되지 않던 문제',sql:false,items:['`.nm`(이름 컨테이너)엔 서체가 걸렸지만 글자 하나하나를 감싼 `<span class=ch>`가 사이트 전역 `:lang(ko){font-family:var(--font-kr)}`(html lang=ko → 모든 요소 매칭)에 걸려 **프리텐다드로 렌더**됐음 — computed 검사가 `.nm`만 봐서 놓침(보스 제보: Goudy 구식 숫자가 아닌 라이닝 숫자 → 폴백 확정). `.lgw .nm span/.ch/.lw{font-family:inherit;…}`로 차단']},
   {v:'1.8.8',date:'2026-09-18',title:'P9 최적화 — 모바일 발열: 숨은·화면 밖 애니 정지',sql:false,items:['≤768에서 PC 메뉴 레이어 `.pnav` display none — 슬라이스로 화면 밖에 있던 별 글로우 9개(gvTwA)·파동 애니 소멸','브랜드 로고 숨김(`body.brand-off`) 시 #center-logo 안 glass-star 부유·dot-ring 회전 애니 정지(display none 상태에서도 애니 객체가 살아 있었음)','모바일 LP판 닫힘(`.lp-player:not(.lp-open)`)일 때 디스크 회전·파동·문구 애니 paused','로고 엔진 perf-lite: 빛망울 드리프트·성운·글로우 배경 정지, 별 후광·렌즈·태양 blur 제거(반짝이 drop-shadow 제거는 1.8.7)','로그 배너 글자 애니 lite 버전(`lgvTypeLite` — blur·text-shadow 없이 같은 타이밍)','`logoRender` 재빌드 가드 — 설정·글자가 같으면 applyTheme 반복 호출에도 등장 애니 재생 안 함']},
   {v:'1.8.7',date:'2026-09-18',title:'메인 글자 로고 — 스킨 23종 · 서체 프리셋 · 색 · 크기 · 애니메이션',sql:false,items:['이미지 로고가 없는 블로그의 메인 글자 로고(`#site-textlogo`)를 **스킨 위젯**으로 교체 — 시안 `mockups/logo_orbi8.html`의 23종(북두칠성·광륜·공전·반사·토성 고리·성운·일식·궤도 문자·무중력·위성 통과·월상·관측 좌표·타이프라이터·스크램블·마퀴 띠·자간 파동·위상 간섭·중력 렌즈·일주운동·광년 카운터·행성 정렬·대비 조판·관통 스크립트)을 `LOGO_ENGINE`(IIFE, `.lgw` 스코프 CSS·`lg-` 키프레임)로 이식','서체: 한글 조선일보명조·리디바탕·부크크 명조·프리텐다드 / 영문 Sorts Mill Goudy·Bodoni Moda·DM Serif Display Italic·Instrument Serif(+Italic) — 프리셋 6종(LTC 구디·모던·클래식 보도니·감성 이탤릭·고딕 미니멀·명조 클래식), 선택한 서체만 지연 로드(`logoFontsEnsure`: 구글폰트 link + jsdelivr @font-face)','색은 기본 테마 토큰(snow·glow·mist·fg-soft) 추종, 직접 지정 시 글자·빛·포인트·장식 4색(`--lg-*`) · 크기 60~160% · 반복 애니/마우스/탭 반응·@아이디·한 줄 소개 표시 토글 · 글자/소개 덮어쓰기','마이페이지 › 꾸미기 『메인 로고』 `#tlogo-modal`(실시간 미리보기, `settings logo_cfg`)','SVG 기본 검정 fill 차단·gradient id `lg-` 접두·글자 분해 시 HTML 엔티티 보존(esc 제목)·게시판 열면 애니 일시정지','**자유 배치**: `settings home_layout {v:1,logo:{pc:{x,y,s},m:{x,y,s}}}`(화면 % · 중심 기준 · 기기별 배율) — 모달 『위치 · 크기 배치』→ 메인에서 `body.lgw-editing` 드래그(호스트 포인터 캡처, rAF로 `--lgw-dx/dy`만, 놓을 때 % 환산), PC/모바일 탭(모바일은 375 틀 `#lgw-mframe` 안 px 배치 미리보기), −/+ 배율·가운데·SAVE/CANCEL(스냅샷 롤백), 게시판 열면 편집 취소, ≤640 실기기는 m 좌표','브랜드 로고·별(#center-logo)을 모든 블로그에서 숨김(마크업은 소개 페이지용 보존) → 보스 블로그도 글자 로고 위젯','미리보기 모달이 닫히면 로고 애니·인터벌 정지, perf-lite에서 빛망울 blur 축소·반짝이 그림자 제거']},
   {v:'1.8.6',date:'2026-09-18',title:'PC 메뉴 분리 — 목록 기반 + 스킨 구조(1단계)',sql:false,items:['PC 메뉴가 브랜드 스테이지 SVG 안에 좌표로 박혀 있던 것(항목마다 data-cy + translate 보정)을 **별도 레이어 `#pnav`**로 분리 — 같은 viewBox(0 1154 1440 1024)·preserveAspectRatio(xMidYMid slice)라 위치·크기·질감 동일','항목은 `NAV_ORDER`/`navPages()`에서 생성(`navBuild`, cy=1418+61·i) — 순서·숨김·추가 가능해짐(D1 준비), 모바일 메뉴도 같은 목록 사용(PC 화면 순서로 통일)','별 PNG 2장을 항목마다 중복(9벌)하던 것을 `#ni-star-src` 템플릿 1벌 + 복제로(문서 약 22KB 감소)','겉모습은 이후 스킨으로 교체 가능 — 이번엔 페일블루도트(현 디자인) 그대로','2단계: 마이페이지 › 꾸미기 『메뉴 순서 · 숨김』(#navord-modal) — ▲▼ 순서·표시/숨김(메인 고정), settings `nav_cfg {order,hidden}`, `navAll/navPages/navRefresh`가 PC·모바일 동시 반영, 새 게시판은 기본 순서 자리에 자동 추가']},
@@ -13377,6 +13379,7 @@ const CHANGELOG=[
 // 정식 오픈 때 CL_USER_FROM을 정식 오픈 버전으로 → 그 버전부터만 유저에게 안내
 const CL_USER_FROM='1.4.0';
 const CHANGELOG_USER={
+  '1.8.9':['메인 로고에 고른 서체가 실제로 적용되지 않던 문제를 고쳤어요'],
   '1.8.8':['휴대폰에서 배터리·발열을 줄였어요 — 보이지 않는 장식 애니메이션을 멈춥니다'],
   '1.8.7':['메인의 글자 로고를 23가지 스킨으로 꾸밀 수 있어요 — 마이페이지 › 꾸미기 「메인 로고」 (별자리·궤도·달·타이프라이터 등, 마우스·탭에 반응)','로고 서체 프리셋 6종과 한글/영문 서체, 색, 크기, 애니메이션을 고를 수 있어요','로고를 끌어서 원하는 자리에 놓을 수 있어요 — PC와 휴대폰 위치를 따로 정하고 미리 볼 수 있어요'],
   '1.8.6':['PC 왼쪽 메뉴를 새 구조로 옮겼어요 (보이는 모습은 그대로예요)','마이페이지 › 꾸미기 「메뉴 순서 · 숨김」에서 메뉴 순서를 바꾸고 감출 수 있어요 (PC · 휴대폰 함께 적용)'],
