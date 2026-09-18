@@ -2278,6 +2278,7 @@ body.is-admin #page-admin .adm-body{display:block;}
 .adm-row{display:flex;align-items:center;gap:16px;padding:12px 4px;border-bottom:1px solid rgba(var(--t-fg),.08);font-family:var(--font-kr);font-size:calc(12px*var(--fs,1));color:rgb(var(--t-snow));}
 .adm-row-name{flex:1;letter-spacing:-.01em;}
 .adm-row-name small{color:rgba(var(--t-fg-soft),.4);font-size:calc(10px*var(--fs,1));margin-left:7px;}
+.adm-fs{display:inline-flex;align-items:center;gap:6px}.adm-fs code{font-family:var(--font-num);font-size:calc(11px*var(--fs,1));color:rgba(var(--t-fg-soft),.8);min-width:38px;text-align:center}
 .adm-act{position:relative;background:none;border:none;cursor:pointer;color:rgba(var(--t-fg-soft),.55);font-family:var(--font-kr);font-size:calc(11px*var(--fs,1));letter-spacing:.02em;padding:4px 2px;transition:color .3s;}
 .adm-act:hover{color:rgb(var(--t-text));}
 .adm-act::after{content:'';position:absolute;left:0;right:100%;bottom:0;height:1px;transform:scaleY(.5);background:rgb(var(--t-fg));transition:right .45s cubic-bezier(.25,.8,.3,1);}
@@ -4640,6 +4641,7 @@ img.lf-heart[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAAB
           <div class="adm-row"><span class="adm-row-name">모바일 메뉴 방향<small>메뉴 · 음악 플레이어가 나오는 방향 — 위에서 / 옆에서</small></span><button class="adm-act" id="adm-mnavdir" onclick="mnavDirToggle()">위에서</button></div>
           <div class="adm-row"><span class="adm-row-name">메뉴 순서 · 숨김<small>PC 왼쪽 메뉴와 휴대폰 메뉴에 함께 적용</small></span><button class="adm-act" onclick="navOrdOpen()">설정</button></div>
           <div class="adm-row"><span class="adm-row-name">메인 로고<small>글자 로고 스킨 23종 · 서체 프리셋 · 색 · 크기 · 애니메이션 · PC/모바일 위치 배치 (이미지 로고가 없을 때 메인에 표시)</small></span><button class="adm-act" onclick="tlogoOpen()">설정</button></div>
+          <div class="adm-row"><span class="adm-row-name">글자 크기 (이 기기)<small>사이트 전체 글자 배율 · 이 브라우저에만 기억 · 글 상세의 A−/A+와 같은 값 (임시 진입점)</small></span><span class="adm-fs"><button class="adm-act" onclick="fsStep(-1);admFsSync()">A−</button><code id="adm-fs-v">100%</code><button class="adm-act" onclick="fsStep(1);admFsSync()">A+</button></span></div>
           <div class="adm-row"><span class="adm-row-name">성인 표시<small>성인 글의 19 마름모 · 디자인 5종 · 말풍선 문구</small></span><button class="adm-act" onclick="admkOpen()">설정</button></div>
           <div class="adm-row"><span class="adm-row-name">D-day 위젯<small>메인 위젯 항목 추가·삭제</small></span><button class="adm-act" onclick="openDdayModal()">관리</button></div>
         </div>
@@ -7038,6 +7040,7 @@ const FS_STEPS=[0.85,1,1.15,1.3,1.45];
 function fsGet(){let v=1;try{v=parseFloat(localStorage.getItem('palely_fs'))||1;}catch(e){}return FS_STEPS.indexOf(v)>=0?v:1;}
 function fsApply(){document.documentElement.style.setProperty('--fs',String(fsGet()));}
 function fsStep(d){const i=Math.max(0,Math.min(FS_STEPS.length-1,FS_STEPS.indexOf(fsGet())+d));const v=FS_STEPS[i];try{localStorage.setItem('palely_fs',String(v));}catch(e){}fsApply();showToast('글자 크기 '+Math.round(v*100)+'% (이 기기에 기억)');}
+function admFsSync(){const e=document.getElementById('adm-fs-v');if(e)e.textContent=Math.round(fsGet()*100)+'%';}
 function fsSet(v){if(FS_STEPS.indexOf(v)<0)return;try{localStorage.setItem('palely_fs',String(v));}catch(e){}fsApply();fsPopRender();showToast('글자 크기 '+Math.round(v*100)+'%');}
 function fsPopRender(){const row=document.getElementById('fs-pop-row');if(!row)return;const cur=fsGet();row.innerHTML=FS_STEPS.map(v=>'<button type="button" class="'+(v===cur?'on':'')+'" onclick="fsSet('+v+')">'+Math.round(v*100)+'%</button>').join('');}
 function fsMenu(force){const pop=document.getElementById('fs-pop'),btn=document.getElementById('fs-top');if(!pop)return;const open=typeof force==='boolean'?force:pop.hidden;if(open)fsPopRender();pop.hidden=!open;if(btn)btn.setAttribute('aria-expanded',open?'true':'false');}
@@ -7678,7 +7681,7 @@ function navigate(page){
     if(page==='hub'&&typeof hubRender==='function')hubRender();
     if(page==='admin'){if(typeof admVisSync==='function')admVisSync();if(typeof admFoldInit==='function')admFoldInit();document.body.classList.toggle('site-boss',!!(currentSite&&currentSite.handle===BOSS_HANDLE));}
     if(typeof issIntroPlay==='function')issIntroPlay(page);
-    if(page==='admin'){const a=document.getElementById('adm-account');if(a)a.textContent=(typeof currentUser!=='undefined'&&currentUser&&currentUser.email)||'로그인됨';const vn=document.getElementById('adm-version-num');if(vn&&typeof APP_VERSION!=='undefined')vn.textContent='v'+APP_VERSION;}}
+    if(page==='admin'){if(typeof admFsSync==='function')admFsSync();const a=document.getElementById('adm-account');if(a)a.textContent=(typeof currentUser!=='undefined'&&currentUser&&currentUser.email)||'로그인됨';const vn=document.getElementById('adm-version-num');if(vn&&typeof APP_VERSION!=='undefined')vn.textContent='v'+APP_VERSION;}}
   window.location.hash=page;previousPage=page;
   if(typeof renderSiteStickers==='function'&&!(typeof stkEditing!=='undefined'&&stkEditing))renderSiteStickers();
 }
@@ -13312,8 +13315,9 @@ function renderHomeDday(){
       +(d.pair?'<div class="dc-pair">'+esc(d.pair)+'</div>':'')
       +'</div>';}).join('');
 }
-const APP_VERSION='1.8.10';
+const APP_VERSION='1.8.11';
 const CHANGELOG=[
+  {v:'1.8.11',date:'2026-09-18',title:'마이페이지 › 꾸미기 『글자 크기 (이 기기)』 임시 진입점',sql:false,items:['v1.8.5에서 상단 Aa 팝오버를 치운 뒤 PC엔 글 상세 A−/A+만 남아 메인·목록에서 글자 배율을 바꿀 곳이 없었음 → 꾸미기 그룹에 A−/현재%/A+ 행(`admFsSync`, fsStep 공용, localStorage palely_fs). PC 상단 진입점(Aa 복귀 or 메뉴 「보기」)은 꾸미기 창 일괄 정리 때 확정']},
   {v:'1.8.10',date:'2026-09-18',title:'핫픽스 — 로고 모달 한 줄 소개 입력이 저장되지 않던 문제',sql:false,items:['『한 줄 소개 표시』 체크박스와 한 줄 소개 텍스트 입력이 같은 id(`tlg-cap`) → `getElementById`가 체크박스를 집어 텍스트를 읽지도 쓰지도 못함 → 입력 id `tlg-captext`로 분리','안내 문구: 비우면 공개 범위 설정의 한 줄 소개(sites.tagline)를 사용']},
   {v:'1.8.9',date:'2026-09-18',title:'핫픽스 — 메인 로고 서체가 실제로는 적용되지 않던 문제',sql:false,items:['`.nm`(이름 컨테이너)엔 서체가 걸렸지만 글자 하나하나를 감싼 `<span class=ch>`가 사이트 전역 `:lang(ko){font-family:var(--font-kr)}`(html lang=ko → 모든 요소 매칭)에 걸려 **프리텐다드로 렌더**됐음 — computed 검사가 `.nm`만 봐서 놓침(보스 제보: Goudy 구식 숫자가 아닌 라이닝 숫자 → 폴백 확정). `.lgw .nm span/.ch/.lw{font-family:inherit;…}`로 차단']},
   {v:'1.8.8',date:'2026-09-18',title:'P9 최적화 — 모바일 발열: 숨은·화면 밖 애니 정지',sql:false,items:['≤768에서 PC 메뉴 레이어 `.pnav` display none — 슬라이스로 화면 밖에 있던 별 글로우 9개(gvTwA)·파동 애니 소멸','브랜드 로고 숨김(`body.brand-off`) 시 #center-logo 안 glass-star 부유·dot-ring 회전 애니 정지(display none 상태에서도 애니 객체가 살아 있었음)','모바일 LP판 닫힘(`.lp-player:not(.lp-open)`)일 때 디스크 회전·파동·문구 애니 paused','로고 엔진 perf-lite: 빛망울 드리프트·성운·글로우 배경 정지, 별 후광·렌즈·태양 blur 제거(반짝이 drop-shadow 제거는 1.8.7)','로그 배너 글자 애니 lite 버전(`lgvTypeLite` — blur·text-shadow 없이 같은 타이밍)','`logoRender` 재빌드 가드 — 설정·글자가 같으면 applyTheme 반복 호출에도 등장 애니 재생 안 함']},
@@ -13380,6 +13384,7 @@ const CHANGELOG=[
 // 정식 오픈 때 CL_USER_FROM을 정식 오픈 버전으로 → 그 버전부터만 유저에게 안내
 const CL_USER_FROM='1.4.0';
 const CHANGELOG_USER={
+  '1.8.11':['마이페이지 › 꾸미기에서 글자 크기를 바꿀 수 있어요 (이 기기에만 기억)'],
   '1.8.10':['메인 로고 설정의 한 줄 소개가 저장되지 않던 문제를 고쳤어요'],
   '1.8.9':['메인 로고에 고른 서체가 실제로 적용되지 않던 문제를 고쳤어요'],
   '1.8.8':['휴대폰에서 배터리·발열을 줄였어요 — 보이지 않는 장식 애니메이션을 멈춥니다'],
